@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ahoy</string>
+    <string name="country">Kraj</string>
+    <string name="select_country">Wybierz kraj</string>
+    <string name="select_age">Wybierz Wiek</string>
+    <string name="get_started">Zaczynajmy!</string>
+    <string name="settings">Ustawienia</string>
+    <string name="map_types">Rodzaje Mapy</string>
+    <string name="hybrid_map">Hybrydowa</string>
+    <string name="normal_map">Normalna</string>
+    <string name="satellite_map">Satelitarna</string>
+    <string name="terrain_map">Terenowa</string>
+    <string name="save">Zapisz</string>
+
+    <string-array name="map_types_spinner" translatable="true">
+        <item>Wybierz rodzaj mapy</item>
+        <item>Hybrydowa</item>
+        <item>Normalna</item>
+        <item>Satelitarna</item>
+        <item>Terenowa</item>
+    </string-array>
+    <string name="enable_localization">Proszę włączyć lokalizację</string>
+    <string name="reconnect_localization">"Kontynuuj "</string>
+    <string name="search_localizations">Szukaj Miejsc</string>
+    <string name="your_localization">Twoja Lokalizacja</string>
+    <string name="enable_internet_connection">Proszę połączyć się z internetem</string>
+    <string name="show_current_position_textview">Pokaż aktualną lokalizację</string>
+    <string name="reconnect">Połącz</string>
+    <string name="event_name">Nazwa Wydarzenia:</string>
+    <string name="description">Opis:</string>
+    <string name="next">Dalej</string>
+    <string name="back">Wstecz</string>
+    <string name="event_location">Lokalizacja Wydarzenia:</string>
+    <string name="company_name">Nazwa Firmy:</string>
+    <string name="add">Dodaj</string>
+
+</resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Toolbar
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round"
+
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    >
+
+                </SearchView>
+            </Toolbar>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+
+            >
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="4">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:text="jeden"
+                    android:textSize="18sp">
+
+                </Button>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:text="j2den"
+                    android:textSize="18sp">
+
+                </Button>
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_preferences"
+                    android:gravity="center"
+                    android:onClick="settings">
+
+                </Button>
+
+                <SearchView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:onClick="search">
+
+                </SearchView>
+            </GridLayout>
+
+
+        </Toolbar>
+        />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -352,5 +352,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    public void openSearch(View view){
+        SearchView searchView = (SearchView) findViewById(R.id.searchLocalization);
+         searchView.onActionViewExpanded();
+    }
+
 
 }

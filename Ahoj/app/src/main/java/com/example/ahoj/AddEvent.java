@@ -66,6 +66,7 @@ public class AddEvent extends AppCompatActivity {
       //  eventValues.put("EventDescription", "Wielka libacja");
       //  eventValues.put("EventCompanyName", "PowerStudio");
       //  eventValues.put("EventLocalization", "Sanok");
+        boolean canBeAdded = true;
 
 
         EditText editName = (EditText) findViewById(R.id.event_name);
@@ -77,19 +78,38 @@ public class AddEvent extends AppCompatActivity {
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
 
-        Date date = new Date();
-        long millis = System.currentTimeMillis();
-        String date_and_time = date + " " + millis;
+        if(nameV.trim().isEmpty()){
+            canBeAdded = false;
+            Toast.makeText(this, "Event musi mieć nazwę!", Toast.LENGTH_LONG).show();
+        }
+        if(descV.trim().isEmpty()){
+            canBeAdded = false;
+            Toast.makeText(this, "Event musi mieć opis!", Toast.LENGTH_LONG).show();
+        }
+        if(locationV.trim().isEmpty()){
+            canBeAdded = false;
+            Toast.makeText(this, "Event musi mieć lokalizację!", Toast.LENGTH_LONG).show();
+        }
+        if(company_nameV.trim().isEmpty()){
+            canBeAdded = false;
+            Toast.makeText(this, "Event musi zawierać nazwę firmy!", Toast.LENGTH_LONG).show();
+        }
 
-        reference = database.getReference("Event");
-       // reference.setValue(date_and_time);
-        AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV);
-        reference.child(date_and_time).setValue(newEvent);
+        if(canBeAdded){
+            Date date = new Date();
+            long millis = System.currentTimeMillis();
+            String date_and_time = date + " " + millis;
+
+            reference = database.getReference("Event");
+            // reference.setValue(date_and_time);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV);
+            reference.child(date_and_time).setValue(newEvent);
+
+            Toast.makeText(this, "dodano", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(AddEvent.this, MapActivityMain.class));
+        }
 
 
-
-
-        Toast.makeText(this, "dodano", Toast.LENGTH_LONG).show();
     }
 
 

@@ -60,7 +60,7 @@ import DatabaseFiles.Setings.SettingsDatabase;
 
 public class MapActivityMain extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
-    private GoogleMap mMap, mMap2;
+    private GoogleMap mMap;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
@@ -137,10 +137,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         SettingsDatabase dbSettings = Room.databaseBuilder(getApplicationContext(),
                 SettingsDatabase.class, "user-settings-database").allowMainThreadQueries().build();
          mMap = googleMap;
-         mMap2 = googleMap;
 
          mMap.clear();
-         mMap2.clear();
+
+
 
 
 
@@ -158,7 +158,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         }
 
-
+        loadEvents();
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -190,14 +190,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
         if (location != null) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             /////locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             location = locationManager.getLastKnownLocation(bestProvider);
             double lat = location.getLatitude();
             double lng = location.getLongitude();
             LatLng latLng = new LatLng(lat, lng);
             marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
-            loadEvents();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
         }
 
 
@@ -216,32 +216,41 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
     public void onLocationChanged(Location location) {
-      //  LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-       // MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Twoja lokalizacja");
-       // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Aktualna pozycja po zmianie położenia"));
-       // marker.remove();
-       // mMap.clear();
+        //  LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        // MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Twoja lokalizacja");
+        // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Aktualna pozycja po zmianie położenia"));
+        // marker.remove();
+        // mMap.clear();
 
-       // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
-      //  marker.remove();
+        // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
+        //  marker.remove();
 
         //marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
 
 
-       // mMap.addMarker(markerOptions);
+        // mMap.addMarker(markerOptions);
 
 
+        // marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
-        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
+        if (marker != null) {
+            marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        } else {
+            MarkerOptions options = new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("My Location")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
+            marker = mMap.addMarker(options);
 
-        //loadEvents();
-    }
+            //loadEvents();
+        }
 
     /*public void updateMarker(Marker marker){
         marker.remove();
     }
      */
+    }
     public void settings(View view){
 
         startActivity(new Intent(MapActivityMain.this, SettingActivity.class));
@@ -258,7 +267,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         List<String> eventDescV = new ArrayList<>();
         List<String> eventLocalizationV = new ArrayList<>();
         List<String> eventCompanyNameV = new ArrayList<>();
-      //  final String[] eventNameV = new String[1];
+
+        Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG).show();
 
         reference = database.getReference("Event");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -315,12 +325,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                         address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap2.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(i))));
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(i))));
                         i++;
                     }
 
 
-                  //  Toast.makeText(getApplicationContext(), localizations.get(0) + localizations.get(1), Toast.LENGTH_LONG).show();
+               //     Toast.makeText(getApplicationContext(), localizations.get(0) + localizations.get(1) + " test", Toast.LENGTH_LONG).show();
 
                 }
                 else {

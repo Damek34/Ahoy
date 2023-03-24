@@ -268,7 +268,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         List<String> eventLocalizationV = new ArrayList<>();
         List<String> eventCompanyNameV = new ArrayList<>();
 
-        Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG).show();
 
         reference = database.getReference("Event");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {

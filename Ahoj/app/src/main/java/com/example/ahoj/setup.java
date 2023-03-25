@@ -11,9 +11,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +54,11 @@ public class setup extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, countries);
+
         countrySpinner.setAdapter(adapter);
+        adapter.setDropDownViewResource(R.layout.custom_spinner);
+
+
 
         //Setting age spinner
         Spinner ageSpinner = (Spinner) findViewById(R.id.userAge);
@@ -64,6 +70,7 @@ public class setup extends AppCompatActivity {
 
         ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, age);
         ageSpinner.setAdapter(adapter2);
+        adapter2.setDropDownViewResource(R.layout.custom_spinner);
 
         int permissionCheck = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION);

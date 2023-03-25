@@ -92,6 +92,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 SettingsDatabase.class, "user-settings-database").allowMainThreadQueries().build();
 
 
+
+
         SearchView search = (SearchView) findViewById(R.id.searchLocalization);
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -169,13 +171,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
-        Criteria criteria = new Criteria();
-        String bestProvider = locationManager.getBestProvider(criteria, true);
+        //Criteria criteria = new Criteria();
+       // String bestProvider = locationManager.getBestProvider(criteria, true);
 
 
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         Location location = null;
         try{
-             location = locationManager.getLastKnownLocation(bestProvider);
+             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         catch (java.lang.IllegalArgumentException e){
             startActivity(new Intent(MapActivityMain.this, EnableLocalization.class));
@@ -186,24 +189,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if (location == null) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            location = locationManager.getLastKnownLocation(bestProvider);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
         }
 
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            /////locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            location = locationManager.getLastKnownLocation(bestProvider);
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            LatLng latLng = new LatLng(lat, lng);
+           // location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
             marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
 
+
+
         }
-
-
-
-
-
 
 
     }

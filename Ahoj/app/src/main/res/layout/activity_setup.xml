@@ -7,15 +7,6 @@
     android:background="@drawable/backgroundahoysetup"
     tools:context=".setup">
 
-    <TextView
-        android:id="@+id/sad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="340dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/setUpButton"
         android:layout_width="wrap_content"
@@ -60,7 +51,8 @@
         android:ems="10"
         android:hint="@string/country"
         android:textSize="34sp"
-
+        android:popupBackground="@color/light_grey"
+        android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +69,8 @@
         android:ems="10"
         android:hint="@string/country"
         android:textSize="34sp"
+        android:popupBackground="@color/light_grey"
+        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/setUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +82,7 @@
         android:layout_height="wrap_content"
         android:text="@string/select_country"
         android:textSize="34sp"
+        android:textColor="@color/light_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,6 +95,7 @@
         android:layout_height="wrap_content"
         android:text="@string/select_age"
         android:textSize="34sp"
+        android:textColor="@color/light_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

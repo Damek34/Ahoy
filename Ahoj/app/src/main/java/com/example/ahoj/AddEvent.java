@@ -30,8 +30,6 @@ public class AddEvent extends AppCompatActivity {
     DatabaseReference reference;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +51,19 @@ public class AddEvent extends AppCompatActivity {
         editDescription.setVisibility(View.VISIBLE);
 
 
-
-
     }
-    public void exitAdd (View view){
+
+    public void exitAdd(View view) {
         startActivity(new Intent(AddEvent.this, MapActivityMain.class));
     }
-    public void addEvent(View view){
 
-       // Map<String, Object> eventValues = new HashMap<>();
-     //   eventValues.put("EventName", "Urodziny traweczki");
-      //  eventValues.put("EventDescription", "Wielka libacja");
-      //  eventValues.put("EventCompanyName", "PowerStudio");
-      //  eventValues.put("EventLocalization", "Sanok");
+    public void addEvent(View view) {
+
+        // Map<String, Object> eventValues = new HashMap<>();
+        //   eventValues.put("EventName", "Urodziny traweczki");
+        //  eventValues.put("EventDescription", "Wielka libacja");
+        //  eventValues.put("EventCompanyName", "PowerStudio");
+        //  eventValues.put("EventLocalization", "Sanok");
         boolean canBeAdded = true;
 
 
@@ -78,24 +76,24 @@ public class AddEvent extends AppCompatActivity {
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
 
-        if(nameV.trim().isEmpty()){
+        if (nameV.trim().isEmpty()) {
             canBeAdded = false;
             Toast.makeText(this, "Event musi mieć nazwę!", Toast.LENGTH_LONG).show();
         }
-        if(descV.trim().isEmpty()){
+        if (descV.trim().isEmpty()) {
             canBeAdded = false;
             Toast.makeText(this, "Event musi mieć opis!", Toast.LENGTH_LONG).show();
         }
-        if(locationV.trim().isEmpty()){
+        if (locationV.trim().isEmpty()) {
             canBeAdded = false;
             Toast.makeText(this, "Event musi mieć lokalizację!", Toast.LENGTH_LONG).show();
         }
-        if(company_nameV.trim().isEmpty()){
+        if (company_nameV.trim().isEmpty()) {
             canBeAdded = false;
             Toast.makeText(this, "Event musi zawierać nazwę firmy!", Toast.LENGTH_LONG).show();
         }
 
-        if(canBeAdded){
+        if (canBeAdded) {
             Date date = new Date();
             long millis = System.currentTimeMillis();
             String date_and_time = date + " " + millis;
@@ -110,81 +108,7 @@ public class AddEvent extends AppCompatActivity {
         }
 
 
-    }
 
-
-
-    public void next(View view){
-        TextView name = (TextView) findViewById(R.id.textViewEventName);
-        TextView description = (TextView) findViewById(R.id.textViewEventDescription);
-        TextView location = (TextView) findViewById(R.id.textViewEventLocation);
-        TextView company_name = (TextView) findViewById(R.id.textViewEventCompany);
-
-        EditText editName = (EditText) findViewById(R.id.event_name);
-        EditText editDescription = (EditText) findViewById(R.id.event_description);
-        EditText editLocation = (EditText) findViewById(R.id.event_location);
-        EditText editCompany_name = (EditText) findViewById(R.id.event_company_name);
-
-        Button back = (Button) findViewById(R.id.buttonBackPage);
-        Button add = (Button) findViewById(R.id.buttonAdd);
-
-        if(page == 1){
-            name.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            editName.setVisibility(View.GONE);
-            editDescription.setVisibility(View.GONE);
-            location.setVisibility(View.VISIBLE);
-            company_name.setVisibility(View.VISIBLE);
-            editLocation.setVisibility(View.VISIBLE);
-            editCompany_name.setVisibility(View.VISIBLE);
-
-
-
-            back.setVisibility(View.VISIBLE);
-            add.setVisibility(View.VISIBLE);
-        }
-        page++;
-        if(page == 2){
-            Button nextBtn = (Button) findViewById(R.id.buttonNextPage);
-            nextBtn.setVisibility(View.GONE);
-        }
-
-    }
-
-    public void back(View view){
-        TextView name = (TextView) findViewById(R.id.textViewEventName);
-        TextView description = (TextView) findViewById(R.id.textViewEventDescription);
-        TextView location = (TextView) findViewById(R.id.textViewEventLocation);
-        TextView company_name = (TextView) findViewById(R.id.textViewEventCompany);
-
-        EditText editName = (EditText) findViewById(R.id.event_name);
-        EditText editDescription = (EditText) findViewById(R.id.event_description);
-        EditText editLocation = (EditText) findViewById(R.id.event_location);
-        EditText editCompany_name = (EditText) findViewById(R.id.event_company_name);
-
-        Button back = (Button) findViewById(R.id.buttonBackPage);
-        Button add = (Button) findViewById(R.id.buttonAdd);
-
-        if(page == 2){
-            name.setVisibility(View.VISIBLE);
-            description.setVisibility(View.VISIBLE);
-            editName.setVisibility(View.VISIBLE);
-            editDescription.setVisibility(View.VISIBLE);
-            location.setVisibility(View.GONE);
-            company_name.setVisibility(View.GONE);
-            editLocation.setVisibility(View.GONE);
-            editCompany_name.setVisibility(View.GONE);
-
-
-
-            back.setVisibility(View.GONE);
-            add.setVisibility(View.GONE);
-        }
-        page--;
-        if(page == 1){
-            Button nextBtn = (Button) findViewById(R.id.buttonNextPage);
-            nextBtn.setVisibility(View.VISIBLE);
-        }
 
     }
 }

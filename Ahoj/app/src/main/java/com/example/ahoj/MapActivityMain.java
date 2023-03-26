@@ -198,7 +198,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
            // location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
 
 

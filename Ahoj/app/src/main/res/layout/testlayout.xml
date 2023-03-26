@@ -1,108 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".AddEvent">
+    <Button
+        android:id="@+id/buttonExitAdd"
+        android:layout_width="47dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="21dp"
+        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@color/transparent"
+        android:onClick="exitAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:layout_width="373dp"
+        android:layout_height="615dp"
+        android:layout_marginStart="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Toolbar
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:background="@drawable/round"
-
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <SearchView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-
-
-                    >
-
-                </SearchView>
-            </Toolbar>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="84dp"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-
+            android:layout_height="wrap_content"
             >
 
-            <GridLayout
+            <TextView
+                android:id="@+id/textViewEventName"
+                android:layout_width="184dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="67dp"
+                android:text="@string/event_name"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewEventDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:columnCount="4">
+                android:layout_marginStart="157dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="157dp"
+                android:text="@string/description"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_name" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:text="jeden"
-                    android:textSize="18sp">
+    <EditText
+        android:id="@+id/event_name"
+        android:layout_width="265dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="101dp"
+        android:background="@color/light_grey"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventName" />
 
-                </Button>
+    <EditText
+        android:id="@+id/event_description"
+        android:layout_width="260dp"
+        android:layout_height="189dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="101dp"
+        android:background="@color/light_grey"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:text="j2den"
-                    android:textSize="18sp">
+            <EditText
+        android:id="@+id/event_company_name"
+        android:layout_width="277dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="101dp"
+        android:background="@color/light_grey"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventCompany" />
 
-                </Button>
+            <TextView
+                android:id="@+id/textViewEventLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="108dp"
+                android:text="@string/event_location"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_description" />
 
-                <Button
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/transparent"
-                    android:foreground="@android:drawable/ic_menu_preferences"
-                    android:gravity="center"
-                    android:onClick="settings">
+            <TextView
+                android:id="@+id/textViewEventCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="157dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="157dp"
+                android:text="@string/company_name"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_location" />
 
-                </Button>
+            <EditText
+                android:id="@+id/event_location"
+                android:layout_width="277dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEventLocation"
+                tools:layout_editor_absoluteX="57dp" />
 
-                <SearchView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:onClick="search">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </SearchView>
-            </GridLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="185dp"
+        android:layout_marginEnd="185dp"
+        android:layout_marginBottom="112dp"
+        android:onClick="addEvent"
+        android:text="@string/add"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-        </Toolbar>
-        />
-
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

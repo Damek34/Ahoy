@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="157dp"
-                android:layout_marginTop="72dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
                 android:text="@string/description"
                 android:textSize="24sp"
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="109dp"
-                android:layout_marginTop="72dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
                 android:text="@string/event_location"
                 android:textSize="24sp"
@@ -122,11 +122,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/event_description" />
 
             <TextView
+                android:id="@+id/textViewEventDuration"
+                android:layout_width="288dp"
+                android:layout_height="63dp"
+                android:layout_marginStart="109dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="108dp"
+                android:text="@string/how_long_should_event_be_active"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.465"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_company_name" />
+
+            <TextView
                 android:id="@+id/textViewEventCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="157dp"
-                android:layout_marginTop="72dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/company_name"
@@ -155,17 +171,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewEventLocation" />
 
+            <EditText
+                android:id="@+id/event_duration"
+                android:layout_width="260dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey"
+                android:ems="10"
+                android:inputType="number"
+                android:textSize="24sp"
+                android:visibility="visible"
+                android:hint="@string/hours"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEventDuration" />
+
             <Button
                 android:id="@+id/buttonAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="40dp"
                 android:onClick="addEvent"
                 android:text="@string/add"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_company_name" />
+                app:layout_constraintTop_toBottomOf="@+id/event_duration" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

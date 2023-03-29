@@ -34,5 +34,7 @@
     <string name="event_location">Lokalizacja Wydarzenia:</string>
     <string name="company_name">Nazwa Firmy:</string>
     <string name="add">Dodaj</string>
+    <string name="how_long_should_event_be_active">Jak długo wydarzenie powinno być aktywne?</string>
+    <string name="hours">Godziny</string>
 
 </resources>

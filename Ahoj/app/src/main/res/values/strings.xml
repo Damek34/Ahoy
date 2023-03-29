@@ -25,6 +25,8 @@
     <string name="event_location">Even Location:</string>
     <string name="company_name">Company Name:</string>
     <string name="add">Add:</string>
+    <string name="how_long_should_event_be_active">How long should event be active?</string>
+    <string name="hours">Hours</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

@@ -1,21 +1,18 @@
 package com.example.ahoj;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 
@@ -25,8 +22,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -34,8 +29,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -50,9 +43,16 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executor;
+import java.util.Locale;
 
 import DatabaseFiles.CountryAge.CountryAgeDatabase;
 import DatabaseFiles.Setings.SettingsDatabase;
@@ -65,6 +65,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     DatabaseReference reference;
 
     Marker marker;
+
 
 
 
@@ -195,7 +196,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-           // location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
@@ -216,23 +216,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
     public void onLocationChanged(Location location) {
-        //  LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        // MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Twoja lokalizacja");
-        // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Aktualna pozycja po zmianie położenia"));
-        // marker.remove();
-        // mMap.clear();
-
-        // Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
-        //  marker.remove();
-
-        //marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
-
-
-        // mMap.addMarker(markerOptions);
-
-
-        // marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
-
 
         if (marker != null) {
             marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -242,14 +225,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     .title("My Location")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
             marker = mMap.addMarker(options);
-
-            //loadEvents();
         }
 
-    /*public void updateMarker(Marker marker){
-        marker.remove();
-    }
-     */
     }
     public void settings(View view){
 
@@ -267,10 +244,20 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         List<String> eventDescV = new ArrayList<>();
         List<String> eventLocalizationV = new ArrayList<>();
         List<String> eventCompanyNameV = new ArrayList<>();
+        List<String> eventDateAndTime = new ArrayList<>();
+        List<Date> eventDate = new ArrayList<>();
 
+
+
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
         reference = database.getReference("Event");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            int count = 0, countAfter = 0;
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -288,7 +275,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
                         eventCompanyNameV.add(eventName.toString());
 
+                        Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
+                        eventDate.add(eventDuration);
+
+                        String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
+                        eventDateAndTime.add(eventDateTime);
+
+
                     }
+
                     Geocoder geocoder = new Geocoder(MapActivityMain.this);
                     List<String> localizations = new ArrayList<>();
                     List<Address> addressList = null;
@@ -296,42 +291,54 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                     localizations.addAll(eventLocalizationV);
 
-                   // Toast.makeText(getApplicationContext(), String.valueOf(localizations.get(0)), Toast.LENGTH_LONG).show();
 
 
-                   /* for(int i = 0; i < localizations.size()-1; i++){
-
-                        try {
-                            addressList = geocoder.getFromLocationName(localizations.get(i), 1);
-
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                    for(int i = 0; i < localizations.size(); i++){
+                       if (date.before(eventDate.get(i))) {
+                            count++;
                         }
-                        address = addressList.get(i);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV)));
+                       else{
+                           countAfter++;
+                           //Toast.makeText(getApplicationContext(), String.valueOf(eventDate.get(i)), Toast.LENGTH_LONG).show();
+
+                           // String ref = "Event/" + eventDateAndTime.get(j).toString();
+                           String ref = eventDateAndTime.get(i).toString();
+
+                           reference = database.getInstance().getReference("Event").child(ref);
+                           reference.removeValue();
+
+                           Toast.makeText(getApplicationContext(), ref, Toast.LENGTH_LONG).show();
 
 
-                    }*/
+                       }
+                    }
 
-                    int i = 0;
-                    for(String loc : localizations){
-                        try {
-                            addressList = geocoder.getFromLocationName(loc, 1);
+                    Marker[] markersTab = new Marker[count];
+                    int[] afterTab = new int[countAfter];
 
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+
+                    for (int j = 0; j < markersTab.length; j++) {
+                        if (date.before(eventDate.get(j))){
+                            try {
+                                addressList = geocoder.getFromLocationName(localizations.get(j), 1);
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            address = addressList.get(0);
+                            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                            markersTab[j] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(j))));
+                        } else {
+                            markersTab[j].remove();
                         }
-                        address = addressList.get(0);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(i))));
-                        i++;
                     }
 
 
-               //     Toast.makeText(getApplicationContext(), localizations.get(0) + localizations.get(1) + " test", Toast.LENGTH_LONG).show();
+        }
 
-                }
+
+
                 else {
                     Toast.makeText(getApplicationContext(), "No data available", Toast.LENGTH_LONG).show();
                 }

@@ -299,16 +299,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                        else{
                            countAfter++;
-                           //Toast.makeText(getApplicationContext(), String.valueOf(eventDate.get(i)), Toast.LENGTH_LONG).show();
-
-                           // String ref = "Event/" + eventDateAndTime.get(j).toString();
                            String ref = eventDateAndTime.get(i).toString();
 
                            reference = database.getInstance().getReference("Event").child(ref);
                            reference.removeValue();
-
-                           Toast.makeText(getApplicationContext(), ref, Toast.LENGTH_LONG).show();
-
 
                        }
                     }
@@ -317,10 +311,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     int[] afterTab = new int[countAfter];
 
 
-                    for (int j = 0; j < markersTab.length; j++) {
-                        if (date.before(eventDate.get(j))){
+                    for (int i = 0; i < markersTab.length; i++) {
+                        if (date.before(eventDate.get(i))){
                             try {
-                                addressList = geocoder.getFromLocationName(localizations.get(j), 1);
+                                addressList = geocoder.getFromLocationName(localizations.get(i), 1);
 
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -328,10 +322,33 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             address = addressList.get(0);
                             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-                            markersTab[j] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(j))));
-                        } else {
-                            markersTab[j].remove();
+                            markersTab[i] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(i))));
+
                         }
+                        else {
+                            markersTab[i].remove();
+                        }
+                    }
+
+
+                    for(int i = 0; i < markersTab.length; i++){
+                        Marker marken_Open = markersTab[i];
+                        int finalI = i;
+                        marken_Open.setTag(finalI);
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+
+                                int markerIndex = (int) marker.getTag();
+                                eventActivity.putExtra("Name", eventNameV.get(markerIndex));
+
+                                startActivity(eventActivity);
+
+                            }
+                        });
+
                     }
 
 
@@ -350,16 +367,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-
-
-
-
-
-        //geocoder.getFromLocationName(eventLocalizationV., 1);
-
     }
 
     public void openSearch(View view){
+
         SearchView searchView = (SearchView) findViewById(R.id.searchLocalization);
          searchView.onActionViewExpanded();
     }

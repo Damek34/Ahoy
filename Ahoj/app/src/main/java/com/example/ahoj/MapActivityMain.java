@@ -199,7 +199,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-            marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Twoja Lokalizacja").icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)));
+            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title("Twoja lokalizacja"));
 
 
 
@@ -227,15 +227,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             marker = mMap.addMarker(options);
         }
 
-    }
-    public void settings(View view){
-
-        startActivity(new Intent(MapActivityMain.this, SettingActivity.class));
-
-    }
-
-    public void add(View view){
-        startActivity(new Intent(MapActivityMain.this, AddEvent.class));
     }
 
     public void loadEvents(){
@@ -332,16 +323,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
                     for(int i = 0; i < markersTab.length; i++){
-                        Marker marken_Open = markersTab[i];
+                        Marker marker_Open = markersTab[i];
                         int finalI = i;
-                        marken_Open.setTag(finalI);
+                        marker_Open.setTag(finalI);
 
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
-                            public void onInfoWindowClick(Marker marker) {
+                            public void onInfoWindowClick(@NonNull Marker markerr) {
+
+                                if(markerr.getTag() == marker.getTag()){
+                                    return;
+                                }
+
                                 Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
 
-                                int markerIndex = (int) marker.getTag();
+                                int markerIndex = (int) markerr.getTag();
                                 eventActivity.putExtra("Name", eventNameV.get(markerIndex));
 
                                 startActivity(eventActivity);
@@ -353,12 +349,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
         }
-
-
-
-                else {
-                    Toast.makeText(getApplicationContext(), "No data available", Toast.LENGTH_LONG).show();
-                }
             }
 
             @Override
@@ -373,6 +363,16 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         SearchView searchView = (SearchView) findViewById(R.id.searchLocalization);
          searchView.onActionViewExpanded();
+    }
+
+    public void settings(View view){
+
+        startActivity(new Intent(MapActivityMain.this, SettingActivity.class));
+
+    }
+
+    public void add(View view){
+        startActivity(new Intent(MapActivityMain.this, EventLocalOrVirtual.class));
     }
 
 

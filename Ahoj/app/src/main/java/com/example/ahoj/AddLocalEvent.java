@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahoj.OnlyJava.AddEventInfo;
@@ -16,10 +15,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddEvent extends AppCompatActivity {
+public class AddLocalEvent extends AppCompatActivity {
 
     int page = 1;
-    String nameV, descV, locationV, company_nameV;
+    String nameV, descV, locationV, company_nameV, additionalV;
     int durationV = 0;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -31,26 +30,10 @@ public class AddEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
-
-        TextView name = (TextView) findViewById(R.id.textViewEventName);
-        TextView description = (TextView) findViewById(R.id.textViewEventDescription);
-        TextView location = (TextView) findViewById(R.id.event_location);
-        TextView company_name = (TextView) findViewById(R.id.textViewEventCompany);
-
-        EditText editName = (EditText) findViewById(R.id.event_name);
-        EditText editDescription = (EditText) findViewById(R.id.event_description);
-
-
-        name.setVisibility(View.VISIBLE);
-        description.setVisibility(View.VISIBLE);
-        editName.setVisibility(View.VISIBLE);
-        editDescription.setVisibility(View.VISIBLE);
-
-
     }
 
     public void exitAdd(View view) {
-        startActivity(new Intent(AddEvent.this, MapActivityMain.class));
+        startActivity(new Intent(AddLocalEvent.this, MapActivityMain.class));
     }
 
     public void addEvent(View view) {
@@ -68,10 +51,13 @@ public class AddEvent extends AppCompatActivity {
         EditText location = (EditText) findViewById(R.id.event_location);
         EditText company_name = (EditText) findViewById(R.id.event_company_name);
         EditText duration = (EditText) findViewById(R.id.event_duration);
+        EditText additional = (EditText) findViewById(R.id.event_additional_info);
+
         nameV = editName.getText().toString();
         descV = description.getText().toString();
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
+        additionalV = additional.getText().toString();
         String durationStr = duration.getText().toString();
 
 
@@ -115,11 +101,11 @@ public class AddEvent extends AppCompatActivity {
 
             reference = database.getReference("Event");
             // reference.setValue(date_and_time);
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime());
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV);
             reference.child(date_and_time).setValue(newEvent);
 
             Toast.makeText(this, "dodano", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(AddEvent.this, MapActivityMain.class));
+            startActivity(new Intent(AddLocalEvent.this, MapActivityMain.class));
         }
 
 

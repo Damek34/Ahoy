@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddEvent">
+    tools:context=".AddLocalEvent">
     <Button
         android:id="@+id/buttonExitAdd"
         android:layout_width="47dp"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddEvent">
+    tools:context=".AddLocalEvent">
     <Button
         android:id="@+id/buttonExitAdd"
         android:layout_width="47dp"
@@ -38,6 +38,7 @@
                 android:text="@string/event_name"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,6 +53,7 @@
                 android:text="@string/description"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.513"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +119,7 @@
                 android:text="@string/event_location"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_description" />
@@ -138,6 +141,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/event_company_name" />
 
             <TextView
+                android:id="@+id/textViewEventAdditionalInfo"
+                android:layout_width="288dp"
+                android:layout_height="63dp"
+                android:layout_marginStart="109dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="108dp"
+                android:text="@string/additional_information"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.507"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_duration" />
+
+            <TextView
                 android:id="@+id/textViewEventCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -148,6 +167,7 @@
                 android:text="@string/company_name"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@+id/event_company_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.508"
@@ -181,22 +201,36 @@
                 android:inputType="number"
                 android:textSize="24sp"
                 android:visibility="visible"
-                android:hint="@string/hours"
+                android:hint="@string/hours_from_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewEventDuration" />
+
+            <EditText
+                android:id="@+id/event_additional_info"
+                android:layout_width="260dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey"
+                android:ems="10"
+                android:hint="@string/links_etc"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEventAdditionalInfo" />
 
             <Button
                 android:id="@+id/buttonAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:onClick="addEvent"
                 android:text="@string/add"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_duration" />
+                app:layout_constraintTop_toBottomOf="@+id/event_additional_info" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

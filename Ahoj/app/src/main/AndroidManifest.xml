@@ -19,10 +19,13 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".EventLocalOrVirtual"
+            android:exported="false" />
+        <activity
             android:name=".EventActivity"
             android:exported="false" />
         <activity
-            android:name=".AddEvent"
+            android:name=".AddLocalEvent"
             android:exported="false" />
         <activity
             android:name=".EnableInternetConnection"

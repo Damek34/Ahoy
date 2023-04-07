@@ -38,7 +38,8 @@
     <string name="local">Lokalny</string>
     <string name="virtual">Wirtualny</string>
     <string name="hours_from_now">Liczba godzin od teraz</string>
-    <string name="additional_information">Dodatkowe informacje</string>
+    <string name="additional_information">Dodatkowe informacje:</string>
     <string name="links_etc">Link, kody bonusowe...</string>
+    <string name="ends_at">Kończy się o:</string>
 
 </resources>

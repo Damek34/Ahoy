@@ -10,16 +10,16 @@ public class AddEventInfo {
     public String event_localization;
     public String event_company_name;
     public Date event_duration;
-    public String additional;
+    public String event_additional;
 
 
-    public AddEventInfo(String time_and_date, String event_name, String event_description, String event_localization, String event_company_name, Date event_duration, String additional) {
+    public AddEventInfo(String time_and_date, String event_name, String event_description, String event_localization, String event_company_name, Date event_duration, String event_additional) {
         this.time_and_date = time_and_date;
         this.event_name = event_name;
         this.event_description = event_description;
         this.event_localization = event_localization;
         this.event_company_name = event_company_name;
         this.event_duration = event_duration;
-        this.additional = additional;
+        this.event_additional = event_additional;
     }
 }

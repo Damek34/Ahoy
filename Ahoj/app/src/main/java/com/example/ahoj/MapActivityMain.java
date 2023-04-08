@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 
 
 import DatabaseFiles.Setings.SettingsDatabase;
@@ -228,7 +228,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             current_lat = marker.getPosition().latitude;
             current_lng = marker.getPosition().longitude;
 
-            loadEvents(location, locationManager);
+            try {
+                loadEvents(location, locationManager);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         }
 
@@ -263,7 +267,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
-    public void loadEvents(Location location, LocationManager locationManager){
+    public void loadEvents(Location location, LocationManager locationManager) throws IOException {
 
         List<String> eventNameV = new ArrayList<>();
         List<String> eventDescV = new ArrayList<>();
@@ -279,13 +283,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        Geocoder geocoder = new Geocoder(MapActivityMain.this);
+       // Geocoder geocoder = new Geocoder(MapActivityMain.this);
 
-        
-        
+        String countryName = "";
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        List<Address> addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
+        if (addresses.size() > 0) {
+            countryName = addresses.get(0).getCountryName();
+            // Tutaj można wykorzystać nazwę kraju w dalszej części kodu
+        }
+
+       // Toast.makeText(getApplicationContext(), countryName, Toast.LENGTH_LONG).show();
         
 
-        reference = database.getReference("Event");
+       // reference = database.getReference("Event");
+        reference = database.getReference("Event/" + countryName);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             int count = 0, countAfter = 0;
 

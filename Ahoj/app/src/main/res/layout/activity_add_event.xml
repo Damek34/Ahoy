@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddLocalEvent">
+
     <Button
         android:id="@+id/buttonExitAdd"
         android:layout_width="47dp"
@@ -58,6 +59,21 @@
                 app:layout_constraintHorizontal_bias="0.513"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_name" />
+
+            <TextView
+                android:id="@+id/textViewEventCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="157dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="157dp"
+                android:text="@string/country_name"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_description" />
 
             <EditText
                 android:id="@+id/event_name"
@@ -113,16 +129,14 @@
                 android:id="@+id/textViewEventLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
-                android:layout_marginEnd="108dp"
                 android:text="@string/event_location"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 android:visibility="visible"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_description" />
+                app:layout_constraintTop_toBottomOf="@+id/eventCountry" />
 
             <TextView
                 android:id="@+id/textViewEventDuration"
@@ -231,6 +245,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_additional_info" />
+
+            <Spinner
+                android:id="@+id/eventCountry"
+                android:layout_width="168dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/light_grey"
+                android:ems="10"
+                android:hint="@string/country"
+                android:popupBackground="@color/light_grey"
+                android:spinnerMode="dropdown"
+                android:textSize="34sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEventCountry" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

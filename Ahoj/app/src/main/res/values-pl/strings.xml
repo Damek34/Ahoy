@@ -41,5 +41,6 @@
     <string name="additional_information">Dodatkowe informacje:</string>
     <string name="links_etc">Link, kody bonusowe...</string>
     <string name="ends_at">Kończy się o:</string>
+    <string name="country_name">Nazwa kraju:</string>
 
 </resources>

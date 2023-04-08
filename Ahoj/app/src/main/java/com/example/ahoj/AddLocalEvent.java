@@ -5,30 +5,55 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ahoj.OnlyJava.AddEventInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddLocalEvent extends AppCompatActivity {
 
     int page = 1;
-    String nameV, descV, locationV, company_nameV, additionalV;
+    String nameV, descV, locationV, company_nameV, additionalV, countryV;
     int durationV = 0;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
-
+    Spinner countrySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        countrySpinner = (Spinner) findViewById(R.id.eventCountry);
+
+        Locale[] locales = Locale.getAvailableLocales();
+        ArrayList<String> countries = new ArrayList<String>();
+
+        for(Locale locale: locales){
+            String country = locale.getDisplayCountry();
+            if (country.trim().length()>0 && !countries.contains(country)) {
+                countries.add(country);
+            }
+        }
+        Collections.sort(countries);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, countries);
+
+        countrySpinner.setAdapter(adapter);
+        adapter.setDropDownViewResource(R.layout.custom_spinner);
 
     }
 
@@ -58,6 +83,7 @@ public class AddLocalEvent extends AppCompatActivity {
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
         additionalV = additional.getText().toString();
+        countryV = countrySpinner.getSelectedItem().toString();
         String durationStr = duration.getText().toString();
 
 
@@ -99,7 +125,7 @@ public class AddLocalEvent extends AppCompatActivity {
 
 
 
-            reference = database.getReference("Event");
+            reference = database.getReference("Event/" + countryV);
             // reference.setValue(date_and_time);
             AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV);
             reference.child(date_and_time).setValue(newEvent);

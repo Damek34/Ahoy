@@ -377,12 +377,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     }
 
+                    //marker onclick
                     mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                         @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            double distance = calculateDistance(current_lat, current_lng, marker.getPosition().latitude, marker.getPosition().longitude);
+                        public void onInfoWindowClick(Marker markerr) {
+
+                            if(markerr.getTag() == marker.getTag()){
+                                return;
+                            }
+
+                            double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
                             if (distance <= 0.2) {
-                                int markerIndex = (int) marker.getTag();
+                                int markerIndex = (int) markerr.getTag();
                                 Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
 
                                 Calendar calendar = Calendar.getInstance();

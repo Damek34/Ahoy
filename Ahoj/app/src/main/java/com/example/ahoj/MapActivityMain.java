@@ -74,7 +74,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> near_event_additional = new ArrayList<>();
 
 
-    int global_count;
+    int global_count = 0;
     List<String> localizations;
     Geocoder geocoder;
     int near_events_number = 0;
@@ -423,6 +423,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         throw new RuntimeException(e);
                     }
                 }
+                else{
+                    global_count = 0;
+                }
             }
 
 
@@ -567,6 +570,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void scan(View view) throws IOException {
         //remove old markers
+        if(global_count == 0){
+            return;
+        }
         for(int i = 0; i < near_events.length; i++){
             near_events[i].remove();
         }
@@ -575,9 +581,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void refresh(View view) throws IOException {
         //remove old markers
+        if(global_count == 0){
+            return;
+        }
         for(int i = 0; i < near_events.length; i++){
             near_events[i].remove();
         }
+
+
+       // Toast.makeText(getApplicationContext(), String.valueOf(near_events.length), Toast.LENGTH_LONG).show();
 
         createAndPlaceMarkers();
     }

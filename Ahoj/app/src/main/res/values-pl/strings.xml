@@ -42,5 +42,6 @@
     <string name="links_etc">Link, kody bonusowe...</string>
     <string name="ends_at">Kończy się o:</string>
     <string name="country_name">Nazwa kraju:</string>
+    <string name="scan">Skanuj</string>
 
 </resources>

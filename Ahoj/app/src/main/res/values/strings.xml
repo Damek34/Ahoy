@@ -33,6 +33,7 @@
     <string name="links_etc">Link, bonus code...</string>
     <string name="ends_at">Ends at:</string>
     <string name="country_name">Country name:</string>
+    <string name="scan">Scan</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

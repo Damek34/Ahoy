@@ -22,6 +22,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -73,6 +74,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> near_event_additional = new ArrayList<>();
 
 
+    int global_count;
+    List<String> localizations;
+    Geocoder geocoder;
     int near_events_number = 0;
 
 
@@ -81,6 +85,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     double[] event_lat;
     double[] event_lng;
+
+
+    List<String> eventNameV = new ArrayList<>();
+    List<String> eventDescV = new ArrayList<>();
+    List<String> eventLocalizationV = new ArrayList<>();
+    List<String> eventCompanyNameV = new ArrayList<>();
+    List<String> eventDateAndTimeV = new ArrayList<>();
+    List<String> eventAdditionalV = new ArrayList<>();
+    List<Date> eventDate = new ArrayList<>();
+
+
+
+    Date date = new Date();
+    Calendar calendar = Calendar.getInstance();
+    Marker[] markersTab;
 
 
 
@@ -221,18 +240,27 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title("Twoja lokalizacja"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
 
             assert marker != null;
             current_lat = marker.getPosition().latitude;
             current_lng = marker.getPosition().longitude;
 
-            try {
-                loadEvents(location, locationManager);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        scanEvents();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, 1800);
+
+
+
+
 
         }
 
@@ -262,44 +290,43 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         current_lat = marker.getPosition().latitude;
         current_lng = marker.getPosition().longitude;
 
-        markerOnClick(current_lat, current_lng, near_event_name, near_event_desc, near_localizations, near_event_company_name, near_event_date, near_event_additional);
+       markerOnClick();
 
 
     }
 
-    public void loadEvents(Location location, LocationManager locationManager) throws IOException {
+    public void scanEvents() throws IOException {
 
-        List<String> eventNameV = new ArrayList<>();
-        List<String> eventDescV = new ArrayList<>();
-        List<String> eventLocalizationV = new ArrayList<>();
-        List<String> eventCompanyNameV = new ArrayList<>();
-        List<String> eventDateAndTimeV = new ArrayList<>();
-        List<String> eventAdditionalV = new ArrayList<>();
-        List<Date> eventDate = new ArrayList<>();
+        eventNameV.clear();
+        eventDescV.clear();
+        eventLocalizationV.clear();
+        eventCompanyNameV.clear();
+        eventDate.clear();
+        eventDateAndTimeV.clear();
+        eventAdditionalV.clear();
+
+        near_events_number = 0;
+        near_localizations.clear();
+        near_event_date.clear();
+        near_event_name.clear();
+        near_event_desc.clear();
+        near_event_company_name.clear();
+        near_event_additional.clear();
 
 
-
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-
-       // Geocoder geocoder = new Geocoder(MapActivityMain.this);
-
         String countryName = "";
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         List<Address> addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
+
         if (addresses.size() > 0) {
             countryName = addresses.get(0).getCountryName();
-            // Tutaj można wykorzystać nazwę kraju w dalszej części kodu
         }
 
-       // Toast.makeText(getApplicationContext(), countryName, Toast.LENGTH_LONG).show();
-        
 
-       // reference = database.getReference("Event");
         reference = database.getReference("Event/" + countryName);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            int count = 0, countAfter = 0;
+            int count = 0;
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -327,21 +354,19 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
                         eventAdditionalV.add(eventAdditional);
 
-
                     }
 
-                    Geocoder geocoder = new Geocoder(MapActivityMain.this);
-                    List<Address> addressList;
-                    Address address;
+                    geocoder = new Geocoder(MapActivityMain.this);
+                    List<Address> addressList = null;
+                    Address address = null;
 
-                    List<String> localizations = new ArrayList<>(eventLocalizationV);
+                    localizations = new ArrayList<>(eventLocalizationV);
 
 
                     for (int i = 0; i < localizations.size(); i++) {
                         if (date.before(eventDate.get(i))) {
                             count++;
                         } else {
-                            countAfter++;
                             String ref = eventDateAndTimeV.get(i);
 
                             reference = FirebaseDatabase.getInstance().getReference("Event").child(ref);
@@ -352,10 +377,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
                     //create marker
-                    Marker[] markersTab = new Marker[count];
+                    markersTab = new Marker[count];
                     event_lat = new double[markersTab.length];
                     event_lng = new double[markersTab.length];
 
+                    global_count = count;
 
                     double distance;
 
@@ -390,30 +416,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                     near_events = new Marker[near_events_number];
 
-
-                    //place marker
-                    for (int i = 0; i < near_events.length; i++) {
-                        if (date.before(near_event_date.get(i))) {
-                            try {
-                                addressList = geocoder.getFromLocationName(near_localizations.get(i), 1);
-
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            address = addressList.get(0);
-                            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
-                            near_events[i] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(near_event_name.get(i))));
-                            near_events[i].setTag(i);
-
-                        } else {
-                            near_events[i].remove();
-                        }
+                    //create and place markers
+                    try {
+                        createAndPlaceMarkers();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-
-
-                    markerOnClick(current_lat, current_lng, near_event_name, near_event_desc, near_localizations, near_event_company_name, near_event_date, near_event_additional);
-
                 }
             }
 
@@ -444,7 +452,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         return(c * 6371);
     }
 
-    void markerOnClick(double current_lat, double current_lng, List<String> near_event_name, List<String> near_event_desc, List<String> near_localizations, List<String> near_event_company_name, List<Date> near_event_date, List<String> near_event_additional){
+    void markerOnClick(){
         mMap.setOnInfoWindowClickListener(markerr -> {
 
             if(markerr.getTag() == marker.getTag()){
@@ -474,8 +482,72 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         });
     }
 
+    void createAndPlaceMarkers() throws IOException {
+
+        //create marker
+        Marker[] markersTab = new Marker[global_count];
+        event_lat = new double[markersTab.length];
+        event_lng = new double[markersTab.length];
 
 
+        double distance;
+
+        List<Address> addressList;
+        Address address;
+
+        for (int i = 0; i < markersTab.length; i++) {
+            if (date.before(eventDate.get(i))) {
+                try {
+                    addressList = geocoder.getFromLocationName(localizations.get(i), 1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                address = addressList.get(0);
+
+                event_lat[i] = address.getLatitude();
+                event_lng[i] = address.getLongitude();
+
+                distance = Math.round(calculateDistance(current_lat, current_lng, event_lat[i], event_lng[i]));
+
+                if (distance <= 20) {
+                    near_events_number++;
+                    near_localizations.add(localizations.get(i));
+                    near_event_date.add(eventDate.get(i));
+                    near_event_name.add(eventNameV.get(i));
+                    near_event_desc.add(eventDescV.get(i));
+                    near_event_company_name.add(eventCompanyNameV.get(i));
+                    near_event_additional.add(eventAdditionalV.get(i));
+                }
+            }
+        }
+
+
+        near_events = new Marker[near_events_number];
+
+
+        //place marker
+        for (int i = 0; i < near_events.length; i++) {
+            if (date.before(near_event_date.get(i))) {
+                try {
+                    addressList = geocoder.getFromLocationName(near_localizations.get(i), 1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                address = addressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                near_events[i] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(near_event_name.get(i))));
+                near_events[i].setTag(i);
+
+            } else {
+                near_events[i].remove();
+            }
+        }
+
+        markerOnClick();
+    }
 
     public void openSearch(View view){
 
@@ -491,6 +563,23 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void add(View view){
         startActivity(new Intent(MapActivityMain.this, EventLocalOrVirtual.class));
+    }
+
+    public void scan(View view) throws IOException {
+        //remove old markers
+        for(int i = 0; i < near_events.length; i++){
+            near_events[i].remove();
+        }
+        scanEvents();
+    }
+
+    public void refresh(View view) throws IOException {
+        //remove old markers
+        for(int i = 0; i < near_events.length; i++){
+            near_events[i].remove();
+        }
+
+        createAndPlaceMarkers();
     }
 
     @Override

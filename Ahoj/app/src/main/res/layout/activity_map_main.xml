@@ -52,6 +52,20 @@
 
             </SearchView>
         </Toolbar>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            android:foreground="@android:drawable/ic_menu_rotate"
+            android:onClick="refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Button>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -75,29 +89,6 @@
                 >
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:foreground="@android:drawable/ic_input_add"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:onClick="add"
-                    >
-
-                </Button>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:text="j2den"
-                    android:textSize="18sp">
-
-                </Button>
-
-                <Button
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -105,6 +96,30 @@
                     android:foreground="@android:drawable/ic_menu_preferences"
                     android:background="@color/transparent"
                     android:onClick="settings"
+                    >
+
+                </Button>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center"
+                    android:text="@string/scan"
+                    android:onClick="scan"
+                    android:textSize="18sp">
+
+                </Button>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:foreground="@android:drawable/ic_input_add"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:onClick="add"
                     >
 
                 </Button>

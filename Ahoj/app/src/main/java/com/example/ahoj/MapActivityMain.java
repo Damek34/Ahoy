@@ -20,6 +20,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -144,7 +145,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 catch (IndexOutOfBoundsException ignored){}
 
                 LatLng latLng = null;
-                
+
                 try{
                     latLng = new LatLng(address.getLatitude(), address.getLongitude());
                 }
@@ -176,14 +177,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
-       // CountryAgeDatabase dbAgeCountry = Room.databaseBuilder(getApplicationContext(),
-             //   CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
+        // CountryAgeDatabase dbAgeCountry = Room.databaseBuilder(getApplicationContext(),
+        //   CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
 
         SettingsDatabase dbSettings = Room.databaseBuilder(getApplicationContext(),
                 SettingsDatabase.class, "user-settings-database").allowMainThreadQueries().build();
-         mMap = googleMap;
+        mMap = googleMap;
 
-         mMap.clear();
+        mMap.clear();
 
 
 
@@ -215,13 +216,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
         //Criteria criteria = new Criteria();
-       // String bestProvider = locationManager.getBestProvider(criteria, true);
+        // String bestProvider = locationManager.getBestProvider(criteria, true);
 
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         Location location = null;
         try{
-             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         catch (java.lang.IllegalArgumentException e){
             startActivity(new Intent(MapActivityMain.this, EnableLocalization.class));
@@ -290,7 +291,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         current_lat = marker.getPosition().latitude;
         current_lng = marker.getPosition().longitude;
 
-       markerOnClick();
+        markerOnClick();
 
 
     }
@@ -414,14 +415,20 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     }
 
 
+
                     near_events = new Marker[near_events_number];
 
                     //create and place markers
+                    /*
                     try {
                         createAndPlaceMarkers();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+
+                     */
+                    CreateMarkersTask task = new CreateMarkersTask();
+                    task.execute();
                 }
                 else{
                     global_count = 0;
@@ -456,33 +463,39 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     void markerOnClick(){
-        mMap.setOnInfoWindowClickListener(markerr -> {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMap.setOnInfoWindowClickListener(markerr -> {
 
-            if(markerr.getTag() == marker.getTag()){
-                return;
-            }
+                    if(markerr.getTag() == marker.getTag()){
+                        return;
+                    }
 
-            double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
-            if (distance <= 0.2) {
-                int markerIndex = (int) markerr.getTag();
-                Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+                    double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
+                    if (distance <= 0.2) {
+                        int markerIndex = (int) markerr.getTag();
+                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(near_event_date.get(markerIndex));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(near_event_date.get(markerIndex));
 
-                int month = calendar.get(Calendar.MONTH) + 1;
+                        int month = calendar.get(Calendar.MONTH) + 1;
 
-                eventActivity.putExtra("Name", near_event_name.get(markerIndex));
-                eventActivity.putExtra("Description", near_event_desc.get(markerIndex));
-                eventActivity.putExtra("Localization", near_localizations.get(markerIndex));
-                eventActivity.putExtra("Company", near_event_company_name.get(markerIndex));
-                eventActivity.putExtra("Duration", near_event_date.get(markerIndex).getHours() + ":" + near_event_date.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                eventActivity.putExtra("Additional", near_event_additional.get(markerIndex));
-                startActivity(eventActivity);
-            } else {
-                Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
+                        eventActivity.putExtra("Name", near_event_name.get(markerIndex));
+                        eventActivity.putExtra("Description", near_event_desc.get(markerIndex));
+                        eventActivity.putExtra("Localization", near_localizations.get(markerIndex));
+                        eventActivity.putExtra("Company", near_event_company_name.get(markerIndex));
+                        eventActivity.putExtra("Duration", near_event_date.get(markerIndex).getHours() + ":" + near_event_date.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        eventActivity.putExtra("Additional", near_event_additional.get(markerIndex));
+                        startActivity(eventActivity);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
+
     }
 
     void createAndPlaceMarkers() throws IOException {
@@ -541,8 +554,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 address = addressList.get(0);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-                near_events[i] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(near_event_name.get(i))));
-                near_events[i].setTag(i);
+                int finalI = i;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(near_event_name.get(finalI))));
+                    near_events[finalI].setTag(finalI);
+                    }
+                });
 
             } else {
                 near_events[i].remove();
@@ -555,7 +575,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void openSearch(View view){
 
         SearchView searchView = findViewById(R.id.searchLocalization);
-         searchView.onActionViewExpanded();
+        searchView.onActionViewExpanded();
     }
 
     public void settings(View view){
@@ -581,17 +601,19 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void refresh(View view) throws IOException {
         //remove old markers
+
         if(global_count == 0){
             return;
         }
+
         for(int i = 0; i < near_events.length; i++){
             near_events[i].remove();
         }
+        
 
+        CreateMarkersTask task = new CreateMarkersTask();
+        task.execute();
 
-       // Toast.makeText(getApplicationContext(), String.valueOf(near_events.length), Toast.LENGTH_LONG).show();
-
-        createAndPlaceMarkers();
     }
 
     @Override
@@ -608,6 +630,23 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
+    private class CreateMarkersTask extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // Call the createAndPlaceMarkers() method here
+            try {
+                createAndPlaceMarkers();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            // Call any UI-related code here that needs to be executed after the task is finished
+            markerOnClick();
+        }
+    }
 }

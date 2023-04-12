@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
@@ -65,14 +66,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     Marker marker;
     Marker[] near_events;
+    Marker[] markersTab;
 
 
-    List<String> near_localizations = new ArrayList<>();
-    List<Date> near_event_date = new ArrayList<>();
-    List<String> near_event_name = new ArrayList<>();
-    List<String> near_event_desc = new ArrayList<>();
-    List<String> near_event_company_name = new ArrayList<>();
-    List<String> near_event_additional = new ArrayList<>();
+
 
 
     int global_count = 0;
@@ -91,18 +88,19 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> eventNameV = new ArrayList<>();
     List<String> eventDescV = new ArrayList<>();
     List<String> eventLocalizationV = new ArrayList<>();
+    List<String> eventLocalizationAll = new ArrayList<>();
     List<String> eventCompanyNameV = new ArrayList<>();
     List<String> eventDateAndTimeV = new ArrayList<>();
     List<String> eventAdditionalV = new ArrayList<>();
-    List<Date> eventDate = new ArrayList<>();
+    List<Date> eventDateV = new ArrayList<>();
 
 
 
     Date date = new Date();
     Calendar calendar = Calendar.getInstance();
-    Marker[] markersTab;
 
-
+    boolean can_be_deleted = true;
+    boolean can_be_deleted_scan = true;
 
 
 
@@ -298,152 +296,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void scanEvents() throws IOException {
 
-        eventNameV.clear();
-        eventDescV.clear();
-        eventLocalizationV.clear();
-        eventCompanyNameV.clear();
-        eventDate.clear();
-        eventDateAndTimeV.clear();
-        eventAdditionalV.clear();
-
-        near_events_number = 0;
-        near_localizations.clear();
-        near_event_date.clear();
-        near_event_name.clear();
-        near_event_desc.clear();
-        near_event_company_name.clear();
-        near_event_additional.clear();
-
-
-        calendar.setTime(date);
-        String countryName = "";
-        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
-
-        if (addresses.size() > 0) {
-            countryName = addresses.get(0).getCountryName();
+        if(!can_be_deleted_scan){
+            return;
         }
+        can_be_deleted_scan = false;
 
-
-        reference = database.getReference("Event/" + countryName);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            int count = 0;
-
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-                        String eventName = eventSnapshot.child("event_name").getValue(String.class);
-                        eventNameV.add(eventName);
-
-                        String eventDescription = eventSnapshot.child("event_description").getValue(String.class);
-                        eventDescV.add(eventDescription);
-
-                        String eventLocalization = eventSnapshot.child("event_localization").getValue(String.class);
-                        eventLocalizationV.add(eventLocalization);
-
-                        String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
-                        eventCompanyNameV.add(eventCompanyName);
-
-                        Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
-                        eventDate.add(eventDuration);
-
-                        String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
-                        eventDateAndTimeV.add(eventDateTime);
-
-                        String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
-                        eventAdditionalV.add(eventAdditional);
-
-                    }
-
-                    geocoder = new Geocoder(MapActivityMain.this);
-                    List<Address> addressList = null;
-                    Address address = null;
-
-                    localizations = new ArrayList<>(eventLocalizationV);
-
-
-                    for (int i = 0; i < localizations.size(); i++) {
-                        if (date.before(eventDate.get(i))) {
-                            count++;
-                        } else {
-                            String ref = eventDateAndTimeV.get(i);
-
-                            reference = FirebaseDatabase.getInstance().getReference("Event").child(ref);
-                            reference.removeValue();
-
-                        }
-                    }
-
-
-                    //create marker
-                    markersTab = new Marker[count];
-                    event_lat = new double[markersTab.length];
-                    event_lng = new double[markersTab.length];
-
-                    global_count = count;
-
-                    double distance;
-
-
-                    for (int i = 0; i < markersTab.length; i++) {
-                        if (date.before(eventDate.get(i))) {
-                            try {
-                                addressList = geocoder.getFromLocationName(localizations.get(i), 1);
-
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            address = addressList.get(0);
-
-                            event_lat[i] = address.getLatitude();
-                            event_lng[i] = address.getLongitude();
-
-                            distance = Math.round(calculateDistance(current_lat, current_lng, event_lat[i], event_lng[i]));
-
-                            if (distance <= 20) {
-                                near_events_number++;
-                                near_localizations.add(localizations.get(i));
-                                near_event_date.add(eventDate.get(i));
-                                near_event_name.add(eventNameV.get(i));
-                                near_event_desc.add(eventDescV.get(i));
-                                near_event_company_name.add(eventCompanyNameV.get(i));
-                                near_event_additional.add(eventAdditionalV.get(i));
-                            }
-                        }
-                    }
-
-
-
-                    near_events = new Marker[near_events_number];
-
-                    //create and place markers
-                    /*
-                    try {
-                        createAndPlaceMarkers();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                     */
-                    CreateMarkersTask task = new CreateMarkersTask();
-                    task.execute();
-                }
-                else{
-                    global_count = 0;
-                }
-            }
-
-
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
+        ScanEventsTask task = new ScanEventsTask();
+        task.execute();
     }
     double calculateDistance(double lat1, double lng1, double lat2, double lng2){
         lng1 = Math.toRadians(lng1);
@@ -478,16 +337,16 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
 
                         Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(near_event_date.get(markerIndex));
+                        calendar.setTime(eventDateV.get(markerIndex));
 
                         int month = calendar.get(Calendar.MONTH) + 1;
 
-                        eventActivity.putExtra("Name", near_event_name.get(markerIndex));
-                        eventActivity.putExtra("Description", near_event_desc.get(markerIndex));
-                        eventActivity.putExtra("Localization", near_localizations.get(markerIndex));
-                        eventActivity.putExtra("Company", near_event_company_name.get(markerIndex));
-                        eventActivity.putExtra("Duration", near_event_date.get(markerIndex).getHours() + ":" + near_event_date.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        eventActivity.putExtra("Additional", near_event_additional.get(markerIndex));
+                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
+                        eventActivity.putExtra("Description", eventDescV.get(markerIndex));
+                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
+                        eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
+                        eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
                         startActivity(eventActivity);
                     } else {
                         Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
@@ -500,53 +359,32 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     void createAndPlaceMarkers() throws IOException {
 
+
+        if(!can_be_deleted){
+            return;
+        }
+        can_be_deleted = false;
+
+
+        near_events_number = 0;
+
+
         //create marker
         Marker[] markersTab = new Marker[global_count];
         event_lat = new double[markersTab.length];
         event_lng = new double[markersTab.length];
-
 
         double distance;
 
         List<Address> addressList;
         Address address;
 
-        for (int i = 0; i < markersTab.length; i++) {
-            if (date.before(eventDate.get(i))) {
-                try {
-                    addressList = geocoder.getFromLocationName(localizations.get(i), 1);
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                address = addressList.get(0);
-
-                event_lat[i] = address.getLatitude();
-                event_lng[i] = address.getLongitude();
-
-                distance = Math.round(calculateDistance(current_lat, current_lng, event_lat[i], event_lng[i]));
-
-                if (distance <= 20) {
-                    near_events_number++;
-                    near_localizations.add(localizations.get(i));
-                    near_event_date.add(eventDate.get(i));
-                    near_event_name.add(eventNameV.get(i));
-                    near_event_desc.add(eventDescV.get(i));
-                    near_event_company_name.add(eventCompanyNameV.get(i));
-                    near_event_additional.add(eventAdditionalV.get(i));
-                }
-            }
-        }
-
-
-        near_events = new Marker[near_events_number];
-
 
         //place marker
         for (int i = 0; i < near_events.length; i++) {
-            if (date.before(near_event_date.get(i))) {
+            if (date.before(eventDateV.get(i))) {
                 try {
-                    addressList = geocoder.getFromLocationName(near_localizations.get(i), 1);
+                    addressList = geocoder.getFromLocationName(eventLocalizationV.get(i), 1);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -555,12 +393,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                 int finalI = i;
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
-                    near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(near_event_name.get(finalI))));
+                    near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))));
                     near_events[finalI].setTag(finalI);
+
+
                     }
                 });
 
@@ -568,6 +409,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 near_events[i].remove();
             }
         }
+        can_be_deleted = true;
+        can_be_deleted_scan = true;
 
         markerOnClick();
     }
@@ -590,29 +433,41 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void scan(View view) throws IOException {
         //remove old markers
-        if(global_count == 0){
+        if(global_count == 0 || !can_be_deleted){
             return;
         }
-        for(int i = 0; i < near_events.length; i++){
-            near_events[i].remove();
+        if(!can_be_deleted_scan){
+            return;
+        }
+        if(near_events.length != 0) {
+            for (int i = 0; i < near_events.length; i++) {
+                if(near_events[i] != null){
+                    near_events[i].remove();
+                }
+            }
         }
         scanEvents();
     }
 
     public void refresh(View view) throws IOException {
         //remove old markers
-
-        if(global_count == 0){
+        if(global_count == 0 || !can_be_deleted_scan){
             return;
         }
-
-        for(int i = 0; i < near_events.length; i++){
-            near_events[i].remove();
+        if(!can_be_deleted){
+            return;
         }
-        
-
-        CreateMarkersTask task = new CreateMarkersTask();
-        task.execute();
+        if(near_events.length != 0){
+            can_be_deleted = false;
+                for (int i = 0; i < near_events.length; i++) {
+                    if(near_events[i] != null){
+                        near_events[i].remove();
+                    }
+                }
+                can_be_deleted = true;
+                CreateMarkersTask task = new CreateMarkersTask();
+                task.execute();
+            }
 
     }
 
@@ -630,11 +485,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
+
+
+    @SuppressLint("StaticFieldLeak")
     private class CreateMarkersTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            // Call the createAndPlaceMarkers() method here
             try {
                 createAndPlaceMarkers();
             } catch (IOException e) {
@@ -645,8 +502,148 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            // Call any UI-related code here that needs to be executed after the task is finished
             markerOnClick();
         }
     }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private class ScanEventsTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            eventNameV.clear();
+            eventDescV.clear();
+            eventLocalizationV.clear();
+            eventLocalizationAll.clear();
+            eventCompanyNameV.clear();
+            eventDateV.clear();
+            eventDateAndTimeV.clear();
+            eventAdditionalV.clear();
+
+
+            calendar.setTime(date);
+            String countryName = "";
+            geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (addresses.size() > 0) {
+                countryName = addresses.get(0).getCountryName();
+            }
+
+
+            reference = database.getReference("Event/" + countryName);
+            String finalCountryName = countryName;
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                int count = 0;
+
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        int i = 0;
+                        for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                            String eventLocalization = eventSnapshot.child("event_localization").getValue(String.class);
+                            eventLocalizationAll.add(eventLocalization);
+
+
+                            List<Address> addressList = null;
+                            Address address = null;
+
+                            try {
+                                addressList = geocoder.getFromLocationName(eventLocalizationAll.get(i), 1);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            address = addressList.get(0);
+                            double distance = Math.round(calculateDistance(current_lat, current_lng, address.getLatitude(), address.getLongitude()));
+                            if(distance <= 20){
+                                String eventName = eventSnapshot.child("event_name").getValue(String.class);
+                                eventNameV.add(eventName);
+
+                                String eventDescription = eventSnapshot.child("event_description").getValue(String.class);
+                                eventDescV.add(eventDescription);
+
+                                eventLocalizationV.add(eventLocalizationAll.get(i));
+
+                                String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
+                                eventCompanyNameV.add(eventCompanyName);
+
+                                Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
+                                eventDateV.add(eventDuration);
+
+                                String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
+                                eventDateAndTimeV.add(eventDateTime);
+
+                                String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
+                                eventAdditionalV.add(eventAdditional);
+                                near_events_number++;
+
+                            }
+
+                            i++;
+                        }
+
+                        geocoder = new Geocoder(MapActivityMain.this);
+                        List<Address> addressList = null;
+                        Address address = null;
+
+                        localizations = new ArrayList<>(eventLocalizationV);
+
+
+                        for (int j = 0; j < localizations.size(); j++) {
+                            if (date.before(eventDateV.get(j))) {
+                                count++;
+                            } else {
+                                String ref = eventDateAndTimeV.get(j);
+
+                                reference = FirebaseDatabase.getInstance().getReference("Event/" + finalCountryName).child(ref);
+                                reference.removeValue();
+
+                            }
+                        }
+
+
+
+
+                        //create marker
+                        markersTab = new Marker[count];
+                        event_lat = new double[markersTab.length];
+                        event_lng = new double[markersTab.length];
+
+                        global_count = count;
+
+
+
+
+                        near_events = new Marker[near_events_number];
+
+                         CreateMarkersTask task = new CreateMarkersTask();
+                         task.execute();
+                    }
+                    else{
+                        global_count = 0;
+                    }
+                }
+
+
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getApplicationContext(), "Error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            return null;
+        }
+
+    }
+
 }

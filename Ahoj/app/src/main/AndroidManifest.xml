@@ -17,8 +17,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoBar"
-
         tools:targetApi="31">
+        <activity
+            android:name=".Translations"
+            android:exported="false" />
         <activity
             android:name=".EventLocalOrVirtual"
             android:exported="false" />

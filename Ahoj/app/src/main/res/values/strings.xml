@@ -24,7 +24,7 @@
     <string name="back">Back</string>
     <string name="event_location">Event Location:</string>
     <string name="company_name">Company Name:</string>
-    <string name="add">Add:</string>
+    <string name="add">Add</string>
     <string name="how_long_should_event_be_active">How long should event be active?</string>
     <string name="hours_from_now">Hours from now</string>
     <string name="local">Local</string>

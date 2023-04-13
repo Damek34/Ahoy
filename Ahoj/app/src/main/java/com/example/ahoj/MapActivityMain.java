@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -103,11 +104,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     boolean can_be_deleted_scan = true;
 
 
+    TextView your_localization;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_main);
+        your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
 
         ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -238,8 +242,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
+
+
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title("Twoja lokalizacja"));
+            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
 
             assert marker != null;
@@ -280,7 +286,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         } else {
             MarkerOptions options = new MarkerOptions()
                     .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title("My Location")
+                    .title(String.valueOf(your_localization.getText()))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
             marker = mMap.addMarker(options);
         }

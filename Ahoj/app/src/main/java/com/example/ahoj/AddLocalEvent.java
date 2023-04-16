@@ -3,6 +3,8 @@ package com.example.ahoj;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,10 +16,12 @@ import com.example.ahoj.OnlyJava.AddEventInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AddLocalEvent extends AppCompatActivity {
@@ -83,7 +87,7 @@ public class AddLocalEvent extends AppCompatActivity {
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
         additionalV = additional.getText().toString();
-        countryV = countrySpinner.getSelectedItem().toString();
+      //  countryV = countrySpinner.getSelectedItem().toString();
         String durationStr = duration.getText().toString();
 
 
@@ -114,6 +118,20 @@ public class AddLocalEvent extends AppCompatActivity {
             String date_and_time = date + " " + millis;
             durationV = Integer.parseInt(durationStr);
 
+            String countryName = "";
+            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocationName(countrySpinner.getSelectedItem().toString(), 1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (addresses.size() > 0) {
+                countryName = addresses.get(0).getCountryName();
+            }
+
 
 
             Calendar calendar = Calendar.getInstance();
@@ -125,7 +143,7 @@ public class AddLocalEvent extends AppCompatActivity {
 
 
 
-            reference = database.getReference("Event/" + countryV);
+            reference = database.getReference("Event/" + countryName);
             // reference.setValue(date_and_time);
             AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV);
             reference.child(date_and_time).setValue(newEvent);

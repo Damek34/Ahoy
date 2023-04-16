@@ -35,6 +35,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -55,6 +56,8 @@ import java.util.Locale;
 
 
 import DatabaseFiles.Setings.SettingsDatabase;
+
+
 
 
 
@@ -112,6 +115,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_main);
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
+
 
         ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -405,6 +409,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     public void run() {
 
                     near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))));
+                           // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
                     near_events[finalI].setTag(finalI);
 
 
@@ -527,10 +532,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             eventDateAndTimeV.clear();
             eventAdditionalV.clear();
 
-
             calendar.setTime(date);
+
+
+
             String countryName = "";
-            geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+
             List<Address> addresses = null;
             try {
                 addresses = geocoder.getFromLocation(current_lat, current_lng, 1);

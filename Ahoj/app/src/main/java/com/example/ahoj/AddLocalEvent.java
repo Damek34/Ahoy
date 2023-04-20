@@ -138,6 +138,7 @@ public class AddLocalEvent extends AppCompatActivity {
             calendar.setTime(date);
 
             calendar.add(Calendar.HOUR, durationV);
+           // calendar.add(Calendar.SECOND, 15);
           //  calendar.add(Calendar.MINUTE, durationV);
 
 

@@ -24,13 +24,19 @@ public class EventActivity extends AppCompatActivity {
         TextView event_desc = (TextView) findViewById(R.id.activityEventEventDescription);
         TextView event_additional = (TextView) findViewById(R.id.activityEventEventAdditional);
 
+        String additional = getIntent().getStringExtra("Additional");
 
         event_name.setText(getIntent().getStringExtra("Name"));
         event_ends_in.setText(event_ends_in.getText() + " " + getIntent().getStringExtra("Duration"));
         event_location.setText(event_location.getText() + " " + getIntent().getStringExtra("Localization"));
         event_company.setText(event_company.getText() + " " + getIntent().getStringExtra("Company"));
         event_desc.setText(event_desc.getText() + " " + getIntent().getStringExtra("Description"));
-        event_additional.setText(event_additional.getText() + " " + getIntent().getStringExtra("Additional"));
+        if(!additional.trim().isEmpty() ){
+            event_additional.setText(event_additional.getText() + " " + additional);
+        }
+        else{
+            event_additional.setVisibility(View.INVISIBLE);
+        }
 
     }
 

@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,11 +101,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
 
-    Date date = new Date();
+    Date date;
     Calendar calendar = Calendar.getInstance();
 
     boolean can_be_deleted = true;
     boolean can_be_deleted_scan = true;
+    boolean show_close_search_btn = false;
 
 
     TextView your_localization;
@@ -159,12 +161,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                 // mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 try {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                 }
                 catch (NullPointerException e){
                     Toast.makeText(getApplicationContext(), "Nie odnaleziono takiego miejsca", Toast.LENGTH_LONG).show();
                 }
-
 
                 return false;
             }
@@ -174,6 +175,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 return false;
             }
         });
+
+
+
+
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
@@ -415,9 +420,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                     }
                 });
-
-            } else {
-                near_events[i].remove();
             }
         }
         can_be_deleted = true;
@@ -428,8 +430,16 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void openSearch(View view){
 
-        SearchView searchView = findViewById(R.id.searchLocalization);
-        searchView.onActionViewExpanded();
+        SearchView search = findViewById(R.id.searchLocalization);
+        search.onActionViewExpanded();
+
+        Button close = findViewById(R.id.close);
+
+        if(!show_close_search_btn){
+            close.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
     public void settings(View view){
@@ -440,6 +450,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void add(View view){
         startActivity(new Intent(MapActivityMain.this, EventLocalOrVirtual.class));
+    }
+
+    public void close(View view){
+        SearchView search = findViewById(R.id.searchLocalization);
+        search.onActionViewCollapsed();
+
+        Button close = findViewById(R.id.close);
+        close.setVisibility(View.GONE);
     }
 
     public void scan(View view) throws IOException {
@@ -460,27 +478,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         scanEvents();
     }
 
-    public void refresh(View view) throws IOException {
-        //remove old markers
-        if(global_count == 0 || !can_be_deleted_scan){
-            return;
-        }
-        if(!can_be_deleted){
-            return;
-        }
-        if(near_events.length != 0){
-            can_be_deleted = false;
-                for (int i = 0; i < near_events.length; i++) {
-                    if(near_events[i] != null){
-                        near_events[i].remove();
-                    }
-                }
-                can_be_deleted = true;
-                CreateMarkersTask task = new CreateMarkersTask();
-                task.execute();
-            }
 
-    }
 
     @Override
     public void onProviderEnabled(@NonNull String provider) {
@@ -531,6 +529,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             eventDateV.clear();
             eventDateAndTimeV.clear();
             eventAdditionalV.clear();
+
+
+            date = new Date();
 
             calendar.setTime(date);
 
@@ -609,7 +610,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         Address address = null;
 
                         localizations = new ArrayList<>(eventLocalizationV);
-
 
                         for (int j = 0; j < localizations.size(); j++) {
                             if (date.before(eventDateV.get(j))) {

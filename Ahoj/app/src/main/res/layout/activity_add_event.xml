@@ -267,5 +267,16 @@
 
     </ScrollView>
 
+    <TextView
+        android:id="@+id/add_announcement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/your_application_is_being_reviewed"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

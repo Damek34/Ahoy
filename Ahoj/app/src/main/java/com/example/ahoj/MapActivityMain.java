@@ -104,7 +104,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     Date date;
     Calendar calendar = Calendar.getInstance();
 
-    boolean can_be_deleted = true;
+
     boolean can_be_deleted_scan = true;
     boolean show_close_search_btn = false;
 
@@ -314,7 +314,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if(!can_be_deleted_scan){
             return;
         }
-        can_be_deleted_scan = false;
+
 
         ScanEventsTask task = new ScanEventsTask();
         task.execute();
@@ -375,10 +375,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     void createAndPlaceMarkers() throws IOException {
 
 
-        if(!can_be_deleted){
-            return;
-        }
-        can_be_deleted = false;
+
 
 
         near_events_number = 0;
@@ -422,7 +419,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 });
             }
         }
-        can_be_deleted = true;
         can_be_deleted_scan = true;
 
         markerOnClick();
@@ -461,20 +457,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void scan(View view) throws IOException {
-        //remove old markers
-        if(global_count == 0 || !can_be_deleted){
-            return;
-        }
+
         if(!can_be_deleted_scan){
             return;
         }
-        if(near_events.length != 0) {
-            for (int i = 0; i < near_events.length; i++) {
-                if(near_events[i] != null){
-                    near_events[i].remove();
+        //remove old markers
+        if(global_count != 0){
+            if(near_events.length != 0) {
+                for (int i = 0; i < near_events.length; i++) {
+                    if(near_events[i] != null){
+                        near_events[i].remove();
+                    }
                 }
             }
         }
+
         scanEvents();
     }
 

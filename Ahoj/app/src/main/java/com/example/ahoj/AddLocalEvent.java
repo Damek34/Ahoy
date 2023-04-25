@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahoj.OnlyJava.AddEventInfo;
@@ -133,6 +134,7 @@ public class AddLocalEvent extends AppCompatActivity {
             }
 
 
+            TextView add_announcement = findViewById(R.id.add_announcement);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -144,12 +146,14 @@ public class AddLocalEvent extends AppCompatActivity {
 
 
 
-            reference = database.getReference("Event/" + countryName);
+            //reference = database.getReference("Event/" + countryName);
+            reference = database.getReference("Waiting");
             // reference.setValue(date_and_time);
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV);
+            //AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, nameV, descV, locationV, company_nameV, calendar.getTime(), additionalV, countryName);
             reference.child(date_and_time).setValue(newEvent);
 
-            Toast.makeText(this, "dodano", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
             startActivity(new Intent(AddLocalEvent.this, MapActivityMain.class));
         }
 

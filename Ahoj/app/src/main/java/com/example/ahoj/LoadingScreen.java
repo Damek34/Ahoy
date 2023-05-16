@@ -1,15 +1,13 @@
 package com.example.ahoj;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.ahoj.Setup.setup;
 
 import java.util.List;
 

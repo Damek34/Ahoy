@@ -4,7 +4,7 @@
     <string name="country">Kraj</string>
     <string name="select_country">Wybierz kraj</string>
     <string name="select_age">Wybierz Wiek</string>
-    <string name="get_started">Zaczynajmy!</string>
+    <string name="im_user">Jestem użytkownikiem</string>
     <string name="settings">Ustawienia</string>
     <string name="map_types">Rodzaje Mapy</string>
     <string name="hybrid_map">Hybrydowa</string>
@@ -44,5 +44,19 @@
     <string name="country_name">Nazwa kraju:</string>
     <string name="scan">Skanuj</string>
     <string name="your_application_is_being_reviewed">Twoje zgłoszenie jest w trakcie sprawdzania</string>
+    <string name="enter_email">Wprowadź e-mail</string>
+    <string name="enter_password">Wprowadź hasło</string>
+    <string name="password_min_characters">Hasło musi składać się z minimum 8 znaków!</string>
+    <string name="password_do_not_match">Hasła nie zgadzają się</string>
+    <string name="account_created">Konto utworzone!</string>
+    <string name="account_create_fail">Nie udało się utworzyć konta!</string>
+    <string name="im_company">Jestem firmą</string>
+    <string name="login">Zaloguj się</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="email">E-mail</string>
+    <string name="password">Hasło</string>
+    <string name="repeat_password">Powtórz hasło</string>
+    <string name="verification_link_sent">Link weryfikacyjny został wysłany na twój adres e-mail</string>
+    <string name="verification_link_sent_fail">Nie udało się wysłać linku weryfikacyjnego na twój adres e-mail</string>
 
 </resources>

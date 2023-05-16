@@ -3,7 +3,7 @@
     <string name="country">Country</string>
     <string name="select_country">Select Country</string>
     <string name="select_age">Select Age</string>
-    <string name="get_started">Get Started!</string>
+    <string name="im_user">I\'m user</string>
     <string name="settings">Settings</string>
     <string name="map_types">Map Types</string>
     <string name="hybrid_map">Hybrid</string>
@@ -35,6 +35,19 @@
     <string name="country_name">Country name:</string>
     <string name="scan">Scan</string>
     <string name="your_application_is_being_reviewed">Your application is being reviewed</string>
+    <string name="login">Log in</string>
+    <string name="register">Register</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="enter_email">Enter your e-mail</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="password_min_characters">The password must be at least 8 characters long!</string>
+    <string name="password_do_not_match">The passwords do not match</string>
+    <string name="account_created">Account created!</string>
+    <string name="account_create_fail">Failed to create an account!</string>
+    <string name="verification_link_sent">A verification link has been sent to your e-mail</string>
+    <string name="verification_link_sent_fail">Failed to send verification e-mail</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>
@@ -43,4 +56,5 @@
         <item>Satellite</item>
         <item>Terrain</item>
     </string-array>
+    <string name="im_company">I am a company</string>
 </resources>

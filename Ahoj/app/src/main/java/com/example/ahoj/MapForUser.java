@@ -24,9 +24,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
+import android.widget.SearchView;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,7 +53,8 @@ import java.util.Locale;
 import DatabaseFiles.Setings.SettingsDatabase;
 
 
-public class MapActivityMain extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
+
+public class MapForUser extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -104,7 +106,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_main);
+        setContentView(R.layout.activity_map_for_user);
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
 
 
@@ -113,7 +115,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
 
         if(!connected){
-            startActivity(new Intent(MapActivityMain.this, EnableInternetConnection.class));
+            startActivity(new Intent(MapForUser.this, EnableInternetConnection.class));
         }
 
 
@@ -127,7 +129,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 String location = search.getQuery().toString();
                 List<Address> addressList = null;
 
-                Geocoder geocoder = new Geocoder(MapActivityMain.this);
+                Geocoder geocoder = new Geocoder(MapForUser.this);
                 try {
                     addressList = geocoder.getFromLocationName(location, 1);
                 } catch (IOException e) {
@@ -225,7 +227,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         catch (java.lang.IllegalArgumentException e){
-            startActivity(new Intent(MapActivityMain.this, EnableLocalization.class));
+            startActivity(new Intent(MapForUser.this, EnableLocalization.class));
         }
 
 
@@ -338,7 +340,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
                     if (distance <= 0.2) {
                         int markerIndex = (int) markerr.getTag();
-                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+                        Intent eventActivity = new Intent(MapForUser.this, EventActivity.class);
 
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(eventDateV.get(markerIndex));
@@ -399,9 +401,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     @Override
                     public void run() {
 
-                    near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))));
-                           // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
-                    near_events[finalI].setTag(finalI);
+                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))));
+                        // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
+                        near_events[finalI].setTag(finalI);
 
 
                     }
@@ -429,13 +431,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void settings(View view){
 
-        startActivity(new Intent(MapActivityMain.this, SettingActivity.class));
+        startActivity(new Intent(MapForUser.this, SettingActivity.class));
 
     }
 
-    public void add(View view){
-        startActivity(new Intent(MapActivityMain.this, EventLocalOrVirtual.class));
-    }
 
     public void close(View view){
         SearchView search = findViewById(R.id.searchLocalization);
@@ -591,7 +590,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             i++;
                         }
 
-                        geocoder = new Geocoder(MapActivityMain.this);
+                        geocoder = new Geocoder(MapForUser.this);
                         List<Address> addressList = null;
                         Address address = null;
 
@@ -624,8 +623,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                         near_events = new Marker[near_events_number];
 
-                         CreateMarkersTask task = new CreateMarkersTask();
-                         task.execute();
+                        CreateMarkersTask task = new CreateMarkersTask();
+                        task.execute();
                     }
                     else{
                         global_count = 0;

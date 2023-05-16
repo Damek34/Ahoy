@@ -47,7 +47,6 @@ public class Register extends AppCompatActivity {
 
     public void exit(View view){
         startActivity(new Intent(Register.this, RegisterOrLogin.class));
-        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
     }
 
     public void register(View view){

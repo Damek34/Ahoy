@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.ahoj.MapActivityMain;
+import com.example.ahoj.MapForUser;
 import com.example.ahoj.R;
 
 
@@ -33,13 +34,12 @@ public class setup extends AppCompatActivity {
     }
 
         public void user(View view){
-        startActivity(new Intent(setup.this, MapActivityMain.class));
+        startActivity(new Intent(setup.this, MapForUser.class));
         overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
         }
 
         public void company(View view){
         startActivity(new Intent(setup.this, RegisterOrLogin.class));
-        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
         }
 
 
@@ -48,4 +48,4 @@ public class setup extends AppCompatActivity {
                 new String[]{permissionName}, permissionRequestCode);
     }
 
-    }
+}

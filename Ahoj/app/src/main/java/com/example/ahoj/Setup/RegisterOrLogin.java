@@ -18,11 +18,12 @@ public class RegisterOrLogin extends AppCompatActivity {
 
     public void exit(View view){
         startActivity(new Intent(RegisterOrLogin.this, setup.class));
-        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
     }
 
     public void register(View view){
         startActivity(new Intent(RegisterOrLogin.this, Register.class));
-        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+    }
+    public void login(View view){
+        startActivity(new Intent(RegisterOrLogin.this, Login.class));
     }
 }

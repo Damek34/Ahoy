@@ -22,7 +22,7 @@ public class LoadingScreen extends AppCompatActivity {
         setContentView(R.layout.activity_loading_screen);
 
 
-        CountryAgeDatabase db = Room.databaseBuilder(getApplicationContext(),
+        /*CountryAgeDatabase db = Room.databaseBuilder(getApplicationContext(),
                 CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
 
 
@@ -44,6 +44,8 @@ public class LoadingScreen extends AppCompatActivity {
 
             //     startActivity(new Intent(LoadingScreen.this, setup.class));
 
+         */
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -52,5 +54,5 @@ public class LoadingScreen extends AppCompatActivity {
                 }
             }, 1500);
         }
-    }
+    //}
 }

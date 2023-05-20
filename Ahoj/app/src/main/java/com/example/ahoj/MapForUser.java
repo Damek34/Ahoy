@@ -431,7 +431,7 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
     public void settings(View view){
 
-        startActivity(new Intent(MapForUser.this, SettingActivity.class));
+        startActivity(new Intent(MapForUser.this, SettingActivityUser.class));
 
     }
 

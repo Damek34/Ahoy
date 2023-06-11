@@ -18,6 +18,12 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".Setup.TellSomething"
+            android:exported="false" />
+        <activity
+            android:name=".Pay"
+            android:exported="false" />
+        <activity
             android:name=".SettingActivityUser"
             android:exported="false" />
         <activity
@@ -86,6 +92,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9137887034279886~7955478960" />
     </application>
 
 </manifest>

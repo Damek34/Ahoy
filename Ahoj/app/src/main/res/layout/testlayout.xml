@@ -17,6 +17,10 @@
     </TextView>
 
 
+
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -70,6 +74,64 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonExitPay"
+                    android:layout_width="47dp"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="21dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+                    android:onClick="exitMenu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="227dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_preferences"
+                    android:gravity="center"
+                    android:onClick="settings"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+
+                    />
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.navigation.NavigationView>
 
         <Toolbar
             android:layout_width="match_parent"
@@ -90,11 +152,10 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:foreground="@android:drawable/ic_menu_preferences"
                     android:background="@color/transparent"
-                    android:onClick="settings"
-                    >
+                    android:foreground="@android:drawable/ic_menu_sort_by_size"
+                    android:gravity="center"
+                    android:onClick="menu">
 
                 </Button>
 
@@ -106,6 +167,19 @@
                     android:text="@string/scan"
                     android:onClick="scan"
                     android:textSize="18sp">
+
+                </Button>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:foreground="@android:drawable/ic_input_add"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:onClick="add"
+                    >
 
                 </Button>
 

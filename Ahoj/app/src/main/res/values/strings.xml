@@ -51,6 +51,17 @@
     <string name="success">Success!</string>
     <string name="fail">Fail</string>
     <string name="account_is_not_verified">Account is not verified</string>
+    <string name="write_something">Write something about your company and why you wanna use Ahoy.</string>
+    <string name="please_write">Please fill all fields</string>
+    <string name="wait_for_account_verification">Wait for manual verification. After verification you will be able to create your account.</string>
+    <string name="verify_your_email">Please verify your e-mail :)</string>
+    <string name="temporary_nick">Temporary user name</string>
+    <string name="choose_other_temporary_nick">Choose other temporary name</string>
+    <string name="send">Send</string>
+    <string name="i_already_have_temporary_name">I already have temporary name</string>
+    <string name="your_account_request_has_been_rejected">Your account request has been rejected</string>
+    <string name="your_account_request_is_not_verified_yet">Your account request is not verified yet</string>
+    <string name="your_temporary_nam_should_not_contains">Your temporary name should not contains ".", "#", "$", "[", "]"</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

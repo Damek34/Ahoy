@@ -11,22 +11,32 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahoj.OnlyJava.Setup.VerifyAccounts;
 import com.example.ahoj.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
+import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
-    EditText emailEdit, passwordEdit, repeat_passwordEdit;
+    EditText emailEdit, passwordEdit, repeat_passwordEdit, temporary_name_edit;
     Button register_btn;
     String email = "", password = "", repeat_password = "";
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail;
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet;
 
-
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference reference;
     private FirebaseAuth mAuth;
 
     @Override
@@ -34,6 +44,8 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+
+        register_btn = findViewById(R.id.registerBtn);
 
         enterEmail = findViewById(R.id.EnterEmail);
         enterPassword = findViewById(R.id.EnterPassword);
@@ -43,6 +55,10 @@ public class Register extends AppCompatActivity {
         accCreateFail = findViewById(R.id.AccCreateFail);
         verifyLinkSend = findViewById(R.id.VerifyLinkSend);
         verifyLinkSendFail = findViewById(R.id.VerifyLinkSendFail);
+        fillAll = findViewById(R.id.FillAll);
+        verify = findViewById(R.id.verifyEmail);
+        rejected = findViewById(R.id.rejected);
+        notyet = findViewById(R.id.notyet);
     }
 
     public void exit(View view){
@@ -53,6 +69,7 @@ public class Register extends AppCompatActivity {
         emailEdit = findViewById(R.id.Email);
         passwordEdit = findViewById(R.id.password);
         repeat_passwordEdit = findViewById(R.id.repeat);
+        temporary_name_edit = findViewById(R.id.temporaryName);
 
         email = emailEdit.getText().toString();
         password = passwordEdit.getText().toString();
@@ -73,27 +90,37 @@ public class Register extends AppCompatActivity {
         if(!repeat_password.equals(password)){
             Toast.makeText(getApplicationContext(), passwordsDoNotMatch.getText().toString(), Toast.LENGTH_LONG).show();
             return;
-
+        }
+        if(temporary_name_edit.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), fillAll.getText().toString(), Toast.LENGTH_LONG).show();
+            return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        Integer[] isverified = new Integer[1]; //0 = false, 1 = true, 2 = not verified yet
+        isverified[0] = 0;
+
+        reference = database.getReference("VerifiedAccounts");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), accCreated.getText().toString(), Toast.LENGTH_LONG).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    sendEmailVerification(user);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               if(snapshot.hasChild(temporary_name_edit.getText().toString())){
+                   DataSnapshot mySnapshot = snapshot.child(temporary_name_edit.getText().toString());
+                   isverified[0] = mySnapshot.child("IsVerified").getValue(Integer.class);
+
+                   cont(isverified[0]);
+
+               }
+               else{
+                   isRejected();
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
-
-
-
-
     }
     private void sendEmailVerification(FirebaseUser user) {
         if (user != null) {
@@ -108,5 +135,71 @@ public class Register extends AppCompatActivity {
                 }
             });
         }
+    }
+    void cont(int val){
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), accCreated.getText().toString(), Toast.LENGTH_LONG).show();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    sendEmailVerification(user);
+
+
+                    emailEdit.setVisibility(View.GONE);
+                    passwordEdit.setVisibility(View.GONE);
+                    repeat_passwordEdit.setVisibility(View.GONE);
+                    register_btn.setVisibility(View.GONE);
+                    temporary_name_edit.setVisibility(View.GONE);
+
+
+                    verify.setVisibility(View.VISIBLE);
+
+                    clearDB();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    void isRejected(){
+        reference = database.getReference("AccountsToVerify");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(temporary_name_edit.getText().toString())){
+                    notYet();
+                    return;
+                }
+                else{
+                    Rejected();
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    void Rejected(){
+        Toast.makeText(getApplicationContext(), rejected.getText().toString(), Toast.LENGTH_LONG).show();
+    }
+
+    void notYet(){
+        Toast.makeText(getApplicationContext(), notyet.getText().toString(), Toast.LENGTH_LONG).show();
+
+    }
+
+    void clearDB(){
+        reference = FirebaseDatabase.getInstance().getReference("VerifiedAccounts/").child(temporary_name_edit.getText().toString());
+        reference.removeValue();
     }
 }

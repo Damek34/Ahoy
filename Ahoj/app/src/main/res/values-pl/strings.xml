@@ -61,5 +61,16 @@
     <string name="success">Sukces!</string>
     <string name="fail">Błąd</string>
     <string name="account_is_not_verified">Konto nie jest zweryfikowane</string>
+    <string name="write_something">Napisz coś o swojej firmie i dlaczego chcesz używać Ahoy.</string>
+    <string name="please_write">"Proszę wypełnić wszystkie pola "</string>
+    <string name="wait_for_account_verification">Poczekaj na manualną weryfikację zgłoszenia. Po weryfikacji będziesz mógł założyć swoje konto.</string>
+    <string name="verify_your_email">Proszę zweryfikować swój e-mail :)</string>
+    <string name="temporary_nick">Tymczasowa nazwa użytkownika</string>
+    <string name="choose_other_temporary_nick">Wybierz inną tymczasową nazwę użytkownika</string>
+    <string name="send">Wyślij</string>
+    <string name="i_already_have_temporary_name">Mam już tymczasową nazwę</string>
+    <string name="your_account_request_has_been_rejected">Zgłoszenie o utworzenie twojego konta zostało odrzucone</string>
+    <string name="your_account_request_is_not_verified_yet">Twoja prośba o założenie konta nie została jeszcze zweryfikowana</string>
+    <string name="your_temporary_nam_should_not_contains">Twoja tymczasowa nazwa nie powinna zawierać \".\", \"#\", \"$\", \"[\", \"]\"</string>
 
 </resources>

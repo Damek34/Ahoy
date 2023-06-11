@@ -155,6 +155,8 @@ public class AddLocalEvent extends AppCompatActivity {
 
             Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
             startActivity(new Intent(AddLocalEvent.this, MapActivityMain.class));
+          //  startActivity(new Intent(AddLocalEvent.this, Pay.class));
+
         }
 
 

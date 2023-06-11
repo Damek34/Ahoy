@@ -5,6 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,18 +28,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 import android.widget.SearchView;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -98,6 +109,9 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
     boolean can_be_deleted_scan = true;
     boolean show_close_search_btn = false;
+
+
+    AdView adview;
 
 
     TextView your_localization;
@@ -191,7 +205,6 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
-
         if (dbSettings.settingsDAO().getMapType() == 1) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
@@ -207,6 +220,17 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
         }
 
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+
+
+        adview = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adview.loadAd(adRequest);
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -401,7 +425,7 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
                     @Override
                     public void run() {
 
-                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))));
+                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon((bitmapDescriptorFromVector(getApplicationContext(), R.drawable.localpinahoy))));
                         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
                         near_events[finalI].setTag(finalI);
 
@@ -428,7 +452,15 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
 
     }
+    public void menu(View view){
+        NavigationView navigationView = findViewById(R.id.navigation);
+        navigationView.setVisibility(View.VISIBLE);
+    }
 
+    public void exitMenu(View view){
+        NavigationView navigationView = findViewById(R.id.navigation);
+        navigationView.setVisibility(View.GONE);
+    }
     public void settings(View view){
 
         startActivity(new Intent(MapForUser.this, SettingActivityUser.class));
@@ -643,6 +675,15 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
             return null;
         }
 
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 }

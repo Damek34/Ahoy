@@ -425,7 +425,7 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
                     @Override
                     public void run() {
 
-                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon((bitmapDescriptorFromVector(getApplicationContext(), R.drawable.localpinahoy))));
+                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon((bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin))));
                         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
                         near_events[finalI].setTag(finalI);
 

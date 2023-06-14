@@ -62,6 +62,14 @@
     <string name="your_account_request_has_been_rejected">Your account request has been rejected</string>
     <string name="your_account_request_is_not_verified_yet">Your account request is not verified yet</string>
     <string name="your_temporary_nam_should_not_contains">Your temporary name should not contains ".", "#", "$", "[", "]"</string>
+    <string name="event_must_have_a_name">Event must have a name"</string>
+    <string name="event_must_have_a_desc">Event must have a description"</string>
+    <string name="event_must_have_a_localizations">Event must have a localization"</string>
+    <string name="event_must_have_a_company_name">Event must have a company name"</string>
+    <string name="event_must_last_a_hour">Event must last at least an hour"</string>
+    <string name="im_company">I am a company</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>
@@ -70,5 +78,5 @@
         <item>Satellite</item>
         <item>Terrain</item>
     </string-array>
-    <string name="im_company">I am a company</string>
+
 </resources>

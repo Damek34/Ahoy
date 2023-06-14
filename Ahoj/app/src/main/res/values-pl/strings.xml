@@ -72,5 +72,12 @@
     <string name="your_account_request_has_been_rejected">Zgłoszenie o utworzenie twojego konta zostało odrzucone</string>
     <string name="your_account_request_is_not_verified_yet">Twoja prośba o założenie konta nie została jeszcze zweryfikowana</string>
     <string name="your_temporary_nam_should_not_contains">Twoja tymczasowa nazwa nie powinna zawierać \".\", \"#\", \"$\", \"[\", \"]\"</string>
+    <string name="event_must_have_a_name">Wydarzenie musi mieć nazwę</string>
+    <string name="event_must_have_a_desc">Wydarzenie musi miec opis</string>
+    <string name="event_must_have_a_localizations">Wydarzenie musi zawierać lokalizację</string>
+    <string name="event_must_last_a_hour">Wydarzenie musi trwać przynajmniej godzinę</string>
+    <string name="event_must_have_a_company_name">Wydarzenie musi zawierać nazwę firmy</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
 
 </resources>

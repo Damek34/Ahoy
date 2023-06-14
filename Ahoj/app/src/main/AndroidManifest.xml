@@ -18,6 +18,9 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".EventLocalizationPreview"
+            android:exported="false" />
+        <activity
             android:name=".Setup.TellSomething"
             android:exported="false" />
         <activity

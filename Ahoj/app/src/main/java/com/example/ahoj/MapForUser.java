@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,6 +117,8 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
     TextView your_localization;
 
+    String countryName = "";
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +167,6 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
                 }
                 catch (NullPointerException ignored){}
 
-                // mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 try {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                 }
@@ -192,9 +194,6 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
-        // CountryAgeDatabase dbAgeCountry = Room.databaseBuilder(getApplicationContext(),
-        //   CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
 
         SettingsDatabase dbSettings = Room.databaseBuilder(getApplicationContext(),
                 SettingsDatabase.class, "user-settings-database").allowMainThreadQueries().build();
@@ -276,6 +275,21 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
             current_lat = marker.getPosition().latitude;
             current_lng = marker.getPosition().longitude;
 
+
+            countryName = "";
+            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (addresses.size() > 0) {
+                countryName = addresses.get(0).getCountryName();
+            }
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -295,12 +309,6 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
 
     }
-
-   /* można usunąć chyba ale upewnic sie private void requestPermission(String permissionName, int permissionRequestCode) {
-        ActivityCompat.requestPermissions(this,
-                new String[]{permissionName}, permissionRequestCode);
-    }
-*/
 
 
     public void onLocationChanged(Location location) {
@@ -476,6 +484,102 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
         close.setVisibility(View.GONE);
     }
 
+
+    public void announcements(View view){
+        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements;
+        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+
+        exit_menu = findViewById(R.id.buttonExitMenu);
+        settings = findViewById(R.id.settingsButton);
+        announcements = findViewById(R.id.announcementsButton);
+        exit_announcements = findViewById(R.id.buttonExitAnnouncements);
+        ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
+
+        exit_menu.setVisibility(View.GONE);
+        settings.setVisibility(View.GONE);
+        announcements.setVisibility(View.GONE);
+
+        exit_announcements.setVisibility(View.VISIBLE);
+        ahoy_announcements.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        List<String> announcement_company_nameList = new ArrayList<>();
+        List<String> date_and_timeList = new ArrayList<>();
+
+        reference = database.getReference("Announcement/" + countryName);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    count++;
+                    announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
+                    date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+
+
+                }
+
+
+                Button[] buttons = new Button[count];
+
+                for(int i = 0; i < count; i++){
+                    buttons[i] = new Button(MapForUser.this);
+                    buttons[i].setText(announcement_company_nameList.get(i));
+                    buttons[i].setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    linearLayout.addView(buttons[i]);
+
+
+                    int finalI = i;
+                    int finalI1 = i;
+                    buttons[i].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent intent = new Intent(MapForUser.this, AnnouncementActivity.class);
+                            intent.putExtra("activity", "user");
+                            intent.putExtra("id", date_and_timeList.get(finalI1));
+                            intent.putExtra("company", announcement_company_nameList.get(finalI1));
+                            intent.putExtra("country", countryName);
+
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void exitAnnouncements(View view){
+        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements;
+        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+
+        exit_menu = findViewById(R.id.buttonExitMenu);
+        settings = findViewById(R.id.settingsButton);
+        announcements = findViewById(R.id.announcementsButton);
+        exit_announcements = findViewById(R.id.buttonExitAnnouncements);
+        ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
+
+        exit_menu.setVisibility(View.VISIBLE);
+        settings.setVisibility(View.VISIBLE);
+        announcements.setVisibility(View.VISIBLE);
+
+        exit_announcements.setVisibility(View.GONE);
+        ahoy_announcements.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.GONE);
+    }
+
+
     public void scan(View view) throws IOException {
 
         if(!can_be_deleted_scan){
@@ -554,19 +658,7 @@ public class MapForUser extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
-            String countryName = "";
-            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            if (addresses.size() > 0) {
-                countryName = addresses.get(0).getCountryName();
-            }
 
 
             reference = database.getReference("Event/" + countryName);

@@ -79,5 +79,8 @@
     <string name="event_must_have_a_company_name">Wydarzenie musi zawierać nazwę firmy</string>
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
+    <string name="announcement">Ogłoszenie</string>
+    <string name="announcement_location">Lokalizacja ogłoszenia:</string>
+    <string name="ahoy_announcements">Ogłoszenia Ahoy</string>
 
 </resources>

@@ -70,6 +70,9 @@
     <string name="im_company">I am a company</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="announcement">Announcement</string>
+    <string name="announcement_location">Announcement location:</string>
+    <string name="ahoy_announcements">Ahoy announcements</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventLocalOrVirtual">
+    tools:context=".EventLocalVirtualAnnouncement">
 
     <Button
         android:id="@+id/buttonEventLocalOrVirtual"
@@ -33,11 +33,12 @@
 
     <Button
         android:id="@+id/buttonLocal5"
-        android:layout_width="wrap_content"
+        android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="252dp"
-        android:text="@string/virtual"
+        android:text="@string/announcement"
         android:textSize="34sp"
+        android:onClick="announcement"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

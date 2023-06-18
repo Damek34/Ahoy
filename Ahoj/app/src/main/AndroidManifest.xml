@@ -18,6 +18,12 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".AnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddAnnouncement"
+            android:exported="false" />
+        <activity
             android:name=".EventLocalizationPreview"
             android:exported="false" />
         <activity
@@ -42,7 +48,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EventLocalOrVirtual"
+            android:name=".EventLocalVirtualAnnouncement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.ahoj.OnlyJava.Setup.VerifyAccounts;
 import com.example.ahoj.R;
@@ -24,7 +25,8 @@ import java.util.Date;
 public class TellSomething extends AppCompatActivity {
 
     EditText nick, tell;
-    TextView please_fill, choose_other, wait, should_not;
+    TextView please_fill, choose_other, should_not;
+    Toolbar wait, nickT, tellT;
 
     Button btn_send;
 
@@ -44,6 +46,8 @@ public class TellSomething extends AppCompatActivity {
         wait = findViewById(R.id.wait);
         should_not = findViewById(R.id.shouldnot);
         btn_send = findViewById(R.id.sendInfo);
+        nickT = findViewById(R.id.toolbarTemporaryName);
+        tellT = findViewById(R.id.toolbarWriteSomething);
     }
 
     public void exitTell(View view){
@@ -100,6 +104,8 @@ public class TellSomething extends AppCompatActivity {
         nick.setVisibility(View.GONE);
         tell.setVisibility(View.GONE);
         btn_send.setVisibility(View.GONE);
+        nickT.setVisibility(View.GONE);
+        tellT.setVisibility(View.GONE);
 
     }
 

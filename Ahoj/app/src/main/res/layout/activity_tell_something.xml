@@ -4,35 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/questionsbackground"
+
     tools:context=".Setup.TellSomething">
 
-    <EditText
-        android:id="@+id/writeSomething"
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:id="@+id/toolbarWriteSomething"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:ems="10"
-        android:hint="@string/write_something"
-        android:inputType="textMultiLine"
-        android:textAlignment="center"
+        android:background="@drawable/round_toolbar"
+        android:alpha="0.5"
+
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temporaryNick" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTemporaryName"
 
-    <EditText
-        android:id="@+id/temporaryNick"
-        android:layout_width="wrap_content"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/writeSomething"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:hint="@string/write_something"
+                android:textAlignment="center"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:maxHeight="300dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
+
+
+
+    <Toolbar
+
+        android:id="@+id/toolbarTemporaryName"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="91dp"
-        android:ems="10"
-        android:hint="@string/temporary_nick"
-        android:inputType="textMultiLine"
-        android:textAlignment="center"
+        android:background="@drawable/round_toolbar"
+        android:alpha="0.5"
+
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/temporaryNick"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:hint="@string/temporary_nick"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:maxLength="20"
+
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </Toolbar>
+
+
+
 
     <Button
         android:id="@+id/buttonExitTell"
@@ -46,31 +106,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sendInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginEnd="165dp"
         android:layout_marginBottom="151dp"
-        android:text="@string/send"
         android:onClick="sendInfo"
+
+        android:text="@string/send"
+        android:background="@drawable/roundpinkbutton"
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/alreadyhave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginEnd="165dp"
         android:layout_marginBottom="68dp"
+        android:background="@drawable/roundpinkbutton"
         android:onClick="alreadyHave"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/i_already_have_temporary_name"
+        android:textColor="@color/white"
+
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -91,18 +158,42 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-1dp" />
 
-    <TextView
-        android:id="@+id/wait"
-        android:layout_width="352dp"
-        android:layout_height="118dp"
 
-        android:text="@string/wait_for_account_verification"
-        android:textSize="20sp"
+    <Toolbar
+        android:id="@+id/wait"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_toolbar"
+        android:alpha="0.5"
+        android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="352dp"
+                android:layout_height="118dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginEnd="10dp"
+                android:text="@string/wait_for_account_verification"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
 
     <TextView
         android:id="@+id/rejected"

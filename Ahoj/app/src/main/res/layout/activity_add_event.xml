@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/questionsbackground"
     tools:context=".AddLocalEvent">
 
     <Button
@@ -30,37 +31,81 @@
             android:layout_height="wrap_content"
             >
 
-            <TextView
-                android:id="@+id/textViewEventName"
-                android:layout_width="213dp"
-                android:layout_height="29dp"
+            <Toolbar
+                android:id="@+id/ToolbarEventName"
 
-                android:layout_marginTop="10dp"
-                android:text="@string/event_name"
-                android:textSize="24sp"
-                android:visibility="visible"
-                android:textAlignment="center"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textViewEventDescription"
-                android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textViewEventName"
+                        android:layout_width="213dp"
+                        android:layout_height="29dp"
+
+
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/event_name"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:visibility="visible"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </Toolbar>
+
+
+
+            <Toolbar
+                android:id="@+id/ToolbarEventDescription"
+
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
                 android:layout_marginStart="157dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
-                android:text="@string/description"
-                android:textSize="24sp"
-                android:visibility="visible"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.513"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_name" />
+                app:layout_constraintTop_toBottomOf="@+id/event_name"
+                >
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/textViewEventDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/description"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:visibility="visible"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </Toolbar>
 
             <EditText
                 android:id="@+id/event_name"
@@ -76,7 +121,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventName" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventName" />
 
             <EditText
                 android:id="@+id/event_description"
@@ -93,7 +138,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventDescription" />
 
             <EditText
                 android:id="@+id/event_company_name"
@@ -110,71 +155,165 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventCompany" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventCompany" />
+
+
+            <Toolbar
+                android:id="@+id/ToolbarEventLocation"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_description"
+                >
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewEventLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+
                 android:text="@string/event_location"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_description" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </Toolbar>
+
+
+            <Toolbar
+                android:id="@+id/ToolbarEventDuration"
+
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
+                android:layout_marginStart="109dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="108dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.465"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_company_name"
+                >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewEventDuration"
                 android:layout_width="288dp"
                 android:layout_height="63dp"
-                android:layout_marginStart="109dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="108dp"
+
                 android:text="@string/how_long_should_event_be_active"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_company_name" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            </Toolbar>
+
+            <Toolbar
+                android:id="@+id/ToolbarEventAdditionalInfo"
+
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
+                android:layout_marginStart="109dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="108dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.507"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_duration"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
 
             <TextView
                 android:id="@+id/textViewEventAdditionalInfo"
                 android:layout_width="288dp"
                 android:layout_height="63dp"
-                android:layout_marginStart="109dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="108dp"
                 android:text="@string/additional_information"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:visibility="visible"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.507"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_duration" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </Toolbar>
+            <Toolbar
+                android:id="@+id/ToolbarEventCompany"
+
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_toolbar"
+                android:alpha="0.5"
+                android:layout_marginStart="157dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="157dp"
+                android:layout_marginBottom="16dp"
+
+                app:layout_constraintBottom_toTopOf="@+id/event_company_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_location"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
 
             <TextView
                 android:id="@+id/textViewEventCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="157dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="157dp"
-                android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
                 android:text="@string/company_name"
                 android:textSize="24sp"
                 android:visibility="visible"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/event_company_name"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_location" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </Toolbar>
             <EditText
                 android:id="@+id/event_location"
                 android:layout_width="260dp"
@@ -190,7 +329,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventLocation" />
 
             <EditText
                 android:id="@+id/event_duration"
@@ -205,7 +344,7 @@
                 android:hint="@string/hours_from_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventDuration" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventDuration" />
 
             <EditText
                 android:id="@+id/event_additional_info"
@@ -219,9 +358,9 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEventAdditionalInfo" />
+                app:layout_constraintTop_toBottomOf="@+id/ToolbarEventAdditionalInfo" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -229,6 +368,10 @@
                 android:onClick="addEvent"
                 android:text="@string/add"
                 android:visibility="visible"
+                android:background="@drawable/roundpinkbutton"
+                android:textColor="@color/white"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_additional_info" />

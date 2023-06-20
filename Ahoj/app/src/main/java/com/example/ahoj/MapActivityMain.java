@@ -122,6 +122,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_map_main);
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
 
+        date = new Date();
 
         ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -500,26 +501,42 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         List<String> announcement_company_nameList = new ArrayList<>();
         List<String> date_and_timeList = new ArrayList<>();
+        List<String> date_and_timeList_remove = new ArrayList<>();
+
+        final int[] count = {0};
+        final int[] countRemove = {0};
+
 
         reference = database.getReference("Announcement/" + countryName);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int count = 0;
+
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    count++;
-                    announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
-                    date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+                    //Date announcement_date_temp =  snapshot.child("time_and_date").getValue(Date.class);
+                    Date announcement_date_temp =  snapshot.child("announcement_duration").getValue(Date.class);
 
+
+
+
+                    if(date.before(announcement_date_temp)){
+                        count[0]++;
+                        announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
+                        date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+                    }
+                    else{
+                        countRemove[0]++;
+                        date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
+                    }
 
                 }
 
 
-                Button[] buttons = new Button[count];
+                Button[] buttons = new Button[count[0]];
 
-                for(int i = 0; i < count; i++){
+                for(int i = 0; i < count[0]; i++){
                     buttons[i] = new Button(MapActivityMain.this);
                     buttons[i].setText(announcement_company_nameList.get(i));
                     buttons[i].setLayoutParams(new LinearLayout.LayoutParams(
@@ -529,14 +546,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     linearLayout.addView(buttons[i]);
 
 
-                    int finalI = i;
                     int finalI1 = i;
                     buttons[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                             Intent intent = new Intent(MapActivityMain.this, AnnouncementActivity.class);
-                            intent.putExtra("activity", "company");
+                            intent.putExtra("activity", "user");
                             intent.putExtra("id", date_and_timeList.get(finalI1));
                             intent.putExtra("company", announcement_company_nameList.get(finalI1));
                             intent.putExtra("country", countryName);
@@ -547,6 +563,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 }
 
 
+                for(int i = 0; i < countRemove[0]; i++){
+                    reference = FirebaseDatabase.getInstance().getReference("Event/" + countryName).child(date_and_timeList_remove.get(i));
+                    reference.removeValue();
+                }
+
+
             }
 
             @Override
@@ -554,7 +576,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
             }
         });
-
 
     }
 

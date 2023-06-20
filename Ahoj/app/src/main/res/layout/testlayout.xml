@@ -211,7 +211,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
                     android:background="@color/transparent"
-                    android:foreground="@android:drawable/ic_menu_sort_by_size"
+                    android:foreground="@drawable/ahoymenu"
                     android:gravity="center"
                     android:onClick="menu">
 

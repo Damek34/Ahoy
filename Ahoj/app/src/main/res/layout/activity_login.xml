@@ -4,45 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/questionsbackground"
     tools:context=".Setup.Login">
 
-    <EditText
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:id="@+id/toolbarEmail"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_toolbar"
+        android:alpha="0.5"
         android:layout_marginTop="114dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/email"
-        android:textAlignment="center"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/Email"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
+
+
+    <Toolbar
+        android:id="@+id/toolbarPassword"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="97dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
+        android:background="@drawable/round_toolbar"
+        android:alpha="0.5"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarEmail"
+        >
 
-    <Button
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </Toolbar>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
         android:text="@string/login"
         android:onClick="login"
+
+        android:textColor="@color/white"
+        android:background="@drawable/roundpinkbutton"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarPassword" />
 
     <TextView
         android:id="@+id/EnterEmail"

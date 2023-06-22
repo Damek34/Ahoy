@@ -107,24 +107,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="550dp"
-                    app:layout_constraintBottom_toTopOf="@+id/adView"
+                <EditText
+                    android:id="@+id/editTextSearchAnnouncements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="140dp"
+                    android:visibility="gone"
+                    android:hint="@string/search_announcements"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    >
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/menuLinearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                </EditText>
+
+                <Button
+                    android:id="@+id/search_announcements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search"
+                    android:onClick="searchAnnouncements"
                     android:visibility="gone"
-                    android:orientation="vertical"
-                    >
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements">
+
+                </Button>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:isScrollContainer="false"
+                    app:layout_constraintBottom_toTopOf="@+id/adView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/menuLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
 
-                </LinearLayout>
+                    </LinearLayout>
                 </ScrollView>
 
                 <Button

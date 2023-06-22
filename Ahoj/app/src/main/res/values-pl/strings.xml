@@ -82,5 +82,7 @@
     <string name="announcement">Ogłoszenie</string>
     <string name="announcement_location">Lokalizacja ogłoszenia:</string>
     <string name="ahoy_announcements">Ogłoszenia Ahoy</string>
+    <string name="search">Szukaj</string>
+    <string name="search_announcements">Szukaj ogłoszeń</string>
 
 </resources>

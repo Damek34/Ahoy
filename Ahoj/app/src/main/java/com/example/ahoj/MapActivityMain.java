@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import DatabaseFiles.Setings.SettingsDatabase;
 
@@ -101,6 +103,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<Date> eventDateV = new ArrayList<>();
 
 
+    List<String> announcement_company_nameList = new ArrayList<>();
+    List<String> date_and_timeList = new ArrayList<>();
+    List<String> date_and_timeList_remove = new ArrayList<>();
+
 
     Date date;
     Calendar calendar = Calendar.getInstance();
@@ -113,7 +119,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     TextView your_localization;
 
-    String countryName;
+    String countryName = "", search_announcements_str = "";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -464,8 +470,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void settings(View view){
-
-        startActivity(new Intent(MapActivityMain.this, SettingActivity.class));
+        Intent intent = new Intent(MapActivityMain.this, SettingActivity.class);
+        intent.putExtra("activity", "main");
+        startActivity(intent);
 
     }
 
@@ -481,8 +488,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         close.setVisibility(View.GONE);
     }
 
+
+
+    Button[] buttons;
+
     public void announcements(View view){
-        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements;
+        EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
+        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
+
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
 
         exit_menu = findViewById(R.id.buttonExitMenu);
@@ -490,6 +503,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         announcements = findViewById(R.id.announcementsButton);
         exit_announcements = findViewById(R.id.buttonExitAnnouncements);
         ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
+        search_announcements = findViewById(R.id.search_announcements);
 
         exit_menu.setVisibility(View.GONE);
         settings.setVisibility(View.GONE);
@@ -498,13 +512,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         exit_announcements.setVisibility(View.VISIBLE);
         ahoy_announcements.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.VISIBLE);
+        editTextSearchAnnouncements.setVisibility(View.VISIBLE);
+        search_announcements.setVisibility(View.VISIBLE);
 
-        List<String> announcement_company_nameList = new ArrayList<>();
-        List<String> date_and_timeList = new ArrayList<>();
-        List<String> date_and_timeList_remove = new ArrayList<>();
+
 
         final int[] count = {0};
         final int[] countRemove = {0};
+
 
 
         reference = database.getReference("Announcement/" + countryName);
@@ -534,7 +549,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 }
 
 
-                Button[] buttons = new Button[count[0]];
+                buttons = new Button[count[0]];
+
 
                 for(int i = 0; i < count[0]; i++){
                     buttons[i] = new Button(MapActivityMain.this);
@@ -552,7 +568,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         public void onClick(View view) {
 
                             Intent intent = new Intent(MapActivityMain.this, AnnouncementActivity.class);
-                            intent.putExtra("activity", "user");
+                            intent.putExtra("activity", "main");
                             intent.putExtra("id", date_and_timeList.get(finalI1));
                             intent.putExtra("company", announcement_company_nameList.get(finalI1));
                             intent.putExtra("country", countryName);
@@ -563,9 +579,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 }
 
 
+
+
                 for(int i = 0; i < countRemove[0]; i++){
-                    reference = FirebaseDatabase.getInstance().getReference("Event/" + countryName).child(date_and_timeList_remove.get(i));
+                    reference = FirebaseDatabase.getInstance().getReference("Announcement/" + countryName).child(date_and_timeList_remove.get(i));
                     reference.removeValue();
+
                 }
 
 
@@ -579,8 +598,35 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    public void searchAnnouncements(View view){
+        EditText search_announcements = findViewById(R.id.editTextSearchAnnouncements);
+
+        search_announcements_str = search_announcements.getText().toString();
+
+        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+
+
+        if(!search_announcements_str.isEmpty()){
+            for(int i = 0; i < buttons.length; i++){
+                linearLayout.removeView(buttons[i]);
+            }
+
+            for(int i = 0; i < buttons.length; i++){
+                if(announcement_company_nameList.get(i).equals(search_announcements_str)){
+                    linearLayout.addView(buttons[i]);
+                }
+            }
+        }
+
+
+
+    }
     public void exitAnnouncements(View view){
-        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements;
+        search_announcements_str = "";
+
+        EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
+
+        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
 
         exit_menu = findViewById(R.id.buttonExitMenu);
@@ -588,6 +634,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         announcements = findViewById(R.id.announcementsButton);
         exit_announcements = findViewById(R.id.buttonExitAnnouncements);
         ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
+        search_announcements = findViewById(R.id.search_announcements);
 
         exit_menu.setVisibility(View.VISIBLE);
         settings.setVisibility(View.VISIBLE);
@@ -596,8 +643,24 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         exit_announcements.setVisibility(View.GONE);
         ahoy_announcements.setVisibility(View.GONE);
         linearLayout.setVisibility(View.GONE);
+        editTextSearchAnnouncements.setVisibility(View.GONE);
+        search_announcements.setVisibility(View.GONE);
+
+
+
+
+        for(int i = 0; i < buttons.length; i++){
+            linearLayout.removeView(buttons[i]);
+        }
+
     }
 
+    public void ahoyAnnouncements(View view){
+        Intent intent = new Intent(MapActivityMain.this, AhoyAnnouncements.class);
+        intent.putExtra("activity", "main");
+
+        startActivity(intent);
+    }
 
     public void scan(View view) throws IOException {
 

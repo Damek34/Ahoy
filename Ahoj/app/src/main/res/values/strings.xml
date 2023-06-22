@@ -73,6 +73,8 @@
     <string name="announcement">Announcement</string>
     <string name="announcement_location">Announcement location:</string>
     <string name="ahoy_announcements">Ahoy announcements</string>
+    <string name="search">Search</string>
+    <string name="search_announcements">Search announcements</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

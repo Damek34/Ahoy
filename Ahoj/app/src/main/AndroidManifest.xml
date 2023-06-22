@@ -18,6 +18,9 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".AhoyAnnouncements"
+            android:exported="false" />
+        <activity
             android:name=".AnnouncementActivity"
             android:exported="false" />
         <activity
@@ -33,12 +36,13 @@
             android:name=".Pay"
             android:exported="false" />
         <activity
-            android:name=".SettingActivityUser"
-            android:exported="false" />
-        <activity
             android:name=".MapForUser"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:isScrollContainer="false"
+
+            />
         <activity
             android:name=".Setup.Login"
             android:exported="false"
@@ -74,7 +78,10 @@
         <activity
             android:name=".MapActivityMain"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:isScrollContainer="false"
+            />
         <activity
             android:name=".LoadingScreen"
             android:exported="false"

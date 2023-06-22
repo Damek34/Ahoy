@@ -23,12 +23,13 @@ import DatabaseFiles.Setings.SettingsDatabase;
 public class SettingActivity extends AppCompatActivity {
 
 
-
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        intent = getIntent();
 
         Spinner mapTypesSpinner = (Spinner) findViewById(R.id.mapTypesSpinner);
         List<String> mapTypesList = new ArrayList();
@@ -46,7 +47,12 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void exitSettings (View view){
-        startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+        if(intent.getStringExtra("activity").equals("main")){
+            startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+        }
+        else{
+            startActivity(new Intent(SettingActivity.this, MapForUser.class));
+        }
     }
 
     public void saveSettings(View view){
@@ -68,7 +74,12 @@ public class SettingActivity extends AppCompatActivity {
             dbSettings.settingsDAO().updateMapTypeToTerrain();
         }
 
-        startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+        if(intent.getStringExtra("activity").equals("main")){
+            startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+        }
+        else{
+            startActivity(new Intent(SettingActivity.this, MapForUser.class));
+        }
 
     }
 

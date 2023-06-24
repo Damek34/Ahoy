@@ -15,7 +15,10 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
     }
 
     public void exit(View view){
-        startActivity(new Intent(EventLocalVirtualAnnouncement.this, MapActivityMain.class));
+       Intent intent = new Intent(EventLocalVirtualAnnouncement.this, MapActivityMain.class);
+       intent.putExtra("activity", "main");
+        startActivity(intent);
+
     }
 
     public void local(View view){

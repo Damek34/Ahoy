@@ -51,7 +51,10 @@ public class TellSomething extends AppCompatActivity {
     }
 
     public void exitTell(View view){
-        startActivity(new Intent(TellSomething.this, RegisterOrLogin.class));
+        Intent intent = new Intent(TellSomething.this, RegisterOrLogin.class);
+        intent.putExtra("activity", "main");
+
+        startActivity(intent);
 
     }
 

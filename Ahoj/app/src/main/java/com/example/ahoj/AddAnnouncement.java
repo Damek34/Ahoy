@@ -74,7 +74,7 @@ public class AddAnnouncement extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.custom_spinner);
     }
     public void exitAdd(View view) {
-        startActivity(new Intent(AddAnnouncement.this, MapActivityMain.class));
+        startActivity(new Intent(AddAnnouncement.this, EventLocalVirtualAnnouncement.class));
     }
 
     public void addAnnouncement(View view){
@@ -126,7 +126,9 @@ public class AddAnnouncement extends AppCompatActivity {
 
         Toast.makeText(this, add.getText().toString(), Toast.LENGTH_LONG).show();
 
-        startActivity(new Intent(AddAnnouncement.this, MapActivityMain.class));
+        Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);
+        intent.putExtra("activity", "main");
+        startActivity(intent);
 
 
 

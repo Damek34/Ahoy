@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/questionsbackground"
-    tools:context=".Setup.Login">
+    tools:context=".Setup.LoginUser">
 
     <Toolbar
         android:id="@+id/toolbarEmail"
@@ -26,13 +26,13 @@
 
 
             <EditText
-                android:id="@+id/Email"
+                android:id="@+id/nickLogin"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:ems="10"
-                android:hint="@string/email"
+                android:hint="@string/nick"
                 android:inputType="textPersonName"
                 android:textAlignment="center"
 
@@ -103,10 +103,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarPassword" />
 
     <TextView
-        android:id="@+id/EnterEmail"
+        android:id="@+id/EnterNick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enter_email"
+        android:text="@string/enter_nick"
         android:visibility="gone"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="7dp" />

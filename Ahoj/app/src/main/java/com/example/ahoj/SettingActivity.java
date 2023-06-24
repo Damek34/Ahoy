@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +51,14 @@ public class SettingActivity extends AppCompatActivity {
 
     public void exitSettings (View view){
         if(intent.getStringExtra("activity").equals("main")){
-            startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "main");
+            startActivity(intent_activity);
         }
         else{
-            startActivity(new Intent(SettingActivity.this, MapForUser.class));
+            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "user");
+            startActivity(intent_activity);
         }
     }
 
@@ -75,10 +82,14 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         if(intent.getStringExtra("activity").equals("main")){
-            startActivity(new Intent(SettingActivity.this, MapActivityMain.class));
+            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "main");
+            startActivity(intent_activity);
         }
         else{
-            startActivity(new Intent(SettingActivity.this, MapForUser.class));
+            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "user");
+            startActivity(intent_activity);
         }
 
     }
@@ -93,5 +104,16 @@ public class SettingActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void logOut(View view){
+        FirebaseAuth.getInstance().signOut();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("auth_token", null);
+        editor.apply();
+
+        startActivity(new Intent(SettingActivity.this, LoadingScreen.class));
     }
 }

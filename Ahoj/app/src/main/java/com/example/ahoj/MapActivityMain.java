@@ -49,6 +49,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -121,6 +122,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     String countryName = "", search_announcements_str = "";
 
+    Button add_button;
+
+    Intent activity_intent;
+
+    NavigationView navigationView;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +136,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
 
         date = new Date();
+
+        add_button = findViewById(R.id.addButton);
+        activity_intent = getIntent();
+
+        if(activity_intent.getStringExtra("activity").equals("user")){
+            add_button.setVisibility(View.GONE);
+        }
+
+
 
         ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -460,7 +476,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void menu(View view){
-        NavigationView navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.navigation);
         navigationView.setVisibility(View.VISIBLE);
     }
 
@@ -471,10 +487,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void settings(View view){
         Intent intent = new Intent(MapActivityMain.this, SettingActivity.class);
-        intent.putExtra("activity", "main");
+        if(activity_intent.getStringExtra("activity").equals("main")){
+            intent.putExtra("activity", "main");
+        }
+        else{
+            intent.putExtra("activity", "user");
+        }
         startActivity(intent);
 
     }
+
+
 
     public void add(View view){
         startActivity(new Intent(MapActivityMain.this, EventLocalVirtualAnnouncement.class));
@@ -535,16 +558,37 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
 
+                    try {
+                        if(date.before(announcement_date_temp)){
+                            count[0]++;
+                            announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
+                            date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+                        }
+                        else{
+                            countRemove[0]++;
+                            date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
+                        }
+                    }
+                    catch (NullPointerException e){
+                        date = new Date();
+                        navigationView.setVisibility(View.GONE);
 
-                    if(date.before(announcement_date_temp)){
-                        count[0]++;
-                        announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
-                        date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+
+                        exit_menu.setVisibility(View.VISIBLE);
+                        settings.setVisibility(View.VISIBLE);
+                        announcements.setVisibility(View.VISIBLE);
+
+                        exit_announcements.setVisibility(View.GONE);
+                        ahoy_announcements.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.GONE);
+                        editTextSearchAnnouncements.setVisibility(View.GONE);
+                        search_announcements.setVisibility(View.GONE);
+
+
+                        return;
                     }
-                    else{
-                        countRemove[0]++;
-                        date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
-                    }
+
+
 
                 }
 
@@ -568,7 +612,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         public void onClick(View view) {
 
                             Intent intent = new Intent(MapActivityMain.this, AnnouncementActivity.class);
-                            intent.putExtra("activity", "main");
+                            if(activity_intent.getStringExtra("activity").equals("main")){
+                                intent.putExtra("activity", "main");
+                            }
+                            else{
+                                intent.putExtra("activity", "user");
+                            }
+                            startActivity(intent);
                             intent.putExtra("id", date_and_timeList.get(finalI1));
                             intent.putExtra("company", announcement_company_nameList.get(finalI1));
                             intent.putExtra("country", countryName);
@@ -602,25 +652,36 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         EditText search_announcements = findViewById(R.id.editTextSearchAnnouncements);
 
         search_announcements_str = search_announcements.getText().toString();
+        search_announcements_str.toLowerCase();
 
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
 
 
-        if(!search_announcements_str.isEmpty()){
+        if(!search_announcements_str.trim().isEmpty()){
             for(int i = 0; i < buttons.length; i++){
                 linearLayout.removeView(buttons[i]);
+
             }
 
             for(int i = 0; i < buttons.length; i++){
-                if(announcement_company_nameList.get(i).equals(search_announcements_str)){
+                if(announcement_company_nameList.get(i).toLowerCase().contains(search_announcements_str)){
                     linearLayout.addView(buttons[i]);
                 }
             }
         }
 
-
-
+        if(search_announcements_str.trim().isEmpty()){
+            linearLayout.removeAllViews();
+            for(int i = 0; i < buttons.length; i++){
+                linearLayout.addView(buttons[i]);
+            }
+        }
     }
+
+
+
+
+
     public void exitAnnouncements(View view){
         search_announcements_str = "";
 
@@ -657,8 +718,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void ahoyAnnouncements(View view){
         Intent intent = new Intent(MapActivityMain.this, AhoyAnnouncements.class);
-        intent.putExtra("activity", "main");
-
+        if(activity_intent.getStringExtra("activity").equals("main")){
+            intent.putExtra("activity", "main");
+        }
+        else{
+            intent.putExtra("activity", "user");
+        }
         startActivity(intent);
     }
 

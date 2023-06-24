@@ -120,10 +120,14 @@ public class AnnouncementActivity extends AppCompatActivity {
 
     public void exitAnnouncement(View view){
         if(user_or_main.equals("user")){
-            startActivity(new Intent(AnnouncementActivity.this, MapForUser.class));
+            Intent intent_activity = new Intent(AnnouncementActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "user");
+            startActivity(intent_activity);
         }
         else{
-            startActivity(new Intent(AnnouncementActivity.this, MapActivityMain.class));
+            Intent intent_activity = new Intent(AnnouncementActivity.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "main");
+            startActivity(intent_activity);
 
         }
     }

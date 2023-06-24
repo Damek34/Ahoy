@@ -84,5 +84,10 @@
     <string name="ahoy_announcements">Ogłoszenia Ahoy</string>
     <string name="search">Szukaj</string>
     <string name="search_announcements">Szukaj ogłoszeń</string>
+    <string name="nick">Nick</string>
+    <string name="nick_already_exist">Ten nick już istnieje</string>
+    <string name="account_does_not_exist">Konto nie istnieje</string>
+    <string name="enter_nick">Wprowadź nick</string>
+    <string name="log_out">Wyloguj się</string>
 
 </resources>

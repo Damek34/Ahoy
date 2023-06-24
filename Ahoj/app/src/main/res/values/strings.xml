@@ -75,6 +75,11 @@
     <string name="ahoy_announcements">Ahoy announcements</string>
     <string name="search">Search</string>
     <string name="search_announcements">Search announcements</string>
+    <string name="nick">Nick</string>
+    <string name="nick_already_exist">Nick already exist</string>
+    <string name="account_does_not_exist">Account does not exist</string>
+    <string name="enter_nick">Enter nick</string>
+    <string name="log_out">Log out</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

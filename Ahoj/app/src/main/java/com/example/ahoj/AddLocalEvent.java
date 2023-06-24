@@ -53,7 +53,7 @@ public class AddLocalEvent extends AppCompatActivity {
     }
 
     public void exitAdd(View view) {
-        startActivity(new Intent(AddLocalEvent.this, MapActivityMain.class));
+        startActivity(new Intent(AddLocalEvent.this, EventLocalVirtualAnnouncement.class));
     }
 
     public void addEvent(View view) {

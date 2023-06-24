@@ -200,6 +200,9 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
 
-        startActivity(new Intent(EventLocalizationPreview.this, MapActivityMain.class));
+        Intent intent = new Intent(EventLocalizationPreview.this, MapActivityMain.class);
+        intent.putExtra("activity", "main");
+        startActivity(intent);
+
     }
 }

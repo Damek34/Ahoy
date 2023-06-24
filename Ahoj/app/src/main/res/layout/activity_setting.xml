@@ -18,19 +18,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/mapTypesSpinner"
-        android:layout_width="238dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="64dp"
-        android:entries="@array/map_types_spinner"
-        android:text="@string/map_types"
-        android:textSize="24sp"
 
+    <ScrollView
+        android:layout_width="410dp"
+        android:layout_height="550dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
 
+            >
+
+            <Spinner
+                android:id="@+id/mapTypesSpinner"
+                android:layout_width="238dp"
+                android:layout_height="32dp"
+                android:entries="@array/map_types_spinner"
+                android:text="@string/map_types"
+                android:textSize="24sp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/buttonReconect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:onClick="reconnect"
+                android:text="@string/reconnect"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/show_current_position_textview"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_out"
+                android:onClick="logOut"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonReconect" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
 
     <Button
         android:id="@+id/buttnSaveSettings"
@@ -38,30 +86,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="158dp"
         android:layout_marginBottom="63dp"
-        android:text="@string/save"
         android:onClick="saveSettings"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonReconect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:onClick="reconnect"
-        android:text="@string/reconnect"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/show_current_position_textview"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

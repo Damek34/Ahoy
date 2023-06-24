@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.example.ahoj.OnlyJava.Setup.RegisterInfo;
-import com.example.ahoj.OnlyJava.Setup.VerifyAccounts;
 import com.example.ahoj.OnlyJava.UserInfo;
 import com.example.ahoj.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,34 +25,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Date;
-import java.util.Objects;
+public class RegisterUser extends AppCompatActivity {
 
-
-public class Register extends AppCompatActivity {
-
-    EditText emailEdit, passwordEdit, repeat_passwordEdit, temporary_name_edit;
+    EditText emailEdit, passwordEdit, repeat_passwordEdit, nick;
     Button register_btn;
     String email = "", password = "", repeat_password = "";
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet;
+    Toolbar toolbarNick, toolbarEmail, toolbarPassword, toolbarRepeat;
+
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, already_exist;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     private FirebaseAuth mAuth;
 
-    Toolbar toolbarTemporary, toolbarEmail, toolbarPassword, toolbarRepeat;
-
-
-    Intent activity_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        activity_intent = getIntent();
-
+        setContentView(R.layout.activity_register_user);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -70,27 +59,25 @@ public class Register extends AppCompatActivity {
         verifyLinkSendFail = findViewById(R.id.VerifyLinkSendFail);
         fillAll = findViewById(R.id.FillAll);
         verify = findViewById(R.id.verifyEmail);
-        rejected = findViewById(R.id.rejected);
-        notyet = findViewById(R.id.notyet);
-        toolbarTemporary = findViewById(R.id.toolbarTemporaryName);
+        already_exist = findViewById(R.id.alreadyexist);
+
         toolbarEmail = findViewById(R.id.toolbarEmail);
+        toolbarNick = findViewById(R.id.toolbarNick);
         toolbarPassword = findViewById(R.id.toolbarPassword);
         toolbarRepeat = findViewById(R.id.toolbarRepeat);
     }
 
     public void exit(View view){
-        Intent intent = new Intent(Register.this, RegisterOrLogin.class);
-        intent.putExtra("activity", "main");
-
+        Intent intent = new Intent(RegisterUser.this, RegisterOrLogin.class);
+        intent.putExtra("activity", "user");
         startActivity(intent);
-
     }
 
     public void register(View view){
         emailEdit = findViewById(R.id.Email);
         passwordEdit = findViewById(R.id.password);
         repeat_passwordEdit = findViewById(R.id.repeat);
-        temporary_name_edit = findViewById(R.id.temporaryName);
+        nick = findViewById(R.id.nick);
 
         email = emailEdit.getText().toString();
         password = passwordEdit.getText().toString();
@@ -112,40 +99,62 @@ public class Register extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), passwordsDoNotMatch.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
-        if(temporary_name_edit.getText().toString().isEmpty()){
+        if(nick.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), fillAll.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
 
-        Integer[] isverified = new Integer[1]; //0 = false, 1 = true, 2 = not verified yet
-        isverified[0] = 0;
-
-        reference = database.getReference("VerifiedAccounts");
+        reference = database.getReference().child("Nick");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.hasChild(temporary_name_edit.getText().toString())){
-                   DataSnapshot mySnapshot = snapshot.child(temporary_name_edit.getText().toString());
-                   isverified[0] = mySnapshot.child("IsVerified").getValue(Integer.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.child(nick.getText().toString()).exists()) {
+                    Toast.makeText(getApplicationContext(), already_exist.getText().toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else {
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), accCreated.getText().toString(), Toast.LENGTH_LONG).show();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                sendEmailVerification(user);
 
-                   cont(isverified[0]);
 
-               }
-               else{
-                   isRejected();
-               }
+                                toolbarEmail.setVisibility(View.GONE);
+                                toolbarPassword.setVisibility(View.GONE);
+                                toolbarRepeat.setVisibility(View.GONE);
+                                register_btn.setVisibility(View.GONE);
+                                toolbarNick.setVisibility(View.GONE);
+
+
+                                verify.setVisibility(View.VISIBLE);
+
+                                reference = database.getReference("Nick");
+
+                                UserInfo userInfo = new UserInfo(nick.getText().toString(), email, 0);
+
+                                reference.child(nick.getText().toString()).setValue(userInfo);
+
+
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+    });
     }
-
-
-
     private void sendEmailVerification(FirebaseUser user) {
         if (user != null) {
             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -160,74 +169,5 @@ public class Register extends AppCompatActivity {
             });
         }
     }
-    void cont(int val){
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), accCreated.getText().toString(), Toast.LENGTH_LONG).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    sendEmailVerification(user);
 
-
-                    toolbarEmail.setVisibility(View.GONE);
-                    toolbarPassword.setVisibility(View.GONE);
-                    toolbarRepeat.setVisibility(View.GONE);
-                    register_btn.setVisibility(View.GONE);
-                    toolbarTemporary.setVisibility(View.GONE);
-
-                    reference = database.getReference("CompanyEmails");
-
-                    RegisterInfo registerInfo = new RegisterInfo(email);
-
-                    reference.child(email).setValue(registerInfo);
-                    verify.setVisibility(View.VISIBLE);
-
-                    clearDB();
-
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    void isRejected(){
-        reference = database.getReference("AccountsToVerify");
-
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(temporary_name_edit.getText().toString())){
-                    notYet();
-                    return;
-                }
-                else{
-                    Rejected();
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    void Rejected(){
-        Toast.makeText(getApplicationContext(), rejected.getText().toString(), Toast.LENGTH_LONG).show();
-    }
-
-    void notYet(){
-        Toast.makeText(getApplicationContext(), notyet.getText().toString(), Toast.LENGTH_LONG).show();
-
-    }
-
-    void clearDB(){
-        reference = FirebaseDatabase.getInstance().getReference("VerifiedAccounts/").child(temporary_name_edit.getText().toString());
-        reference.removeValue();
-    }
 }

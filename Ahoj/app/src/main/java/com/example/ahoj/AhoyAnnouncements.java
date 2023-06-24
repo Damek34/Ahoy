@@ -52,10 +52,14 @@ public class AhoyAnnouncements extends AppCompatActivity {
 
     public void exit(View view){
         if(intent.getStringExtra("activity").equals("user")){
-            startActivity(new Intent(AhoyAnnouncements.this, MapForUser.class));
+            Intent intent_activity = new Intent(AhoyAnnouncements.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "user");
+            startActivity(intent_activity);
         }
         else{
-            startActivity(new Intent(AhoyAnnouncements.this, MapActivityMain.class));
+            Intent intent_activity = new Intent(AhoyAnnouncements.this, MapActivityMain.class);
+            intent_activity.putExtra("activity", "main");
+            startActivity(intent_activity);
         }
     }
 }

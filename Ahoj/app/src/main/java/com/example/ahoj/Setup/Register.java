@@ -180,7 +180,13 @@ public class Register extends AppCompatActivity {
 
                     RegisterInfo registerInfo = new RegisterInfo(email);
 
-                    reference.child(email).setValue(registerInfo);
+                    String modifiedEmail = email.replace(".", ",");
+                    modifiedEmail = modifiedEmail.replace("#", "_");
+                    modifiedEmail = modifiedEmail.replace("$", "-");
+                    modifiedEmail = modifiedEmail.replace("[", "(");
+                    modifiedEmail = modifiedEmail.replace("]", ")");
+
+                    reference.child(modifiedEmail).setValue(registerInfo);
                     verify.setVisibility(View.VISIBLE);
 
                     clearDB();

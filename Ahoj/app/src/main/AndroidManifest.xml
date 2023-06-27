@@ -18,6 +18,9 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".Points"
+            android:exported="false" />
+        <activity
             android:name=".Setup.LoginUser"
             android:exported="false" />
         <activity

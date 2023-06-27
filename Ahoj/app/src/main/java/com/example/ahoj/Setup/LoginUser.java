@@ -156,6 +156,10 @@ public class LoginUser extends AppCompatActivity {
                     editor.putString("auth_token", authToken);
                     editor.apply();
 
+                    SharedPreferences.Editor editor_nick = sharedPreferences.edit();
+                    editor_nick.putString("nick", nick.getText().toString());
+                    editor_nick.apply();
+
                     Intent intent = new Intent(LoginUser.this, MapActivityMain.class);
                     intent.putExtra("activity", "user");
 

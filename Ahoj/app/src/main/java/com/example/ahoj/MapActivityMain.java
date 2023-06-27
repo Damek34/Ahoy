@@ -118,7 +118,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     AdView adview;
 
-    TextView your_localization;
+    TextView your_localization, check_internet_connection;
 
     String countryName = "", search_announcements_str = "";
 
@@ -134,6 +134,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_main);
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
+        check_internet_connection = findViewById(R.id.check_internet_connection_map);
 
         date = new Date();
 
@@ -151,7 +152,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
 
         if(!connected){
-            startActivity(new Intent(MapActivityMain.this, EnableInternetConnection.class));
+            if(activity_intent.getStringExtra("activity").equals("user")){
+                Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
+                intent.putExtra("activity", "user");
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
+                intent.putExtra("activity", "main");
+                startActivity(intent);
+            }
+
         }
 
 
@@ -277,7 +288,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         catch (java.lang.IllegalArgumentException e){
-            startActivity(new Intent(MapActivityMain.this, EnableLocalization.class));
+            if(activity_intent.getStringExtra("activity").equals("user")){
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "user");
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "main");
+                startActivity(intent);
+                overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+            }
         }
 
 
@@ -398,11 +419,22 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         int month = calendar.get(Calendar.MONTH) + 1;
 
                         eventActivity.putExtra("Name", eventNameV.get(markerIndex));
-                        eventActivity.putExtra("Description", eventDescV.get(markerIndex));
+                      //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
-                        eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
+                        //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
                         eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
+                       // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
+                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
+                        eventActivity.putExtra("Country", countryName);
+
+                        if(activity_intent.getStringExtra("activity").equals("user")){
+                            eventActivity.putExtra("activity", "user");
+                        }
+                        else{
+                            eventActivity.putExtra("activity", "main");
+                        }
+
+
                         startActivity(eventActivity);
                     } else {
                         Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
@@ -499,6 +531,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
 
+
     public void add(View view){
         startActivity(new Intent(MapActivityMain.this, EventLocalVirtualAnnouncement.class));
     }
@@ -512,10 +545,24 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
 
+    public void pointsActivity(View view){
+        startActivity(new Intent(MapActivityMain.this, Points.class));
+
+    }
+
 
     Button[] buttons;
 
     public void announcements(View view){
+
+        if(!isNetworkConnected()){
+            Toast.makeText(getApplicationContext(), check_internet_connection.getText().toString(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+
+
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
 
@@ -537,6 +584,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         linearLayout.setVisibility(View.VISIBLE);
         editTextSearchAnnouncements.setVisibility(View.VISIBLE);
         search_announcements.setVisibility(View.VISIBLE);
+
+
 
 
 
@@ -672,9 +721,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if(search_announcements_str.trim().isEmpty()){
             linearLayout.removeAllViews();
-            for(int i = 0; i < buttons.length; i++){
-                linearLayout.addView(buttons[i]);
+            if(buttons != null){
+                for(int i = 0; i < buttons.length; i++){
+                    linearLayout.addView(buttons[i]);
+                }
             }
+
         }
     }
 
@@ -709,6 +761,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
 
+        if(buttons == null){
+            return;
+        }
 
         for(int i = 0; i < buttons.length; i++){
             linearLayout.removeView(buttons[i]);
@@ -790,13 +845,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         @Override
         protected Void doInBackground(Void... voids) {
             eventNameV.clear();
-            eventDescV.clear();
+           // eventDescV.clear();
             eventLocalizationV.clear();
             eventLocalizationAll.clear();
-            eventCompanyNameV.clear();
+          //  eventCompanyNameV.clear();
             eventDateV.clear();
-            eventDateAndTimeV.clear();
-            eventAdditionalV.clear();
+         //   eventDateAndTimeV.clear();
+        //    eventAdditionalV.clear();
 
 
             date = new Date();
@@ -850,13 +905,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 String eventName = eventSnapshot.child("event_name").getValue(String.class);
                                 eventNameV.add(eventName);
 
-                                String eventDescription = eventSnapshot.child("event_description").getValue(String.class);
-                                eventDescV.add(eventDescription);
+                                //String eventDescription = eventSnapshot.child("event_description").getValue(String.class);
+                              //  eventDescV.add(eventDescription);
 
                                 eventLocalizationV.add(eventLocalizationAll.get(i));
 
-                                String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
-                                eventCompanyNameV.add(eventCompanyName);
+                             //   String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
+                               // eventCompanyNameV.add(eventCompanyName);
 
                                 Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
                                 eventDateV.add(eventDuration);
@@ -864,8 +919,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
                                 eventDateAndTimeV.add(eventDateTime);
 
-                                String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
-                                eventAdditionalV.add(eventAdditional);
+                              //  String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
+                              //  eventAdditionalV.add(eventAdditional);
                                 near_events_number++;
 
                             }
@@ -934,5 +989,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

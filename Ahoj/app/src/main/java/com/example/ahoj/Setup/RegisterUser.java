@@ -29,11 +29,11 @@ public class RegisterUser extends AppCompatActivity {
 
     EditText emailEdit, passwordEdit, repeat_passwordEdit, nick;
     Button register_btn;
-    String email = "", password = "", repeat_password = "";
+    String email = "", password = "", repeat_password = "", nickStr = "";
 
     Toolbar toolbarNick, toolbarEmail, toolbarPassword, toolbarRepeat;
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, already_exist;
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, already_exist, should_not;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -65,6 +65,8 @@ public class RegisterUser extends AppCompatActivity {
         toolbarNick = findViewById(R.id.toolbarNick);
         toolbarPassword = findViewById(R.id.toolbarPassword);
         toolbarRepeat = findViewById(R.id.toolbarRepeat);
+
+        should_not = findViewById(R.id.shouldnot);
     }
 
     public void exit(View view){
@@ -101,6 +103,10 @@ public class RegisterUser extends AppCompatActivity {
         }
         if(nick.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), fillAll.getText().toString(), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(nickStr.contains(".") || nickStr.contains("#") || nickStr.contains("$") || nickStr.contains("[") || nickStr.contains("]")){
+            Toast.makeText(getApplicationContext(), should_not.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
 

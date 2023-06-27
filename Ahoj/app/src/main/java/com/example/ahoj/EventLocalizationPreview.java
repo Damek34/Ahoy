@@ -49,7 +49,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    TextView textviewCountry, add_announcement;
+    TextView textviewCountry, add_announcement, check_internet_connection;
 
     Button btnokCountry;
 
@@ -87,6 +87,8 @@ public class EventLocalizationPreview extends AppCompatActivity {
         additional = intent.getStringExtra("additional");
 
         countrySpinner = (Spinner) findViewById(R.id.eventCountry);
+
+        check_internet_connection = findViewById(R.id.check_internet_connection);
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -143,7 +145,11 @@ public class EventLocalizationPreview extends AppCompatActivity {
         try {
             addresses = geocoder.getFromLocationName(countrySpinner.getSelectedItem().toString(), 1);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Toast.makeText(getApplicationContext(), check_internet_connection.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+
+        if(addresses == null){
+            return;
         }
 
         if (addresses.size() > 0) {

@@ -16,6 +16,17 @@
 
     </TextView>
 
+    <TextView
+        android:id="@+id/check_internet_connection_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/check_internet_connection"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <fragment
         android:id="@+id/mapa"
@@ -204,6 +215,18 @@
                     android:onClick="announcements"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/points_button"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/star_big_on"
+                    android:onClick="pointsActivity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
 
                 <com.google.android.gms.ads.AdView
                     xmlns:ads="http://schemas.android.com/apk/res-auto"

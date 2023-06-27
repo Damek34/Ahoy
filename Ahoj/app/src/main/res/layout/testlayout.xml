@@ -120,6 +120,7 @@
                 </Button>
 
                 <ScrollView
+                    android:id="@+id/scrollView2"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
                     app:layout_constraintBottom_toTopOf="@+id/adView"
@@ -189,6 +190,17 @@
                     android:onClick="announcements"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/star_big_on"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
 
                 <com.google.android.gms.ads.AdView
                     xmlns:ads="http://schemas.android.com/apk/res-auto"

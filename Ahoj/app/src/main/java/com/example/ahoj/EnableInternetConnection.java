@@ -9,18 +9,33 @@ import android.view.View;
 
 public class EnableInternetConnection extends AppCompatActivity {
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enable_internet_connection);
+
+        intent = getIntent();
     }
 
     public void continueL(View view){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(EnableInternetConnection.this, MapActivityMain.class));
-                overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+
+                if(intent.getStringExtra("activity").equals("user")){
+                    Intent intent = new Intent(EnableInternetConnection.this, MapActivityMain.class);
+                    intent.putExtra("activity", "user");
+                    startActivity(intent);
+                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                }
+                else{
+                    Intent intent = new Intent(EnableInternetConnection.this, MapActivityMain.class);
+                    intent.putExtra("activity", "main");
+                    startActivity(intent);
+                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                }
             }
         }, 1500);
     }

@@ -80,6 +80,14 @@
     <string name="account_does_not_exist">Account does not exist</string>
     <string name="enter_nick">Enter nick</string>
     <string name="log_out">Log out</string>
+    <string name="report">Report</string>
+    <string name="check_internet_connection">Check internet connection</string>
+    <string name="nick_should_not_contain">Your nick should not contains ".", "#", "$", "[", "]</string>
+    <string name="your_points">Your points: </string>
+    <string name="watch_ad_to_get_extra_point">Watch ad to get extra point</string>
+    <string name="ad_is_not_ready_yet">Ad is not ready yet</string>
+    <string name="come_back_tomorrow_for_next_reward">Come back tomorrow for next reward</string>
+
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

@@ -29,7 +29,7 @@ import java.util.Locale;
 public class AddAnnouncement extends AppCompatActivity {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add;
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection;
 
     Spinner country;
     String countryName;
@@ -54,6 +54,8 @@ public class AddAnnouncement extends AppCompatActivity {
         add = findViewById(R.id.add_announcementPreview);
 
         country = findViewById(R.id.announcementCountry);
+
+        check_internet_connection = findViewById(R.id.check_internet_connection);
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -100,7 +102,12 @@ public class AddAnnouncement extends AppCompatActivity {
         try {
             addresses = geocoder.getFromLocationName(country.getSelectedItem().toString(), 1);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            Toast.makeText(getApplicationContext(), check_internet_connection.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+
+        if(addresses == null){
+            return;
         }
 
         if (addresses.size() > 0) {

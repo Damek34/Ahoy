@@ -65,13 +65,24 @@ public class Login extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), enterPassword.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
+        String email_str = email.getText().toString();
+
+        String modifiedEmail = email_str.replace(".", ",");
+        modifiedEmail = modifiedEmail.replace("#", "_");
+        modifiedEmail = modifiedEmail.replace("$", "-");
+        modifiedEmail = modifiedEmail.replace("[", "(");
+        modifiedEmail = modifiedEmail.replace("]", ")");
 
         reference = database.getReference().child("CompanyEmails");
 
+        String finalModifiedEmail = modifiedEmail;
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.child(email.getText().toString()).exists()) {
+
+
+
+                if (snapshot.exists() && snapshot.child(finalModifiedEmail).exists()) {
                     login();
                 } else {
                     Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();

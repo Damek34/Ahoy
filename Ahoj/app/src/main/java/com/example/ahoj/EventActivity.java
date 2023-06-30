@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,10 +27,12 @@ public class EventActivity extends AppCompatActivity {
 
     AdView adview;
 
-    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional;
-    TextView event_company, event_desc, event_additional;
+    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick;
+    TextView event_company, event_desc, event_additional, thanks_for_joining;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
+
+    SharedPreferences sharedPreferences;
 
     Intent intent;
 
@@ -38,6 +43,8 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         intent = getIntent();
+
+        thanks_for_joining = findViewById(R.id.points_for_event);
 
         TextView event_name = (TextView) findViewById(R.id.activity_event_name);
         TextView event_ends_in = (TextView) findViewById(R.id.activityEventEventEndsAt);
@@ -101,7 +108,57 @@ public class EventActivity extends AppCompatActivity {
         else{
             event_additional.setVisibility(View.GONE);
         }
+
+        if(intent.getStringExtra("activity").equals("user")){
+            shouldGetPoints();
+        }
     }
+
+    void shouldGetPoints(){
+        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferences.getString("nick", "");
+        reference = database.getReference("Event/" + country + "/" + date_and_time +"/" + "Nick");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(nick).exists()){
+                    reference.child(nick).setValue(nick);
+                    addPoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    void addPoints(){
+        reference = database.getReference("Nick/" + nick);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    int pointsDB = snapshot.child("points").getValue(Integer.class);
+                    pointsDB += 2;
+
+                    reference = database.getReference("Nick/" + nick + "/" + "points");
+                    reference.setValue(pointsDB);
+
+                    Toast.makeText(getApplicationContext(), thanks_for_joining.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     public void report(View view){
         //todo

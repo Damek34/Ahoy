@@ -25,6 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class RegisterUser extends AppCompatActivity {
 
     EditText emailEdit, passwordEdit, repeat_passwordEdit, nick;
@@ -138,9 +143,12 @@ public class RegisterUser extends AppCompatActivity {
 
                                 verify.setVisibility(View.VISIBLE);
 
+                                Date currentDate = Calendar.getInstance().getTime();
+                                String formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+
                                 reference = database.getReference("Nick");
 
-                                UserInfo userInfo = new UserInfo(nick.getText().toString(), email, 0);
+                                UserInfo userInfo = new UserInfo(nick.getText().toString(), email, 0, formattedCurrentDate);
 
                                 reference.child(nick.getText().toString()).setValue(userInfo);
 

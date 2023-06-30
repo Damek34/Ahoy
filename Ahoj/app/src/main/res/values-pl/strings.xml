@@ -96,5 +96,7 @@
     <string name="watch_ad_to_get_extra_point">Obejrzyj reklamę aby uzyskać dodatkowy punkt</string>
     <string name="ad_is_not_ready_yet">"Reklama nie jest jeszcze gotowa "</string>
     <string name="come_back_tomorrow_for_next_reward">Wróć jutro po kolejną nagrodę</string>
+    <string name="failed_to_fetch_location">Nie udało się pobrać lokalizacji</string>
+    <string name="points_for_event">Dziękuję za dołączenie do wydarzenia! Zdobyłeś 2 punkty!</string>
 
 </resources>

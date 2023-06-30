@@ -118,15 +118,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection;
+    TextView your_localization, check_internet_connection, failed_location;
 
     String countryName = "", search_announcements_str = "";
 
-    Button add_button;
+    Button add_button, points_button;
 
     Intent activity_intent;
 
     NavigationView navigationView;
+
+    EditText search_announcements;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -135,6 +138,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_map_main);
         your_localization = findViewById(R.id.TextviewYourLocalizationTranslate);
         check_internet_connection = findViewById(R.id.check_internet_connection_map);
+        failed_location = findViewById(R.id.failed_location);
+
+        points_button = findViewById(R.id.points_button);
+        search_announcements = findViewById(R.id.editTextSearchAnnouncements);
 
         date = new Date();
 
@@ -143,6 +150,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if(activity_intent.getStringExtra("activity").equals("user")){
             add_button.setVisibility(View.GONE);
+        }
+        else{
+            points_button.setVisibility(View.GONE);
         }
 
 
@@ -560,6 +570,24 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             return;
         }
 
+        if(activity_intent.getStringExtra("activity").equals("user")){
+            points_button.setVisibility(View.GONE);
+        }
+
+        if(countryName.isEmpty()){
+            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+
+            if (addresses.size() > 0) {
+                countryName = addresses.get(0).getCountryName();
+            }
+        }
 
 
 
@@ -698,8 +726,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void searchAnnouncements(View view){
-        EditText search_announcements = findViewById(R.id.editTextSearchAnnouncements);
-
         search_announcements_str = search_announcements.getText().toString();
         search_announcements_str.toLowerCase();
 
@@ -735,7 +761,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
     public void exitAnnouncements(View view){
+        search_announcements.setText("");
         search_announcements_str = "";
+
+        if(activity_intent.getStringExtra("activity").equals("user")){
+            points_button.setVisibility(View.VISIBLE);
+        }
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
 
@@ -895,8 +926,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                             try {
                                 addressList = geocoder.getFromLocationName(eventLocalizationAll.get(i), 1);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+                            } catch (IllegalArgumentException | IOException e) {
+                                Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
                             }
 
                             address = addressList.get(0);

@@ -49,26 +49,16 @@ public class Points extends AppCompatActivity {
     private RewardedAd rewardedVideoAd;
     private Button rewardedVideoButton;
 
-    SharedPreferences prefs;
-    String lastExecutionDate;
+
 
     Date currentDate = Calendar.getInstance().getTime();
-    String formattedCurrentDate;
+    String formattedCurrentDate, login_date;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points);
-
-        prefs = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        lastExecutionDate = prefs.getString("lastExecutionDate", "");
-        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
-
-        rewardedVideoButton = findViewById(R.id.rewardedVideoButton);
-        if (formattedCurrentDate.equals(lastExecutionDate)) {
-            rewardedVideoButton.setVisibility(View.GONE);
-        }
 
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
@@ -90,7 +80,8 @@ public class Points extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     int pointsDB = snapshot.child("points").getValue(Integer.class);
-                    loadPoints(pointsDB);
+                    login_date = snapshot.child("last_login").getValue(String.class);
+                    loadPoints(pointsDB, login_date);
                 }
             }
 
@@ -110,9 +101,18 @@ public class Points extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    void loadPoints(int pointsDB) {
+    void loadPoints(int pointsDB, String login_date) {
         points += pointsDB;
         your_points.setText(your_points_str + points);
+
+        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+
+        rewardedVideoButton = findViewById(R.id.rewardedVideoButton);
+        if (formattedCurrentDate.equals(login_date)) {
+            rewardedVideoButton.setVisibility(View.GONE);
+        }
+
+
     }
 
     public void adReward(View view) {
@@ -175,9 +175,13 @@ public class Points extends AppCompatActivity {
                     int amount = rewardItem.getAmount();
                     String type = rewardItem.getType();
                     addPoints();
-                    prefs.edit().putString("lastExecutionDate", formattedCurrentDate).apply();
+
                     rewardedVideoButton.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), come_back.getText().toString(), Toast.LENGTH_LONG).show();
+
+                    formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+                    reference = database.getReference("Nick/" + nick + "/" + "last_login");
+                    reference.setValue(formattedCurrentDate);
                 }
             });
         } else {

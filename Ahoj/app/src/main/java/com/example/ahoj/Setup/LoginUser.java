@@ -82,7 +82,7 @@ public class LoginUser extends AppCompatActivity {
             return;
         }
 
-        reference = database.getReference().child("Nick/" + nick.getText().toString());
+        reference = database.getReference("Nick/" + nick.getText().toString());
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -111,12 +111,14 @@ public class LoginUser extends AppCompatActivity {
                 if(task.isSuccessful()){
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     if(user.isEmailVerified()){
-                        Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
-                        String authToken = "tutaj_miejsce_na_token_uwierzytelniający";
+                       /* Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
+                        String authToken = "";
                         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("auth_token", authToken);
                         editor.apply();
+
+                        */
 
                         getToken();
 

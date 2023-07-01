@@ -98,5 +98,10 @@
     <string name="come_back_tomorrow_for_next_reward">Wróć jutro po kolejną nagrodę</string>
     <string name="failed_to_fetch_location">Nie udało się pobrać lokalizacji</string>
     <string name="points_for_event">Dziękuję za dołączenie do wydarzenia! Zdobyłeś 2 punkty!</string>
+    <string name="points">punkty</string>
+    <string name="point">punkt</string>
+    <string name="points5">punktów</string>
+    <string name="downloading">Pobieranie danych</string>
+    <string name="leaderboard">Tablica wyników</string>
 
 </resources>

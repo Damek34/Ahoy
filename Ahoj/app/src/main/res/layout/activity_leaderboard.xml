@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Leaderboard">
+    <Button
+        android:id="@+id/buttonExitLeaderboard"
+        android:layout_width="47dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="21dp"
+        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@color/transparent"
+        android:onClick="exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginTop="132dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/leaderboardTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
+    </ScrollView>
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+
+        />
+
+    <TextView
+        android:id="@+id/point"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/point"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/points"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/points5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/points5"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/Leaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/leaderboard"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/downloadingLeaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/downloading"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

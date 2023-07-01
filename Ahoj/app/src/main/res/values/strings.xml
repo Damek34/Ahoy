@@ -89,6 +89,11 @@
     <string name="come_back_tomorrow_for_next_reward">Come back tomorrow for next reward</string>
     <string name="failed_to_fetch_location">Failed to fetch location</string>
     <string name="points_for_event">Thanks for joining the event! You have earned 2 points!</string>
+    <string name="points">points</string>
+    <string name="point">point</string>
+    <string name="points5">points</string>
+    <string name="downloading">Downloading data</string>
+    <string name="leaderboard">Leaderboard</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

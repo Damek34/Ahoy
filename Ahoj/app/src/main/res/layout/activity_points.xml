@@ -72,5 +72,15 @@
 
         />
 
+    <Button
+        android:id="@+id/leaderboard"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/transparent"
+        android:foreground="@android:drawable/ic_popup_reminder"
+        android:onClick="leaderboard"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="19dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

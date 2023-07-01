@@ -203,5 +203,9 @@ public class Points extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void leaderboard(View view){
+        startActivity(new Intent(Points.this, Leaderboard.class));
+    }
+
 
 }

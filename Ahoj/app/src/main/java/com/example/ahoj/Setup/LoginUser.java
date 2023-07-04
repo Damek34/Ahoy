@@ -111,25 +111,7 @@ public class LoginUser extends AppCompatActivity {
                 if(task.isSuccessful()){
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     if(user.isEmailVerified()){
-                       /* Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
-                        String authToken = "";
-                        SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("auth_token", authToken);
-                        editor.apply();
-
-                        */
-
                         getToken();
-
-                       /* Intent intent = new Intent(LoginUser.this, MapActivityMain.class);
-                        intent.putExtra("activity", "user");
-
-                        startActivity(intent);
-
-                        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
-
-                        */
                     }
                     else{
                         mAuth.signOut();
@@ -173,6 +155,14 @@ public class LoginUser extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    public void forgotPassword(View view){
+        Intent intent = new Intent(LoginUser.this, ForgotPassword.class);
+        intent.putExtra("activity", "user");
+
+        startActivity(intent);
     }
 
 }

@@ -103,5 +103,8 @@
     <string name="points5">punktów</string>
     <string name="downloading">Pobieranie danych</string>
     <string name="leaderboard">Tablica wyników</string>
+    <string name="i_forgot_password">Zapomniałem hasła</string>
+    <string name="reset_password">Zresetuj hasło</string>
+    <string name="link_to_change_your_password_has_been_sent_to_your_email_address">Link do zmiany hasła został wysłany na twój adres email</string>
 
 </resources>

@@ -85,22 +85,24 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </Toolbar>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:text="@string/login"
-        android:onClick="login"
-
-        android:textColor="@color/white"
+        android:layout_marginTop="50dp"
         android:background="@drawable/roundpinkbutton"
+
+        android:onClick="login"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:text="@string/login"
 
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotpassword" />
 
     <TextView
         android:id="@+id/EnterEmail"
@@ -164,6 +166,26 @@
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/forgotpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="30dp"
+
+        android:layout_marginEnd="131dp"
+        android:background="@drawable/roundpinkbutton"
+        android:onClick="forgotPassword"
+        android:paddingLeft="5dp"
+
+        android:paddingRight="5dp"
+        android:text="@string/i_forgot_password"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

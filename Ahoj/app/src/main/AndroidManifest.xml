@@ -18,6 +18,9 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".Setup.ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".Leaderboard"
             android:exported="false" />
         <activity

@@ -79,9 +79,6 @@ public class Login extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
                 if (snapshot.exists() && snapshot.child(finalModifiedEmail).exists()) {
                     login();
                 } else {
@@ -132,5 +129,12 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void forgotPassword(View view){
+        Intent intent = new Intent(Login.this, ForgotPassword.class);
+        intent.putExtra("activity", "main");
+
+        startActivity(intent);
     }
 }

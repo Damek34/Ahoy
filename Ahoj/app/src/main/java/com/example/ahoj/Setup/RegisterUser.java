@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.ahoj.OnlyJava.Setup.RegisterInfo;
 import com.example.ahoj.OnlyJava.UserInfo;
 import com.example.ahoj.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -142,6 +143,19 @@ public class RegisterUser extends AppCompatActivity {
 
 
                                 verify.setVisibility(View.VISIBLE);
+
+                                reference = database.getReference("UserEmails");
+
+                                RegisterInfo registerInfo = new RegisterInfo(email);
+
+                                String modifiedEmail = email.replace(".", ",");
+                                modifiedEmail = modifiedEmail.replace("#", "_");
+                                modifiedEmail = modifiedEmail.replace("$", "-");
+                                modifiedEmail = modifiedEmail.replace("[", "(");
+                                modifiedEmail = modifiedEmail.replace("]", ")");
+
+                                reference.child(modifiedEmail).setValue(registerInfo);
+
 
                                 Date currentDate = Calendar.getInstance().getTime();
                                 String formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);

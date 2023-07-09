@@ -130,9 +130,6 @@ public class EventLocalizationPreview extends AppCompatActivity {
         intent.putExtra("duration", duration);
         intent.putExtra("additional", additional);
 
-
-
-
         startActivity(intent);
     }
 

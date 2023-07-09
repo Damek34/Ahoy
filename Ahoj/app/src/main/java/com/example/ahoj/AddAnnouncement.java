@@ -37,6 +37,8 @@ public class AddAnnouncement extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
+    Intent activity_intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,19 @@ public class AddAnnouncement extends AppCompatActivity {
 
         country.setAdapter(adapter);
         adapter.setDropDownViewResource(R.layout.custom_spinner);
+
+
+        activity_intent = getIntent();
+        String test_name = activity_intent.getStringExtra("company_name");
+
+        if(test_name != null){
+            announcement_company_name.setText(test_name);
+            announcement_desc.setText(activity_intent.getStringExtra("event_desc"));
+            announcement_duration.setText(activity_intent.getStringExtra("duration"));
+            announcement_additional.setText(activity_intent.getStringExtra("additional"));
+        }
+
+
     }
     public void exitAdd(View view) {
         startActivity(new Intent(AddAnnouncement.this, EventLocalVirtualAnnouncement.class));
@@ -139,6 +154,19 @@ public class AddAnnouncement extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void statute(View view){
+        Intent statue = new Intent(AddAnnouncement.this, Statute.class);
+
+        statue.putExtra("activity", "AddAnnouncement");
+        statue.putExtra("event_desc", announcement_desc.getText().toString());
+        statue.putExtra("company_name", announcement_company_name.getText().toString());
+        statue.putExtra("duration", announcement_duration.getText().toString());
+        statue.putExtra("additional", announcement_additional.getText().toString());
+
+        startActivity(statue);
     }
 
 }

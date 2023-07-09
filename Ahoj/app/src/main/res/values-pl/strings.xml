@@ -106,5 +106,48 @@
     <string name="i_forgot_password">Zapomniałem hasła</string>
     <string name="reset_password">Zresetuj hasło</string>
     <string name="link_to_change_your_password_has_been_sent_to_your_email_address">Link do zmiany hasła został wysłany na twój adres email</string>
+    <string name="terms_of_service">Regulamin</string>
+    <string name="terms_of_service_content">
+        1. Wstęp\n
+1.1. Niniejszy regulamin dotyczy korzystania z aplikacji "Ahoy" udostępnionej przez Ahoy oraz wszelkich powiązanych usług.\n
+1.2. Korzystając z Aplikacji, akceptujesz niniejszy regulamin. Jeśli nie zgadzasz się na jego warunki, prosimy nie korzystaj z Aplikacji.\n
+\n
+2. Opis Aplikacji\n
+2.1. Aplikacja umożliwia użytkownikom dodawanie własnych wydarzeń lub ogłoszeń do mapy.\n
+2.2. Użytkownikom zabrania się podawania informacji o lokalizacji, która nie istnieje lub nie jest faktycznym adresem firmy.\n
+2.3. Udostępniane treści nie powinny zawierać wulgaryzmów ani obraźliwych wyrażeń.\n
+2.4. Zwracamy uwagę, że czas trwania wydarzenia liczony jest od teraz, przez co wydarzenie może się nie pojawić w Aplikacji, jeśli nie zostało jeszcze zatwierdzone przez moderatora. Moderator nie pracuje ponad normalne godziny pracy (czasu polskiego).\n
+\n
+3. Zachowanie użytkownika\n
+3.1. Zgadzasz się korzystać z Aplikacji tylko w celach zgodnych z prawem i szanujących prawa innych osób.\n
+3.2. Ponosisz pełną odpowiedzialność za dokładność i autentyczność przekazywanych informacji, w tym szczegółów dotyczących lokalizacji.\n
+3.3. Zgadzasz się nie angażować w żadne z poniższych zabronionych działań:\n
+a) Przesyłanie fałszywych lub wprowadzających w błąd informacji, w tym dotyczących nieistniejących lub fikcyjnych lokalizacji.\n
+b) Przesyłanie, przekazywanie lub udostępnianie treści zawierających obraźliwy, nieodpowiedni lub wulgarne wyrażenia.\n
+c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.\n
+\n
+4. Moderacja treści\n
+4.1. Aplikacja może korzystać z moderatorów do przeglądu i zatwierdzania dodawanych przez użytkowników wydarzeń i ogłoszeń.\n
+4.2. Ze względu na proces moderacji, może wystąpić opóźnienie w pojawianiu się wydarzeń lub ogłoszeń w Aplikacji.\n
+4.3. Moderatorzy pracują w ramach standardowych godzin pracy (czas polski), dlatego wydarzenia przesłane poza tymi godzinami mogą być opóźnione w procesie zatwierdzenia.\n
+\n
+5. Własność intelektualna\n
+5.1. Aplikacja oraz jej oryginalna zawartość, funkcje i funkcjonalność są własnością Ahoy i chronione są międzynarodowym prawem autorskim, znakami towarowymi, patentami, tajemnicami handlowymi oraz innymi prawami własności intelektualnej.\n
+5.2. Nie możesz modyfikować, reprodukować, rozpowszechniać, tworzyć utworów pochodnych ani w żaden sposób wykorzystywać jakiejkolwiek treści lub własności intelektualnej znajdującej się w Aplikacji bez wcześniejszej pisemnej zgody Ahoy.\n
+\n
+6. Prywatność\n
+6.1. Ahoy szanuje Twoją prywatność i postępuje zgodnie z zasadami opisanymi w Polityce Prywatności. Korzystając z Aplikacji, wyrażasz zgodę na gromadzenie, przechowywanie i wykorzystywanie Twoich danych osobowych zgodnie z Polityką Prywatności.\n
+\n
+7. Ograniczenie odpowiedzialności\n
+7.1. W zakresie dozwolonym przez obowiązujące prawo, Ahoy nie ponosi odpowiedzialności za żadne pośrednie, przypadkowe, szczególne, następcze lub karygodne szkody ani za utratę zysków lub przychodów, bez względu na to, czy zostały poniesione bezpośrednio czy pośrednio, ani za utratę danych, korzystanie, dobre imię lub inne niematerialne straty wynikające z dostępu do Aplikacji lub jej użytkowania.\n
+\n
+8. Zakończenie\n
+8.1. Ahoy może natychmiast zakończyć lub zawiesić Twoje prawo dostępu do Aplikacji bez uprzedniego powiadomienia lub odpowiedzialności z jakiejkolwiek przyczyny, w tym w przypadku naruszenia niniejszego regulaminu.\n
+8.2. Po zakończeniu masz prawo natychmiastowego zaprzestania korzystania z Aplikacji.\n
+\n
+9. Diverse\n
+9.1. Niniejszy regulamin stanowi całość umowy między Tobą a Ahoy w zakresie korzystania z Aplikacji i zastępuje wszelkie wcześniejsze umowy.\n
+9.2. Niniejszy regulamin podlega prawu Polskiemu i jest interpretowany zgodnie z nim.\n
+9.3. Wszelkie spory wynikające z niniejszego regulaminu będą rozstrzygane przez sądy właściwe dla Jurysdykcji Polskiej.</string>
 
 </resources>

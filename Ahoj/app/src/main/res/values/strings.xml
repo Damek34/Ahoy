@@ -97,6 +97,50 @@
     <string name="i_forgot_password">I forgot password</string>
     <string name="reset_password">Reset password</string>
     <string name="link_to_change_your_password_has_been_sent_to_your_email_address">Link to change your password has been sent to your email address</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="terms_of_service_content">
+       1. Introduction\n
+1.1. These Terms of Service govern your use of the "Ahoy" application provided by Ahoy, and any related services.\n
+1.2. By accessing or using the App, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.\n
+\n
+2. Description of the App\n
+2.1. The App allows users to add their own events or announcements to the map, as described above.\n
+2.2. Users are prohibited from providing location information that does not exist or is not the actual address of a business.\n
+2.3. Content shared through the App should not include any profanity or offensive language.\n
+2.4. Please note that the duration of events is counted from the current time, and an event may not appear in the App if it has not been approved by a moderator. The moderator\'s working hours are not extended beyond regular business hours (Polish time).\n
+\n
+3. User Conduct\n
+3.1. You agree to use the App only for lawful purposes and in a manner that respects the rights of others.\n
+3.2. You are solely responsible for the accuracy and authenticity of the information you provide, including location details.\n
+3.3. You agree not to engage in any of the following prohibited activities:\n
+a) Submitting false or misleading information, including fake or non-existent locations.\n
+b) Uploading, transmitting, or sharing any content that contains offensive, obscene, or inappropriate language.\n
+c) Violating any applicable laws or regulations while using the App.\n
+\n
+4. Content Moderation\n
+4.1. The App may employ moderators to review and approve user-submitted events and announcements.\n
+4.2. Due to the moderation process, there may be a delay in the appearance of events or announcements within the App.\n
+4.3. The moderators\' working hours align with regular business hours (Polish time), and events submitted outside of these hours may experience delays in approval.\n
+\n
+5. Intellectual Property\n
+5.1. The App and its original content, features, and functionality are owned by Ahoy and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.\n
+5.2. You may not modify, reproduce, distribute, create derivative works or adaptations of, publicly display, or in any way exploit any of the content or intellectual property found in the App without the prior written consent of Ahoy.\n
+\n
+6. Privacy\n
+6.1. Ahoy respects your privacy and handles your personal information in accordance with its Privacy Policy. By using the App, you consent to the collection, storage, and use of your information as described in the Privacy Policy.\n
+\n
+7.Limitation of Liability\n
+7.1. To the fullest extent permitted by applicable law, Ahoy shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from your access to or use of the App.\n
+\n
+8. Termination\n
+8.1. Ahoy may terminate or suspend your access to the App immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms of Service.\n
+8.2. Upon termination, your right to use the App will cease immediately.\n
+\n
+9. Miscellaneous\n
+9.1. These Terms of Service constitute the entire agreement between you and Ahoy regarding the use of the App and supersede any prior agreements.\n
+9.2. These Terms of Service shall be governed by and construed in accordance with the laws of Poland.\n
+9.3. Any disputes arising out of or in connection with these Terms of Service shall be resolved by the courts located in Polish Jurisdiction.\n
+    </string>
 
 
     <string-array name="map_types_spinner" translatable="true">

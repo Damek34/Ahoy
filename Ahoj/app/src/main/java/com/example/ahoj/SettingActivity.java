@@ -116,4 +116,16 @@ public class SettingActivity extends AppCompatActivity {
 
         startActivity(new Intent(SettingActivity.this, LoadingScreen.class));
     }
+
+    public void statute(View view){
+        Intent intent1 = new Intent(SettingActivity.this, Statute.class);
+        if(intent.getStringExtra("activity").equals("main")){
+            intent1.putExtra("activity", "mainsettings");
+            startActivity(intent1);
+        }
+        else{
+            intent1.putExtra("activity", "usersettings");
+            startActivity(intent1);
+        }
+    }
 }

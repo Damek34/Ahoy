@@ -13,11 +13,11 @@ import android.widget.Toast;
 public class AddLocalEvent extends AppCompatActivity {
 
     int page = 1;
-    String nameV, descV, locationV, company_nameV, additionalV;
+    String nameV, descV, locationV, company_nameV, additionalV, durationStr;
     int durationV = 0;
 
     TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour;
-    EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional;
+    EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,21 @@ public class AddLocalEvent extends AppCompatActivity {
         must_have_localization = findViewById(R.id.textViewMustHaveLocalization);
         must_last_hour = findViewById(R.id.textViewMustLastAHour);
 
+
         event_name = findViewById(R.id.event_name);
         event_desc = findViewById(R.id.event_description);
         event_location = findViewById(R.id.event_location);
         event_company_name = findViewById(R.id.event_company_name);
         event_duration = findViewById(R.id.event_duration);
         event_additional = findViewById(R.id.event_additional_info);
+
+
+        editName = (EditText) findViewById(R.id.event_name);
+        description = (EditText) findViewById(R.id.event_description);
+        location = (EditText) findViewById(R.id.event_location);
+        company_name = (EditText) findViewById(R.id.event_company_name);
+        duration = (EditText) findViewById(R.id.event_duration);
+        additional = (EditText) findViewById(R.id.event_additional_info);
 
         Intent autoIntent = getIntent();
 
@@ -60,19 +69,14 @@ public class AddLocalEvent extends AppCompatActivity {
         boolean canBeAdded = true;
 
 
-        EditText editName = (EditText) findViewById(R.id.event_name);
-        EditText description = (EditText) findViewById(R.id.event_description);
-        EditText location = (EditText) findViewById(R.id.event_location);
-        EditText company_name = (EditText) findViewById(R.id.event_company_name);
-        EditText duration = (EditText) findViewById(R.id.event_duration);
-        EditText additional = (EditText) findViewById(R.id.event_additional_info);
+
 
         nameV = editName.getText().toString();
         descV = description.getText().toString();
         locationV = location.getText().toString();
         company_nameV = company_name.getText().toString();
         additionalV = additional.getText().toString();
-        String durationStr = duration.getText().toString();
+        durationStr = duration.getText().toString();
 
 
         if (nameV.trim().isEmpty()) {
@@ -108,11 +112,21 @@ public class AddLocalEvent extends AppCompatActivity {
 
             startActivity(intent);
 
-
         }
 
+    }
 
+    public void statute(View view){
+        Intent intent = new Intent(AddLocalEvent.this, Statute.class);
 
+        intent.putExtra("activity", "AddLocalEvent");
+        intent.putExtra("event_name", editName.getText().toString());
+        intent.putExtra("event_desc", description.getText().toString());
+        intent.putExtra("localization", location.getText().toString());
+        intent.putExtra("company_name", company_name.getText().toString());
+        intent.putExtra("duration", duration.getText().toString());
+        intent.putExtra("additional", additional.getText().toString());
 
+        startActivity(intent);
     }
 }

@@ -438,6 +438,8 @@
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="4dp" />
 
+
+
     <Button
         android:id="@+id/terms"
         android:layout_width="wrap_content"

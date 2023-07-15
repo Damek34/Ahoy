@@ -110,6 +110,8 @@ public class AddLocalEvent extends AppCompatActivity {
             intent.putExtra("duration", durationStr);
             intent.putExtra("additional", additionalV);
 
+
+
             startActivity(intent);
 
         }

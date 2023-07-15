@@ -44,12 +44,12 @@ import java.util.Locale;
 
 public class EventLocalizationPreview extends AppCompatActivity {
 
-    String event_name, location, desc, company_name, additional, duration, countryName;
+    String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str;
     Spinner countrySpinner;
 
     Toolbar toolbar;
 
-    TextView textviewCountry, add_announcement, check_internet_connection;
+    TextView textviewCountry, add_announcement, check_internet_connection, event_will_ends, check;
 
     Button btnokCountry;
 
@@ -63,6 +63,11 @@ public class EventLocalizationPreview extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
+    Date date;
+    Long millis;
+    String date_and_time;
+    Calendar calendar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,14 @@ public class EventLocalizationPreview extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarPreview);
         textviewCountry = findViewById(R.id.textViewEventCountry);
         btnokCountry = findViewById(R.id.buttonOkCountry);
+        event_will_ends = findViewById(R.id.event_will_ends);
+        check = findViewById(R.id.check);
+
+        event_will_ends_str = event_will_ends.getText().toString();
+
+
+
+
 
         add_announcement = findViewById(R.id.add_announcementPreview);
 
@@ -108,6 +121,18 @@ public class EventLocalizationPreview extends AppCompatActivity {
         countrySpinner.setAdapter(adapter);
         adapter.setDropDownViewResource(R.layout.custom_spinner);
 
+        date = new Date();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
+
+
+        calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.add(Calendar.HOUR, Integer.parseInt(duration));
+
+        event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
+                + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapPreviewFragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -157,9 +182,11 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         map.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
+        check.setVisibility(View.VISIBLE);
         countrySpinner.setVisibility(View.GONE);
         textviewCountry.setVisibility(View.GONE);
         btnokCountry.setVisibility(View.GONE);
+        event_will_ends.setVisibility(View.GONE);
 
 
         try {
@@ -186,15 +213,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
     }
 
     public void addEvent(View view){
-        Date date = new Date();
-        long millis = System.currentTimeMillis();
-        String date_and_time = date + " " + millis;
 
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        calendar.add(Calendar.HOUR, Integer.parseInt(duration));
 
         reference = database.getReference("Waiting");
 

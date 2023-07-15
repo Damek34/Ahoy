@@ -216,7 +216,7 @@
                 android:layout_width="288dp"
                 android:layout_height="63dp"
 
-                android:text="@string/how_long_should_event_be_active"
+                android:text="@string/how_long_should_announcement_be_active"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:visibility="visible"
@@ -370,6 +370,20 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="11dp"
         android:text="@string/check_internet_connection"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <TextView
+        android:id="@+id/announcement_will_ends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/announcement_will_ends"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

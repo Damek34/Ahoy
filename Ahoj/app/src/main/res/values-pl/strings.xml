@@ -149,5 +149,9 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
 9.1. Niniejszy regulamin stanowi całość umowy między Tobą a Ahoy w zakresie korzystania z Aplikacji i zastępuje wszelkie wcześniejsze umowy.\n
 9.2. Niniejszy regulamin podlega prawu Polskiemu i jest interpretowany zgodnie z nim.\n
 9.3. Wszelkie spory wynikające z niniejszego regulaminu będą rozstrzygane przez sądy właściwe dla Jurysdykcji Polskiej.</string>
+    <string name="event_will_ends">"Wydarzenie dobiegnie końca "</string>
+    <string name="announcement_will_ends">"Ogłoszenie dobiegnie końca "</string>
+    <string name="how_long_should_announcement_be_active">Jak długo ogłoszenie powinno być aktywne?</string>
+    <string name="check_if_location_is_correct">Sprawdź czy lokalizacja jest poprawna</string>
 
 </resources>

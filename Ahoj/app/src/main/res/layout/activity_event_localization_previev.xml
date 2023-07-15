@@ -5,6 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EventLocalizationPreview">
+
+    <TextView
+        android:id="@+id/check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/check_if_location_is_correct"
+        android:background="@color/teal_200"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 <LinearLayout
     android:id="@+id/mapPreview"
     android:layout_width="match_parent"
@@ -105,17 +120,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewEventCountry" />
 
-    <Button
-        android:id="@+id/buttonOkCountry"
+    <TextView
+        android:id="@+id/event_will_ends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:onClick="okCountry"
+        android:text="@string/event_will_ends"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="visible"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eventCountry"
-        app:layout_constraintVertical_bias="0.108" />
+        app:layout_constraintVertical_bias="0.064" />
+
+    <Button
+        android:id="@+id/buttonOkCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="okCountry"
+        android:text="@string/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_will_ends"
+        app:layout_constraintVertical_bias="0.251" />
+
     <TextView
         android:id="@+id/add_announcementPreview"
         android:layout_width="wrap_content"

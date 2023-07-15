@@ -29,7 +29,7 @@ import java.util.Locale;
 public class AddAnnouncement extends AppCompatActivity {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection;
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends;
 
     Spinner country;
     String countryName;
@@ -49,6 +49,7 @@ public class AddAnnouncement extends AppCompatActivity {
         announcement_company_name = findViewById(R.id.announcement_company_name);
         announcement_duration = findViewById(R.id.announcement_duration);
         announcement_additional = findViewById(R.id.announcement_additional_info);
+        announcement_will_ends = findViewById(R.id.announcement_will_ends);
 
         must_have_company = findViewById(R.id.textViewMustHaveCompanyName);
         must_have_desc = findViewById(R.id.textViewMustHaveDesc);
@@ -146,7 +147,8 @@ public class AddAnnouncement extends AppCompatActivity {
         AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName);
         reference.child(date_and_time).setValue(newAnnouncement);
 
-        Toast.makeText(this, add.getText().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, add.getText().toString() + ". " + announcement_will_ends.getText().toString() + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
+                + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) , Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);
         intent.putExtra("activity", "main");

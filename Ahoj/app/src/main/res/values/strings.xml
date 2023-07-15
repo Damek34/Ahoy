@@ -141,7 +141,10 @@ c) Violating any applicable laws or regulations while using the App.\n
 9.2. These Terms of Service shall be governed by and construed in accordance with the laws of Poland.\n
 9.3. Any disputes arising out of or in connection with these Terms of Service shall be resolved by the courts located in Polish Jurisdiction.\n
     </string>
-
+    <string name="event_will_ends">Event will ends </string>
+    <string name="announcement_will_ends">Event will ends </string>
+    <string name="how_long_should_announcement_be_active">How long should announcement be active?</string>
+    <string name="check_if_location_is_correct">Check if location is correct</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

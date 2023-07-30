@@ -73,16 +73,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
 
-    <TextView
-        android:id="@+id/activityEventEventAdditional"
+
+    <Toolbar
+        android:id="@+id/toolbaradditional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="14dp"
-        android:text="@string/additional_information"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/activityEventEventAdditional"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/additional_information"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/copy"
+                android:onClick="copy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </Toolbar>
+
+
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -114,6 +144,15 @@
         android:layout_height="wrap_content"
         android:text="@string/points_for_event"
         android:visibility="gone"
-
         />
+
+    <TextView
+        android:id="@+id/copied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copied"
+        android:visibility="gone"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

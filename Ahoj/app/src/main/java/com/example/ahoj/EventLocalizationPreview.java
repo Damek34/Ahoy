@@ -49,7 +49,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    TextView textviewCountry, add_announcement, check_internet_connection, event_will_ends, check;
+    TextView textviewCountry, add_announcement, check_internet_connection, event_will_ends, check, location_not_found;
 
     Button btnokCountry;
 
@@ -79,6 +79,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
         btnokCountry = findViewById(R.id.buttonOkCountry);
         event_will_ends = findViewById(R.id.event_will_ends);
         check = findViewById(R.id.check);
+        location_not_found = findViewById(R.id.location_not_found);
 
         event_will_ends_str = event_will_ends.getText().toString();
 
@@ -131,8 +132,16 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         calendar.add(Calendar.HOUR, Integer.parseInt(duration));
 
-        event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
-                + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+        if(calendar.get(Calendar.MINUTE) < 10){
+            event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
+                    + ", " + calendar.get(Calendar.HOUR) + ":" + "0" + calendar.get(Calendar.MINUTE));
+        }
+        else{
+            event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
+                    + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
+        }
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapPreviewFragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -180,6 +189,33 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
 
 
+        try {
+            addressList = geocoder.getFromLocationName(location, 1);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try{
+            address = addressList.get(0);
+        }
+        catch(IndexOutOfBoundsException e){
+            Intent intent = new Intent(EventLocalizationPreview.this, AddLocalEvent.class);
+
+            intent.putExtra("event_name", event_name);
+            intent.putExtra("event_desc", desc);
+            intent.putExtra("localization", location);
+            intent.putExtra("company_name", company_name);
+            intent.putExtra("duration", duration);
+            intent.putExtra("additional", additional);
+
+            startActivity(intent);
+
+            Toast.makeText(getApplicationContext(), location_not_found.getText().toString(), Toast.LENGTH_LONG).show();
+
+            return;
+        }
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
         map.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
         check.setVisibility(View.VISIBLE);
@@ -187,17 +223,6 @@ public class EventLocalizationPreview extends AppCompatActivity {
         textviewCountry.setVisibility(View.GONE);
         btnokCountry.setVisibility(View.GONE);
         event_will_ends.setVisibility(View.GONE);
-
-
-        try {
-            addressList = geocoder.getFromLocationName(location, 1);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        address = addressList.get(0);
-        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
 
         marker = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(event_name)).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin)));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);

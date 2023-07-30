@@ -432,7 +432,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                       //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
                         //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
-                        eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        if(eventDateV.get(markerIndex).getMinutes() < 10){
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + "0" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        else{
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
                        // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
                         eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
                         eventActivity.putExtra("Country", countryName);

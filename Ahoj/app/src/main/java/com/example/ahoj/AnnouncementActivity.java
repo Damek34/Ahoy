@@ -3,10 +3,15 @@ package com.example.ahoj;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -28,13 +33,15 @@ public class AnnouncementActivity extends AppCompatActivity {
     String user_or_main;
     String data_and_time, company_name, country;
 
-    TextView company, desc, duration, additional;
+    TextView company, desc, duration, additional, copied;
     String descStr, additionalStr, descCopy, durationCopy, additionalCopy;
     Date durationDate;
     AdView adView;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
+
+    Toolbar toolbaradditional;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,9 @@ public class AnnouncementActivity extends AppCompatActivity {
         descCopy = desc.getText().toString();
         durationCopy = duration.getText().toString();
         additionalCopy = additional.getText().toString();
+
+        toolbaradditional = findViewById(R.id.toolbaradditional);
+        copied = findViewById(R.id.copied);
 
 
 
@@ -91,11 +101,17 @@ public class AnnouncementActivity extends AppCompatActivity {
 
                     desc.setText(descCopy + " " + descStr);
                     additional.setText(additionalCopy + " " + additionalStr);
-                    duration.setText(durationCopy + " " +  durationDate.getHours() + ":" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+
+                    if(durationDate.getMinutes() < 10){
+                        duration.setText(durationCopy + " " +  durationDate.getHours() + ":" + "0" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                    }
+                    else{
+                        duration.setText(durationCopy + " " +  durationDate.getHours() + ":" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                    }
 
 
                     if(additionalStr.trim().isEmpty()){
-                        additional.setVisibility(View.GONE);
+                        toolbaradditional.setVisibility(View.GONE);
                     }
 
 
@@ -111,11 +127,14 @@ public class AnnouncementActivity extends AppCompatActivity {
         });
 
 
+    }
 
+    public void copy(View view){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", additionalStr);
+        clipboard.setPrimaryClip(clip);
 
-
-
-
+        Toast.makeText(getApplicationContext(), copied.getText().toString(), Toast.LENGTH_LONG).show();
     }
 
     public void exitAnnouncement(View view){
@@ -131,4 +150,6 @@ public class AnnouncementActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

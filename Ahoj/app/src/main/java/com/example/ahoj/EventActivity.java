@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -28,13 +31,14 @@ public class EventActivity extends AppCompatActivity {
     AdView adview;
 
     String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick;
-    TextView event_company, event_desc, event_additional, thanks_for_joining;
+    TextView event_company, event_desc, event_additional, thanks_for_joining, copied;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
     SharedPreferences sharedPreferences;
 
     Intent intent;
+    Toolbar toolbaradditional;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -52,6 +56,9 @@ public class EventActivity extends AppCompatActivity {
         event_company = (TextView) findViewById(R.id.activityEventEventCompanyName);
         event_desc = (TextView) findViewById(R.id.activityEventEventDescription);
         event_additional = (TextView) findViewById(R.id.activityEventEventAdditional);
+
+        toolbaradditional = findViewById(R.id.toolbaradditional);
+        copied = findViewById(R.id.copied);
 
 
         date_and_time = getIntent().getStringExtra("DateAndTime");
@@ -104,9 +111,11 @@ public class EventActivity extends AppCompatActivity {
 
         if(!additional.trim().isEmpty() ){
             event_additional.setText(event_additional.getText() + " " + additional);
+
         }
         else{
-            event_additional.setVisibility(View.GONE);
+           // event_additional.setVisibility(View.GONE);
+            toolbaradditional.setVisibility(View.GONE);
         }
 
         if(intent.getStringExtra("activity").equals("user")){
@@ -162,6 +171,13 @@ public class EventActivity extends AppCompatActivity {
 
     public void report(View view){
         //todo
+    }
+    public void copy(View view){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", additional);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(getApplicationContext(), copied.getText().toString(), Toast.LENGTH_LONG).show();
     }
 
 

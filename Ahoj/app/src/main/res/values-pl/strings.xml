@@ -153,5 +153,8 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
     <string name="announcement_will_ends">"Ogłoszenie dobiegnie końca "</string>
     <string name="how_long_should_announcement_be_active">Jak długo ogłoszenie powinno być aktywne?</string>
     <string name="check_if_location_is_correct">Sprawdź czy lokalizacja jest poprawna</string>
+    <string name="location_not_found">Nie znaleziono lokalizacji</string>
+    <string name="copy">Kopiuj</string>
+    <string name="copied">Skopiowano!</string>
 
 </resources>

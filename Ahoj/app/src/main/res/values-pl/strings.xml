@@ -156,5 +156,7 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
     <string name="location_not_found">Nie znaleziono lokalizacji</string>
     <string name="copy">Kopiuj</string>
     <string name="copied">Skopiowano!</string>
+    <string name="app_version_is_not_actual">Wersja aplikacji nie jest aktualna</string>
+    <string name="please_update_application">Proszę zaktualizować aplikację.</string>
 
 </resources>

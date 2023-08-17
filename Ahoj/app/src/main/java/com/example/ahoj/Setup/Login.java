@@ -3,7 +3,9 @@ package com.example.ahoj.Setup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -36,6 +38,9 @@ public class Login extends AppCompatActivity {
 
     Intent activity_intent;
 
+    private SharedPreferences sharedPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,8 @@ public class Login extends AppCompatActivity {
         fail = findViewById(R.id.Fail);
         notVerified = findViewById(R.id.notverified);
         not_exist = findViewById(R.id.accnotexist);
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
 
     public void login(View view) {
@@ -108,6 +115,10 @@ public class Login extends AppCompatActivity {
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     if(user.isEmailVerified()){
                         Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("email", email.getText().toString());
+                        editor.apply();
 
                         Intent intent = new Intent(Login.this, MapActivityMain.class);
                         intent.putExtra("activity", "main");

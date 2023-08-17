@@ -158,5 +158,13 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
     <string name="copied">Skopiowano!</string>
     <string name="app_version_is_not_actual">Wersja aplikacji nie jest aktualna</string>
     <string name="please_update_application">Proszę zaktualizować aplikację.</string>
+    <string name="there_is_no_announcements">Brak ogłoszeń do załadowania</string>
+    <string name="you_already_created_event">Już stworzyłeś wydarzenie. Usuń bieżące wydarzenie, jeżeli chcesz stworzyć nowe.</string>
+    <string name="you_already_created_announcement">Już stworzyłeś ogłoszenie. Usuń bieżące ogłoszenie, jeżeli chcesz stworzyć nowe.</string>
+    <string name="event">Wydarzenie</string>
+    <string name="manage">Zarządzaj</string>
+    <string name="delete">Usuń</string>
+    <string name="you_dont_have_any_event">Nie masz żadnego wydarzenia</string>
+    <string name="you_dont_have_any_announcement">Nie masz żadnego ogłoszenia</string>
 
 </resources>

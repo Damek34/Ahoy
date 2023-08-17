@@ -1,144 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventLocalizationPreview">
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:text="@string/check_if_location_is_correct"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/TextviewYourLocalizationTranslate"
+        android:text="@string/your_localization"
+        android:visibility="gone"
+        >
 
-
-    <Toolbar
-        android:id="@+id/toolbarPreview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:backgroundTint="@color/light_grey"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:titleMargin="0dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="70dp"
-                android:text="@string/ok"
-                android:onClick="addEvent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:text="@string/cancel"
-                android:onClick="cancel"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </Toolbar>
-
+    </TextView>
 
     <TextView
-        android:id="@+id/textViewEventCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/country_name"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:visibility="gone"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.351" />
-
-    <Spinner
-        android:id="@+id/eventCountry"
-        android:layout_width="168dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/light_grey"
-        android:ems="10"
-        android:hint="@string/country"
-        android:popupBackground="@color/light_grey"
-        android:spinnerMode="dropdown"
-        android:textSize="34sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEventCountry" />
-
-    <TextView
-        android:id="@+id/event_will_ends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/event_will_ends"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:visibility="gone"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventCountry"
-        app:layout_constraintVertical_bias="0.064" />
-
-    <Button
-        android:id="@+id/buttonOkCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="okCountry"
-        android:text="@string/ok"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_will_ends"
-        app:layout_constraintVertical_bias="0.251" />
-
-    <TextView
-        android:id="@+id/add_announcementPreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/your_application_is_being_reviewed"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/check_internet_connection"
+        android:id="@+id/check_internet_connection_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
@@ -147,4 +26,298 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/failed_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/failed_to_fetch_location"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Toolbar
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/round"
+            android:layout_marginTop="5dp"
+            android:onClick="openSearch"
+
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <SearchView
+                android:id="@+id/searchLocalization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="@string/search_localizations"
+                android:textColor="@color/light_grey"
+
+
+
+                >
+
+            </SearchView>
+        </Toolbar>
+
+        <Button
+            android:id="@+id/close"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            android:foreground="@android:drawable/ic_menu_rotate"
+            android:onClick="close"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Button>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/AhoyAnnouncements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="83dp"
+                    android:onClick="ahoyAnnouncements"
+                    android:text="@string/ahoy_announcements"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editTextSearchAnnouncements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="140dp"
+                    android:visibility="visible"
+                    android:hint="@string/search_announcements"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+
+                <TextView
+                    android:id="@+id/thereisnoannouncements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/there_is_no_announcements"
+                    android:textSize="24sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/scrollView2"
+                    app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+
+                <Button
+                    android:id="@+id/search_announcements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search"
+                    android:onClick="searchAnnouncements"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements">
+
+                </Button>
+
+                <ScrollView
+                    android:id="@+id/scrollView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:isScrollContainer="false"
+                    app:layout_constraintBottom_toTopOf="@+id/adView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/menuLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+
+                    </LinearLayout>
+                </ScrollView>
+
+                <Button
+                    android:id="@+id/buttonExitMenu"
+                    android:layout_width="47dp"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="21dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+                    android:onClick="exitMenu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/buttonExitAnnouncements"
+                    android:layout_width="47dp"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="21dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+                    android:onClick="exitAnnouncements"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <Button
+                    android:id="@+id/settingsButton"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="227dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_preferences"
+                    android:gravity="center"
+                    android:onClick="settings"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <Button
+                    android:id="@+id/announcementsButton"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_menu_edit"
+                    android:gravity="center"
+                    android:onClick="announcements"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/points_button"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_lock_lock"
+                    android:onClick="pointsActivity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
+
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.navigation.NavigationView>
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+
+            >
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:layout_gravity="center"
+                >
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/transparent"
+                    android:foreground="@drawable/ahoymenu"
+                    android:gravity="center"
+                    android:onClick="menu">
+
+                </Button>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center"
+                    android:text="@string/scan"
+                    android:onClick="scan"
+                    android:textSize="18sp">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/addButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:foreground="@android:drawable/ic_input_add"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:onClick="add"
+                    >
+
+                </Button>
+
+
+            </GridLayout>
+
+        </Toolbar>
+        />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

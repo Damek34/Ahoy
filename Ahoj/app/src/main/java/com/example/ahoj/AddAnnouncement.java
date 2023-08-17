@@ -2,7 +2,9 @@ package com.example.ahoj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.ahoj.OnlyJava.AddAnnouncementInfo;
 import com.example.ahoj.OnlyJava.AddEventInfo;
+import com.example.ahoj.OnlyJava.CompanyAnnouncement;
+import com.example.ahoj.OnlyJava.CompanyEvent;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,6 +42,8 @@ public class AddAnnouncement extends AppCompatActivity {
     DatabaseReference reference;
 
     Intent activity_intent;
+
+
 
 
     @Override
@@ -140,11 +146,17 @@ public class AddAnnouncement extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+       // calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+        calendar.add(Calendar.SECOND, Integer.parseInt(announcement_duration.getText().toString()));
+
+
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
 
         reference = database.getReference("WaitingAnnouncements");
 
-        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName);
+        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, savedEmail);
         reference.child(date_and_time).setValue(newAnnouncement);
 
 
@@ -157,6 +169,19 @@ public class AddAnnouncement extends AppCompatActivity {
                     + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) , Toast.LENGTH_LONG).show();
         }
 
+
+        String modifiedEmail = savedEmail.replace(".", ",");
+        modifiedEmail = modifiedEmail.replace("#", "_");
+        modifiedEmail = modifiedEmail.replace("$", "-");
+        modifiedEmail = modifiedEmail.replace("[", "(");
+        modifiedEmail = modifiedEmail.replace("]", ")");
+
+
+
+        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+        CompanyAnnouncement companyAnnouncement = new CompanyAnnouncement(date_and_time, calendar.getTime(), countryName);
+        reference.child("CompanyAnnouncement").setValue(companyAnnouncement);
 
 
         Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);

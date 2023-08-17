@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.ahoj.OnlyJava.AddEventInfo;
+import com.example.ahoj.OnlyJava.CompanyEvent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -131,6 +133,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
         calendar.setTime(date);
 
         calendar.add(Calendar.HOUR, Integer.parseInt(duration));
+        //calendar.add(Calendar.SECOND, Integer.parseInt(duration));
 
         if(calendar.get(Calendar.MINUTE) < 10){
             event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
@@ -238,14 +241,35 @@ public class EventLocalizationPreview extends AppCompatActivity {
     }
 
     public void addEvent(View view){
-
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
 
         reference = database.getReference("Waiting");
 
-        AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName);
+
+        AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
         reference.child(date_and_time).setValue(newEvent);
 
         Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
+
+
+        String modifiedEmail = savedEmail.replace(".", ",");
+        modifiedEmail = modifiedEmail.replace("#", "_");
+        modifiedEmail = modifiedEmail.replace("$", "-");
+        modifiedEmail = modifiedEmail.replace("[", "(");
+        modifiedEmail = modifiedEmail.replace("]", ")");
+
+
+
+        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+        CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
+        reference.child("CompanyEvent").setValue(companyEvent);
+
+
+
+
 
         Intent intent = new Intent(EventLocalizationPreview.this, MapActivityMain.class);
         intent.putExtra("activity", "main");

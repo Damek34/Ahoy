@@ -150,6 +150,14 @@ c) Violating any applicable laws or regulations while using the App.\n
     <string name="copied">Copied!</string>
     <string name="app_version_is_not_actual">App version is not actual</string>
     <string name="please_update_application">Please update application.</string>
+    <string name="there_is_no_announcements">There is no announcements to load</string>
+    <string name="you_already_created_event">You already created event. Delete current event if you wanna create new.</string>
+    <string name="you_already_created_announcement">You already created announcement. Delete current event if you wanna create new.</string>
+    <string name="event">Event</string>
+    <string name="manage">Manage</string>
+    <string name="delete">Delete</string>
+    <string name="you_dont_have_any_event">You don\'t have any event</string>
+    <string name="you_dont_have_any_announcement">You don\'t have any announcement</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

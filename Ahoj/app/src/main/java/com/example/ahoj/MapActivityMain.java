@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -56,6 +57,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,12 +104,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> eventCompanyNameV = new ArrayList<>();
     List<String> eventDateAndTimeV = new ArrayList<>();
     List<String> eventAdditionalV = new ArrayList<>();
+    List<String> eventOrganizerV = new ArrayList<>();
     List<Date> eventDateV = new ArrayList<>();
 
 
     List<String> announcement_company_nameList = new ArrayList<>();
     List<String> date_and_timeList = new ArrayList<>();
     List<String> date_and_timeList_remove = new ArrayList<>();
+    List<String> announcement_organizer_List_remove = new ArrayList<>();
 
 
     Date date;
@@ -122,7 +127,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     String countryName = "", search_announcements_str = "";
 
-    Button add_button, points_button;
+    Button add_button, points_button, manage_button;
 
     Intent activity_intent;
 
@@ -142,6 +147,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         points_button = findViewById(R.id.points_button);
         search_announcements = findViewById(R.id.editTextSearchAnnouncements);
+        manage_button = findViewById(R.id.manage_button);
 
         date = new Date();
 
@@ -153,6 +159,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
         else{
             points_button.setVisibility(View.GONE);
+            manage_button.setVisibility(View.VISIBLE);
         }
 
 
@@ -433,7 +440,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
                         //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
                         if(eventDateV.get(markerIndex).getMinutes() < 10){
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + "0" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" +  eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                         }
                         else{
                             eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
@@ -575,10 +582,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             return;
         }
 
-        if(activity_intent.getStringExtra("activity").equals("user")){
-            points_button.setVisibility(View.GONE);
-        }
-
         if(countryName.isEmpty()){
             geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
@@ -597,7 +600,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
-        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
+        Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements, manage;
+        TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
 
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
 
@@ -608,9 +612,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
         search_announcements = findViewById(R.id.search_announcements);
 
+        manage = findViewById(R.id.manage_button);
+
+
         exit_menu.setVisibility(View.GONE);
         settings.setVisibility(View.GONE);
         announcements.setVisibility(View.GONE);
+
+
+        points_button.setVisibility(View.GONE);
+        manage_button.setVisibility(View.GONE);
+
 
         exit_announcements.setVisibility(View.VISIBLE);
         ahoy_announcements.setVisibility(View.VISIBLE);
@@ -619,6 +631,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         search_announcements.setVisibility(View.VISIBLE);
 
 
+        manage.setVisibility(View.GONE);
+        points_button.setVisibility(View.GONE);
 
 
 
@@ -635,7 +649,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    //Date announcement_date_temp =  snapshot.child("time_and_date").getValue(Date.class);
                     Date announcement_date_temp =  snapshot.child("announcement_duration").getValue(Date.class);
 
 
@@ -649,6 +662,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         else{
                             countRemove[0]++;
                             date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
+                            announcement_organizer_List_remove.add(snapshot.child("organizer").getValue(String.class));
                         }
                     }
                     catch (NullPointerException e){
@@ -672,6 +686,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
 
+                }
+
+                if(count[0] == 0){
+                    thereisnoannouncements.setVisibility(View.VISIBLE);
                 }
 
 
@@ -716,6 +734,19 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 for(int i = 0; i < countRemove[0]; i++){
                     reference = FirebaseDatabase.getInstance().getReference("Announcement/" + countryName).child(date_and_timeList_remove.get(i));
                     reference.removeValue();
+
+                    String email = announcement_organizer_List_remove.get(i);
+
+                    String modifiedEmail = email.replace(".", ",");
+                    modifiedEmail = modifiedEmail.replace("#", "_");
+                    modifiedEmail = modifiedEmail.replace("$", "-");
+                    modifiedEmail = modifiedEmail.replace("[", "(");
+                    modifiedEmail = modifiedEmail.replace("]", ")");
+
+                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
+                    reference.removeValue();
+
+
 
                 }
 
@@ -771,12 +802,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if(activity_intent.getStringExtra("activity").equals("user")){
             points_button.setVisibility(View.VISIBLE);
+            manage_button.setVisibility(View.GONE);
+        }
+        else{
+            points_button.setVisibility(View.GONE);
+            manage_button.setVisibility(View.VISIBLE);
         }
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
-
+        TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+
 
         exit_menu = findViewById(R.id.buttonExitMenu);
         settings = findViewById(R.id.settingsButton);
@@ -794,6 +831,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         linearLayout.setVisibility(View.GONE);
         editTextSearchAnnouncements.setVisibility(View.GONE);
         search_announcements.setVisibility(View.GONE);
+        thereisnoannouncements.setVisibility(View.GONE);
+
+
 
 
 
@@ -809,6 +849,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void ahoyAnnouncements(View view){
         Intent intent = new Intent(MapActivityMain.this, AhoyAnnouncements.class);
+        if(activity_intent.getStringExtra("activity").equals("main")){
+            intent.putExtra("activity", "main");
+        }
+        else{
+            intent.putExtra("activity", "user");
+        }
+        startActivity(intent);
+    }
+
+
+    public void manageActivity(View view){
+        Intent intent = new Intent(MapActivityMain.this, Manage.class);
         if(activity_intent.getStringExtra("activity").equals("main")){
             intent.putExtra("activity", "main");
         }
@@ -884,6 +936,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
            // eventDescV.clear();
             eventLocalizationV.clear();
             eventLocalizationAll.clear();
+            eventOrganizerV.clear();
           //  eventCompanyNameV.clear();
             eventDateV.clear();
          //   eventDateAndTimeV.clear();
@@ -941,13 +994,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 String eventName = eventSnapshot.child("event_name").getValue(String.class);
                                 eventNameV.add(eventName);
 
-                                //String eventDescription = eventSnapshot.child("event_description").getValue(String.class);
-                              //  eventDescV.add(eventDescription);
-
                                 eventLocalizationV.add(eventLocalizationAll.get(i));
 
-                             //   String eventCompanyName = eventSnapshot.child("event_company_name").getValue(String.class);
-                               // eventCompanyNameV.add(eventCompanyName);
 
                                 Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
                                 eventDateV.add(eventDuration);
@@ -955,8 +1003,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
                                 eventDateAndTimeV.add(eventDateTime);
 
-                              //  String eventAdditional = eventSnapshot.child("event_additional").getValue(String.class);
-                              //  eventAdditionalV.add(eventAdditional);
+                                String eventOrganizer = eventSnapshot.child("organizer").getValue(String.class);
+                                eventOrganizerV.add(eventOrganizer);
                                 near_events_number++;
 
                             }
@@ -977,6 +1025,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 String ref = eventDateAndTimeV.get(j);
 
                                 reference = FirebaseDatabase.getInstance().getReference("Event/" + finalCountryName).child(ref);
+                                reference.removeValue();
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                String email = eventOrganizerV.get(j);
+
+                                String modifiedEmail = email.replace(".", ",");
+                                modifiedEmail = modifiedEmail.replace("#", "_");
+                                modifiedEmail = modifiedEmail.replace("$", "-");
+                                modifiedEmail = modifiedEmail.replace("[", "(");
+                                modifiedEmail = modifiedEmail.replace("]", ")");
+
+                                reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
                                 reference.removeValue();
 
                             }

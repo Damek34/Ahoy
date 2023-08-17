@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ahoj.Setup.setup;
 import com.google.firebase.database.DataSnapshot;
@@ -83,6 +84,12 @@ public class LoadingScreen extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("auth_token", null);
 
+         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+         SharedPreferences.Editor editor = sharedPreferences.edit();
+         editor.putString("email", "");
+         editor.apply();
+
         if (authToken != null) {
             Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
             intent.putExtra("activity", "user");
@@ -102,5 +109,10 @@ public class LoadingScreen extends AppCompatActivity {
                 }
             }, 1500);
         }
+
+
+
+
+
     }
 }

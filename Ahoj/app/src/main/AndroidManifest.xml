@@ -18,6 +18,15 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".ManageAnnouncement"
+            android:exported="false" />
+        <activity
+            android:name=".ManageEvent"
+            android:exported="false" />
+        <activity
+            android:name=".Manage"
+            android:exported="false" />
+        <activity
             android:name=".Statute"
             android:exported="false" />
         <activity
@@ -45,8 +54,7 @@
             android:name=".AddAnnouncement"
             android:exported="false"
             android:isScrollContainer="false"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".EventLocalizationPreview"
             android:exported="false" />
@@ -75,9 +83,9 @@
         <activity
             android:name=".AddLocalEvent"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:isScrollContainer="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".EnableInternetConnection"
             android:exported="false"
@@ -95,7 +103,6 @@
             android:exported="false"
             android:isScrollContainer="false"
             android:windowSoftInputMode="adjustPan" />
-            android:screenOrientation="portrait"
         <activity
             android:name=".LoadingScreen"
             android:exported="false"

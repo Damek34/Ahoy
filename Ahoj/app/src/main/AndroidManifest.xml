@@ -18,6 +18,12 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name=".ManageSocialAnnouncement"
+            android:exported="false" />
+        <activity
+            android:name=".ManageSocialEvent"
+            android:exported="false" />
+        <activity
             android:name=".ManageAnnouncement"
             android:exported="false" />
         <activity

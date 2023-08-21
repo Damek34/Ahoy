@@ -42,12 +42,14 @@ public class AnnouncementActivity extends AppCompatActivity {
     DatabaseReference reference;
 
     Toolbar toolbaradditional;
+    Intent social_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
         intent = getIntent();
+        social_intent = getIntent();
 
         data_and_time = intent.getStringExtra("id");
         company_name = intent.getStringExtra("company");
@@ -83,8 +85,12 @@ public class AnnouncementActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-
-        reference = database.getReference("Announcement/" + country + "/" + data_and_time);
+        if(social_intent.getStringExtra("isSocial").equals("true")){
+            reference = database.getReference("SocialAnnouncement/" + country + "/" + data_and_time);
+        }
+        else{
+            reference = database.getReference("Announcement/" + country + "/" + data_and_time);
+        }
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

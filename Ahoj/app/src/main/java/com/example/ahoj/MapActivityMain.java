@@ -20,17 +20,22 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.SearchView;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -81,9 +86,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     Marker[] markersTab;
 
 
-
-
-
     int global_count = 0;
     List<String> localizations;
     Geocoder geocoder;
@@ -120,10 +122,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     boolean can_be_deleted_scan = true;
     boolean show_close_search_btn = false;
+    boolean social_mode = false;
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection, failed_location;
+    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView;
 
     String countryName = "", search_announcements_str = "";
 
@@ -135,6 +138,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     EditText search_announcements;
 
+    Switch socialSwitch;
+
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -149,32 +155,39 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         search_announcements = findViewById(R.id.editTextSearchAnnouncements);
         manage_button = findViewById(R.id.manage_button);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        social_mode = sharedPreferences.getBoolean("social_mode_key", false);
+        socialSwitch = findViewById(R.id.socialSwitch);
+        promotional_mode = findViewById(R.id.promotional_mode);
+        social_modeTextView = findViewById(R.id.social_mode);
+
+        if(social_mode){
+            socialSwitch.setChecked(true);
+        }
+
         date = new Date();
 
         add_button = findViewById(R.id.addButton);
         activity_intent = getIntent();
 
-        if(activity_intent.getStringExtra("activity").equals("user")){
+        if (activity_intent.getStringExtra("activity").equals("user")) {
             add_button.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             points_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
 
 
-
-        ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
 
-        if(!connected){
-            if(activity_intent.getStringExtra("activity").equals("user")){
+        if (!connected) {
+            if (activity_intent.getStringExtra("activity").equals("user")) {
                 Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
                 intent.putExtra("activity", "user");
                 startActivity(intent);
-            }
-            else{
+            } else {
                 Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
                 intent.putExtra("activity", "main");
                 startActivity(intent);
@@ -202,23 +215,22 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 assert addressList != null;
 
                 Address address = null;
-                try{
+                try {
                     address = addressList.get(0);
+                } catch (IndexOutOfBoundsException ignored) {
                 }
-                catch (IndexOutOfBoundsException ignored){}
 
                 LatLng latLng = null;
 
-                try{
+                try {
                     latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                } catch (NullPointerException ignored) {
                 }
-                catch (NullPointerException ignored){}
 
                 // mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 try {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-                }
-                catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     Toast.makeText(getApplicationContext(), "Nie odnaleziono takiego miejsca", Toast.LENGTH_LONG).show();
                 }
 
@@ -231,9 +243,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 return false;
             }
         });
-
-
-
 
 
         assert mapFragment != null;
@@ -253,8 +262,50 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         mMap.clear();
 
+        socialSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), social_modeTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+                    social_mode = true;
+                    mMap.clear();
+                    showMyLocation();
 
+                    announcement_company_nameList.clear();
+                    date_and_timeList.clear();
+                    date_and_timeList_remove.clear();
+                    announcement_organizer_List_remove.clear();
 
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("social_mode_key", social_mode);
+                    editor.apply();
+                    try {
+                        scanEvents();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), promotional_mode.getText().toString(), Toast.LENGTH_SHORT).show();
+                    social_mode = false;
+                    mMap.clear();
+                    showMyLocation();
+
+                    announcement_company_nameList.clear();
+                    date_and_timeList.clear();
+                    date_and_timeList_remove.clear();
+                    announcement_organizer_List_remove.clear();
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("social_mode_key", social_mode);
+                    editor.apply();
+                    try {
+                        scanEvents();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
 
 
         if (dbSettings.settingsDAO().getMapType() == 1) {
@@ -272,7 +323,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
 
-
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
@@ -286,14 +336,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         adview.loadAd(adRequest);
 
 
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
 
-
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //Criteria criteria = new Criteria();
         // String bestProvider = locationManager.getBestProvider(criteria, true);
@@ -301,16 +349,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         Location location = null;
-        try{
+        try {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
-        catch (java.lang.IllegalArgumentException e){
-            if(activity_intent.getStringExtra("activity").equals("user")){
+        } catch (java.lang.IllegalArgumentException e) {
+            if (activity_intent.getStringExtra("activity").equals("user")) {
                 Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                 intent.putExtra("activity", "user");
                 startActivity(intent);
-            }
-            else{
+            } else {
                 Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                 intent.putExtra("activity", "main");
                 startActivity(intent);
@@ -319,19 +365,16 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
 
-
-
         if (location == null) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if(location == null){
-                if(activity_intent.getStringExtra("activity").equals("user")){
+            if (location == null) {
+                if (activity_intent.getStringExtra("activity").equals("user")) {
                     Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                     intent.putExtra("activity", "user");
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                     intent.putExtra("activity", "main");
                     startActivity(intent);
@@ -343,7 +386,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
 
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -364,9 +406,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     }
                 }
             }, 1800);
-
-
-
 
 
         }
@@ -400,6 +439,42 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         markerOnClick();
 
 
+    }
+
+    void showMyLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        Location location = null;
+        try {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        } catch (java.lang.IllegalArgumentException e) {
+            if (activity_intent.getStringExtra("activity").equals("user")) {
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "user");
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "main");
+                startActivity(intent);
+                overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
+
+        assert marker != null;
+        current_lat = marker.getPosition().latitude;
+        current_lng = marker.getPosition().longitude;
     }
 
     public void scanEvents() throws IOException {
@@ -687,18 +762,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         final int[] countRemove = {0};
 
 
-
-        reference = database.getReference("Announcement/" + countryName);
+        if(social_mode){
+            reference = database.getReference("SocialAnnouncement/" + countryName);
+        }
+        else{
+            reference = database.getReference("Announcement/" + countryName);
+        }
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Date announcement_date_temp =  snapshot.child("announcement_duration").getValue(Date.class);
-
-
 
                     try {
                         if(date.before(announcement_date_temp)){
@@ -761,9 +836,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             Intent intent = new Intent(MapActivityMain.this, AnnouncementActivity.class);
                             if(activity_intent.getStringExtra("activity").equals("main")){
                                 intent.putExtra("activity", "main");
+                                if(social_mode){
+                                    intent.putExtra("isSocial", "true");
+                                }
+                                else{
+                                    intent.putExtra("isSocial", "false");
+                                }
                             }
                             else{
                                 intent.putExtra("activity", "user");
+                                if(social_mode){
+                                    intent.putExtra("isSocial", "true");
+                                }
+                                else{
+                                    intent.putExtra("isSocial", "false");
+                                }
                             }
                             startActivity(intent);
                             intent.putExtra("id", date_and_timeList.get(finalI1));
@@ -774,12 +861,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     });
                 }
-
-
-
-
                 for(int i = 0; i < countRemove[0]; i++){
-                    reference = FirebaseDatabase.getInstance().getReference("Announcement/" + countryName).child(date_and_timeList_remove.get(i));
+
+                    if(social_mode){
+                        reference = FirebaseDatabase.getInstance().getReference("SocialAnnouncement/" + countryName).child(date_and_timeList_remove.get(i));
+                    }
+                    else{
+                        reference = FirebaseDatabase.getInstance().getReference("Announcement/" + countryName).child(date_and_timeList_remove.get(i));
+                    }
+
                     reference.removeValue();
 
                     String email = announcement_organizer_List_remove.get(i);
@@ -790,11 +880,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     modifiedEmail = modifiedEmail.replace("[", "(");
                     modifiedEmail = modifiedEmail.replace("]", ")");
 
-                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
+                    if(social_mode){
+                        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialAnnouncement");
+                    }
+                    else{
+                        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
+                    }
                     reference.removeValue();
-
-
-
                 }
 
 
@@ -1011,7 +1103,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
 
-            reference = database.getReference("Event/" + countryName);
+            if(!social_mode){
+                reference = database.getReference("Event/" + countryName);
+            }
+            else{
+                reference = database.getReference("SocialEvent/" + countryName);
+            }
             String finalCountryName = countryName;
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 int count = 0;

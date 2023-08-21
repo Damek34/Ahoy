@@ -64,7 +64,9 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
                     return;
                 }
                 else{
-                    startActivity(new Intent(EventLocalVirtualAnnouncement.this, AddLocalEvent.class));
+                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddLocalEvent.class);
+                    intent.putExtra("isSocial", "false");
+                    startActivity(intent);
                 }
             }
 
@@ -77,18 +79,69 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
 
 
     }
+
+    public void localSocial(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("CompanySocialEvent").exists()){
+                    Toast.makeText(getApplicationContext(), you_already_created_event.getText().toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else{
+                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddLocalEvent.class);
+                    intent.putExtra("isSocial", "true");
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void socialAnnouncement(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("CompanySocialAnnouncement").exists()){
+                    Toast.makeText(getApplicationContext(), you_already_created_announcement.getText().toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else{
+                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddAnnouncement.class);
+                    intent.putExtra("isSocial", "true");
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void announcement(View view){
         reference = database.getReference("CompanyEmails/" + modifiedEmail);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("CompanyEvent").exists()){
+                if(snapshot.child("CompanyAnnouncement").exists()){
                     Toast.makeText(getApplicationContext(), you_already_created_announcement.getText().toString(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 else{
-                    startActivity(new Intent(EventLocalVirtualAnnouncement.this, AddAnnouncement.class));
+                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddAnnouncement.class);
+                    intent.putExtra("isSocial", "false");
+                    startActivity(intent);
                 }
             }
 

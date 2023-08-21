@@ -16,6 +16,30 @@
 
     </TextView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        >
+
+        <Switch
+            android:id="@+id/socialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="134dp"
+            android:layout_marginBottom="570dp"
+            android:background="@drawable/round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        </Switch>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <TextView
         android:id="@+id/check_internet_connection_map"
         android:layout_width="wrap_content"
@@ -99,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -122,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="140dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:hint="@string/search_announcements"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +161,7 @@
                     android:text="@string/there_is_no_announcements"
                     android:textSize="24sp"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/scrollView2"
@@ -148,12 +173,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/search"
                     android:onClick="searchAnnouncements"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements">
 
                 </Button>
+
 
                 <ScrollView
                     android:id="@+id/scrollView2"
@@ -235,8 +261,21 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginBottom="64dp"
                     android:background="@color/transparent"
-                    android:foreground="@android:drawable/ic_lock_lock"
+                    android:foreground="@android:drawable/star_big_on"
                     android:onClick="pointsActivity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
+
+                <Button
+                    android:id="@+id/manage_button"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@color/transparent"
+                    android:foreground="@android:drawable/ic_lock_lock"
+                    android:onClick="manageActivity"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
 
@@ -318,6 +357,10 @@
 
 
     </LinearLayout>
+
+
+
+
 
 
 </RelativeLayout>

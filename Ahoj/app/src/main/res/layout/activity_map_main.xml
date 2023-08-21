@@ -17,6 +17,29 @@
     </TextView>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/promotional_mode"
+        android:text="@string/promotional_mode"
+        android:visibility="gone"
+        >
+
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/social_mode"
+        android:text="@string/social_mode"
+        android:visibility="gone"
+        >
+
+    </TextView>
+
+
+
+
+    <TextView
         android:id="@+id/check_internet_connection_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,6 +73,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment">
 
     </fragment>
+
 
 
 
@@ -101,6 +125,31 @@
         </Button>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        >
+
+        <Switch
+            android:id="@+id/socialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="134dp"
+            android:layout_marginBottom="570dp"
+            android:background="@drawable/round_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        </Switch>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

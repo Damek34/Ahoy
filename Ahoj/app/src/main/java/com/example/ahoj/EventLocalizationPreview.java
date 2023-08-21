@@ -46,7 +46,7 @@ import java.util.Locale;
 
 public class EventLocalizationPreview extends AppCompatActivity {
 
-    String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str;
+    String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str, isSocial;
     Spinner countrySpinner;
 
     Toolbar toolbar;
@@ -70,11 +70,15 @@ public class EventLocalizationPreview extends AppCompatActivity {
     String date_and_time;
     Calendar calendar;
 
+    Intent social_intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_localization_previev);
+
+        social_intent = getIntent();
 
         toolbar = findViewById(R.id.toolbarPreview);
         textviewCountry = findViewById(R.id.textViewEventCountry);
@@ -85,7 +89,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         event_will_ends_str = event_will_ends.getText().toString();
 
-
+        isSocial = social_intent.getStringExtra("isSocial");
 
 
 
@@ -167,6 +171,10 @@ public class EventLocalizationPreview extends AppCompatActivity {
         intent.putExtra("duration", duration);
         intent.putExtra("additional", additional);
 
+        if(isSocial.equals("true")){
+            intent.putExtra("isSocial", "true");
+        }
+
         startActivity(intent);
     }
 
@@ -211,6 +219,10 @@ public class EventLocalizationPreview extends AppCompatActivity {
             intent.putExtra("duration", duration);
             intent.putExtra("additional", additional);
 
+            if(isSocial.equals("true")){
+                intent.putExtra("isSocial", "true");
+            }
+
             startActivity(intent);
 
             Toast.makeText(getApplicationContext(), location_not_found.getText().toString(), Toast.LENGTH_LONG).show();
@@ -245,27 +257,55 @@ public class EventLocalizationPreview extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String savedEmail = sharedPreferences.getString("email", "");
 
-        reference = database.getReference("Waiting");
+
+        if(isSocial.equals("false")){
+            reference = database.getReference("Waiting");
 
 
-        AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
-        reference.child(date_and_time).setValue(newEvent);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
+            reference.child(date_and_time).setValue(newEvent);
 
-        Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
-
-
-        String modifiedEmail = savedEmail.replace(".", ",");
-        modifiedEmail = modifiedEmail.replace("#", "_");
-        modifiedEmail = modifiedEmail.replace("$", "-");
-        modifiedEmail = modifiedEmail.replace("[", "(");
-        modifiedEmail = modifiedEmail.replace("]", ")");
+            Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
 
 
+            String modifiedEmail = savedEmail.replace(".", ",");
+            modifiedEmail = modifiedEmail.replace("#", "_");
+            modifiedEmail = modifiedEmail.replace("$", "-");
+            modifiedEmail = modifiedEmail.replace("[", "(");
+            modifiedEmail = modifiedEmail.replace("]", ")");
 
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
 
-        CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
-        reference.child("CompanyEvent").setValue(companyEvent);
+
+            reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+            CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
+            reference.child("CompanyEvent").setValue(companyEvent);
+        }
+        else{
+            reference = database.getReference("WaitingSocialEvents");
+
+
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
+            reference.child(date_and_time).setValue(newEvent);
+
+            Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
+
+
+            String modifiedEmail = savedEmail.replace(".", ",");
+            modifiedEmail = modifiedEmail.replace("#", "_");
+            modifiedEmail = modifiedEmail.replace("$", "-");
+            modifiedEmail = modifiedEmail.replace("[", "(");
+            modifiedEmail = modifiedEmail.replace("]", ")");
+
+
+
+            reference = database.getReference("CompanyEmails/" + modifiedEmail);
+
+            CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
+            reference.child("CompanySocialEvent").setValue(companyEvent);
+        }
+
+
 
 
 

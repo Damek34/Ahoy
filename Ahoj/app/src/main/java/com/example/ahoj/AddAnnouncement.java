@@ -43,13 +43,15 @@ public class AddAnnouncement extends AppCompatActivity {
 
     Intent activity_intent;
 
-
+    Intent social_intent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_announcement);
+
+        social_intent = getIntent();
 
         announcement_desc = findViewById(R.id.announcement_description);
         announcement_company_name = findViewById(R.id.announcement_company_name);
@@ -146,15 +148,21 @@ public class AddAnnouncement extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-       // calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
-        calendar.add(Calendar.SECOND, Integer.parseInt(announcement_duration.getText().toString()));
+        calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+        //calendar.add(Calendar.SECOND, Integer.parseInt(announcement_duration.getText().toString()));
 
 
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String savedEmail = sharedPreferences.getString("email", "");
 
-        reference = database.getReference("WaitingAnnouncements");
+        if(social_intent.getStringExtra("isSocial").equals("true")){
+            reference = database.getReference("WaitingSocialAnnouncements");
+        }
+        else{
+            reference = database.getReference("WaitingAnnouncements");
+        }
+
 
         AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, savedEmail);
         reference.child(date_and_time).setValue(newAnnouncement);
@@ -181,7 +189,13 @@ public class AddAnnouncement extends AppCompatActivity {
         reference = database.getReference("CompanyEmails/" + modifiedEmail);
 
         CompanyAnnouncement companyAnnouncement = new CompanyAnnouncement(date_and_time, calendar.getTime(), countryName);
-        reference.child("CompanyAnnouncement").setValue(companyAnnouncement);
+        if(social_intent.getStringExtra("isSocial").equals("true")){
+            reference.child("CompanySocialAnnouncement").setValue(companyAnnouncement);
+
+        }
+        else{
+            reference.child("CompanyAnnouncement").setValue(companyAnnouncement);
+        }
 
 
         Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);

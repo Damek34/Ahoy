@@ -56,6 +56,51 @@ public class Manage extends AppCompatActivity {
 
     }
 
+    public void socialEvent(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialEvent");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    date_and_time = snapshot.child("date_and_time").getValue(String.class);
+                    eventDuration = snapshot.child("duration").getValue(Date.class);
+                    country = snapshot.child("country").getValue(String.class);
+
+                    if (date.after(eventDuration)){
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("SocialEvent/" + country).child(date_and_time);
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("WaitingSocialEvents/" + date_and_time);
+                        reference.removeValue();
+
+                        Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(Manage.this, ManageSocialEvent.class);
+                    intent.putExtra("date_and_time", date_and_time);
+                    intent.putExtra("country", country);
+                    intent.putExtra("email", modifiedEmail);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
     public void event(View view){
         reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
 
@@ -77,7 +122,7 @@ public class Manage extends AppCompatActivity {
                         reference = FirebaseDatabase.getInstance().getReference("Waiting/" + date_and_time);
                         reference.removeValue();
 
-                        Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -88,7 +133,7 @@ public class Manage extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), you_dont_have_any_event.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -100,6 +145,50 @@ public class Manage extends AppCompatActivity {
         });
     }
 
+    public void socialAnnouncement(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialAnnouncement");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    date_and_time = snapshot.child("date_and_time").getValue(String.class);
+                    eventDuration = snapshot.child("duration").getValue(Date.class);
+                    country = snapshot.child("country").getValue(String.class);
+
+                    if (date.after(eventDuration)){
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("SocialAnnouncement/" + country).child(date_and_time);
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("WaitingSocialAnnouncements/" + date_and_time);
+                        reference.removeValue();
+
+                        Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(Manage.this, ManageSocialAnnouncement.class);
+                    intent.putExtra("date_and_time", date_and_time);
+                    intent.putExtra("country", country);
+                    intent.putExtra("email", modifiedEmail);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void announcement(View view){
         reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
@@ -123,7 +212,7 @@ public class Manage extends AppCompatActivity {
                         reference = FirebaseDatabase.getInstance().getReference("WaitingAnnouncements/" + date_and_time);
                         reference.removeValue();
 
-                        Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -134,7 +223,7 @@ public class Manage extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), you_dont_have_any_announcement.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
 
             }

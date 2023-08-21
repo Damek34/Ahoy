@@ -160,6 +160,12 @@ c) Violating any applicable laws or regulations while using the App.\n
     <string name="you_dont_have_any_announcement">You don\'t have any announcement</string>
     <string name="come_to_event_to_see_more_information">Come to event to see more information</string>
     <string name="deleted">Deleted</string>
+    <string name="local_event_with_promotion">Local event with promotion</string>
+    <string name="local_social_event">Local social event</string>
+    <string name="social_announcement">Social announcement</string>
+    <string name="announcement_with_promotion">Announcement with promotion</string>
+    <string name="social_mode">Social mode</string>
+    <string name="promotional_mode">Promotional mode</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

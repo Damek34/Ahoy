@@ -13,16 +13,21 @@ import android.widget.Toast;
 public class AddLocalEvent extends AppCompatActivity {
 
     int page = 1;
-    String nameV, descV, locationV, company_nameV, additionalV, durationStr;
+    String nameV, descV, locationV, company_nameV, additionalV, durationStr, isSocial = "false";
     int durationV = 0;
 
     TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour;
     EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        intent = getIntent();
+        isSocial = intent.getStringExtra("isSocial");
 
         must_have_name = findViewById(R.id.textViewMustHaveName);
         must_have_desc = findViewById(R.id.textViewMustHaveDesc);
@@ -110,6 +115,12 @@ public class AddLocalEvent extends AppCompatActivity {
             intent.putExtra("duration", durationStr);
             intent.putExtra("additional", additionalV);
 
+            if(isSocial.equals("true")){
+                intent.putExtra("isSocial", "true");
+            }
+            else{
+                intent.putExtra("isSocial", "false");
+            }
 
 
             startActivity(intent);

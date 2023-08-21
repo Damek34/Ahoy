@@ -168,5 +168,11 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
     <string name="you_dont_have_any_announcement">Nie masz żadnego ogłoszenia</string>
     <string name="come_to_event_to_see_more_information">Przyjdź na wydarzenie aby uzyskać więcej informacji</string>
     <string name="deleted">Usunięto</string>
+    <string name="local_event_with_promotion">Lokalne wydarzenie z promocją</string>
+    <string name="local_social_event">Lokalne wydarzenie społeczne</string>
+    <string name="social_announcement">Ogłoszenie społeczne</string>
+    <string name="announcement_with_promotion">Ogłoszenie promocyjne</string>
+    <string name="social_mode">Tryb społeczny</string>
+    <string name="promotional_mode">Tryb promocyjny</string>
 
 </resources>

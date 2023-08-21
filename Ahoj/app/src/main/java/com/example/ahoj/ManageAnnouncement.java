@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,7 @@ import java.util.Date;
 
 public class ManageAnnouncement extends AppCompatActivity {
 
-    TextView ends, company, desc, additional, countryTextView;
+    TextView ends, company, desc, additional, countryTextView, deleted;
     String date_and_time = "", country = "", announcementDescription = "", announcementCompanyName = "", announcementAdditional = "", email= "";
     Date announcementDuration;
 
@@ -46,6 +47,7 @@ public class ManageAnnouncement extends AppCompatActivity {
         desc = findViewById(R.id.activityAnnouncementDescription);
         additional = findViewById(R.id.activityAnnouncementAdditional);
         countryTextView = findViewById(R.id.activityAnnouncementCountry);
+        deleted = findViewById(R.id.deleted);
 
 
         countryTextView.setText(countryTextView.getText().toString() + ": " + country);
@@ -125,6 +127,8 @@ public class ManageAnnouncement extends AppCompatActivity {
         reference.removeValue();
         reference = database.getReference("CompanyEmails/" + email + "/CompanyAnnouncement");
         reference.removeValue();
+
+        Toast.makeText(getApplicationContext(), deleted.getText().toString(), Toast.LENGTH_LONG).show();
         startActivity(new Intent(ManageAnnouncement.this, Manage.class));
     }
 

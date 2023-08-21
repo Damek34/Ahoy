@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/roadmapbackground"
     tools:context=".EventActivity">
 
     <Button
@@ -25,6 +26,7 @@
         android:layout_marginTop="64dp"
         android:textSize="32sp"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +39,7 @@
         android:layout_marginTop="59dp"
         android:text="@string/ends_at"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
 
@@ -48,6 +51,7 @@
         android:layout_marginTop="14dp"
         android:text="@string/event_location"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
 
@@ -59,6 +63,7 @@
         android:layout_marginTop="14dp"
         android:text="@string/company_name"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
 
@@ -70,6 +75,7 @@
         android:layout_marginTop="14dp"
         android:text="@string/description"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
 
@@ -90,7 +96,7 @@
                 android:id="@+id/activityEventEventAdditional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/white"
                 android:text="@string/additional_information"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,14 +104,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/manage_event_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundpinkbutton"
                 android:text="@string/copy"
                 android:onClick="copy"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -113,6 +125,19 @@
     </Toolbar>
 
 
+    <TextView
+        android:id="@+id/come_to_event_to_see_more_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="105dp"
+        android:text="@string/come_to_event_to_see_more_information"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:flow_horizontalAlign="center"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -135,6 +160,7 @@
         android:layout_marginBottom="24dp"
         android:text="@string/report"
         android:onClick="report"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent" />
 

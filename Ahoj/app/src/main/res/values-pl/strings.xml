@@ -166,5 +166,7 @@ c) Naruszanie obowiązujących przepisów prawa podczas korzystania z Aplikacji.
     <string name="delete">Usuń</string>
     <string name="you_dont_have_any_event">Nie masz żadnego wydarzenia</string>
     <string name="you_dont_have_any_announcement">Nie masz żadnego ogłoszenia</string>
+    <string name="come_to_event_to_see_more_information">Przyjdź na wydarzenie aby uzyskać więcej informacji</string>
+    <string name="deleted">Usunięto</string>
 
 </resources>

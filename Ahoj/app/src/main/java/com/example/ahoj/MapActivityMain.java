@@ -325,6 +325,20 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
+            if(location == null){
+                if(activity_intent.getStringExtra("activity").equals("user")){
+                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                    intent.putExtra("activity", "user");
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                    intent.putExtra("activity", "main");
+                    startActivity(intent);
+                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                }
+            }
+
         }
 
         if (location != null) {
@@ -436,18 +450,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         int month = calendar.get(Calendar.MONTH) + 1;
 
                         eventActivity.putExtra("Name", eventNameV.get(markerIndex));
-                      //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
-                        //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
+
                         if(eventDateV.get(markerIndex).getMinutes() < 10){
                             eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" +  eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                         }
                         else{
                             eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                         }
-                       // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
                         eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
                         eventActivity.putExtra("Country", countryName);
+                        eventActivity.putExtra("isavailable", "true");
 
                         if(activity_intent.getStringExtra("activity").equals("user")){
                             eventActivity.putExtra("activity", "user");
@@ -459,7 +472,41 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                         startActivity(eventActivity);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
+
+
+                        int markerIndex = (int) markerr.getTag();
+                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(eventDateV.get(markerIndex));
+
+                        int month = calendar.get(Calendar.MONTH) + 1;
+
+                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
+                        //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
+                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
+                        //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
+                        if(eventDateV.get(markerIndex).getMinutes() < 10){
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" +  eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        else{
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
+                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
+                        eventActivity.putExtra("Country", countryName);
+                        eventActivity.putExtra("isavailable", "false");
+
+                        if(activity_intent.getStringExtra("activity").equals("user")){
+                            eventActivity.putExtra("activity", "user");
+                        }
+                        else{
+                            eventActivity.putExtra("activity", "main");
+                        }
+
+
+                        startActivity(eventActivity);
                     }
                 });
             }

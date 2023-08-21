@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,7 @@ import java.util.Date;
 
 public class ManageEvent extends AppCompatActivity {
 
-    TextView name, ends, location, company, desc, additional, countryTextView;
+    TextView name, ends, location, company, desc, additional, countryTextView, deleted;
     String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "";
     Date eventDuration;
 
@@ -44,6 +45,7 @@ public class ManageEvent extends AppCompatActivity {
         desc = findViewById(R.id.activityEventEventDescription);
         additional = findViewById(R.id.activityEventEventAdditional);
         countryTextView = findViewById(R.id.activityEventEventCountry);
+        deleted = findViewById(R.id.deleted);
 
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
@@ -131,6 +133,8 @@ public class ManageEvent extends AppCompatActivity {
             reference = database.getReference("CompanyEmails/" + email + "/CompanyEvent");
             reference.removeValue();
         }
+
+        Toast.makeText(getApplicationContext(), deleted.getText().toString(), Toast.LENGTH_LONG).show();
         startActivity(new Intent(ManageEvent.this, Manage.class));
     }
 

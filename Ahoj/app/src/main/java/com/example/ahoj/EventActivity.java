@@ -30,8 +30,8 @@ public class EventActivity extends AppCompatActivity {
 
     AdView adview;
 
-    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick;
-    TextView event_company, event_desc, event_additional, thanks_for_joining, copied;
+    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick, isavailable;
+    TextView event_company, event_desc, event_additional, thanks_for_joining, copied, come_to_event_to_see_more_information;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
@@ -56,6 +56,7 @@ public class EventActivity extends AppCompatActivity {
         event_company = (TextView) findViewById(R.id.activityEventEventCompanyName);
         event_desc = (TextView) findViewById(R.id.activityEventEventDescription);
         event_additional = (TextView) findViewById(R.id.activityEventEventAdditional);
+        come_to_event_to_see_more_information = findViewById(R.id.come_to_event_to_see_more_information);
 
         toolbaradditional = findViewById(R.id.toolbaradditional);
         copied = findViewById(R.id.copied);
@@ -67,35 +68,67 @@ public class EventActivity extends AppCompatActivity {
         event_name.setText(getIntent().getStringExtra("Name"));
         event_ends_in.setText(event_ends_in.getText() + " " + getIntent().getStringExtra("Duration"));
         event_location.setText(event_location.getText() + " " + getIntent().getStringExtra("Localization"));
+        isavailable = getIntent().getStringExtra("isavailable");
 
 
 
         reference = database.getReference("Event/" + country + "/" + date_and_time);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                eventDescription = snapshot.child("event_description").getValue(String.class);
-                eventCompanyName = snapshot.child("event_company_name").getValue(String.class);
-                additional = snapshot.child("event_additional").getValue(String.class);
+        if(isavailable.equals("true")){
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    eventDescription = snapshot.child("event_description").getValue(String.class);
+                    eventCompanyName = snapshot.child("event_company_name").getValue(String.class);
+                    additional = snapshot.child("event_additional").getValue(String.class);
 
-                load();
-            }
+                    load();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
 
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
 
-            }
-        });
+                }
+            });
+        }
+        else{
+            toolbaradditional.setVisibility(View.GONE);
+            event_desc.setVisibility(View.GONE);
+            come_to_event_to_see_more_information.setVisibility(View.VISIBLE);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    eventCompanyName = snapshot.child("event_company_name").getValue(String.class);
+                    loadNotAvailable();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+                }
+            });
+        }
+
+
 
 
         adview = findViewById(R.id.adView);
@@ -114,7 +147,6 @@ public class EventActivity extends AppCompatActivity {
 
         }
         else{
-           // event_additional.setVisibility(View.GONE);
             toolbaradditional.setVisibility(View.GONE);
         }
 
@@ -122,6 +154,14 @@ public class EventActivity extends AppCompatActivity {
             shouldGetPoints();
         }
     }
+
+    void loadNotAvailable(){
+        event_company.setText(event_company.getText() + " " + eventCompanyName);
+        toolbaradditional.setVisibility(View.GONE);
+    }
+
+
+
 
     void shouldGetPoints(){
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);

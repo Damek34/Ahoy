@@ -100,14 +100,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
     List<String> eventNameV = new ArrayList<>();
-    List<String> eventDescV = new ArrayList<>();
     List<String> eventLocalizationV = new ArrayList<>();
     List<String> eventLocalizationAll = new ArrayList<>();
-    List<String> eventCompanyNameV = new ArrayList<>();
     List<String> eventDateAndTimeV = new ArrayList<>();
-    List<String> eventAdditionalV = new ArrayList<>();
     List<String> eventOrganizerV = new ArrayList<>();
     List<Date> eventDateV = new ArrayList<>();
+
+
 
 
     List<String> announcement_company_nameList = new ArrayList<>();
@@ -123,6 +122,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     boolean can_be_deleted_scan = true;
     boolean show_close_search_btn = false;
     boolean social_mode = false;
+    boolean can_scan_events = true;
 
     AdView adview;
 
@@ -262,48 +262,90 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         mMap.clear();
 
+        Handler switchHandler = new Handler();
+        Runnable switchRunnable[] = {null};
+
+
         socialSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(getApplicationContext(), social_modeTextView.getText().toString(), Toast.LENGTH_SHORT).show();
-                    social_mode = true;
-                    mMap.clear();
-                    showMyLocation();
-
-                    announcement_company_nameList.clear();
-                    date_and_timeList.clear();
-                    date_and_timeList_remove.clear();
-                    announcement_organizer_List_remove.clear();
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("social_mode_key", social_mode);
-                    editor.apply();
-                    try {
-                        scanEvents();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), promotional_mode.getText().toString(), Toast.LENGTH_SHORT).show();
-                    social_mode = false;
-                    mMap.clear();
-                    showMyLocation();
-
-                    announcement_company_nameList.clear();
-                    date_and_timeList.clear();
-                    date_and_timeList_remove.clear();
-                    announcement_organizer_List_remove.clear();
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("social_mode_key", social_mode);
-                    editor.apply();
-                    try {
-                        scanEvents();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                if (switchRunnable[0] != null) {
+                    switchHandler.removeCallbacks(switchRunnable[0]);
                 }
+
+                final boolean[] switchState = {false};
+                switchRunnable[0] = new Runnable() {
+                    @Override
+                    public void run() {
+                        switchState[0] = isChecked;
+                        if (isChecked) {
+                            Toast.makeText(getApplicationContext(), social_modeTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                            social_mode = true;
+                            mMap.clear();
+                            showMyLocation();
+
+                            announcement_company_nameList.clear();
+                            date_and_timeList.clear();
+                            date_and_timeList_remove.clear();
+                            announcement_organizer_List_remove.clear();
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("social_mode_key", social_mode);
+                            editor.apply();
+
+                            if(can_scan_events){
+                                eventNameV.clear();
+                                eventLocalizationV.clear();
+                                eventLocalizationAll.clear();
+                                eventDateAndTimeV.clear();
+                                eventOrganizerV.clear();
+                                eventDateV.clear();
+
+                                can_scan_events = false;
+                                try {
+                                    scanEvents();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), promotional_mode.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                            social_mode = false;
+                            mMap.clear();
+                            showMyLocation();
+
+                            announcement_company_nameList.clear();
+                            date_and_timeList.clear();
+                            date_and_timeList_remove.clear();
+                            announcement_organizer_List_remove.clear();
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("social_mode_key", social_mode);
+                            editor.apply();
+                            if(can_scan_events){
+                                eventNameV.clear();
+                                eventLocalizationV.clear();
+                                eventLocalizationAll.clear();
+                                eventDateAndTimeV.clear();
+                                eventOrganizerV.clear();
+                                eventDateV.clear();
+
+                                can_scan_events = false;
+                                try {
+                                    scanEvents();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                        }
+                    }
+                };
+                switchHandler.postDelayed(switchRunnable[0], 500);
             }
         });
 
@@ -587,6 +629,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
+        can_scan_events = true;
     }
 
     void createAndPlaceMarkers() throws IOException {
@@ -827,7 +870,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     ));
                     linearLayout.addView(buttons[i]);
 
-
+                    buttons[i].setBackground(ContextCompat.getDrawable(MapActivityMain.this, R.color.transparent)); // Przykład, gdzie R.drawable.button_background to plik XML z definicją tła przycisku
+                    buttons[i].setTextColor(ContextCompat.getColor(MapActivityMain.this, R.color.light_grey)); // Przykład, gdzie R.color.text_color to kolor zdefiniowany w pliku colors.xml
                     int finalI1 = i;
                     buttons[i].setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1131,7 +1175,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             } catch (IllegalArgumentException | IOException e) {
                                 Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
                             }
-
                             address = addressList.get(0);
                             double distance = Math.round(calculateDistance(current_lat, current_lng, address.getLatitude(), address.getLongitude()));
                             if(distance <= 20){

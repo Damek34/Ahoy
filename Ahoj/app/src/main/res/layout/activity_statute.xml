@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/backgroundtextahoy"
     tools:context=".Statute">
 
     <Button
@@ -26,6 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@color/white"
             android:text="@string/terms_of_service_content"
             />
     </ScrollView>

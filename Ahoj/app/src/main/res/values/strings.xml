@@ -166,6 +166,52 @@ c) Violating any applicable laws or regulations while using the App.\n
     <string name="announcement_with_promotion">Announcement with promotion</string>
     <string name="social_mode">Social mode</string>
     <string name="promotional_mode">Promotional mode</string>
+    <string name="enable_localization_btn">Enable localization</string>
+    <string name="rules_and_info">
+By using the application, you agree to the following terms and conditions:
+\n
+1. Information \n
+1.1 Ahoy enables the addition of events and announcements by companies and organizations, as well as their display and participation by users. \n
+1.2 Events and announcements are categorized into two types: \n
+\n
+Promotional (companies can announce specific promotions of any kind at a particular location, targeting Ahoy users). \n
+Social (organizers announce events of a certain nature at a specific time and place, bringing people together, e.g., festivals, protests, etc.). \n
+1.3 Users can accumulate points (2 for joining any event, 1 for viewing daily advertisements) and compete with each other in rankings. These points CURRENTLY do not yield any benefits; they are solely for entertainment purposes. \n
+1.4 Events are visible to all within a 20-kilometer radius, while announcements are visible to all individuals from the country chosen by the organizer. \n
+1.5 To establish a business account (an account with the ability to add events and announcements), the application\'s registration form must be completed. Submissions are manually reviewed by the application\'s supervisory team (Point 3).\n
+1.6 The terms and conditions may be changed at any time. \n
+\n
+2. Rules for Adding Events and Announcements \n
+2.1 Events and announcements fall into two categories: \n
+Promotional (companies can announce specific promotions of any kind at a particular location, targeting Ahoy users). \n
+Social (organizers announce events of a certain nature at a specific time and place, bringing people together, e.g., festivals, protests, etc.). \n
+2.2 Organizers MUST provide accurate information in the submission form. \n
+2.3 If an event/announcement ends sooner than the date provided in the form, it must be manually removed in the "Manage" window. \n
+2.4 Always remember that an event/announcement will only be visible in the country entered in the form. For instance, if the address is in Poland but the organizer selects a different country, the event will not be visible in Poland. \n
+2.5 Each organizer can add only one event/announcement of each type.\n
+2.6 Each request to add an event/announcement is manually verified by the Ahoy supervisory team (Point 3). \n
+\n
+3. Submissions \n
+3.1 All submissions are accepted/rejected at the discretion of Ahoy moderators. \n
+3.2 Submissions for creating business accounts should include detailed information about how and why the applicant intends to use the application. \n
+3.3 Submissions for events/announcements must contain accurate information. \n
+3.4 The duration of an event/announcement is counted from the moment the submission is sent to Ahoy. Please note that an event/announcement might be added to Ahoy later than when the submission was made due to this. \n
+3.5 An event/announcement becomes active immediately upon approval by moderators and remains active until the\'s specified deadline. Organizers can also manually remove their event/announcement before the deadline. \n
+3.6 The waiting time for submission approval is unknown and depends on the volume of submissions and the time of submission. \n
+3.7 Moderators review submissions during typical working hours in Poland. Submissions might not be reviewed during weekends and late Polish hours. Moderators may voluntarily review submissions during weekends and late hours, but this is not a rule and depends solely on their discretion. \n
+\n
+4. Credits \n
+4.1 All graphic work (backgrounds, icons) was created by: Traffka \n
+4.2 The entire application was conceived and developed by: Damek34 \n
+\n
+5. Ownership \n
+5.1 All graphics, icons, and application logic are original, and their use for personal purposes is prohibited. \n
+    </string>
+    <string name="report_event_reason">Tell us why do you reporting this event</string>
+    <string name="report_announcement_reason">Tell us why do you reporting this announcement</string>
+    <string name="your_report_should_have_twenty_letters">Your report should have minimum 20 letters</string>
+    <string name="you_already_reported_that_event">You already reported that event</string>
+    <string name="you_already_reported_that_announcement">You already reported that announcement</string>
 
     <string-array name="map_types_spinner" translatable="true">
         <item>Select Map Type</item>

@@ -30,7 +30,7 @@ public class EventActivity extends AppCompatActivity {
 
     AdView adview;
 
-    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick, isavailable;
+    String date_and_time = "", country = "", eventDescription, eventCompanyName, additional, nick, isavailable, organizer, social_mode;
     TextView event_company, event_desc, event_additional, thanks_for_joining, copied, come_to_event_to_see_more_information;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -64,6 +64,8 @@ public class EventActivity extends AppCompatActivity {
 
         date_and_time = getIntent().getStringExtra("DateAndTime");
         country = getIntent().getStringExtra("Country");
+        organizer = getIntent().getStringExtra("organizer");
+        social_mode = getIntent().getStringExtra("social_mode");
 
         event_name.setText(getIntent().getStringExtra("Name"));
         event_ends_in.setText(event_ends_in.getText() + " " + getIntent().getStringExtra("Duration"));
@@ -71,8 +73,13 @@ public class EventActivity extends AppCompatActivity {
         isavailable = getIntent().getStringExtra("isavailable");
 
 
+        if(social_mode.equals("false")){
+            reference = database.getReference("Event/" + country + "/" + date_and_time);
+        }
+        else{
+            reference = database.getReference("SocialEvent/" + country + "/" + date_and_time);
+        }
 
-        reference = database.getReference("Event/" + country + "/" + date_and_time);
 
         if(isavailable.equals("true")){
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,7 +173,13 @@ public class EventActivity extends AppCompatActivity {
     void shouldGetPoints(){
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
-        reference = database.getReference("Event/" + country + "/" + date_and_time +"/" + "Nick");
+
+        if(social_mode.equals("false")){
+            reference = database.getReference("Event/" + country + "/" + date_and_time +"/" + "Nick");
+        }
+        else{
+            reference = database.getReference("SocialEvent/" + country + "/" + date_and_time +"/" + "Nick");
+        }
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -210,7 +223,31 @@ public class EventActivity extends AppCompatActivity {
 
 
     public void report(View view){
-        //todo
+        if(intent.getStringExtra("activity").equals("user")){
+            Intent intent1 = new Intent(EventActivity.this, ReportActivity.class);
+            intent1.putExtra("activity", "user");
+            intent1.putExtra("DateAndTime", date_and_time);
+            intent1.putExtra("country", country);
+            intent1.putExtra("organizer", organizer);
+            intent1.putExtra("social_mode", social_mode);
+            intent1.putExtra("isavailable", isavailable);
+            intent1.putExtra("Localization", intent.getStringExtra("Localization"));
+            intent1.putExtra("Duration", intent.getStringExtra("Duration"));
+
+            startActivity(intent1);
+        }
+        else{
+            Intent intent1 = new Intent(EventActivity.this, ReportActivity.class);
+            intent1.putExtra("activity", "main");
+            intent1.putExtra("DateAndTime", date_and_time);
+            intent1.putExtra("country", country);
+            intent1.putExtra("organizer", organizer);
+            intent1.putExtra("social_mode", social_mode);
+            intent1.putExtra("isavailable", isavailable);
+            intent1.putExtra("Localization", intent.getStringExtra("Localization"));
+            intent1.putExtra("Duration", intent.getStringExtra("Duration"));
+            startActivity(intent1);
+        }
     }
     public void copy(View view){
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -221,7 +258,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
 
-    public void exitSettings (View view){
+    public void exit (View view){
         if(intent.getStringExtra("activity").equals("user")){
             Intent intent1 = new Intent(EventActivity.this, MapActivityMain.class);
             intent1.putExtra("activity", "user");

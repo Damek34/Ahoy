@@ -41,6 +41,7 @@
                 android:text="@string/map_types"
                 android:textSize="24sp"
 
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,10 +52,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:onClick="reconnect"
-                android:text="@string/reconnect"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/enable_localization_btn"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
 
+            <!--
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
@@ -65,6 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
 
+-->
 
             <Button
                 android:layout_width="wrap_content"

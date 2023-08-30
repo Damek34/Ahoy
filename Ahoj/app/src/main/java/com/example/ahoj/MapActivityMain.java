@@ -578,6 +578,14 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
                         eventActivity.putExtra("Country", countryName);
                         eventActivity.putExtra("isavailable", "true");
+                        eventActivity.putExtra("organizer", eventOrganizerV.get(markerIndex));
+
+                        if(social_mode){
+                            eventActivity.putExtra("social_mode", "true");
+                        }
+                        else{
+                            eventActivity.putExtra("social_mode", "false");
+                        }
 
                         if(activity_intent.getStringExtra("activity").equals("user")){
                             eventActivity.putExtra("activity", "user");
@@ -766,6 +774,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements, manage;
+        TextView downloadingdata;
         TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
 
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
@@ -778,6 +787,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         search_announcements = findViewById(R.id.search_announcements);
 
         manage = findViewById(R.id.manage_button);
+        downloadingdata = findViewById(R.id.downloadingdata);
 
 
         exit_menu.setVisibility(View.GONE);
@@ -812,6 +822,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             reference = database.getReference("Announcement/" + countryName);
         }
 
+        downloadingdata.setVisibility(View.VISIBLE);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -855,6 +866,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                 if(count[0] == 0){
                     thereisnoannouncements.setVisibility(View.VISIBLE);
+                    downloadingdata.setVisibility(View.GONE);
                 }
 
 
@@ -868,6 +880,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT
                     ));
+                    downloadingdata.setVisibility(View.GONE);
                     linearLayout.addView(buttons[i]);
 
                     buttons[i].setBackground(ContextCompat.getDrawable(MapActivityMain.this, R.color.transparent)); // Przykład, gdzie R.drawable.button_background to plik XML z definicją tła przycisku
@@ -996,7 +1009,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+        TextView downloadingdata;
 
+        downloadingdata = findViewById(R.id.downloadingdata);
 
         exit_menu = findViewById(R.id.buttonExitMenu);
         settings = findViewById(R.id.settingsButton);
@@ -1015,6 +1030,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         editTextSearchAnnouncements.setVisibility(View.GONE);
         search_announcements.setVisibility(View.GONE);
         thereisnoannouncements.setVisibility(View.GONE);
+        downloadingdata.setVisibility(View.GONE);
 
 
 

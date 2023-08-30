@@ -14,6 +14,7 @@ public class AddEventInfo {
     public String countryName;
     public String organizer;
 
+
     public AddEventInfo(String time_and_date, String event_name, String event_description, String event_localization, String event_company_name, Date event_duration, String event_additional, String countryName, String organizer) {
         this.time_and_date = time_and_date;
         this.event_name = event_name;

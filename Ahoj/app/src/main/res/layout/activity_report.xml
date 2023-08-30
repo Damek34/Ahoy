@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/exclamationmarkred"
+    tools:context=".ReportActivity">
+
+    <Button
+        android:id="@+id/buttonExitAdd2"
+        android:layout_width="47dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="21dp"
+        android:background="@color/transparent"
+        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/report_event_reason"
+        android:layout_width="370dp"
+        android:layout_height="80dp"
+        android:background="@color/light_grey"
+        android:hint="@string/report_event_reason"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.256" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="376dp"
+        android:background="@drawable/roundpinkbutton"
+        android:onClick="report"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/report"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/report_event_reason" />
+
+
+
+    <TextView
+        android:id="@+id/your_report_should_have_twenty_letters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/your_report_should_have_twenty_letters"
+        />
+
+    <TextView
+        android:id="@+id/you_already_reported_that_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/you_already_reported_that_event"
+        />
+
+    <TextView
+        android:id="@+id/Success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/success"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

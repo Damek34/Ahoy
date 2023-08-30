@@ -15,7 +15,7 @@
         android:layout_marginEnd="21dp"
         android:background="@color/transparent"
         android:foreground="@android:drawable/ic_menu_close_clear_cancel"
-        android:onClick="exitSettings"
+        android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,14 +153,14 @@
         />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/report_event_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="24dp"
         android:text="@string/report"
         android:onClick="report"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent" />
 

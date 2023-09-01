@@ -89,6 +89,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <Button
+        android:id="@+id/report_announcement_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/report"
+        android:onClick="report"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/adViewAnnouncement"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewAnnouncement"
         android:layout_width="match_parent"

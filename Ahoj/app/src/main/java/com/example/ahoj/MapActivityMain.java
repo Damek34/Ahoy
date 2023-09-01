@@ -345,7 +345,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     }
                 };
-                switchHandler.postDelayed(switchRunnable[0], 500);
+                switchHandler.postDelayed(switchRunnable[0], 750);
             }
         });
 
@@ -622,6 +622,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
                         eventActivity.putExtra("Country", countryName);
                         eventActivity.putExtra("isavailable", "false");
+
+                        if(social_mode){
+                            eventActivity.putExtra("social_mode", "true");
+                        }
+                        else{
+                            eventActivity.putExtra("social_mode", "false");
+                        }
 
                         if(activity_intent.getStringExtra("activity").equals("user")){
                             eventActivity.putExtra("activity", "user");

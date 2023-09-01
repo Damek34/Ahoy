@@ -44,7 +44,13 @@ public class ReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_report);
 
         activity_intent = getIntent();
-        date_and_time = activity_intent.getStringExtra("DateAndTime");
+        if(activity_intent.getStringExtra("announcement_or_event").equals("announcement")){
+            date_and_time = activity_intent.getStringExtra("date_and_time");
+        }
+        else{
+            date_and_time = activity_intent.getStringExtra("DateAndTime");
+        }
+
         country = activity_intent.getStringExtra("country");
         organizer = activity_intent.getStringExtra("organizer");
         social_mode = activity_intent.getStringExtra("social_mode");
@@ -65,101 +71,208 @@ public class ReportActivity extends AppCompatActivity {
             return;
         }
 
-        if(social_mode.equals("false")){
-            reference = database.getReference("Event/" + country + "/" + date_and_time);
-        }
-        else{
-            reference = database.getReference("SocialEvent/" + country + "/" + date_and_time);
-        }
+        if(activity_intent.getStringExtra("announcement_or_event").equals("announcement")){
+            if (social_mode.equals("false")) {
+                reference = database.getReference("Announcement/" + country + "/" + date_and_time);
+            } else {
+                reference = database.getReference("SocialAnnouncement/" + country + "/" + date_and_time);
+            }
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        int i = 0;
+                        for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
+                            if (snapshot.child("Reported/" + nick).exists()) {
+                                hasReported = true;
+                                Toast.makeText(getApplicationContext(), you_already_reported_that_event.getText().toString(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+                        if (!hasReported) {
+                            ReportInfo reportInfo = new ReportInfo(nick, reason.getText().toString());
+                            reference.child("Reported/" + nick).setValue(reportInfo);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    int i = 0;
-                    for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
-                        if(snapshot.child("Reported/" + nick).exists()){
-                            hasReported = true;
-                            Toast.makeText(getApplicationContext(), you_already_reported_that_event.getText().toString(), Toast.LENGTH_LONG).show();
-                            return;
+                            count = snapshot.child("times_reported").getValue(Integer.class);
+                            count++;
+                            reference.child("times_reported").setValue(count);
+
+                            Toast.makeText(getApplicationContext(), Success.getText().toString(), Toast.LENGTH_LONG).show();
+
+                            if (count >= 5) {
+                                sendToAhoyModerators();
+                            }
+                            View exit = findViewById(R.id.buttonReport);
+                            exit(exit);
                         }
                     }
-                    if(!hasReported){
-                        ReportInfo reportInfo = new ReportInfo(nick, reason.getText().toString());
-                        reference.child("Reported/" + nick).setValue(reportInfo);
 
-                        count = snapshot.child("times_reported").getValue(Integer.class);
-                        count++;
-                        reference.child("times_reported").setValue(count);
 
-                        Toast.makeText(getApplicationContext(), Success.getText().toString(), Toast.LENGTH_LONG).show();
-
-                        if(count >= 5){
-                            sendToAhoyModerators();
-                        }
-                        View exit = findViewById(R.id.buttonReport);
-                        exit(exit);
-                    }
                 }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+
+        }
+        else {
+            if (social_mode.equals("false")) {
+                reference = database.getReference("Event/" + country + "/" + date_and_time);
+            } else {
+                reference = database.getReference("SocialEvent/" + country + "/" + date_and_time);
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        int i = 0;
+                        for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
+                            if (snapshot.child("Reported/" + nick).exists()) {
+                                hasReported = true;
+                                Toast.makeText(getApplicationContext(), you_already_reported_that_event.getText().toString(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+                        if (!hasReported) {
+                            ReportInfo reportInfo = new ReportInfo(nick, reason.getText().toString());
+                            reference.child("Reported/" + nick).setValue(reportInfo);
 
-            }
-        });
+                            count = snapshot.child("times_reported").getValue(Integer.class);
+                            count++;
+                            reference.child("times_reported").setValue(count);
+
+                            Toast.makeText(getApplicationContext(), Success.getText().toString(), Toast.LENGTH_LONG).show();
+
+                            if (count >= 5) {
+                                sendToAhoyModerators();
+                            }
+                            View exit = findViewById(R.id.buttonReport);
+                            exit(exit);
+                        }
+                    }
 
 
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
     }
 
     void sendToAhoyModerators(){
-        reference = database.getReference("ReportedEvents");
+        if(activity_intent.getStringExtra("announcement_or_event").equals("announcement")){
+            reference = database.getReference("ReportedAnnouncements");
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Boolean isSocial = false;
-                if(social_mode.equals("true")){
-                    isSocial = true;
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Boolean isSocial = false;
+                    if(social_mode.equals("true")){
+                        isSocial = true;
+                    }
+                    SendEventReportToAhoyModeratorsInfo report = new SendEventReportToAhoyModeratorsInfo(date_and_time, isSocial, country);
+                    reference.child(date_and_time).setValue(report);
                 }
-                SendEventReportToAhoyModeratorsInfo report = new SendEventReportToAhoyModeratorsInfo(date_and_time, isSocial, country);
-                reference.child(date_and_time).setValue(report);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        else{
+            reference = database.getReference("ReportedEvents");
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Boolean isSocial = false;
+                    if(social_mode.equals("true")){
+                        isSocial = true;
+                    }
+                    SendEventReportToAhoyModeratorsInfo report = new SendEventReportToAhoyModeratorsInfo(date_and_time, isSocial, country);
+                    reference.child(date_and_time).setValue(report);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
     }
 
 
     public void exit(View view){
-        if(activity_intent.getStringExtra("activity").equals("user")){
-            Intent intent1 = new Intent(ReportActivity.this, EventActivity.class);
-            intent1.putExtra("activity", "user");
-            intent1.putExtra("DateAndTime", date_and_time);
-            intent1.putExtra("Country", country);
-            intent1.putExtra("organizer", organizer);
-            intent1.putExtra("social_mode", social_mode);
-            intent1.putExtra("isavailable", isavailable);
-            intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
-            intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
-            startActivity(intent1);
+        if(activity_intent.getStringExtra("announcement_or_event").equals("announcement")){
+            if (activity_intent.getStringExtra("activity").equals("user")){
+                Intent intent1 = new Intent(ReportActivity.this, AnnouncementActivity.class);
+                intent1.putExtra("id", date_and_time);
+                intent1.putExtra("company", activity_intent.getStringExtra("company"));
+                intent1.putExtra("activity", "user");
+                intent1.putExtra("country", country);
+                intent1.putExtra("announcement_or_event", "announcement");
+
+                if(social_mode.equals("false")){
+                    intent1.putExtra("isSocial", "false");
+                }
+                else{
+                    intent1.putExtra("isSocial", "true");
+                }
+
+                startActivity(intent1);
+            }
+            else{
+                Intent intent1 = new Intent(ReportActivity.this, AnnouncementActivity.class);
+                intent1.putExtra("id", date_and_time);
+                intent1.putExtra("company", activity_intent.getStringExtra("company"));
+                intent1.putExtra("activity", "main");
+                intent1.putExtra("country", country);
+                intent1.putExtra("announcement_or_event", "announcement");
+
+                if(social_mode.equals("false")){
+                    intent1.putExtra("isSocial", "false");
+                }
+                else{
+                    intent1.putExtra("isSocial", "true");
+                }
+
+                startActivity(intent1);
+            }
+
         }
-        else{
-            Intent intent1 = new Intent(ReportActivity.this, EventActivity.class);
-            intent1.putExtra("activity", "main");
-            intent1.putExtra("DateAndTime", date_and_time);
-            intent1.putExtra("country", country);
-            intent1.putExtra("organizer", organizer);
-            intent1.putExtra("social_mode", social_mode);
-            intent1.putExtra("isavailable", isavailable);
-            intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
-            intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
-            startActivity(intent1);
+        else {
+            if (activity_intent.getStringExtra("activity").equals("user")) {
+                Intent intent1 = new Intent(ReportActivity.this, EventActivity.class);
+                intent1.putExtra("activity", "user");
+                intent1.putExtra("DateAndTime", date_and_time);
+                intent1.putExtra("Country", country);
+                intent1.putExtra("organizer", organizer);
+                intent1.putExtra("social_mode", social_mode);
+                intent1.putExtra("isavailable", isavailable);
+                intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
+                intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
+                startActivity(intent1);
+            } else {
+                Intent intent1 = new Intent(ReportActivity.this, EventActivity.class);
+                intent1.putExtra("activity", "main");
+                intent1.putExtra("DateAndTime", date_and_time);
+                intent1.putExtra("country", country);
+                intent1.putExtra("organizer", organizer);
+                intent1.putExtra("social_mode", social_mode);
+                intent1.putExtra("isavailable", isavailable);
+                intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
+                intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
+                startActivity(intent1);
+            }
         }
     }
 }

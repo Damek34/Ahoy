@@ -433,7 +433,7 @@
         android:id="@+id/textViewMustLastAHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/event_must_have_a_name"
+        android:text="@string/event_must_last_a_hour"
         android:visibility="gone"
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="4dp" />

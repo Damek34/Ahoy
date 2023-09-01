@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -43,6 +44,8 @@ public class AnnouncementActivity extends AppCompatActivity {
 
     Toolbar toolbaradditional;
     Intent social_intent;
+    Button report_announcement_btn;
+    //String social_mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class AnnouncementActivity extends AppCompatActivity {
         desc = findViewById(R.id.activityAnnouncementDescription);
         duration = findViewById(R.id.activityAnnouncementEndsAt);
         additional = findViewById(R.id.activityAnnouncementAdditional);
+        report_announcement_btn = findViewById(R.id.report_announcement_btn);
 
         descCopy = desc.getText().toString();
         durationCopy = duration.getText().toString();
@@ -68,9 +72,15 @@ public class AnnouncementActivity extends AppCompatActivity {
         toolbaradditional = findViewById(R.id.toolbaradditional);
         copied = findViewById(R.id.copied);
 
+       // if(intent.getStringExtra("isSocial").equals("true")){
+       //     social_mode = "true";
+        //}
 
 
         company.setText(company_name);
+        if(social_intent.getStringExtra("activity").equals("main")){
+            report_announcement_btn.setVisibility(View.GONE);
+        }
 
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -79,6 +89,7 @@ public class AnnouncementActivity extends AppCompatActivity {
 
             }
         });
+
 
 
         adView = findViewById(R.id.adViewAnnouncement);
@@ -142,6 +153,20 @@ public class AnnouncementActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), copied.getText().toString(), Toast.LENGTH_LONG).show();
     }
+
+    public void report(View view){
+        Intent intent1 = new Intent(AnnouncementActivity.this, ReportActivity.class);
+        intent1.putExtra("date_and_time", data_and_time);
+        intent1.putExtra("company", company_name);
+        intent1.putExtra("activity", intent.getStringExtra("activity"));
+        intent1.putExtra("country", country);
+        intent1.putExtra("announcement_or_event", "announcement");
+        intent1.putExtra("social_mode", intent.getStringExtra("isSocial"));
+
+        startActivity(intent1);
+    }
+
+
 
     public void exitAnnouncement(View view){
         if(user_or_main.equals("user")){

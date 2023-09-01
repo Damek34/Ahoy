@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -39,6 +40,7 @@ public class EventActivity extends AppCompatActivity {
 
     Intent intent;
     Toolbar toolbaradditional;
+    Button report_event_btn;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -57,6 +59,7 @@ public class EventActivity extends AppCompatActivity {
         event_desc = (TextView) findViewById(R.id.activityEventEventDescription);
         event_additional = (TextView) findViewById(R.id.activityEventEventAdditional);
         come_to_event_to_see_more_information = findViewById(R.id.come_to_event_to_see_more_information);
+        report_event_btn = findViewById(R.id.report_event_btn);
 
         toolbaradditional = findViewById(R.id.toolbaradditional);
         copied = findViewById(R.id.copied);
@@ -72,6 +75,9 @@ public class EventActivity extends AppCompatActivity {
         event_location.setText(event_location.getText() + " " + getIntent().getStringExtra("Localization"));
         isavailable = getIntent().getStringExtra("isavailable");
 
+        if(intent.getStringExtra("activity").equals("main")){
+            report_event_btn.setVisibility(View.GONE);
+        }
 
         if(social_mode.equals("false")){
             reference = database.getReference("Event/" + country + "/" + date_and_time);
@@ -234,6 +240,8 @@ public class EventActivity extends AppCompatActivity {
             intent1.putExtra("Localization", intent.getStringExtra("Localization"));
             intent1.putExtra("Duration", intent.getStringExtra("Duration"));
 
+            intent1.putExtra("announcement_or_event", "event");
+
             startActivity(intent1);
         }
         else{
@@ -246,6 +254,9 @@ public class EventActivity extends AppCompatActivity {
             intent1.putExtra("isavailable", isavailable);
             intent1.putExtra("Localization", intent.getStringExtra("Localization"));
             intent1.putExtra("Duration", intent.getStringExtra("Duration"));
+
+            intent1.putExtra("announcement_or_event", "event");
+
             startActivity(intent1);
         }
     }

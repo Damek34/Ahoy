@@ -97,13 +97,9 @@
 
             <SearchView
                 android:id="@+id/searchLocalization"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="30dp"
                 android:queryHint="@string/search_localizations"
-                android:textColor="@color/light_grey"
-
-
-
                 >
 
             </SearchView>
@@ -138,7 +134,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="134dp"
             android:layout_marginBottom="570dp"
-            android:background="@drawable/round_black"
+
+            style="@style/MySwitchStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -208,6 +205,7 @@
                     android:textSize="24sp"
                     android:textAlignment="center"
                     android:visibility="gone"
+                    android:textColor="@color/light_grey"
                     app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/scrollView2"
@@ -367,7 +365,7 @@
             android:layout_width="match_parent"
             android:layout_height="84dp"
             android:layout_gravity="bottom"
-            android:background="@color/white"
+            android:background="@color/black"
 
             >
 

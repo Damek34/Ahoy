@@ -55,14 +55,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +67,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import DatabaseFiles.Setings.SettingsDatabase;
 
@@ -524,6 +520,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if(!can_be_deleted_scan){
             return;
         }
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+
+        if (!connected) {
+            return;
+        }
 
 
         ScanEventsTask task = new ScanEventsTask();
@@ -570,7 +573,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
 
                         if(eventDateV.get(markerIndex).getMinutes() < 10){
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" +  eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":0" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                         }
                         else{
                             eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
@@ -1134,8 +1137,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
     @SuppressLint("StaticFieldLeak")
-    private class ScanEventsTask extends AsyncTask<Void, Void, Void>{
-
+    private class ScanEventsTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             eventNameV.clear();
@@ -1162,7 +1164,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             try {
                 addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+              //  throw new RuntimeException(e);
             }
 
             if (addresses.size() > 0) {

@@ -62,7 +62,7 @@ public class Leaderboard extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Nick");
 
-        Query query = databaseReference.orderByChild("points").limitToLast(10);
+        Query query = databaseReference.orderByChild("points").startAt(1).limitToLast(10);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,9 +88,9 @@ public class Leaderboard extends AppCompatActivity {
 
                 // Tworzenie tekstu do wyświetlenia w TextView
                 StringBuilder leaderboardText = new StringBuilder();
-                String leaderboardEntry = "";
                 for (int i = 0; i < userList.size(); i++) {
                     UserLeaderboard user = userList.get(i);
+                    String leaderboardEntry = "";
                     if(user.getPoints() == 1){
                         leaderboardEntry = (i + 1) + ": " + user.getNick() + " - " + user.getPoints() + " "  + point.getText().toString() + "\n\n";
                     }

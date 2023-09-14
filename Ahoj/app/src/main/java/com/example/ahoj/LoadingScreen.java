@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
@@ -38,6 +40,17 @@ public class LoadingScreen extends AppCompatActivity {
         setContentView(R.layout.activity_loading_screen);
         Textview_please_update_application = findViewById(R.id.Textview_please_update_application);
         Textview_app_version_is_not_actual = findViewById(R.id.Textview_app_version_is_not_actual);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+
+        if (!connected) {
+            Intent no_internet_intent = new Intent(LoadingScreen.this, EnableInternetConnection.class);
+            no_internet_intent.putExtra("activity", "loadingScreen");
+            startActivity(no_internet_intent);
+        }
+
 
         versionRef = FirebaseDatabase.getInstance().getReference().child("Version");
 

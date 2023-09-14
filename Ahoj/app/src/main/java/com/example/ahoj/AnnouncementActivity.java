@@ -120,7 +120,7 @@ public class AnnouncementActivity extends AppCompatActivity {
                     additional.setText(additionalCopy + " " + additionalStr);
 
                     if(durationDate.getMinutes() < 10){
-                        duration.setText(durationCopy + " " +  durationDate.getHours() + ":" + "0" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        duration.setText(durationCopy + " " +  durationDate.getHours() + ":0" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                     }
                     else{
                         duration.setText(durationCopy + " " +  durationDate.getHours() + ":" + durationDate.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));

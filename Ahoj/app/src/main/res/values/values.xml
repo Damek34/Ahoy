@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="MySwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <!-- Zmienia kolor toru (ramki) na czarny -->
+        <item name="android:thumbTint">@android:color/black</item> <!-- Kolor kciuka -->
+        <item name="android:trackTint">@android:color/black</item> <!-- Kolor toru (ramki) -->
+    </style>
+</resources>

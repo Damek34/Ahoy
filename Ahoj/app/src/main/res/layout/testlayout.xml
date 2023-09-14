@@ -16,28 +16,27 @@
 
     </TextView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/promotional_mode"
+        android:text="@string/promotional_mode"
+        android:visibility="gone"
         >
 
-        <Switch
-            android:id="@+id/socialSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="134dp"
-            android:layout_marginBottom="570dp"
-            android:background="@drawable/round"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="UseSwitchCompatOrMaterialXml">
+    </TextView>
 
-        </Switch>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/social_mode"
+        android:text="@string/social_mode"
+        android:visibility="gone"
+        >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </TextView>
+
+
 
 
     <TextView
@@ -63,8 +62,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -72,7 +69,7 @@
         <Toolbar
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:background="@drawable/round"
+            android:background="@drawable/round_black"
             android:layout_marginTop="5dp"
             android:onClick="openSearch"
 
@@ -85,14 +82,17 @@
 
             <SearchView
                 android:id="@+id/searchLocalization"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="30dp"
                 android:queryHint="@string/search_localizations"
                 android:textColor="@color/light_grey"
+                android:background="@color/white"
+
 
 
 
                 >
+
 
             </SearchView>
         </Toolbar>
@@ -114,6 +114,33 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        >
+
+        <Switch
+            android:id="@+id/socialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="134dp"
+            android:layout_marginBottom="570dp"
+            android:background="@drawable/round_black"
+            style="@style/MySwitchStyle"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        </Switch>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -124,13 +151,18 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@mipmap/navigationbackground"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    android:background="@drawable/roundpinkbutton"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
                     android:id="@+id/AhoyAnnouncements"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,6 +174,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <EditText
                     android:id="@+id/editTextSearchAnnouncements"
                     android:layout_width="wrap_content"
@@ -149,6 +182,8 @@
                     android:layout_marginTop="140dp"
                     android:visibility="gone"
                     android:hint="@string/search_announcements"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/light_grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -167,19 +202,38 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/scrollView2"
                     app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+                <TextView
+                    android:id="@+id/downloadingdata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/downloading"
+                    android:textSize="24sp"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/scrollView2"
+                    app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
-                <Button
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:background="@drawable/roundpinkbutton"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
                     android:id="@+id/search_announcements"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/search"
                     android:onClick="searchAnnouncements"
+                    android:text="@string/search"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements">
+                    app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements"
+                    />
 
-                </Button>
+
 
 
                 <ScrollView
@@ -303,7 +357,7 @@
             android:layout_width="match_parent"
             android:layout_height="84dp"
             android:layout_gravity="bottom"
-            android:background="@color/white"
+            android:background="@color/black"
 
             >
 
@@ -358,10 +412,6 @@
 
 
     </LinearLayout>
-
-
-
-
 
 
 </RelativeLayout>

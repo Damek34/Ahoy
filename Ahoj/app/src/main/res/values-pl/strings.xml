@@ -12,14 +12,6 @@
     <string name="satellite_map">Satelitarna</string>
     <string name="terrain_map">Terenowa</string>
     <string name="save">Zapisz</string>
-
-    <string-array name="map_types_spinner" translatable="true">
-        <item>Wybierz rodzaj mapy</item>
-        <item>Hybrydowa</item>
-        <item>Normalna</item>
-        <item>Satelitarna</item>
-        <item>Terenowa</item>
-    </string-array>
     <string name="enable_localization">Proszę włączyć lokalizację</string>
     <string name="reconnect_localization">"Kontynuuj "</string>
     <string name="search_localizations">Szukaj Miejsc</string>
@@ -220,4 +212,18 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="you_already_reported_that_event">Już zgłosiłeś te wydarzenie</string>
     <string name="you_already_reported_that_announcement">Już zgłosiłeś te ogłoszenie</string>
 
+
+    <string-array name="map_types_spinner" translatable="true">
+        <item>Wybierz rodzaj mapy</item>
+        <item>Hybrydowa</item>
+        <item>Normalna</item>
+        <item>Satelitarna</item>
+        <item>Terenowa</item>
+    </string-array>
+
+    <string-array name="language_select" translatable="true">
+        <item>Wybierz język</item>
+        <item>Angielski</item>
+        <item>Polski</item>
+    </string-array>
 </resources>

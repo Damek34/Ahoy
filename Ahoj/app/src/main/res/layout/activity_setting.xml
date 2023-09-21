@@ -38,13 +38,25 @@
                 android:layout_width="238dp"
                 android:layout_height="32dp"
                 android:entries="@array/map_types_spinner"
-                android:text="@string/map_types"
                 android:textSize="24sp"
 
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <Spinner
+                android:id="@+id/changelanguage"
+                android:layout_width="238dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+
+
+                android:entries="@array/language_select"
+                android:text="@string/map_types"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
 
             <Button
                 android:id="@+id/buttonReconect"
@@ -54,7 +66,7 @@
                 android:onClick="reconnect"
                 android:text="@string/enable_localization_btn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapTypesSpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/changelanguage" />
 
             <!--
             <TextView

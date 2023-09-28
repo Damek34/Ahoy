@@ -166,7 +166,7 @@ public class LoadingScreen extends AppCompatActivity {
                 @Override
                 public void run() {
                     startActivity(intent);
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }, 1500);
         } else {
@@ -174,7 +174,7 @@ public class LoadingScreen extends AppCompatActivity {
                 @Override
                 public void run() {
                     startActivity(new Intent(LoadingScreen.this, setup.class));
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }, 1500);
         }

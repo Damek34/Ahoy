@@ -25,6 +25,9 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -38,7 +41,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.SearchView;
+import android.widget.Toolbar;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -139,6 +144,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     Switch socialSwitch;
 
+    Toolbar bottom_menu;
+
+    ConstraintLayout searchLayout;
+
+
     private SharedPreferences sharedPreferences;
 
     @SuppressLint("MissingInflatedId")
@@ -193,6 +203,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         socialSwitch = findViewById(R.id.socialSwitch);
         promotional_mode = findViewById(R.id.promotional_mode);
         social_modeTextView = findViewById(R.id.social_mode);
+        bottom_menu = findViewById(R.id.bottom_menu);
+        searchLayout = findViewById(R.id.searchLayout);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -435,7 +447,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                 intent.putExtra("activity", "main");
                 startActivity(intent);
-                overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         }
 
@@ -453,7 +465,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                     intent.putExtra("activity", "main");
                     startActivity(intent);
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
 
@@ -534,7 +546,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
                 intent.putExtra("activity", "main");
                 startActivity(intent);
-                overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         }
 
@@ -750,13 +762,61 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void menu(View view){
+
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right_menu);
+        Animation animationToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_bottom_menu);
+        Animation animationToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_bottom_menu);
+
+        Animation animationSearchToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_search);
+        Animation animationSearchToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_search);
+
+
         navigationView = findViewById(R.id.navigation);
-        navigationView.setVisibility(View.VISIBLE);
+
+
+       // navigationView.startAnimation(animation);
+
+        bottom_menu.startAnimation(animationToBottom);
+        searchLayout.startAnimation(animationSearchToTop);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                bottom_menu.setVisibility(View.GONE);
+                searchLayout.setVisibility(View.GONE);
+                navigationView.setVisibility(View.VISIBLE);
+                navigationView.startAnimation(animation);
+            }
+        }, 400);
+
     }
 
     public void exitMenu(View view){
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left_menu);
+        Animation animationToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_bottom_menu);
+        Animation animationToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_bottom_menu);
+
+        Animation animationSearchToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_search);
+        Animation animationSearchToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_search);
+
         NavigationView navigationView = findViewById(R.id.navigation);
-        navigationView.setVisibility(View.GONE);
+
+        navigationView.startAnimation(animation);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                navigationView.setVisibility(View.GONE);
+                bottom_menu.setVisibility(View.VISIBLE);
+                bottom_menu.startAnimation(animationToTop);
+                searchLayout.setVisibility(View.VISIBLE);
+                searchLayout.startAnimation(animationSearchToBottom);
+
+            }
+        }, 400);
+
+        //bottom_menu.startAnimation(animationToTop);
+
     }
 
     public void settings(View view){

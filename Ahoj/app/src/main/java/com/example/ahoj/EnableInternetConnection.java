@@ -65,20 +65,20 @@ public class EnableInternetConnection extends AppCompatActivity {
                 if(intent.getStringExtra("activity").equals("loadingScreen")){
                     Intent intent = new Intent(EnableInternetConnection.this, LoadingScreen.class);
                     startActivity(intent);
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
                 else{
                     if(intent.getStringExtra("activity").equals("user")){
                         Intent intent = new Intent(EnableInternetConnection.this, MapActivityMain.class);
                         intent.putExtra("activity", "user");
                         startActivity(intent);
-                        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                     else{
                         Intent intent = new Intent(EnableInternetConnection.this, MapActivityMain.class);
                         intent.putExtra("activity", "main");
                         startActivity(intent);
-                        overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }
 

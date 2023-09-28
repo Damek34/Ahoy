@@ -83,13 +83,13 @@ public class EnableLocalization extends AppCompatActivity {
                     Intent intent = new Intent(EnableLocalization.this, MapActivityMain.class);
                     intent.putExtra("activity", "user");
                     startActivity(intent);
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
                 else{
                     Intent intent = new Intent(EnableLocalization.this, MapActivityMain.class);
                     intent.putExtra("activity", "main");
                     startActivity(intent);
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
         }, 1500);

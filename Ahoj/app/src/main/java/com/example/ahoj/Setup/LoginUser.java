@@ -186,7 +186,7 @@ public class LoginUser extends AppCompatActivity {
 
                     startActivity(intent);
 
-                    overridePendingTransition(R.layout.fade_in, R.layout.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else {
                     Exception exception = task.getException();
                 }

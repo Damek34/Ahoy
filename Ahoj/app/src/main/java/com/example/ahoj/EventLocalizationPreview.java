@@ -210,6 +210,10 @@ public class EventLocalizationPreview extends AppCompatActivity {
         if(isSocial.equals("true")){
             intent.putExtra("isSocial", "true");
         }
+        else{
+            intent.putExtra("isSocial", "false");
+
+        }
 
         startActivity(intent);
     }

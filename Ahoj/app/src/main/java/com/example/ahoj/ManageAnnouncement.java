@@ -3,6 +3,7 @@ package com.example.ahoj;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -37,6 +38,7 @@ public class ManageAnnouncement extends AppCompatActivity {
     Boolean isFromAnnouncement = true;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -94,6 +96,7 @@ public class ManageAnnouncement extends AppCompatActivity {
 
         reference = database.getReference("Announcement/" + country + "/" + date_and_time);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
@@ -130,6 +133,7 @@ public class ManageAnnouncement extends AppCompatActivity {
         isFromAnnouncement = false;
         reference = database.getReference("WaitingAnnouncements/" + date_and_time);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 announcementCompanyName = snapshot.child("CompanyName").getValue(String.class);
@@ -140,7 +144,7 @@ public class ManageAnnouncement extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                 company.setText(company.getText().toString() + " "+ announcementCompanyName);
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);

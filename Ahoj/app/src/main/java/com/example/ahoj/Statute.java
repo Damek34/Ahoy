@@ -88,6 +88,13 @@ public class Statute extends AppCompatActivity {
         intent2.putExtra("duration", durationStr);
         intent2.putExtra("additional", additionalV);
 
+            if(intent.getStringExtra("isSocial").equals(true)){
+                intent2.putExtra("isSocial", "true");
+            }
+            else{
+                intent2.putExtra("isSocial", "false");
+            }
+
         startActivity(intent2);
         }
 
@@ -98,6 +105,13 @@ public class Statute extends AppCompatActivity {
             statue.putExtra("company_name", announcement_company_name);
             statue.putExtra("duration", announcement_duration);
             statue.putExtra("additional", announcement_additional);
+
+            if(intent.getStringExtra("isSocial").equals(true)){
+                statue.putExtra("isSocial", "true");
+            }
+            else{
+                statue.putExtra("isSocial", "false");
+            }
 
             startActivity(statue);
         }

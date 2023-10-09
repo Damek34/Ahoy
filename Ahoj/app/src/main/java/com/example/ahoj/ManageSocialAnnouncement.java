@@ -140,7 +140,7 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                 company.setText(company.getText().toString() + " "+ announcementCompanyName);
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);

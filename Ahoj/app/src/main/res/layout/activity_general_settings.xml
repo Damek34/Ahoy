@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".SettingActivity">
+    tools:context=".GeneralSettings">
 
     <Button
-        android:id="@+id/buttonExitAdd"
+        android:id="@+id/buttonExit"
         android:layout_width="47dp"
         android:layout_height="49dp"
         android:layout_marginTop="18dp"
@@ -19,58 +19,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="410dp"
         android:layout_height="550dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
+        app:layout_constraintTop_toBottomOf="@+id/buttonExit">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             >
 
-            <Button
+
+            <TextView
+                android:id="@+id/language_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:text="@string/language"
                 android:textColor="@color/white"
-                android:text="@string/general_settings"
-
-                android:onClick="generalSettings"
+                android:textSize="24sp"
+                android:layout_marginTop="20dp"
 
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:textColor="@color/white"
-                android:text="@string/map_settings"
 
-                android:onClick="mapSettings"
+            <Spinner
+                android:id="@+id/changelanguage"
+                android:layout_width="238dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:entries="@array/language_select"
+                android:text="@string/map_types"
+                android:textSize="24sp"
+                android:background="@color/light_grey"
+                android:visibility="gone"
                 />
 
-            <Button
-                android:id="@+id/buttonReconect"
+            <TextView
+                android:id="@+id/duration_of_menu_animation_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/transparent"
-                android:onClick="reconnect"
-                android:text="@string/enable_localization_btn"
-               />
+                android:text="@string/menu_animation_duration"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_marginTop="20dp"
+                />
 
-
-            <Button
-                android:layout_width="wrap_content"
+            <com.google.android.material.slider.Slider
+                android:id="@+id/menu_duration_slider"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:onClick="logOut"
-                android:text="@string/log_out"
-                android:background="@color/transparent"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:visibility="gone"
 
                 />
 
@@ -82,15 +86,14 @@
 
 
     <Button
+        android:id="@+id/btnSaveSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:text="@string/terms_of_service"
-        android:background="@color/transparent"
-        android:textColor="@color/white"
-        android:onClick="statute"
+        android:onClick="saveSettings"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,7 +76,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import DatabaseFiles.Setings.SettingsDatabase;
 
 
 public class MapActivityMain extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
@@ -127,6 +126,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     boolean show_close_search_btn = false;
     boolean social_mode = false;
     boolean can_scan_events = true;
+    boolean is_announcements_page_on = false;
 
     AdView adview;
 
@@ -301,8 +301,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         // CountryAgeDatabase dbAgeCountry = Room.databaseBuilder(getApplicationContext(),
         //   CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
 
-        SettingsDatabase dbSettings = Room.databaseBuilder(getApplicationContext(),
-                SettingsDatabase.class, "user-settings-database").allowMainThreadQueries().build();
         mMap = googleMap;
 
         mMap.clear();
@@ -323,12 +321,20 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     @Override
                     public void run() {
                         switchState[0] = isChecked;
+
                         if (isChecked) {
                             Toast.makeText(getApplicationContext(), social_modeTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+
 
                             social_mode = true;
                             mMap.clear();
                             showMyLocation();
+
+                            if(is_announcements_page_on){
+                                exitAnnouncements(null);
+                                announcements(null);
+                            }
+
 
                             announcement_company_nameList.clear();
                             date_and_timeList.clear();
@@ -363,6 +369,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             mMap.clear();
                             showMyLocation();
 
+                            if(is_announcements_page_on){
+                                exitAnnouncements(null);
+                                announcements(null);
+                            }
+
                             announcement_company_nameList.clear();
                             date_and_timeList.clear();
                             date_and_timeList_remove.clear();
@@ -394,18 +405,18 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-
-        if (dbSettings.settingsDAO().getMapType() == 1) {
+        String mapType = sharedPreferences.getString("map_type", "normal");
+        if (mapType.equals("normal")) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
 
-        if (dbSettings.settingsDAO().getMapType() == 2) {
+        if (mapType.equals("terrain")) {
             mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         }
-        if (dbSettings.settingsDAO().getMapType() == 3) {
+        if (mapType.equals("satellite")) {
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         }
-        if (dbSettings.settingsDAO().getMapType() == 4) {
+        if (mapType.equals("hybrid")) {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         }
 
@@ -665,7 +676,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
                         //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
                         if(eventDateV.get(markerIndex).getMinutes() < 10){
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" +  eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                         }
                         else{
                             eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
@@ -762,19 +773,21 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void menu(View view){
+        float animationDurationFloat = sharedPreferences.getFloat("menu_animation_duration", 0.4f);
+        long animationDurationMillis = (long) (animationDurationFloat * 1000);
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right_menu);
         Animation animationToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_bottom_menu);
-        Animation animationToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_bottom_menu);
-
         Animation animationSearchToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_search);
-        Animation animationSearchToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_search);
+
+        animation.setDuration(animationDurationMillis);
+        animationToBottom.setDuration(animationDurationMillis);
+        animationSearchToTop.setDuration(animationDurationMillis);
 
 
         navigationView = findViewById(R.id.navigation);
 
 
-       // navigationView.startAnimation(animation);
 
         bottom_menu.startAnimation(animationToBottom);
         searchLayout.startAnimation(animationSearchToTop);
@@ -787,17 +800,24 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 navigationView.setVisibility(View.VISIBLE);
                 navigationView.startAnimation(animation);
             }
-        }, 400);
+        }, animationDurationMillis);
 
     }
 
     public void exitMenu(View view){
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left_menu);
-        Animation animationToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_bottom_menu);
-        Animation animationToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_bottom_menu);
 
-        Animation animationSearchToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_search);
+        float animationDurationFloat = sharedPreferences.getFloat("menu_animation_duration", 0.4f);
+        long animationDurationMillis = (long) (animationDurationFloat * 1000);
+
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left_menu);
+        Animation animationToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bottom_to_top_bottom_menu);
         Animation animationSearchToBottom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.top_to_bottom_search);
+
+        animation.setDuration(animationDurationMillis);
+        animationToTop.setDuration(animationDurationMillis);
+        animationSearchToBottom.setDuration(animationDurationMillis);
+
+
 
         NavigationView navigationView = findViewById(R.id.navigation);
 
@@ -813,7 +833,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 searchLayout.startAnimation(animationSearchToBottom);
 
             }
-        }, 400);
+        }, animationDurationMillis);
 
         //bottom_menu.startAnimation(animationToTop);
 
@@ -877,6 +897,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         }
 
+        is_announcements_page_on = true;
 
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
@@ -1111,6 +1132,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             points_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
+        is_announcements_page_on = false;
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
         TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
@@ -1333,7 +1355,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             } else {
                                 String ref = eventDateAndTimeV.get(j);
 
-                                reference = FirebaseDatabase.getInstance().getReference("Event/" + finalCountryName).child(ref);
+                                if(social_mode){
+                                    reference = FirebaseDatabase.getInstance().getReference("SocialEvent/" + finalCountryName).child(ref);
+
+                                }
+                                else{
+                                    reference = FirebaseDatabase.getInstance().getReference("Event/" + finalCountryName).child(ref);
+                                }
                                 reference.removeValue();
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -1345,7 +1373,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 modifiedEmail = modifiedEmail.replace("[", "(");
                                 modifiedEmail = modifiedEmail.replace("]", ")");
 
-                                reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
+                                if(social_mode){
+                                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialEvent");
+
+                                }
+                                else{
+                                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
+                                }
                                 reference.removeValue();
 
                             }

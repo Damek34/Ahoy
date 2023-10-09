@@ -109,7 +109,7 @@ public class ManageSocialEvent extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(eventDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                 name.setText(name.getText().toString() + " "+ eventName);
                 location.setText(location.getText().toString() + " " +eventLocation);
                 company.setText(company.getText().toString() + " " + eventCompanyName);
@@ -143,7 +143,7 @@ public class ManageSocialEvent extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH) + 1;
                 ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
                 name.setText(name.getText().toString() + " "+ eventName);
-                location.setText(location.getText().toString() + " " +eventLocation);
+                location.setText(location.getText().toString() + " " + eventLocation);
                 company.setText(company.getText().toString() + " " + eventCompanyName);
                 desc.setText(desc.getText().toString() + " " + eventDescription);
                 additional.setText(additional.getText().toString() + " " + eventAdditional);

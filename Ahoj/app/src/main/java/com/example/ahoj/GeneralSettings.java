@@ -1,39 +1,30 @@
 package com.example.ahoj;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.room.Room;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.slider.Slider;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import DatabaseFiles.Setings.SettingsDatabase;
+public class GeneralSettings extends AppCompatActivity {
 
-public class SettingActivity extends AppCompatActivity {
-
-
+    TextView duration_of_menu_animation_textview, language_textview;
+    Spinner languageSpinner;
+    SharedPreferences sharedPreferences;
+    Slider menu_duration_slider;
+    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false;
     Intent intent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -69,35 +60,72 @@ public class SettingActivity extends AppCompatActivity {
             conf.locale = myLocale;
             res.updateConfiguration(conf, dm);
         }
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_general_settings);
 
-
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         intent = getIntent();
+        languageSpinner = findViewById(R.id.changelanguage);
+
+        language_textview = findViewById(R.id.language_textview);
+        duration_of_menu_animation_textview = findViewById(R.id.duration_of_menu_animation_textview);
+        menu_duration_slider = findViewById(R.id.menu_duration_slider);
+
+        menu_duration_slider.setValue(sharedPreferences2.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
+
+
+        language_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_language_spinner_visible){
+                    languageSpinner.setVisibility(View.VISIBLE);
+                    is_language_spinner_visible = true;
+                }
+                else{
+                    languageSpinner.setVisibility(View.GONE);
+                    is_language_spinner_visible = false;
+                }
+            }
+        });
+
+
+        duration_of_menu_animation_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_menu_slider_visible){
+                    menu_duration_slider.setVisibility(View.VISIBLE);
+                    is_menu_slider_visible = true;
+                }
+                else{
+                    menu_duration_slider.setVisibility(View.GONE);
+                    is_menu_slider_visible = false;
+                }
+            }
+        });
+
 
     }
 
+
+
+
     public void exitSettings (View view){
         if(intent.getStringExtra("activity").equals("main")){
-            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            Intent intent_activity = new Intent(GeneralSettings.this, SettingActivity.class);
             intent_activity.putExtra("activity", "main");
             startActivity(intent_activity);
         }
         else{
-            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
+            Intent intent_activity = new Intent(GeneralSettings.this, SettingActivity.class);
             intent_activity.putExtra("activity", "user");
             startActivity(intent_activity);
         }
     }
 
     public void saveSettings(View view){
-        Spinner languageSpinner = findViewById(R.id.changelanguage);
-
-
         Locale locale = null;
-        String selectedLanguage = languageSpinner.getSelectedItem().toString();
-        if (selectedLanguage.equals("English") || selectedLanguage.equals("Angielski")) {
+        if (languageSpinner.getSelectedItemPosition() == 1) {
             Locale locale2 = new Locale("en");
             Locale.setDefault(locale2);
             Configuration config = new Configuration();
@@ -111,7 +139,7 @@ public class SettingActivity extends AppCompatActivity {
             conf.locale = myLocale;
             res.updateConfiguration(conf, dm);
 
-        } else if (selectedLanguage.equals("Polski") || selectedLanguage.equals("Polish")) {
+        } else if (languageSpinner.getSelectedItemPosition() == 2) {
             Locale locale2 = new Locale("pl");
             Locale.setDefault(locale2);
             Configuration config = new Configuration();
@@ -129,89 +157,33 @@ public class SettingActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if (selectedLanguage.equals("English") || selectedLanguage.equals("Angielski")) {
+        if (languageSpinner.getSelectedItemPosition() == 1) {
             editor.putString("selectedLanguage", "en");
             editor.apply();
-        } else if (selectedLanguage.equals("Polski") || selectedLanguage.equals("Polish")) {
+        } else if (languageSpinner.getSelectedItemPosition() == 2) {
             editor.putString("selectedLanguage", "pl");
             editor.apply();
         }
 
 
-
-
-
-        if(intent.getStringExtra("activity").equals("main")){
-            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
-            intent_activity.putExtra("activity", "main");
-            startActivity(intent_activity);
-        }
-        else{
-            Intent intent_activity = new Intent(SettingActivity.this, MapActivityMain.class);
-            intent_activity.putExtra("activity", "user");
-            startActivity(intent_activity);
-        }
-
-    }
-
-    public void generalSettings(View view){
-        if(intent.getStringExtra("activity").equals("main")){
-            Intent intent_activity = new Intent(SettingActivity.this, GeneralSettings.class);
-            intent_activity.putExtra("activity", "main");
-            startActivity(intent_activity);
-        }
-        else{
-            Intent intent_activity = new Intent(SettingActivity.this, GeneralSettings.class);
-            intent_activity.putExtra("activity", "user");
-            startActivity(intent_activity);
-        }
-    }
-
-    public void mapSettings(View view){
-        if(intent.getStringExtra("activity").equals("main")){
-            Intent intent_activity = new Intent(SettingActivity.this, MapSettings.class);
-            intent_activity.putExtra("activity", "main");
-            startActivity(intent_activity);
-        }
-        else{
-            Intent intent_activity = new Intent(SettingActivity.this, MapSettings.class);
-            intent_activity.putExtra("activity", "user");
-            startActivity(intent_activity);
-        }
-    }
-
-    public void reconnect(View view){
-        int permissionCheck = ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 226);
-
-            }
-        }
-    }
-
-    public void logOut(View view){
-        FirebaseAuth.getInstance().signOut();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("auth_token", null);
+        editor.putFloat("menu_animation_duration", Float.parseFloat(String.valueOf(menu_duration_slider.getValue())));
         editor.apply();
 
-        startActivity(new Intent(SettingActivity.this, LoadingScreen.class));
-    }
 
-    public void statute(View view){
-        Intent intent1 = new Intent(SettingActivity.this, Statute.class);
+
+
+
+
         if(intent.getStringExtra("activity").equals("main")){
-            intent1.putExtra("activity", "mainsettings");
-            startActivity(intent1);
+            Intent intent_activity = new Intent(GeneralSettings.this, SettingActivity.class);
+            intent_activity.putExtra("activity", "main");
+            startActivity(intent_activity);
         }
         else{
-            intent1.putExtra("activity", "usersettings");
-            startActivity(intent1);
+            Intent intent_activity = new Intent(GeneralSettings.this, SettingActivity.class);
+            intent_activity.putExtra("activity", "user");
+            startActivity(intent_activity);
         }
+
     }
 }

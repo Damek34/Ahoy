@@ -19,23 +19,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="295dp"
+
+        android:layout_height="253dp"
+        android:background="@drawable/chain"
+        android:rotation="90"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/roundpinkbutton"
         android:onClick="login"
+
         android:padding="10dp"
         android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="34sp"
-        android:minWidth="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.324" />
+
+    <ImageView
+        android:layout_width="195dp"
+        android:layout_height="192dp"
+
+        android:layout_marginTop="7dp"
+        android:background="@drawable/chain"
+        android:rotation="45"
+        app:layout_constraintEnd_toStartOf="@+id/registerBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:layout_width="195dp"
+        android:layout_height="192dp"
+
+        android:background="@drawable/chain"
+        android:rotation="-45"
+        tools:layout_editor_absoluteX="248dp"
+        tools:layout_editor_absoluteY="260dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registerBtn"
@@ -45,10 +76,11 @@
         android:background="@drawable/roundpinkbutton"
         android:onClick="register"
         android:padding="10dp"
+
+
         android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="34sp"
-        android:minWidth="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

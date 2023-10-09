@@ -142,7 +142,7 @@ c) Violating any applicable laws or regulations while using the App.\n
 9.3. Any disputes arising out of or in connection with these Terms of Service shall be resolved by the courts located in Polish Jurisdiction.\n
     </string>
     <string name="event_will_ends">Event will ends </string>
-    <string name="announcement_will_ends">Event will ends </string>
+    <string name="announcement_will_ends">Announcement will ends </string>
     <string name="how_long_should_announcement_be_active">How long should announcement be active?</string>
     <string name="check_if_location_is_correct">Check if location is correct</string>
     <string name="location_not_found">Location not found</string>
@@ -212,6 +212,10 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="your_report_should_have_twenty_letters">Your report should have minimum 20 letters</string>
     <string name="you_already_reported_that_event">You already reported that event</string>
     <string name="you_already_reported_that_announcement">You already reported that announcement</string>
+    <string name="general_settings">general settings</string>
+    <string name="map_settings">map settings</string>
+    <string name="menu_animation_duration">Duration of menu animation</string>
+    <string name="language">Language</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

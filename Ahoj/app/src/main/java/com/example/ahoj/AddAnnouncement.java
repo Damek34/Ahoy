@@ -251,6 +251,12 @@ public class AddAnnouncement extends AppCompatActivity {
         statue.putExtra("company_name", announcement_company_name.getText().toString());
         statue.putExtra("duration", announcement_duration.getText().toString());
         statue.putExtra("additional", announcement_additional.getText().toString());
+        if(social_intent.getStringExtra("isSocial").equals(true)){
+            statue.putExtra("isSocial", "true");
+        }
+        else{
+            statue.putExtra("isSocial", "false");
+        }
 
         startActivity(statue);
     }

@@ -179,6 +179,13 @@ public class AddLocalEvent extends AppCompatActivity {
         intent.putExtra("duration", duration.getText().toString());
         intent.putExtra("additional", additional.getText().toString());
 
+        if(isSocial.equals("true")){
+            intent.putExtra("isSocial", "true");
+        }
+        else{
+            intent.putExtra("isSocial", "false");
+        }
+
         startActivity(intent);
     }
 }

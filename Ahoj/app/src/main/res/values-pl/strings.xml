@@ -230,4 +230,6 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="map_settings">ustawienia mapy</string>
     <string name="menu_animation_duration">Czas trwania animacji menu</string>
     <string name="language">Język</string>
+    <string name="map_type">Rodzaj mapy</string>
+    <string name="scanning_radius">Promień skanowania</string>
 </resources>

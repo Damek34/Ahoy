@@ -19,11 +19,11 @@ import java.util.Locale;
 
 public class GeneralSettings extends AppCompatActivity {
 
-    TextView duration_of_menu_animation_textview, language_textview;
+    TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview;
     Spinner languageSpinner;
     SharedPreferences sharedPreferences;
-    Slider menu_duration_slider;
-    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false;
+    Slider menu_duration_slider, scanning_radius_slider;
+    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false;
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +71,25 @@ public class GeneralSettings extends AppCompatActivity {
         language_textview = findViewById(R.id.language_textview);
         duration_of_menu_animation_textview = findViewById(R.id.duration_of_menu_animation_textview);
         menu_duration_slider = findViewById(R.id.menu_duration_slider);
+        scanning_radius_textview = findViewById(R.id.scanning_radius_textview);
+        scanning_radius_slider = findViewById(R.id.scanning_radius_slider);
 
         menu_duration_slider.setValue(sharedPreferences2.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
+        scanning_radius_slider.setValue(sharedPreferences2.getInt("scanning_radius", Integer.parseInt("20")));
 
+        scanning_radius_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_scanning_radius_slider_visible){
+                    scanning_radius_slider.setVisibility(View.VISIBLE);
+                    is_scanning_radius_slider_visible = true;
+                }
+                else{
+                    scanning_radius_slider.setVisibility(View.GONE);
+                    is_scanning_radius_slider_visible = false;
+                }
+            }
+        });
 
         language_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +185,8 @@ public class GeneralSettings extends AppCompatActivity {
         editor.putFloat("menu_animation_duration", Float.parseFloat(String.valueOf(menu_duration_slider.getValue())));
         editor.apply();
 
+        editor.putInt("scanning_radius", (int) scanning_radius_slider.getValue());
+        editor.apply();
 
 
 

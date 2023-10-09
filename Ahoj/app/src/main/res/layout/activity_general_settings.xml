@@ -36,6 +36,31 @@
 
 
             <TextView
+                android:id="@+id/scanning_radius_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scanning_radius"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_marginTop="20dp"
+
+                />
+
+
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/scanning_radius_slider"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="5"
+                android:valueTo="100"
+                android:visibility="gone"
+                android:stepSize="1"
+                app:tickVisible="false"
+
+                />
+
+            <TextView
                 android:id="@+id/language_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

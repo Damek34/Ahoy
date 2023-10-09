@@ -12,14 +12,17 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Locale;
 
 public class MapSettings extends AppCompatActivity {
 
+    TextView map_type_textview;
     Spinner mapTypesSpinner;
     SharedPreferences sharedPreferences;
     Intent intent;
+    Boolean is_map_type_textview_visible = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -63,6 +66,21 @@ public class MapSettings extends AppCompatActivity {
         intent = getIntent();
 
         mapTypesSpinner = findViewById(R.id.mapTypesSpinner);
+        map_type_textview = findViewById(R.id.map_type_textview);
+
+        map_type_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_map_type_textview_visible){
+                    mapTypesSpinner.setVisibility(View.VISIBLE);
+                    is_map_type_textview_visible = true;
+                }
+                else{
+                    mapTypesSpinner.setVisibility(View.GONE);
+                    is_map_type_textview_visible = false;
+                }
+            }
+        });
 
     }
 

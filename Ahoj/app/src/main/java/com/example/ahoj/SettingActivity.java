@@ -16,18 +16,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import DatabaseFiles.Setings.SettingsDatabase;
+
 
 public class SettingActivity extends AppCompatActivity {
 

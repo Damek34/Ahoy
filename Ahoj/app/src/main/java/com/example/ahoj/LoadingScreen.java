@@ -25,12 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.List;
 import java.util.Locale;
 
-import DatabaseFiles.CountryAge.CountryAgeDatabase;
-import DatabaseFiles.CountryAge.User;
 
 public class LoadingScreen extends AppCompatActivity {
 

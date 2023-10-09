@@ -216,6 +216,8 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="map_settings">map settings</string>
     <string name="menu_animation_duration">Duration of menu animation</string>
     <string name="language">Language</string>
+    <string name="map_type">Map type</string>
+    <string name="scanning_radius">Scanning radius</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

@@ -148,8 +148,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     ConstraintLayout searchLayout;
 
-
     private SharedPreferences sharedPreferences;
+
+    int scan_radius;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -221,6 +222,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             points_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
+
+        scan_radius = sharedPreferences2.getInt("scanning_radius", 20);
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -297,10 +300,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
-        // CountryAgeDatabase dbAgeCountry = Room.databaseBuilder(getApplicationContext(),
-        //   CountryAgeDatabase.class, "user-database").allowMainThreadQueries().build();
-
         mMap = googleMap;
 
         mMap.clear();
@@ -1321,7 +1320,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             }
                             address = addressList.get(0);
                             double distance = Math.round(calculateDistance(current_lat, current_lng, address.getLatitude(), address.getLongitude()));
-                            if(distance <= 20){
+                            if(distance <= scan_radius){
                                 String eventName = eventSnapshot.child("event_name").getValue(String.class);
                                 eventNameV.add(eventName);
 

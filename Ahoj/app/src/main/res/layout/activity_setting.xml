@@ -86,6 +86,15 @@
                 android:onClick="reconnect"
                 android:text="@string/enable_localization_btn" />
 
+            <Button
+                android:id="@+id/buttonClearCache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@color/transparent"
+                android:onClick="clearCache"
+                android:text="@string/clear_cache" />
+
 
             <Button
                 android:layout_width="wrap_content"
@@ -97,6 +106,68 @@
 
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/information"
+                android:textColor="@color/light_grey"
+                android:layout_gravity="center"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@color/transparent"
+                android:onClick="FAQ"
+                android:text="@string/faq"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@color/transparent"
+                android:onClick="showEmailAddress"
+                android:text="@string/support"
+                />
+            <LinearLayout
+                android:id="@+id/support_linear_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/our_support_email"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/transparent"
+                    android:onClick="copyAddress"
+                    android:text="@string/copy_support_email_address"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_grey"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -126,5 +197,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/textview_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/textview_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/an_error_occurred"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/textview_copied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copied"
+        android:visibility="gone"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

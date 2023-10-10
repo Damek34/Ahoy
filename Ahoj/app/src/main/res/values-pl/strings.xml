@@ -239,5 +239,21 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="no_such_place_has_been_found">Nie znaleziono takiego miejsca</string>
     <string name="functions">Funkcje</string>
     <string name="zoom_size">Rozmiar przybliżenia</string>
+    <string name="clear_cache">Wyczyść pamięć podręczną</string>
+    <string name="done">Zrobione!</string>
+    <string name="an_error_occurred">Wystąpił błąd</string>
+    <string name="information">Informacje</string>
+    <string name="support">Wsparcie</string>
+    <string name="faq">Często zadawane pytania</string>
+    <string name="q1">Czy mogę mieć dwa konta na jednym emailu?</string>
+    <string name="q2">Kiedy używam swojej nazwy użytkownika, wciąż nie mogę się zalogować na swoje konto. Dlaczego?</string>
+    <string name="q3">Zgłosiłem wydarzenie/ogłoszenie. Dlaczego nie zostało usunięte?</string>
+    <string name="q4">Czy mogę stworzyć wydarzenie/ogłoszenie za darmo?</string>
+    <string name="a1">Nie, jeżeli chcesz posiadać konto firmowe i zwykłe, musisz użyć różnych adresów email.</string>
+    <string name="a2">Sprawdź, czy w formularzu nie użyłeś spacji lub innych białych znaków. Jeśli nadal masz problem, spróbuj zresetować hasło lub wyślij wiadomość na nasz e-mail!</string>
+    <string name="a3">Sprawdzamy zgłoszone wydarzenia/ogłoszenia, gdy licznik zgłoszeń osiągnie co najmniej 5 zgłoszeń. Następnie sprawdzamy każdą wiadomość i podejmujemy decyzję o usunięciu.</string>
+    <string name="a4">Tak, możesz stworzyć własne wydarzenie/ogłoszenie za darmo, ale prawdopodobnie ulegnie to zmianie w przyszłości. Płatność będzie uzależniona od tego, jak długo wydarzenie/ogłoszenie będzie trwało.</string>
+    <string name="our_support_email">Jeśli potrzebujesz pomocy - wyślij do nas wiadomość - AhoyApp4u@gmail.com</string>
+    <string name="copy_support_email_address">Skopiuj adres</string>
 
 </resources>

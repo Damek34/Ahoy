@@ -96,6 +96,7 @@ public class Statute extends AppCompatActivity {
             }
 
         startActivity(intent2);
+            return;
         }
 
         if(intent.getStringExtra("activity").equals("AddAnnouncement")){
@@ -114,17 +115,40 @@ public class Statute extends AppCompatActivity {
             }
 
             startActivity(statue);
+            return;
         }
 
         if(intent.getStringExtra("activity").equals("mainsettings")){
             Intent intent2 = new Intent(Statute.this, SettingActivity.class);
             intent2.putExtra("activity", "main");
             startActivity(intent2);
+            return;
         }
         if(intent.getStringExtra("activity").equals("usersettings")){
             Intent intent2 = new Intent(Statute.this, SettingActivity.class);
             intent2.putExtra("activity", "user");
             startActivity(intent2);
+            return;
         }
+
+        if(intent.getStringExtra("activity").equals("faqMain")){
+            Intent intent2 = new Intent(Statute.this, FAQ.class);
+            intent2.putExtra("activity", "main");
+            startActivity(intent2);
+            return;
+        }
+        else if(intent.getStringExtra("activity").equals("faqUser")){
+            Intent intent2 = new Intent(Statute.this, FAQ.class);
+            intent2.putExtra("activity", "user");
+            startActivity(intent2);
+            return;
+        }
+        else{
+            startActivity(new Intent(Statute.this, FAQ.class));
+            return;
+        }
+
+
+
     }
 }

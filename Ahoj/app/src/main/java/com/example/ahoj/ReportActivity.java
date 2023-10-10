@@ -297,6 +297,7 @@ public class ReportActivity extends AppCompatActivity {
                 intent1.putExtra("isavailable", isavailable);
                 intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
                 intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
+                intent1.putExtra("Name", activity_intent.getStringExtra("Name"));
                 startActivity(intent1);
             } else {
                 Intent intent1 = new Intent(ReportActivity.this, EventActivity.class);
@@ -308,6 +309,8 @@ public class ReportActivity extends AppCompatActivity {
                 intent1.putExtra("isavailable", isavailable);
                 intent1.putExtra("Localization", activity_intent.getStringExtra("Localization"));
                 intent1.putExtra("Duration", activity_intent.getStringExtra("Duration"));
+                intent1.putExtra("Name", activity_intent.getStringExtra("Name"));
+
                 startActivity(intent1);
             }
         }

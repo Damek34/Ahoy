@@ -232,4 +232,12 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="language">Język</string>
     <string name="map_type">Rodzaj mapy</string>
     <string name="scanning_radius">Promień skanowania</string>
+    <string name="auto_zoom_to_your_location">Automatycznie zbliżenie do twojej lokalizacji</string>
+    <string name="auto_log_out">Automatyczne wylogowanie</string>
+    <string name="on">Włączono</string>
+    <string name="off">Wyłączono</string>
+    <string name="no_such_place_has_been_found">Nie znaleziono takiego miejsca</string>
+    <string name="functions">Funkcje</string>
+    <string name="zoom_size">Rozmiar przybliżenia</string>
+
 </resources>

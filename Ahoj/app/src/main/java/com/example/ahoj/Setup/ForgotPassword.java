@@ -39,8 +39,8 @@ public class ForgotPassword extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
-        String savedLanguage = sharedPreferences2.getString("selectedLanguage", null);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String savedLanguage = sharedPreferences.getString("selectedLanguage", null);
 
         if (savedLanguage.equals("en")) {
             Locale locale2 = new Locale("en");

@@ -2,7 +2,7 @@ package com.example.ahoj;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +31,7 @@ import java.util.Locale;
 public class LoadingScreen extends AppCompatActivity {
 
     private DatabaseReference versionRef;
-    private String appVersion = "0.91";
+    private String appVersion = "0.92";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application;
 
@@ -127,7 +127,7 @@ public class LoadingScreen extends AppCompatActivity {
             }
         });
 
-        }
+    }
     //}
 
     private void showVersionMismatchDialog() {
@@ -145,27 +145,46 @@ public class LoadingScreen extends AppCompatActivity {
         builder.show();
     }
 
-     private void continueLoading(){
+    private void continueLoading(){
         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        String authToken = sharedPreferences.getString("auth_token", null);
+        SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
 
-         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        boolean auto_log_out_user = sharedPreferences2.getBoolean("auto_log_out", false);
+        if (!auto_log_out_user){
+            String authToken = sharedPreferences.getString("auth_token", null);
 
-         SharedPreferences.Editor editor = sharedPreferences.edit();
-         editor.putString("email", "");
-         editor.apply();
+            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        if (authToken != null) {
-            Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
-            intent.putExtra("activity", "user");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            }, 1500);
-        } else {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("email", "");
+            editor.apply();
+
+            if (authToken != null) {
+                Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
+                intent.putExtra("activity", "user");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 1500);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(LoadingScreen.this, setup.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 1500);
+            }
+        }
+        else{
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("auth_token", "");
+            editor.putString("email", "");
+            editor.apply();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -174,8 +193,6 @@ public class LoadingScreen extends AppCompatActivity {
                 }
             }, 1500);
         }
-
-
 
 
 

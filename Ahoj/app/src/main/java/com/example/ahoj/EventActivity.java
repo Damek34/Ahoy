@@ -277,6 +277,7 @@ public class EventActivity extends AppCompatActivity {
             intent1.putExtra("isavailable", isavailable);
             intent1.putExtra("Localization", intent.getStringExtra("Localization"));
             intent1.putExtra("Duration", intent.getStringExtra("Duration"));
+            intent1.putExtra("Name", intent.getStringExtra("Name"));
 
             intent1.putExtra("announcement_or_event", "event");
 
@@ -292,6 +293,8 @@ public class EventActivity extends AppCompatActivity {
             intent1.putExtra("isavailable", isavailable);
             intent1.putExtra("Localization", intent.getStringExtra("Localization"));
             intent1.putExtra("Duration", intent.getStringExtra("Duration"));
+            intent1.putExtra("Name", intent.getStringExtra("Name"));
+
 
             intent1.putExtra("announcement_or_event", "event");
 

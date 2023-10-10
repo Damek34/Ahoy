@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             >
 
 
@@ -46,8 +47,6 @@
 
                 />
 
-
-
             <Spinner
                 android:id="@+id/mapTypesSpinner"
                 android:layout_width="238dp"
@@ -60,6 +59,60 @@
 
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/auto_zoom_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_zoom_to_your_location"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+            <Switch
+                android:id="@+id/auto_zoom_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/zoom_size_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zoom_size"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/zoom_size_slider"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:stepSize="1"
+                android:valueFrom="1"
+                android:valueTo="25"
+                android:visibility="gone"
+                app:tickVisible="false"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
 
         </LinearLayout>
 
@@ -77,5 +130,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
+    <TextView
+        android:id="@+id/on_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/on"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/off_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/off"
+        android:visibility="gone"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

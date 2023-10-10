@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             >
 
 
@@ -60,6 +61,13 @@
 
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
             <TextView
                 android:id="@+id/language_textview"
                 android:layout_width="wrap_content"
@@ -67,7 +75,7 @@
                 android:text="@string/language"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                android:layout_marginTop="20dp"
+
 
                 />
 
@@ -83,6 +91,40 @@
                 android:visibility="gone"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
+
+            <TextView
+                android:id="@+id/auto_log_out_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_log_out"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+
+            <Switch
+                android:id="@+id/auto_log_out_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+
+
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
             <TextView
                 android:id="@+id/duration_of_menu_animation_textview"
                 android:layout_width="wrap_content"
@@ -90,7 +132,7 @@
                 android:text="@string/menu_animation_duration"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                android:layout_marginTop="20dp"
+
                 />
 
             <com.google.android.material.slider.Slider
@@ -103,7 +145,12 @@
 
                 />
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
         </LinearLayout>
 
 
@@ -120,5 +167,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
+
+    <TextView
+        android:id="@+id/on_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/on"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/off_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/off"
+        android:visibility="gone"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

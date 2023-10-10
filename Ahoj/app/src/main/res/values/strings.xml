@@ -218,6 +218,13 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="language">Language</string>
     <string name="map_type">Map type</string>
     <string name="scanning_radius">Scanning radius</string>
+    <string name="auto_log_out">Auto log out</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="auto_zoom_to_your_location">Auto zoom to your location</string>
+    <string name="no_such_place_has_been_found">No such place has been found</string>
+    <string name="functions">Functions</string>
+    <string name="zoom_size">Zoom size</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

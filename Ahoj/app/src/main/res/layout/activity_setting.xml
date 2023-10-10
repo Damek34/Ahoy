@@ -21,6 +21,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView4"
         android:layout_width="410dp"
         android:layout_height="550dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,47 +31,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings"
+                android:textColor="@color/light_grey"
+                android:layout_gravity="center"
+                />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:textColor="@color/white"
+                android:onClick="generalSettings"
                 android:text="@string/general_settings"
 
-                android:onClick="generalSettings"
+                android:textColor="@color/white"
 
                 />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:textColor="@color/white"
+                android:onClick="mapSettings"
                 android:text="@string/map_settings"
 
-                android:onClick="mapSettings"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/functions"
+                android:textColor="@color/light_grey"
+                android:layout_gravity="center"
                 />
+
 
             <Button
                 android:id="@+id/buttonReconect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+
                 android:background="@color/transparent"
                 android:onClick="reconnect"
-                android:text="@string/enable_localization_btn"
-               />
+                android:text="@string/enable_localization_btn" />
 
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
+                android:background="@color/transparent"
                 android:onClick="logOut"
                 android:text="@string/log_out"
-                android:background="@color/transparent"
 
                 />
 
@@ -80,17 +103,28 @@
 
     </ScrollView>
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/light_grey"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView4"
+        tools:layout_editor_absoluteX="1dp" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
-        android:text="@string/terms_of_service"
         android:background="@color/transparent"
-        android:textColor="@color/white"
         android:onClick="statute"
+        android:text="@string/terms_of_service"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

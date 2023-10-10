@@ -130,7 +130,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView;
+    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found;
 
     String countryName = "", search_announcements_str = "";
 
@@ -150,7 +150,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     private SharedPreferences sharedPreferences;
 
-    int scan_radius;
+    int scan_radius, zoom_size;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -206,6 +206,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         social_modeTextView = findViewById(R.id.social_mode);
         bottom_menu = findViewById(R.id.bottom_menu);
         searchLayout = findViewById(R.id.searchLayout);
+        no_such_place_has_been_found = findViewById(R.id.no_such_place_has_been_found);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -224,6 +225,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
         scan_radius = sharedPreferences2.getInt("scanning_radius", 20);
+        zoom_size = sharedPreferences2.getInt("zoom_size", 15);
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -277,9 +279,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                 // mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 try {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom_size), 1500, null);
                 } catch (NullPointerException e) {
-                    Toast.makeText(getApplicationContext(), "Nie odnaleziono takiego miejsca", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), no_such_place_has_been_found.getText().toString(), Toast.LENGTH_LONG).show();
                 }
 
                 return false;
@@ -487,7 +489,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
+
+            boolean is_auto_zoom_on = sharedPreferences.getBoolean("auto_zoom", true);
+            if(is_auto_zoom_on){
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom_size), 1500, null);
+            }
 
             assert marker != null;
             current_lat = marker.getPosition().latitude;

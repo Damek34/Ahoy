@@ -7,11 +7,15 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
 
@@ -19,11 +23,12 @@ import java.util.Locale;
 
 public class GeneralSettings extends AppCompatActivity {
 
-    TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview;
+    TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview, auto_log_out_textview, on_textview, off_textview;
     Spinner languageSpinner;
     SharedPreferences sharedPreferences;
     Slider menu_duration_slider, scanning_radius_slider;
-    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false;
+    Switch auto_log_out_switch;
+    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false, is_auto_log_out_switch_visible = false;
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +78,18 @@ public class GeneralSettings extends AppCompatActivity {
         menu_duration_slider = findViewById(R.id.menu_duration_slider);
         scanning_radius_textview = findViewById(R.id.scanning_radius_textview);
         scanning_radius_slider = findViewById(R.id.scanning_radius_slider);
+        auto_log_out_textview = findViewById(R.id.auto_log_out_textview);
+        auto_log_out_switch = findViewById(R.id.auto_log_out_switch);
+        on_textview = findViewById(R.id.on_textview);
+        off_textview = findViewById(R.id.off_textview);
 
         menu_duration_slider.setValue(sharedPreferences2.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
         scanning_radius_slider.setValue(sharedPreferences2.getInt("scanning_radius", Integer.parseInt("20")));
+        auto_log_out_switch.setChecked(sharedPreferences2.getBoolean("auto_log_out", false));
+
+        if(intent.getStringExtra("activity").equals("main")){
+            auto_log_out_textview.setVisibility(View.GONE);
+        }
 
         scanning_radius_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +104,6 @@ public class GeneralSettings extends AppCompatActivity {
                 }
             }
         });
-
         language_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,8 +117,43 @@ public class GeneralSettings extends AppCompatActivity {
                 }
             }
         });
+        auto_log_out_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_auto_log_out_switch_visible){
+                    auto_log_out_switch.setVisibility(View.VISIBLE);
+                    is_auto_log_out_switch_visible = true;
+                }
+                else{
+                    auto_log_out_switch.setVisibility(View.GONE);
+                    is_auto_log_out_switch_visible = false;
+                }
+            }
+        });
+        auto_log_out_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            Handler switchHandler = new Handler();
+            Runnable switchRunnable[] = {null};
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (switchRunnable[0] != null) {
+                    switchHandler.removeCallbacks(switchRunnable[0]);
+                }
 
+                switchRunnable[0] = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isChecked){
+                            Toast.makeText(getApplicationContext(), on_textview.getText().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                        else{
+                            Toast.makeText(getApplicationContext(), off_textview.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                }
 
+                };
+                switchHandler.postDelayed(switchRunnable[0], 750);
+            }
+        });
         duration_of_menu_animation_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +236,8 @@ public class GeneralSettings extends AppCompatActivity {
         editor.putInt("scanning_radius", (int) scanning_radius_slider.getValue());
         editor.apply();
 
+        editor.putBoolean("auto_log_out", auto_log_out_switch.isChecked());
+        editor.apply();
 
 
 

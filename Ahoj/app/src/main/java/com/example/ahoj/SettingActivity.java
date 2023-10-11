@@ -139,7 +139,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void clearCache(View view){
-        try {
+       /* try {
             File cacheDir = getCacheDir();
             if (cacheDir != null) {
                 File[] cacheFiles = cacheDir.listFiles();
@@ -153,6 +153,38 @@ public class SettingActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), textview_error.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+
+        */
+
+        deleteCache(getApplicationContext());
+    }
+
+    public void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
+
+    public boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    Toast.makeText(getApplicationContext(), textview_error.getText().toString(), Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), textview_done.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
         }
     }
 
@@ -199,6 +231,17 @@ public class SettingActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), textview_copied.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
+    public void accountSettings(View view){
+        Intent intent1 = new Intent(SettingActivity.this, AccountSettings.class);
+        if(intent.getStringExtra("activity").equals("main")){
+            intent1.putExtra("activity", "main");
+            startActivity(intent1);
+        }
+        else{
+            intent1.putExtra("activity", "user");
+            startActivity(intent1);
+        }
+    }
 
     public void statute(View view){
         Intent intent1 = new Intent(SettingActivity.this, Statute.class);

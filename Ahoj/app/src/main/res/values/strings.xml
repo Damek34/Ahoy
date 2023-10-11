@@ -233,15 +233,18 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="faq">Frequently Asked Questions</string>
     <string name="q1">Can i have two accounts on one email?</string>
     <string name="q2">When I using my nickname, I still can\'t log in into my account. Why?</string>
-    <string name="q3">I reported an event/announcement. Why it doesn\'t get removed?</string>
+    <string name="q3">I reported an event/announcement. Why it does\'t get removed?</string>
     <string name="q4">Can i create event/announcement for free?</string>
     <string name="a1">No, if you wanna have company account and normal account, you must use different emails.</string>
-    <string name="a2">Check if you doesn\'t used space, or some other whitespaces symbols inside form. If you still have problem, try reset your password or send message on our email!</string>
+    <string name="a2">Check if you does\'t used space, or some other whitespaces symbols inside form. If you still have problem, try reset your password or send message on our email!</string>
     <string name="a3">We are checking reported events/announcements when the report counter hits at least 5 reports. Then we are looking into every message and deciding if this one should be deleted.</string>
     <string name="a4">Yes, you can create your own event/announcement for free, but probably it is gonna by changed in future. The payment will be depends by how long event/announcement last.</string>
     <string name="our_support_email">If you need help - send message to us - AhoyApp4u@gmail.com</string>
     <string name="copy_support_email_address">Copy address</string>
-
+    <string name="account_settings">Account settings</string>
+    <string name="change_password">Change password</string>
+    <string name="new_password">New password</string>
+    <string name="change">Change</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

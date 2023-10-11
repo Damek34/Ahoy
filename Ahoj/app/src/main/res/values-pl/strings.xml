@@ -255,5 +255,9 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="a4">Tak, możesz stworzyć własne wydarzenie/ogłoszenie za darmo, ale prawdopodobnie ulegnie to zmianie w przyszłości. Płatność będzie uzależniona od tego, jak długo wydarzenie/ogłoszenie będzie trwało.</string>
     <string name="our_support_email">Jeśli potrzebujesz pomocy - wyślij do nas wiadomość - AhoyApp4u@gmail.com</string>
     <string name="copy_support_email_address">Skopiuj adres</string>
+    <string name="account_settings">Ustawienia konta</string>
+    <string name="change_password">Zmień hasło</string>
+    <string name="new_password">Nowe hasło</string>
+    <string name="change">Zmień</string>
 
 </resources>

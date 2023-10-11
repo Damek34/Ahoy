@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahoj.Setup.setup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,9 @@ public class LoadingScreen extends AppCompatActivity {
     private String appVersion = "0.92";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application;
+
+    private FirebaseAuth mAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,9 @@ public class LoadingScreen extends AppCompatActivity {
         setContentView(R.layout.activity_loading_screen);
         Textview_please_update_application = findViewById(R.id.Textview_please_update_application);
         Textview_app_version_is_not_actual = findViewById(R.id.Textview_app_version_is_not_actual);
+
+        mAuth = FirebaseAuth.getInstance();
+
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -160,6 +168,7 @@ public class LoadingScreen extends AppCompatActivity {
             editor.apply();
 
             if (authToken != null) {
+                mAuth.signInWithCustomToken(authToken);
                 Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
                 intent.putExtra("activity", "user");
                 new Handler().postDelayed(new Runnable() {

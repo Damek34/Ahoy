@@ -29,6 +29,7 @@ public class GeneralSettings extends AppCompatActivity {
     Slider menu_duration_slider, scanning_radius_slider;
     Switch auto_log_out_switch;
     Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false, is_auto_log_out_switch_visible = false;
+    View auto_log_out_view;
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +87,11 @@ public class GeneralSettings extends AppCompatActivity {
         menu_duration_slider.setValue(sharedPreferences2.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
         scanning_radius_slider.setValue(sharedPreferences2.getInt("scanning_radius", Integer.parseInt("20")));
         auto_log_out_switch.setChecked(sharedPreferences2.getBoolean("auto_log_out", false));
+        auto_log_out_view = findViewById(R.id.auto_log_out_view);
 
         if(intent.getStringExtra("activity").equals("main")){
             auto_log_out_textview.setVisibility(View.GONE);
+            auto_log_out_view.setVisibility(View.GONE);
         }
 
         scanning_radius_textview.setOnClickListener(new View.OnClickListener() {

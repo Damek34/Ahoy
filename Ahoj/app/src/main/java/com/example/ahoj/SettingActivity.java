@@ -163,30 +163,33 @@ public class SettingActivity extends AppCompatActivity {
     public void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
-            deleteDir(dir);
-        } catch (Exception e) { e.printStackTrace();}
+            boolean success = deleteDir(dir);
+
+            if (success) {
+                Toast.makeText(getApplicationContext(), textview_done.getText().toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), textview_error.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
+            boolean success = true;
             for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    Toast.makeText(getApplicationContext(), textview_error.getText().toString(), Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), textview_done.getText().toString(), Toast.LENGTH_LONG).show();
-                }
+                success = deleteDir(new File(dir, children[i])) && success;
             }
-            return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+            return dir.delete() && success;
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;
         }
     }
+
 
     public void logOut(View view){
         FirebaseAuth.getInstance().signOut();

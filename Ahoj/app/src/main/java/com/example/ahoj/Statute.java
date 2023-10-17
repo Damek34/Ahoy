@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.ahoj.Setup.setup;
 
 import java.util.Locale;
 
@@ -19,6 +22,7 @@ public class Statute extends AppCompatActivity {
     String nameV, descV, locationV, company_nameV, durationStr, additionalV, announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
 
     Intent intent;
+    Button faq_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -56,6 +60,11 @@ public class Statute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statute);
         intent = getIntent();
+        faq_btn = findViewById(R.id.faq_btn);
+        if(!intent.getStringExtra("activity").equals("setup")){
+            faq_btn.setVisibility(View.GONE);
+        }
+
         if(intent.getStringExtra("activity").equals("AddLocalEvent")){
             nameV = intent.getStringExtra("event_name");
             descV = intent.getStringExtra("event_desc");
@@ -96,6 +105,10 @@ public class Statute extends AppCompatActivity {
             }
 
         startActivity(intent2);
+            return;
+        }
+        if(intent.getStringExtra("activity").equals("setup")){
+            startActivity(new Intent(Statute.this, setup.class));
             return;
         }
 
@@ -149,6 +162,10 @@ public class Statute extends AppCompatActivity {
         }
 
 
-
+    }
+    public void faq(View view){
+        Intent intent1 = new Intent(Statute.this, FAQ.class);
+        intent1.putExtra("activity", "setup");
+        startActivity(intent1);
     }
 }

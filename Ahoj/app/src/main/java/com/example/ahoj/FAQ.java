@@ -10,13 +10,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.ahoj.Setup.setup;
 
 import java.util.Locale;
 
 public class FAQ extends AppCompatActivity {
-
+    Button terms;
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,10 @@ public class FAQ extends AppCompatActivity {
         setContentView(R.layout.activity_faq);
 
         intent = getIntent();
+        terms = findViewById(R.id.terms);
+        if(intent.getStringExtra("activity").equals("setup")){
+            terms.setVisibility(View.GONE);
+        }
     }
 
     public void statute(View view){
@@ -74,7 +79,12 @@ public class FAQ extends AppCompatActivity {
 
 
     public void exit (View view){
-        if(intent.getStringExtra("activity").equals("main")){
+        if(intent.getStringExtra("activity").equals("setup")){
+            Intent intent_activity = new Intent(FAQ.this, Statute.class);
+            intent_activity.putExtra("activity", "setup");
+            startActivity(intent_activity);
+        }
+        else if(intent.getStringExtra("activity").equals("main")){
             Intent intent_activity = new Intent(FAQ.this, SettingActivity.class);
             intent_activity.putExtra("activity", "main");
             startActivity(intent_activity);

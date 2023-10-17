@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.example.ahoj.MapActivityMain;
 import com.example.ahoj.R;
+import com.example.ahoj.Statute;
 
 import java.util.Locale;
 
@@ -90,6 +91,12 @@ public class setup extends AppCompatActivity {
     private void requestPermission(String permissionName, int permissionRequestCode) {
         ActivityCompat.requestPermissions(this,
                 new String[]{permissionName}, permissionRequestCode);
+    }
+
+    public void terms(View view){
+        Intent intent = new Intent(setup.this, Statute.class);
+        intent.putExtra("activity", "setup");
+        startActivity(intent);
     }
 
 }

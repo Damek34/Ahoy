@@ -245,6 +245,17 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="change_password">Change password</string>
     <string name="new_password">New password</string>
     <string name="change">Change</string>
+    <string name="enter_friend_nickname">Enter friend nickname</string>
+    <string name="search_new_friend">Search new friend by his nickname</string>
+    <string name="user_not_found">User not found</string>
+    <string name="you_cant_invite_yourself">You can\'t invite yourself</string>
+    <string name="invite">Invite</string>
+    <string name="invitation_sent">Invitation sent</string>
+    <string name="accept">Accept</string>
+    <string name="accepted">Accepted</string>
+    <string name="reject">Reject</string>
+    <string name="rejected">Rejected</string>
+    <string name="remove_friend">Remove friend</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

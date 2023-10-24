@@ -345,6 +345,18 @@
                         app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
 
                     <Button
+                        android:id="@+id/friends_button"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="64dp"
+                        android:background="@color/transparent"
+                        android:foreground="@android:drawable/ic_menu_myplaces"
+                        android:onClick="friendActivity"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/points_button" />
+
+                    <Button
                         android:id="@+id/manage_button"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"

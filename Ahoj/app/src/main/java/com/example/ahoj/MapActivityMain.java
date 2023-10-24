@@ -134,7 +134,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     String countryName = "", search_announcements_str = "";
 
-    Button add_button, points_button, manage_button;
+    Button add_button, points_button, manage_button, friends_button;
 
     Intent activity_intent;
 
@@ -207,6 +207,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         bottom_menu = findViewById(R.id.bottom_menu);
         searchLayout = findViewById(R.id.searchLayout);
         no_such_place_has_been_found = findViewById(R.id.no_such_place_has_been_found);
+        friends_button = findViewById(R.id.friends_button);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -221,6 +222,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             add_button.setVisibility(View.GONE);
         } else {
             points_button.setVisibility(View.GONE);
+            friends_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
 
@@ -516,13 +518,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
-   /* można usunąć chyba ale upewnic sie private void requestPermission(String permissionName, int permissionRequestCode) {
-        ActivityCompat.requestPermissions(this,
-                new String[]{permissionName}, permissionRequestCode);
-    }
-*/
-
-
     public void onLocationChanged(Location location) {
 
         if (marker != null) {
@@ -544,41 +539,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
-    void showMyLocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        Location location = null;
-        try {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        } catch (java.lang.IllegalArgumentException e) {
-            if (activity_intent.getStringExtra("activity").equals("user")) {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "user");
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "main");
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
-
-        assert marker != null;
-        current_lat = marker.getPosition().latitude;
-        current_lng = marker.getPosition().longitude;
-    }
 
     public void scanEvents() throws IOException {
 
@@ -596,171 +556,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         ScanEventsTask task = new ScanEventsTask();
         task.execute();
-    }
-    double calculateDistance(double lat1, double lng1, double lat2, double lng2){
-        lng1 = Math.toRadians(lng1);
-        lng2 = Math.toRadians(lng2);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        double dlon = lng2 - lng1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2),2);
-
-        double c = 2 * Math.asin(Math.sqrt(a));
-
-        return(c * 6371);
-    }
-
-    void markerOnClick(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMap.setOnInfoWindowClickListener(markerr -> {
-
-                    if(markerr.getTag() == marker.getTag()){
-                        return;
-                    }
-
-                    double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
-                    if (distance <= 0.2) {
-                        int markerIndex = (int) markerr.getTag();
-                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(eventDateV.get(markerIndex));
-
-                        int month = calendar.get(Calendar.MONTH) + 1;
-
-                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
-                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
-
-                        if(eventDateV.get(markerIndex).getMinutes() < 10){
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":0" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        }
-                        else{
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        }
-                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
-                        eventActivity.putExtra("Country", countryName);
-                        eventActivity.putExtra("isavailable", "true");
-                        eventActivity.putExtra("organizer", eventOrganizerV.get(markerIndex));
-
-                        if(social_mode){
-                            eventActivity.putExtra("social_mode", "true");
-                        }
-                        else{
-                            eventActivity.putExtra("social_mode", "false");
-                        }
-
-                        if(activity_intent.getStringExtra("activity").equals("user")){
-                            eventActivity.putExtra("activity", "user");
-                        }
-                        else{
-                            eventActivity.putExtra("activity", "main");
-                        }
-
-
-                        startActivity(eventActivity);
-                    } else {
-                      //  Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
-
-
-                        int markerIndex = (int) markerr.getTag();
-                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(eventDateV.get(markerIndex));
-
-                        int month = calendar.get(Calendar.MONTH) + 1;
-
-                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
-                        //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
-                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
-                        //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
-                        if(eventDateV.get(markerIndex).getMinutes() < 10){
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        }
-                        else{
-                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
-                        }
-                        // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
-                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
-                        eventActivity.putExtra("Country", countryName);
-                        eventActivity.putExtra("isavailable", "false");
-
-                        if(social_mode){
-                            eventActivity.putExtra("social_mode", "true");
-                        }
-                        else{
-                            eventActivity.putExtra("social_mode", "false");
-                        }
-
-                        if(activity_intent.getStringExtra("activity").equals("user")){
-                            eventActivity.putExtra("activity", "user");
-                        }
-                        else{
-                            eventActivity.putExtra("activity", "main");
-                        }
-
-
-                        startActivity(eventActivity);
-                    }
-                });
-            }
-        });
-
-        can_scan_events = true;
-    }
-
-    void createAndPlaceMarkers() throws IOException {
-
-        near_events_number = 0;
-
-
-        //create marker
-        Marker[] markersTab = new Marker[global_count];
-        event_lat = new double[markersTab.length];
-        event_lng = new double[markersTab.length];
-
-        double distance;
-
-        List<Address> addressList;
-        Address address;
-
-
-        //place marker
-        for (int i = 0; i < near_events.length; i++) {
-            if (date.before(eventDateV.get(i))) {
-                try {
-                    addressList = geocoder.getFromLocationName(eventLocalizationV.get(i), 1);
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                address = addressList.get(0);
-                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
-                int finalI = i;
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin)));
-                           // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
-                    near_events[finalI].setTag(finalI);
-
-
-                    }
-                });
-            }
-        }
-        can_be_deleted_scan = true;
-
-        markerOnClick();
     }
 
     public void openSearch(View view){
@@ -856,13 +651,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     }
 
-
-
-
     public void add(View view){
         startActivity(new Intent(MapActivityMain.this, EventLocalVirtualAnnouncement.class));
     }
-
     public void close(View view){
         SearchView search = findViewById(R.id.searchLocalization);
         search.onActionViewCollapsed();
@@ -870,14 +661,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         Button close = findViewById(R.id.close);
         close.setVisibility(View.GONE);
     }
-
-
     public void pointsActivity(View view){
         startActivity(new Intent(MapActivityMain.this, Points.class));
 
     }
-
-
     Button[] buttons;
 
     public void announcements(View view){
@@ -930,6 +717,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         points_button.setVisibility(View.GONE);
         manage_button.setVisibility(View.GONE);
+        friends_button.setVisibility(View.GONE);
 
 
         exit_announcements.setVisibility(View.VISIBLE);
@@ -940,7 +728,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
         manage.setVisibility(View.GONE);
-        points_button.setVisibility(View.GONE);
 
 
 
@@ -1089,7 +876,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         });
 
     }
-
     public void searchAnnouncements(View view){
         search_announcements_str = search_announcements.getText().toString();
         search_announcements_str.toLowerCase();
@@ -1120,11 +906,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         }
     }
-
-
-
-
-
     public void exitAnnouncements(View view){
         search_announcements.setText("");
         search_announcements_str = "";
@@ -1132,10 +913,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if(activity_intent.getStringExtra("activity").equals("user")){
             points_button.setVisibility(View.VISIBLE);
             manage_button.setVisibility(View.GONE);
+            friends_button.setVisibility(View.VISIBLE);
         }
         else{
             points_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
+            friends_button.setVisibility(View.GONE);
         }
         is_announcements_page_on = false;
 
@@ -1179,7 +962,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
     }
-
     public void ahoyAnnouncements(View view){
         Intent intent = new Intent(MapActivityMain.this, AhoyAnnouncements.class);
         if(activity_intent.getStringExtra("activity").equals("main")){
@@ -1190,8 +972,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
         startActivity(intent);
     }
-
-
     public void manageActivity(View view){
         Intent intent = new Intent(MapActivityMain.this, Manage.class);
         if(activity_intent.getStringExtra("activity").equals("main")){
@@ -1202,7 +982,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
         startActivity(intent);
     }
-
     public void scan(View view) throws IOException {
 
         if(!can_be_deleted_scan){
@@ -1222,24 +1001,22 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         scanEvents();
     }
 
-
+    public void friendActivity(View view){
+        startActivity(new Intent(MapActivityMain.this, FriendsActivity.class));
+    }
 
     @Override
     public void onProviderEnabled(@NonNull String provider) {
 
     }
-
     @Override
     public void onProviderDisabled(@NonNull String provider) {
 
     }
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
-
-
     @SuppressLint("StaticFieldLeak")
     private class CreateMarkersTask extends AsyncTask<Void, Void, Void> {
 
@@ -1258,8 +1035,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             markerOnClick();
         }
     }
-
-
     @SuppressLint("StaticFieldLeak")
     private class ScanEventsTask extends AsyncTask<Void, Void, Void> {
         @Override
@@ -1426,6 +1201,208 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
     }
+
+    void showMyLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        Location location = null;
+        try {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        } catch (java.lang.IllegalArgumentException e) {
+            if (activity_intent.getStringExtra("activity").equals("user")) {
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "user");
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", "main");
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
+
+        assert marker != null;
+        current_lat = marker.getPosition().latitude;
+        current_lng = marker.getPosition().longitude;
+    }
+    double calculateDistance(double lat1, double lng1, double lat2, double lng2){
+        lng1 = Math.toRadians(lng1);
+        lng2 = Math.toRadians(lng2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        double dlon = lng2 - lng1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        return(c * 6371);
+    }
+
+    void markerOnClick(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMap.setOnInfoWindowClickListener(markerr -> {
+
+                    if(markerr.getTag() == marker.getTag()){
+                        return;
+                    }
+
+                    double distance = calculateDistance(current_lat, current_lng, markerr.getPosition().latitude, markerr.getPosition().longitude);
+                    if (distance <= 0.2) {
+                        int markerIndex = (int) markerr.getTag();
+                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(eventDateV.get(markerIndex));
+
+                        int month = calendar.get(Calendar.MONTH) + 1;
+
+                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
+                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
+
+                        if(eventDateV.get(markerIndex).getMinutes() < 10){
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":0" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        else{
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
+                        eventActivity.putExtra("Country", countryName);
+                        eventActivity.putExtra("isavailable", "true");
+                        eventActivity.putExtra("organizer", eventOrganizerV.get(markerIndex));
+
+                        if(social_mode){
+                            eventActivity.putExtra("social_mode", "true");
+                        }
+                        else{
+                            eventActivity.putExtra("social_mode", "false");
+                        }
+
+                        if(activity_intent.getStringExtra("activity").equals("user")){
+                            eventActivity.putExtra("activity", "user");
+                        }
+                        else{
+                            eventActivity.putExtra("activity", "main");
+                        }
+
+
+                        startActivity(eventActivity);
+                    } else {
+                        //  Toast.makeText(getApplicationContext(), "Jesteś za daleko", Toast.LENGTH_LONG).show();
+
+
+                        int markerIndex = (int) markerr.getTag();
+                        Intent eventActivity = new Intent(MapActivityMain.this, EventActivity.class);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(eventDateV.get(markerIndex));
+
+                        int month = calendar.get(Calendar.MONTH) + 1;
+
+                        eventActivity.putExtra("Name", eventNameV.get(markerIndex));
+                        //  eventActivity.putExtra("Description", eventDescV.get(markerIndex));
+                        eventActivity.putExtra("Localization", eventLocalizationV.get(markerIndex));
+                        //eventActivity.putExtra("Company", eventCompanyNameV.get(markerIndex));
+                        if(eventDateV.get(markerIndex).getMinutes() < 10){
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        else{
+                            eventActivity.putExtra("Duration", eventDateV.get(markerIndex).getHours() + ":" + eventDateV.get(markerIndex).getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                        }
+                        // eventActivity.putExtra("Additional", eventAdditionalV.get(markerIndex));
+                        eventActivity.putExtra("DateAndTime", eventDateAndTimeV.get(markerIndex));
+                        eventActivity.putExtra("Country", countryName);
+                        eventActivity.putExtra("isavailable", "false");
+
+                        if(social_mode){
+                            eventActivity.putExtra("social_mode", "true");
+                        }
+                        else{
+                            eventActivity.putExtra("social_mode", "false");
+                        }
+
+                        if(activity_intent.getStringExtra("activity").equals("user")){
+                            eventActivity.putExtra("activity", "user");
+                        }
+                        else{
+                            eventActivity.putExtra("activity", "main");
+                        }
+
+
+                        startActivity(eventActivity);
+                    }
+                });
+            }
+        });
+
+        can_scan_events = true;
+    }
+
+    void createAndPlaceMarkers() throws IOException {
+
+        near_events_number = 0;
+
+
+        //create marker
+        Marker[] markersTab = new Marker[global_count];
+        event_lat = new double[markersTab.length];
+        event_lng = new double[markersTab.length];
+
+        double distance;
+
+        List<Address> addressList;
+        Address address;
+
+
+        //place marker
+        for (int i = 0; i < near_events.length; i++) {
+            if (date.before(eventDateV.get(i))) {
+                try {
+                    addressList = geocoder.getFromLocationName(eventLocalizationV.get(i), 1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                address = addressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                int finalI = i;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin)));
+                        // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
+                        near_events[finalI].setTag(finalI);
+
+
+                    }
+                });
+            }
+        }
+        can_be_deleted_scan = true;
+
+        markerOnClick();
+    }
+
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());

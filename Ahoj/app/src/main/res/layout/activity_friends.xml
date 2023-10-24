@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".FriendsActivity">
+
+    <Button
+        android:id="@+id/buttonExit"
+        android:layout_width="47dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="21dp"
+        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@color/transparent"
+        android:onClick="exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonReceived"
+        android:layout_width="47dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/transparent"
+        android:foreground="@android:drawable/sym_action_email"
+        android:onClick="received"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ScrollView
+        android:id="@+id/friendsList_scrollview"
+        android:layout_width="match_parent"
+
+        android:layout_height="550dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_new_friend_scrollview"
+        tools:layout_editor_absoluteX="0dp">
+
+        <GridLayout
+            android:id="@+id/grid_layout_friends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            >
+
+
+
+        </GridLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/search_new_friend_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/friendsList_scrollview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonExit">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/search_user_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/search_new_friend"
+                android:textAlignment="center"
+                android:textColorHint="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="124dp"
+                android:background="@color/transparent"
+                android:foreground="@android:drawable/ic_menu_search"
+                android:onClick="addFriend"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_user_edittext" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:onClick="cancelSearch"
+                android:text="@string/cancel"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button5"
+                app:layout_constraintTop_toBottomOf="@+id/search_user_edittext" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_search_friends"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/button5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </ScrollView>
+
+
+    <TextView
+        android:id="@+id/user_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/user_not_found"
+        />
+    <TextView
+        android:id="@+id/you_cant_invite_yourself"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/you_cant_invite_yourself"
+        />
+
+    <TextView
+        android:id="@+id/invitation_sent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/invitation_sent"
+        />
+
+    <TextView
+        android:id="@+id/invite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/invite"
+        />
+    <TextView
+        android:id="@+id/remove_friend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/remove_friend"
+        />
+
+    <TextView
+        android:id="@+id/done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/done"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

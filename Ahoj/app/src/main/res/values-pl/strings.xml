@@ -259,5 +259,16 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="change_password">Zmień hasło</string>
     <string name="new_password">Nowe hasło</string>
     <string name="change">Zmień</string>
+    <string name="enter_friend_nickname">Wprowadź nazwę znajomego</string>
+    <string name="search_new_friend">Szukaj nowego znajomego poprzez jego nazwę</string>
+    <string name="user_not_found">Nie odnaleziono użytkownika</string>
+    <string name="you_cant_invite_yourself">Nie możesz zaprosić siebie samego</string>
+    <string name="invite">Zaproś</string>
+    <string name="invitation_sent">Zaproszenie wysłane</string>
+    <string name="accept">Akceptuj</string>
+    <string name="accepted">Zaakceptowano</string>
+    <string name="reject">Odrzuć</string>
+    <string name="rejected">Odrzucono</string>
+    <string name="remove_friend">Usuń znajomego</string>
 
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".Leaderboard">
     <Button
         android:id="@+id/buttonExitLeaderboard"
@@ -28,16 +29,13 @@
 
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/leaderboardTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp" />
+
     </LinearLayout>
     </ScrollView>
 
@@ -86,6 +84,29 @@
         android:visibility="gone"
         />
 
+    <Button
+        android:id="@+id/button_world"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/almost_transparent"
+        android:foreground="@android:drawable/ic_menu_mapmode"
+        android:onClick="world"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_friends"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/transparent"
+        android:foreground="@android:drawable/ic_menu_myplaces"
+        android:onClick="friends"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/downloadingLeaderboard"
         android:layout_width="wrap_content"
@@ -93,6 +114,7 @@
         android:layout_marginTop="80dp"
         android:text="@string/downloading"
         android:textSize="28sp"
+        android:textColor="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

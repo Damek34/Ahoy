@@ -270,5 +270,12 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="reject">Odrzuć</string>
     <string name="rejected">Odrzucono</string>
     <string name="remove_friend">Usuń znajomego</string>
+    <string name="you_can_collect_extra_point">Możesz odebrać dodatkowy punkt!</string>
+    <string name="your_progress_towards_earning_an_extra_point">Twój postęp do zdobycia dodatkowego punktu</string>
+    <string name="zero_meters">0m</string>
+    <string name="five_thousand_meters">5000m</string>
+    <string name="collect">Odbierz</string>
+    <string name="you_earned_one_point">Zdobyłeś 1 punkt!</string>
+    <string name="preparing_ad_for_progress">Przygotowujemy reklamę, która doda ci dodatkowy punkt!</string>
 
 </resources>

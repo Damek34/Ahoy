@@ -72,6 +72,7 @@
 
 
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
@@ -148,7 +149,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                 android:layout_gravity="start"
 
                 android:background="@mipmap/navigationbackground"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -374,7 +374,10 @@
 
 
             </com.google.android.material.navigation.NavigationView>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <Toolbar
             android:id="@+id/bottom_menu"

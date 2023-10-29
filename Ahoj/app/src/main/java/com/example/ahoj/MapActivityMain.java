@@ -127,12 +127,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     boolean social_mode = false;
     boolean can_scan_events = true;
     boolean is_announcements_page_on = false;
+    boolean can_say_you_can_collect_extra_point = true;
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found;
+    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point;
 
-    String countryName = "", search_announcements_str = "";
+    String countryName = "", search_announcements_str = "", nick = "";
 
     Button add_button, points_button, manage_button, friends_button;
 
@@ -148,9 +149,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     ConstraintLayout searchLayout;
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences, sharedPreferencesUser;
 
     int scan_radius, zoom_size;
+
+    private Location previousLocation;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -208,6 +211,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         searchLayout = findViewById(R.id.searchLayout);
         no_such_place_has_been_found = findViewById(R.id.no_such_place_has_been_found);
         friends_button = findViewById(R.id.friends_button);
+        you_can_collect_extra_point = findViewById(R.id.you_can_collect_extra_point);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -246,7 +250,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         }
+        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferences.getString("nick", "");
 
+        sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
 
@@ -491,6 +498,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
+            previousLocation = location;
+
+          /*  SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
+            userEditor.putString("previous_location", String.valueOf(location));
+            userEditor.apply();
+
+            sharedPreferencesUser.getString("previous_location", String.valueOf(location));
+
+           */
 
             boolean is_auto_zoom_on = sharedPreferences.getBoolean("auto_zoom", true);
             if(is_auto_zoom_on){
@@ -529,6 +545,33 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
             marker = mMap.addMarker(options);
         }
+        float distance = previousLocation.distanceTo(location);
+
+
+        if (distance < 12) {
+            float total_distance = sharedPreferencesUser.getFloat("total_distance", 0);
+
+            SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
+            userEditor.putFloat("total_distance", total_distance + distance);
+
+            if(sharedPreferencesUser.getFloat("distance", 0) <= 5000){
+                float distance_for_points = sharedPreferencesUser.getFloat("distance", 0);
+                userEditor.putFloat("distance", distance_for_points + distance);
+
+            }
+            else{
+                if(can_say_you_can_collect_extra_point){
+                    can_say_you_can_collect_extra_point = false;
+                    Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            userEditor.apply();
+        }
+
+
+
+        previousLocation = location;
 
         assert marker != null;
         current_lat = marker.getPosition().latitude;

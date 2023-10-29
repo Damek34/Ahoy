@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".Points">
 
     <Button
@@ -40,6 +41,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewUserPoints" />
 
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:max="5000"
+        android:progress="2500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:text="@string/zero_meters"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        android:text="@string/five_thousand_meters"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
+
+    <Button
+        android:id="@+id/collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="39dp"
+        android:onClick="adRewardCollect"
+        android:text="@string/collect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_progress_towards_earning_an_extra_point"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/rewardedVideoButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/rewardedVideoButton"
         android:layout_width="wrap_content"
@@ -68,6 +126,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/come_back_tomorrow_for_next_reward"
+        android:visibility="gone"
+
+        />
+
+    <TextView
+        android:id="@+id/preparing_ad_for_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/preparing_ad_for_progress"
+        android:visibility="gone"
+
+        />
+
+    <TextView
+        android:id="@+id/you_earned_one_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you_earned_one_point"
         android:visibility="gone"
 
         />

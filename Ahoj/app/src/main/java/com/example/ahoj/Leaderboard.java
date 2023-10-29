@@ -44,7 +44,7 @@ import java.util.Locale;
 public class Leaderboard extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
-    private TextView leaderboardTextView, point, points, points5, leaderboard, downloadingLeaderboard;
+    private TextView point, points, points5, leaderboard, downloadingLeaderboard;
     private Button button_friends, button_world;
     String nick, downloading;
     SharedPreferences sharedPreferences;
@@ -172,7 +172,6 @@ public class Leaderboard extends AppCompatActivity {
                 for (int i = 0; i < userList.size(); i++) {
                     TextView row = new TextView(getApplicationContext());
                     row.setTextSize(24);
-                    row.setTextColor(R.color.light_grey);
 
                     UserLeaderboard user = userList.get(i);
                     String leaderboardEntry = "";
@@ -185,7 +184,13 @@ public class Leaderboard extends AppCompatActivity {
                     else if(user.getPoints() > 4){
                         leaderboardEntry += (i + 1) + ": " + user.getNick() + " - " + user.getPoints() + " " + points5.getText().toString() + "\n\n";
                     }
-                  //  leaderboardText.append(leaderboardEntry);
+
+                    int textColor = ContextCompat.getColor(getApplicationContext(), R.color.light_grey);
+                    if (userList.get(i).getNick().equals(nick)) {
+                        textColor = ContextCompat.getColor(getApplicationContext(), R.color.green);
+                    }
+
+                    row.setTextColor(textColor);
                     row.setText(leaderboardEntry);
                     downloadingLeaderboard.setText(leaderboard.getText().toString());
                     linear_layout.addView(row);
@@ -198,7 +203,7 @@ public class Leaderboard extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                leaderboardTextView.setText("Error " + databaseError.getMessage());
+
             }
         });
     }

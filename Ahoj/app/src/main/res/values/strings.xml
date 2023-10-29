@@ -256,6 +256,13 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="reject">Reject</string>
     <string name="rejected">Rejected</string>
     <string name="remove_friend">Remove friend</string>
+    <string name="you_can_collect_extra_point">You can collect extra point!</string>
+    <string name="your_progress_towards_earning_an_extra_point">Your progress towards earning an extra point</string>
+    <string name="zero_meters">0m</string>
+    <string name="five_thousand_meters">5000m</string>
+    <string name="collect">Collect</string>
+    <string name="you_earned_one_point">You earned 1 point!</string>
+    <string name="preparing_ad_for_progress">We are preparing ad, which is gonna add you extra point!</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

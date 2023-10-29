@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,20 +45,20 @@ import java.util.prefs.Preferences;
 public class Points extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
-    TextView user_points, your_points, ad_is_not_ready_yet, come_back;
+    TextView user_points, your_points, ad_is_not_ready_yet, come_back, you_earned_one_point, preparing_ad_for_progress;
 
     int points;
 
     String your_points_str = "", nick;
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences, sharedPreferencesUser;
     private RewardedAd rewardedVideoAd;
-    private Button rewardedVideoButton;
-
-
+    private Button rewardedVideoButton, collect;
 
     Date currentDate = Calendar.getInstance().getTime();
     String formattedCurrentDate, login_date;
 
+    ProgressBar progress;
+    boolean is_from_progress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,8 @@ public class Points extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
 
+        sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+
         your_points = findViewById(R.id.your_points);
         your_points_str = your_points.getText().toString();
 
@@ -108,6 +111,17 @@ public class Points extends AppCompatActivity {
         user_points.setText(nick);
 
         come_back = findViewById(R.id.come_back);
+        progress = findViewById(R.id.progress);
+        collect = findViewById(R.id.collect);
+        preparing_ad_for_progress = findViewById(R.id.preparing_ad_for_progress);
+        you_earned_one_point = findViewById(R.id.you_earned_one_point);
+
+        progress.setProgress((int) sharedPreferencesUser.getFloat("distance", 0));
+
+        if(progress.getProgress() < 5000){
+            collect.setVisibility(View.GONE);
+        }
+
 
         reference = database.getReference("Nick/" + nick);
 
@@ -152,6 +166,13 @@ public class Points extends AppCompatActivity {
     }
 
     public void adReward(View view) {
+        is_from_progress = false;
+        loadRewardedVideoAd();
+        showRewardsAds();
+    }
+
+    public void adRewardCollect(View view){
+        is_from_progress = true;
         loadRewardedVideoAd();
         showRewardsAds();
     }
@@ -212,16 +233,33 @@ public class Points extends AppCompatActivity {
                     String type = rewardItem.getType();
                     addPoints();
 
-                    rewardedVideoButton.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), come_back.getText().toString(), Toast.LENGTH_LONG).show();
+                    if(is_from_progress){
+                        collect.setVisibility(View.GONE);
+                        progress.setProgress(0);
+                        SharedPreferences.Editor editor = sharedPreferencesUser.edit();
+                        editor.putFloat("distance", 0);
+                        editor.apply();
 
-                    formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
-                    reference = database.getReference("Nick/" + nick + "/" + "last_login");
-                    reference.setValue(formattedCurrentDate);
+                        Toast.makeText(getApplicationContext(), you_earned_one_point.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        rewardedVideoButton.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), come_back.getText().toString(), Toast.LENGTH_LONG).show();
+
+                        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+                        reference = database.getReference("Nick/" + nick + "/" + "last_login");
+                        reference.setValue(formattedCurrentDate);
+                    }
+
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), ad_is_not_ready_yet.getText().toString(), Toast.LENGTH_LONG).show();
+            if(is_from_progress){
+                Toast.makeText(getApplicationContext(), preparing_ad_for_progress.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), ad_is_not_ready_yet.getText().toString(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

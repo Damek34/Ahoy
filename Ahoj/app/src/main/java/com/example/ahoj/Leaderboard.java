@@ -231,8 +231,8 @@ public class Leaderboard extends AppCompatActivity {
                     }
 
                     // Po dodaniu wszystkich znajomych do friendsList, możesz kontynuować operacje
-                    getFriendsPoints();
                 }
+                    getFriendsPoints();
             }
 
             @Override

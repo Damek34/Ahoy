@@ -149,7 +149,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     ConstraintLayout searchLayout;
 
-    private SharedPreferences sharedPreferences, sharedPreferencesUser;
+    private SharedPreferences sharedPreferences, sharedPreferencesUser, sharedPreferencesNick;
 
     int scan_radius, zoom_size;
 
@@ -250,8 +250,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         }
-        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        nick = sharedPreferences.getString("nick", "");
+        sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferencesNick.getString("nick", "");
 
         sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
 

@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.example.ahoj.Setup.setup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -110,6 +111,8 @@ public class LoadingScreen extends AppCompatActivity {
             no_internet_intent.putExtra("activity", "loadingScreen");
             startActivity(no_internet_intent);
         }
+
+        OnlineDate.fetchDateAsync();
 
 
         versionRef = FirebaseDatabase.getInstance().getReference().child("Version");

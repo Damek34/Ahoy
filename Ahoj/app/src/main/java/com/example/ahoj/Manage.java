@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -72,7 +73,10 @@ public class Manage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
-        date = new Date();
+        OnlineDate.fetchDateAsync();
+
+        date = OnlineDate.getDate();
+
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         savedEmail = sharedPreferences.getString("email", "");
 

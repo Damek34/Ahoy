@@ -14,8 +14,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.ahoj.MapActivityMain;
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.example.ahoj.R;
 import com.example.ahoj.Statute;
 
@@ -60,6 +62,8 @@ public class setup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
+        // OnlineDate.fetchDateAsync();
+
         int permissionCheck = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -70,6 +74,10 @@ public class setup extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 225);
             }
         }
+
+      //  OnlineDate onlineDate = new OnlineDate();
+       // Toast.makeText(getApplicationContext(), String.valueOf(OnlineDate.getDate()), Toast.LENGTH_LONG).show();
+
     }
 
         public void user(View view){

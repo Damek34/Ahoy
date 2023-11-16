@@ -229,15 +229,13 @@ public class Leaderboard extends AppCompatActivity {
                     for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                         friendsList.add(childSnapshot.getValue(String.class));
                     }
-
-                    // Po dodaniu wszystkich znajomych do friendsList, możesz kontynuować operacje
                 }
                     getFriendsPoints();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Obsługa błędów
+
             }
         });
     }

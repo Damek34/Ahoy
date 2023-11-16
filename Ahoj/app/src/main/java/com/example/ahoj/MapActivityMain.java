@@ -48,6 +48,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -217,7 +218,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             socialSwitch.setChecked(true);
         }
 
-        date = new Date();
+        date = OnlineDate.getDate();
 
         add_button = findViewById(R.id.addButton);
         activity_intent = getIntent();
@@ -545,33 +546,36 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
             marker = mMap.addMarker(options);
         }
-        float distance = previousLocation.distanceTo(location);
 
+        //przetestować
+        if (previousLocation != null && location != null){
+            float distance = previousLocation.distanceTo(location);
 
-        if (distance < 12) {
-            float total_distance = sharedPreferencesUser.getFloat("total_distance", 0);
+            if (distance < 10) {
+                float total_distance = sharedPreferencesUser.getFloat("total_distance", 0);
 
-            SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
-            userEditor.putFloat("total_distance", total_distance + distance);
+                SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
+                userEditor.putFloat("total_distance", total_distance + distance);
 
-            if(sharedPreferencesUser.getFloat("distance", 0) <= 5000){
-                float distance_for_points = sharedPreferencesUser.getFloat("distance", 0);
-                userEditor.putFloat("distance", distance_for_points + distance);
+                if(sharedPreferencesUser.getFloat("distance", 0) <= 5000){
+                    float distance_for_points = sharedPreferencesUser.getFloat("distance", 0);
+                    userEditor.putFloat("distance", distance_for_points + distance);
 
-            }
-            else{
-                if(can_say_you_can_collect_extra_point){
-                    can_say_you_can_collect_extra_point = false;
-                    Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
                 }
+                else{
+                    if(can_say_you_can_collect_extra_point){
+                        can_say_you_can_collect_extra_point = false;
+                        Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                userEditor.apply();
             }
 
-            userEditor.apply();
+
+
+            previousLocation = location;
         }
-
-
-
-        previousLocation = location;
 
         assert marker != null;
         current_lat = marker.getPosition().latitude;
@@ -595,7 +599,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if (!connected) {
             return;
         }
+        OnlineDate.fetchDateAsync();
 
+        date = OnlineDate.getDate();
+       // OnlineDate onlineDate = new OnlineDate();
+       // Toast.makeText(getApplicationContext(), String.valueOf(OnlineDate.getDate()), Toast.LENGTH_LONG).show();
 
         ScanEventsTask task = new ScanEventsTask();
         task.execute();
@@ -805,7 +813,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     }
                     catch (NullPointerException e){
-                        date = new Date();
+                        date = OnlineDate.getDate();
                         navigationView.setVisibility(View.GONE);
 
 
@@ -1093,7 +1101,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         //    eventAdditionalV.clear();
 
 
-            date = new Date();
 
             calendar.setTime(date);
 
@@ -1165,6 +1172,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                             i++;
                         }
+
 
                         geocoder = new Geocoder(MapActivityMain.this);
                         List<Address> addressList = null;

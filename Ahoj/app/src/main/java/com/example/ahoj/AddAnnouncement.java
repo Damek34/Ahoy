@@ -23,6 +23,7 @@ import com.example.ahoj.OnlyJava.AddAnnouncementInfo;
 import com.example.ahoj.OnlyJava.AddEventInfo;
 import com.example.ahoj.OnlyJava.CompanyAnnouncement;
 import com.example.ahoj.OnlyJava.CompanyEvent;
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -86,6 +87,8 @@ public class AddAnnouncement extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_announcement);
+
+        OnlineDate.fetchDateAsync();
 
         social_intent = getIntent();
 
@@ -176,7 +179,9 @@ public class AddAnnouncement extends AppCompatActivity {
 
 
 
-        Date date = new Date();
+        //Date date = new Date();
+
+        Date date = OnlineDate.getDate();
         long millis = System.currentTimeMillis();
         String date_and_time = date + " " + millis;
 

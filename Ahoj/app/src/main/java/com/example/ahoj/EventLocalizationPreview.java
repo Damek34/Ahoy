@@ -28,6 +28,7 @@ import android.widget.Toolbar;
 
 import com.example.ahoj.OnlyJava.AddEventInfo;
 import com.example.ahoj.OnlyJava.CompanyEvent;
+import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -113,6 +114,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_localization_previev);
+        OnlineDate.fetchDateAsync();
 
         social_intent = getIntent();
 
@@ -164,7 +166,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
         countrySpinner.setAdapter(adapter);
         adapter.setDropDownViewResource(R.layout.custom_spinner);
 
-        date = new Date();
+        date = OnlineDate.getDate();;
         millis = System.currentTimeMillis();
         date_and_time = date + " " + millis;
 

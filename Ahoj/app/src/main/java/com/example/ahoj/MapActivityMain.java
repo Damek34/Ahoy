@@ -547,35 +547,51 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             marker = mMap.addMarker(options);
         }
 
-        //przetestować
-        if (previousLocation != null && location != null){
-            float distance = previousLocation.distanceTo(location);
+        if(activity_intent.getStringExtra("activity").equals("user")){
+            //przetestować
+            if (previousLocation != null && location != null){
+                float distance = previousLocation.distanceTo(location);
 
-            if (distance < 10) {
-                float total_distance = sharedPreferencesUser.getFloat("total_distance", 0);
 
-                SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
-                userEditor.putFloat("total_distance", total_distance + distance);
+                if (distance < 10) {
+                    float total_distance = sharedPreferencesUser.getFloat("total_distance", 0);
 
-                if(sharedPreferencesUser.getFloat("distance", 0) <= 5000){
-                    float distance_for_points = sharedPreferencesUser.getFloat("distance", 0);
-                    userEditor.putFloat("distance", distance_for_points + distance);
+                    SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
 
-                }
-                else{
-                    if(can_say_you_can_collect_extra_point){
-                        can_say_you_can_collect_extra_point = false;
-                        Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                    float final_distance = distance + total_distance;
+
+                    if(final_distance >= 100){
+                        userEditor.putFloat("total_distance", 0);
+//
+                        reference = database.getReference("Nick/" + nick + "/distance");
+                        reference.setValue(final_distance);
                     }
+                    else{
+                        userEditor.putFloat("total_distance", total_distance + distance);
+                    }
+
+                    if(sharedPreferencesUser.getFloat("distance", 0) <= 5000){
+                        float distance_for_points = sharedPreferencesUser.getFloat("distance", 0);
+                        userEditor.putFloat("distance", distance_for_points + distance);
+
+                    }
+                    else{
+                        if(can_say_you_can_collect_extra_point){
+                            can_say_you_can_collect_extra_point = false;
+                            Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    userEditor.apply();
                 }
 
-                userEditor.apply();
+
+
+                previousLocation = location;
             }
-
-
-
-            previousLocation = location;
         }
+
+
 
         assert marker != null;
         current_lat = marker.getPosition().latitude;

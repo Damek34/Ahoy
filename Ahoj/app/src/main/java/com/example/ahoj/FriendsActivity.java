@@ -127,6 +127,9 @@ public class FriendsActivity extends AppCompatActivity {
                                 grid_layout_friends.removeView(nickV);
                                 grid_layout_friends.removeView(remove_friend_btn);
 
+                                //przetestować te linijke vvvv
+                                friends.remove(childSnapshot.getValue(String.class));
+
                                 Toast.makeText(getApplicationContext(), done.getText().toString(), Toast.LENGTH_SHORT).show();
                             }
                         });

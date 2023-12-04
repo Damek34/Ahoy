@@ -35,9 +35,10 @@
         android:id="@+id/friendsList_scrollview"
         android:layout_width="match_parent"
 
-        android:layout_height="550dp"
+        android:layout_height="500dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintTop_toBottomOf="@+id/search_new_friend_scrollview"
         tools:layout_editor_absoluteX="0dp">
 
@@ -45,9 +46,7 @@
             android:id="@+id/grid_layout_friends"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:columnCount="2"
-            >
-
+            android:columnCount="3">
 
 
         </GridLayout>
@@ -77,10 +76,10 @@
                 android:hint="@string/search_new_friend"
                 android:textAlignment="center"
                 android:textColorHint="@color/light_grey"
+                android:textColor="@color/light_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button5"
@@ -163,5 +162,49 @@
         android:visibility="gone"
         android:text="@string/done"
         />
+
+    <TextView
+        android:id="@+id/are_you_sure_you_want_to_remove_your_friend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/are_you_sure_you_want_to_remove_your_friend"
+        />
+    <TextView
+        android:id="@+id/yes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/yes"
+        />
+
+    <TextView
+        android:id="@+id/no"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/no"
+        />
+
+    <TextView
+        android:id="@+id/are_you_sure"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/are_you_sure"
+        />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendsList_scrollview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

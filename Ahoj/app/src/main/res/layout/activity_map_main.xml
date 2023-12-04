@@ -281,14 +281,14 @@
                         app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
 
                     <Button
-                        android:id="@+id/friends_button"
+                        android:id="@+id/my_profile_button"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_menu_myplaces"
-                        android:onClick="friendActivity"
+                        android:foreground="@drawable/ic_launcher_foreground"
+                        android:onClick="profileActivity"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/points_button" />
 
@@ -458,4 +458,16 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/something_went_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/something_went_wrong"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </RelativeLayout>

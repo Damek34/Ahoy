@@ -277,5 +277,19 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="collect">Odbierz</string>
     <string name="you_earned_one_point">Zdobyłeś 1 punkt!</string>
     <string name="preparing_ad_for_progress">Przygotowujemy reklamę, która doda ci dodatkowy punkt!</string>
+    <string name="points_capital_letter">Punkty</string>
+    <string name="visited_events">Odwiedzone Wydarzenia</string>
+    <string name="something_went_wrong">Coś poszło nie tak</string>
+    <string name="social_event">Wydarzenie społeczne</string>
+    <string name="promo_event">Wydarzenie promocyjne</string>
+    <string name="no_description">(brak opisu)</string>
+    <string name="new_description">Nowy opis</string>
+    <string name="max_100_chars">Twój opis może mieć maksymalnie 100 znaków</string>
+    <string name="no_invitations">Brak zaproszeń</string>
+    <string name="are_you_sure_you_want_to_remove_your_friend">Jesteś pewien, że chcesz usunąć swojego znajomego?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="are_you_sure">Jesteś pewny?</string>
+    <string name="total_distance">Całkowity dystans</string>
 
 </resources>

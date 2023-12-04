@@ -2,6 +2,7 @@ package com.example.ahoj;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +19,11 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,8 +41,8 @@ public class Received_Invites extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String nick = "";
     ArrayList<String> users;
-    TextView accepted, accept, reject, rejected;
-
+    TextView accepted, accept, reject, rejected, no_invitations;
+    AdView adview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -79,6 +85,7 @@ public class Received_Invites extends AppCompatActivity {
         accept = findViewById(R.id.accept);
         reject = findViewById(R.id.reject);
         rejected = findViewById(R.id.rejected);
+        no_invitations = findViewById(R.id.no_invitations);
 
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
@@ -94,17 +101,20 @@ public class Received_Invites extends AppCompatActivity {
                 if(snapshot.exists()){
                     for(DataSnapshot childSnapshot : snapshot.getChildren()){
                         String save_nick = childSnapshot.getValue(String.class);
+                        users.add(save_nick);
 
                         TextView user_nick = new TextView(getApplicationContext());
 
                         user_nick.setText(save_nick);
-                        user_nick.setTextColor(R.color.light_grey);
+                        user_nick.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
                         user_nick.setTextSize(18);
                         user_nick.setPadding(0,0,20,0);
 
                         Button acceptbtn = new Button(getApplicationContext());
                         Button rejectbtn = new Button(getApplicationContext());
                         acceptbtn.setText(accept.getText().toString());
+                        acceptbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                        acceptbtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
                         acceptbtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -134,6 +144,12 @@ public class Received_Invites extends AppCompatActivity {
                                 grid_layout.removeView(rejectbtn);
                                 reference = database.getReference("Nick/" + save_nick + "/Friends");
                                 reference.child(nick).setValue(nick);
+
+                                users.remove(0);
+                                if(users.isEmpty()){
+                                    no_invitations.setVisibility(View.VISIBLE);
+                                }
+
                                 Toast.makeText(getApplicationContext(), accepted.getText().toString(), Toast.LENGTH_SHORT).show();
 
                             }
@@ -142,6 +158,13 @@ public class Received_Invites extends AppCompatActivity {
 
 
                         rejectbtn.setText(reject.getText().toString());
+                        rejectbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                        rejectbtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
+
+                        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                        params.leftMargin = 20;
+
+                        rejectbtn.setLayoutParams(params);
                         rejectbtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -153,6 +176,12 @@ public class Received_Invites extends AppCompatActivity {
                                         grid_layout.removeView(user_nick);
                                         grid_layout.removeView(acceptbtn);
                                         grid_layout.removeView(rejectbtn);
+
+                                        users.remove(0);
+                                        if(users.isEmpty()){
+                                            no_invitations.setVisibility(View.VISIBLE);
+                                        }
+
                                         Toast.makeText(getApplicationContext(), rejected.getText().toString(), Toast.LENGTH_SHORT).show();
                                     }
 
@@ -170,6 +199,9 @@ public class Received_Invites extends AppCompatActivity {
 
                     }
                 }
+                else{
+                    no_invitations.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -177,6 +209,16 @@ public class Received_Invites extends AppCompatActivity {
 
             }
         });
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+        adview = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adview.loadAd(adRequest);
     }
     public void exit(View view) {
         Intent intent = new Intent(Received_Invites.this, FriendsActivity.class);

@@ -113,6 +113,9 @@ public class EventActivity extends AppCompatActivity {
         event_location.setText(event_location.getText() + " " + getIntent().getStringExtra("Localization"));
         isavailable = getIntent().getStringExtra("isavailable");
 
+        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferences.getString("nick", "");
+
         if(intent.getStringExtra("activity").equals("main")){
             report_event_btn.setVisibility(View.GONE);
         }
@@ -215,9 +218,6 @@ public class EventActivity extends AppCompatActivity {
 
 
     void shouldGetPoints(){
-        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        nick = sharedPreferences.getString("nick", "");
-
         if(social_mode.equals("false")){
             reference = database.getReference("Event/" + country + "/" + date_and_time +"/" + "Nick");
         }
@@ -231,6 +231,7 @@ public class EventActivity extends AppCompatActivity {
                 if(!snapshot.child(nick).exists()){
                     reference.child(nick).setValue(nick);
                     addPoints();
+                    increaseVisitedEventsNumber();
                 }
             }
 
@@ -263,6 +264,37 @@ public class EventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    void increaseVisitedEventsNumber(){
+        final int[] number = {0};
+        if(social_mode.equals("false")){
+            reference = database.getReference("Nick/" + nick + "/VisitedEventsNumber");
+        }
+        else{
+            reference = database.getReference("Nick/" + nick + "/VisitedSocialEventsNumber");
+        }
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    number[0] = snapshot.getValue(Integer.class);
+                    reference.setValue(number[0] + 1);
+                }
+                else{
+                    reference.setValue(1);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 
 

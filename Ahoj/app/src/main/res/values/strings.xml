@@ -83,7 +83,7 @@
     <string name="report">Report</string>
     <string name="check_internet_connection">Check internet connection</string>
     <string name="nick_should_not_contain">Your nick should not contains ".", "#", "$", "[", "]</string>
-    <string name="your_points">"Your points: "</string>
+    <string name="your_points">Your points: </string>
     <string name="watch_ad_to_get_extra_point">Watch ad to get extra point</string>
     <string name="ad_is_not_ready_yet">Ad is not ready yet</string>
     <string name="come_back_tomorrow_for_next_reward">Come back tomorrow for next reward</string>
@@ -263,6 +263,21 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="collect">Collect</string>
     <string name="you_earned_one_point">You earned 1 point!</string>
     <string name="preparing_ad_for_progress">We are preparing ad, which is gonna add you extra point!</string>
+    <string name="points_capital_letter">Points</string>
+    <string name="visited_events">Visited Events</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="social_event">Social Event</string>
+    <string name="promo_event">Promotional Event</string>
+    <string name="no_description">(no description)</string>
+    <string name="new_description">New description</string>
+    <string name="max_100_chars">Your description can be up to 100 characters long</string>
+    <string name="no_invitations">No invitations</string>
+    <string name="are_you_sure_you_want_to_remove_your_friend">Are you sure you want to remove your friend?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="total_distance">Total distance</string>
+
 
 
     <string-array name="map_types_spinner" translatable="true">

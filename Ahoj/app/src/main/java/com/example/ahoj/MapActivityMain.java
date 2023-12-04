@@ -132,11 +132,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point;
+    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point, something_went_wrong;
 
     String countryName = "", search_announcements_str = "", nick = "";
 
-    Button add_button, points_button, manage_button, friends_button;
+    Button add_button, points_button, manage_button, my_profile_button;
 
     Intent activity_intent;
 
@@ -211,8 +211,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         bottom_menu = findViewById(R.id.bottom_menu);
         searchLayout = findViewById(R.id.searchLayout);
         no_such_place_has_been_found = findViewById(R.id.no_such_place_has_been_found);
-        friends_button = findViewById(R.id.friends_button);
+        my_profile_button = findViewById(R.id.my_profile_button);
         you_can_collect_extra_point = findViewById(R.id.you_can_collect_extra_point);
+        something_went_wrong = findViewById(R.id.something_went_wrong);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -227,7 +228,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             add_button.setVisibility(View.GONE);
         } else {
             points_button.setVisibility(View.GONE);
-            friends_button.setVisibility(View.GONE);
+            my_profile_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
 
@@ -784,7 +785,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         points_button.setVisibility(View.GONE);
         manage_button.setVisibility(View.GONE);
-        friends_button.setVisibility(View.GONE);
+        my_profile_button.setVisibility(View.GONE);
 
 
         exit_announcements.setVisibility(View.VISIBLE);
@@ -980,12 +981,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if(activity_intent.getStringExtra("activity").equals("user")){
             points_button.setVisibility(View.VISIBLE);
             manage_button.setVisibility(View.GONE);
-            friends_button.setVisibility(View.VISIBLE);
+            my_profile_button.setVisibility(View.VISIBLE);
         }
         else{
             points_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
-            friends_button.setVisibility(View.GONE);
+            my_profile_button.setVisibility(View.GONE);
         }
         is_announcements_page_on = false;
 
@@ -1068,8 +1069,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         scanEvents();
     }
 
-    public void friendActivity(View view){
-        startActivity(new Intent(MapActivityMain.this, FriendsActivity.class));
+    public void profileActivity(View view){
+        Intent intent = new Intent(MapActivityMain.this, ProfileActivity.class);
+        intent.putExtra("nick", nick);
+        startActivity(intent);
     }
 
     @Override
@@ -1455,10 +1458,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        try{
+                            near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin)));
+                            // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
+                            near_events[finalI].setTag(finalI);
+                        }
+                        catch (IndexOutOfBoundsException e){
+                            Toast.makeText(getApplicationContext(), something_went_wrong.getText().toString() , Toast.LENGTH_LONG).show();
+                        }
 
-                        near_events[finalI] = mMap.addMarker(new MarkerOptions().position(latLng).title(String.valueOf(eventNameV.get(finalI))).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ahoylocalpin)));
-                        // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pinezkalokalna)));
-                        near_events[finalI].setTag(finalI);
 
 
                     }

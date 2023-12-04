@@ -14,8 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ahoj.OnlyJava.OnlineDate;
-
 import java.util.Locale;
 
 
@@ -108,7 +106,7 @@ public class AddLocalEvent extends AppCompatActivity {
     }
 
     public void exitAdd(View view) {
-        startActivity(new Intent(AddLocalEvent.this, EventLocalVirtualAnnouncement.class));
+        startActivity(new Intent(AddLocalEvent.this, SelectWhatToAdd.class));
     }
 
     public void addEvent(View view) {

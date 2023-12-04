@@ -277,6 +277,26 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="no">No</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="total_distance">Total distance</string>
+    <string name="competition">Competition</string>
+    <string name="you_already_created_competition">You already created competition</string>
+    <string name="organizer">Organizer:</string>
+    <string name="title">Title:</string>
+    <string name="reward">Reward:</string>
+    <string name="competition_location">Competition location:</string>
+    <string name="how_long_should_competition_be_active">How long should competition be active?</string>
+    <string name="when_will_the_competition_results_be_announced">When will the competition results be announced?</string>
+    <string name="who_can_take_part_in_the_competition">Who can take part in the competition?</string>
+    <string name="where_will_the_competition_results_be">Where will the competition results be?</string>
+    <string name="link_or_information">Link or information</string>
+    <string name="link_rules">Link, rules...</string>
+    <string name="competition_must_have_title">Competition must have a title</string>
+    <string name="competition_must_have_organizer">Competition must have organizer</string>
+    <string name="competition_must_have_reward">Competition must have reward</string>
+    <string name="competition_must_have_description">Competition must have description</string>
+    <string name="competition_must_last_at_least_an_hour">Competition must last at least an hour</string>
+    <string name="competition_must_have_information_when_the_results_will_be_available">Competition must have information when the results will be available</string>
+    <string name="competition_must_have_information_who_can_take_part_in_competition">Competition must have information who can take part in the competition</string>
+    <string name="competition_must_have_information_where_will_be_results_announced">Competition must have information where will be results announced</string>
 
 
 

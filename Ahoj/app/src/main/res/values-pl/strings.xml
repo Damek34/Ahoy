@@ -291,5 +291,25 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="no">Nie</string>
     <string name="are_you_sure">Jesteś pewny?</string>
     <string name="total_distance">Całkowity dystans</string>
+    <string name="competition">Konkurs</string>
+    <string name="you_already_created_competition">Już stworzyłeś konkurs</string>
+    <string name="organizer">Organizator:</string>
+    <string name="title">Tytuł:</string>
+    <string name="reward">Nagroda:</string>
+    <string name="competition_location">Lokalizacja konkursu:</string>
+    <string name="how_long_should_competition_be_active">Jak długo konkurs powinien być aktywny?</string>
+    <string name="when_will_the_competition_results_be_announced">Kiedy zostaną ogłoszone wyniki konkursu?</string>
+    <string name="who_can_take_part_in_the_competition">Kto może wziąć udział w konkursie?</string>
+    <string name="where_will_the_competition_results_be">Gdzie będą wyniki konkursu?</string>
+    <string name="link_or_information">Link lub informacja</string>
+    <string name="link_rules">Link, regulamin...</string>
+    <string name="competition_must_have_title">Konkurs musi mieć tytuł</string>
+    <string name="competition_must_have_organizer">Konkurs musi zawierać organizatora</string>
+    <string name="competition_must_have_reward">Konkurs musi mieć nagrodę</string>
+    <string name="competition_must_have_description">Konkurs musi zawierac opis</string>
+    <string name="competition_must_last_at_least_an_hour">Konkurs musi trwać przynajmniej godzinę</string>
+    <string name="competition_must_have_information_when_the_results_will_be_available">Konkurs musi zawierać informację kiedy wyniki będą dostępne</string>
+    <string name="competition_must_have_information_who_can_take_part_in_competition">Konkurs musi zawierać informację kto może wziąć w nim udział</string>
+    <string name="competition_must_have_information_where_will_be_results_announced">Konkurs musi zawierać informacje gdzie wyniki zostaną ogłoszone</string>
 
 </resources>

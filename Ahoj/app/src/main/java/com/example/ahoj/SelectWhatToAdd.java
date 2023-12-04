@@ -23,13 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
-public class EventLocalVirtualAnnouncement extends AppCompatActivity {
+public class SelectWhatToAdd extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
     String savedEmail = "", modifiedEmail = "";
-    TextView you_already_created_announcement, you_already_created_event;
+    TextView you_already_created_announcement, you_already_created_event, you_already_created_competition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +66,11 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_local_virtual_announcement);
+        setContentView(R.layout.select_what_to_add);
 
         you_already_created_event = findViewById(R.id.you_already_created_event);
         you_already_created_announcement = findViewById(R.id.you_already_created_announcement);
+        you_already_created_competition = findViewById(R.id.you_already_created_competition);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         savedEmail = sharedPreferences.getString("email", "");
@@ -85,7 +86,7 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
     }
 
     public void exit(View view){
-       Intent intent = new Intent(EventLocalVirtualAnnouncement.this, MapActivityMain.class);
+       Intent intent = new Intent(SelectWhatToAdd.this, MapActivityMain.class);
        intent.putExtra("activity", "main");
         startActivity(intent);
 
@@ -102,7 +103,7 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
                     return;
                 }
                 else{
-                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddLocalEvent.class);
+                    Intent intent = new Intent(SelectWhatToAdd.this, AddLocalEvent.class);
                     intent.putExtra("isSocial", "false");
                     startActivity(intent);
                 }
@@ -129,7 +130,7 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
                     return;
                 }
                 else{
-                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddLocalEvent.class);
+                    Intent intent = new Intent(SelectWhatToAdd.this, AddLocalEvent.class);
                     intent.putExtra("isSocial", "true");
                     startActivity(intent);
                 }
@@ -153,7 +154,7 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
                     return;
                 }
                 else{
-                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddAnnouncement.class);
+                    Intent intent = new Intent(SelectWhatToAdd.this, AddAnnouncement.class);
                     intent.putExtra("isSocial", "true");
                     startActivity(intent);
                 }
@@ -177,9 +178,29 @@ public class EventLocalVirtualAnnouncement extends AppCompatActivity {
                     return;
                 }
                 else{
-                    Intent intent = new Intent(EventLocalVirtualAnnouncement.this, AddAnnouncement.class);
+                    Intent intent = new Intent(SelectWhatToAdd.this, AddAnnouncement.class);
                     intent.putExtra("isSocial", "false");
                     startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void competition(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("CompanyCompetition").exists()){
+                    Toast.makeText(getApplicationContext(), you_already_created_competition.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(SelectWhatToAdd.this, AddCompetition.class));
                 }
             }
 

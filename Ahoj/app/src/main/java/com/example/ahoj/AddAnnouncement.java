@@ -20,9 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ahoj.OnlyJava.AddAnnouncementInfo;
-import com.example.ahoj.OnlyJava.AddEventInfo;
 import com.example.ahoj.OnlyJava.CompanyAnnouncement;
-import com.example.ahoj.OnlyJava.CompanyEvent;
 import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -139,7 +137,7 @@ public class AddAnnouncement extends AppCompatActivity {
 
     }
     public void exitAdd(View view) {
-        startActivity(new Intent(AddAnnouncement.this, EventLocalVirtualAnnouncement.class));
+        startActivity(new Intent(AddAnnouncement.this, SelectWhatToAdd.class));
     }
 
     public void addAnnouncement(View view){

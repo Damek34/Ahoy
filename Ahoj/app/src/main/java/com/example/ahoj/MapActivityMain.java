@@ -26,7 +26,6 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -46,7 +45,6 @@ import android.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.room.Room;
 
 import com.example.ahoj.OnlyJava.OnlineDate;
 import com.google.android.gms.ads.AdRequest;
@@ -720,7 +718,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void add(View view){
-        startActivity(new Intent(MapActivityMain.this, EventLocalVirtualAnnouncement.class));
+        startActivity(new Intent(MapActivityMain.this, SelectWhatToAdd.class));
     }
     public void close(View view){
         SearchView search = findViewById(R.id.searchLocalization);

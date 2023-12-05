@@ -244,29 +244,28 @@
                         android:id="@+id/settingsButton"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="227dp"
+                        android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
                         android:foreground="@android:drawable/ic_menu_preferences"
                         android:gravity="center"
                         android:onClick="settings"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="@+id/scrollView2" />
 
 
                     <Button
                         android:id="@+id/announcementsButton"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginBottom="64dp"
+                        android:layout_marginTop="100dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_menu_edit"
                         android:gravity="center"
                         android:onClick="announcements"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        android:text="@string/announcements"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements" />
 
                     <Button
                         android:id="@+id/points_button"
@@ -278,7 +277,7 @@
                         android:foreground="@android:drawable/star_big_on"
                         android:onClick="pointsActivity"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
+                        app:layout_constraintStart_toEndOf="@+id/settingsButton" />
 
                     <Button
                         android:id="@+id/my_profile_button"
@@ -293,6 +292,18 @@
                         app:layout_constraintStart_toEndOf="@+id/points_button" />
 
                     <Button
+                        android:id="@+id/competitions_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/transparent"
+                        android:onClick="competitionsActivity"
+                        android:text="@string/competitions"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/announcementsButton" />
+
+                    <Button
                         android:id="@+id/manage_button"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
@@ -303,7 +314,7 @@
                         android:onClick="manageActivity"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/announcementsButton" />
+                        app:layout_constraintStart_toEndOf="@+id/settingsButton" />
 
                     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/adView"

@@ -34,7 +34,7 @@ public class Manage extends AppCompatActivity {
     String savedEmail = "", modifiedEmail = "", country = "", date_and_time = "";
     Date eventDuration, date;
 
-    TextView you_dont_have_any_announcement, you_dont_have_any_event;
+    TextView you_dont_have_any_announcement, you_dont_have_any_event, you_dont_have_any_competition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,7 @@ public class Manage extends AppCompatActivity {
 
         you_dont_have_any_announcement = findViewById(R.id.you_dont_have_any_announcement);
         you_dont_have_any_event = findViewById(R.id.you_dont_have_any_event);
+        you_dont_have_any_competition = findViewById(R.id.you_dont_have_any_competition);
     }
 
     public void exit(View view){
@@ -276,5 +277,49 @@ public class Manage extends AppCompatActivity {
         });
     }
 
+    public void competition(View view){
+        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyCompetition");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    date_and_time = snapshot.child("date_and_time").getValue(String.class);
+                    eventDuration = snapshot.child("duration").getValue(Date.class);
+                    country = snapshot.child("country").getValue(String.class);
+
+                    if (date.after(eventDuration)){
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("Announcement/" + country).child(date_and_time);
+                        reference.removeValue();
+
+                        reference = FirebaseDatabase.getInstance().getReference("WaitingAnnouncements/" + date_and_time);
+                        reference.removeValue();
+
+                        Toast.makeText(getApplicationContext(), you_dont_have_any_competition.getText().toString(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(Manage.this, ManageCompetition.class);
+                    intent.putExtra("date_and_time", date_and_time);
+                    intent.putExtra("country", country);
+                    intent.putExtra("email", modifiedEmail);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), you_dont_have_any_competition.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

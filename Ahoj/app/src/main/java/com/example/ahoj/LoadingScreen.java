@@ -158,7 +158,10 @@ public class LoadingScreen extends AppCompatActivity {
 
     private void continueLoading(){
         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        String nick = sharedPreferencesNick.getString("nick", "");
+        SharedPreferences sharedPreferences2 =  getSharedPreferences(nick, Context.MODE_PRIVATE);
 
         boolean auto_log_out_user = sharedPreferences2.getBoolean("auto_log_out", false);
         if (!auto_log_out_user){

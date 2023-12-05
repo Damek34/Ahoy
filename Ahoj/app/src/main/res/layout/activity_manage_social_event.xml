@@ -18,98 +18,126 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/activity_event_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView11"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
         android:layout_marginTop="64dp"
-        android:textSize="32sp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/activityEventEventEndsAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="59dp"
-        android:text="@string/ends_at"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
+            >
 
-    <TextView
-        android:id="@+id/activityEventEventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/event_location"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
+            <TextView
+                android:id="@+id/activity_event_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/activityEventEventCompanyName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/company_name"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
+            <TextView
+                android:id="@+id/activityEventEventEndsAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="59dp"
+                android:text="@string/ends_at"
+                android:textColor="@color/white"
+                android:textSize="20sp"
 
-    <TextView
-        android:id="@+id/activityEventEventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/description"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:paddingRight="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
 
-    <TextView
-        android:id="@+id/activityEventEventAdditional"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/additional_information"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:paddingRight="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription" />
+            <TextView
+                android:id="@+id/activityEventEventLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/event_location"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
 
-    <TextView
-        android:id="@+id/activityEventEventCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/country"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+            <TextView
+                android:id="@+id/activityEventEventCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/company_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
+
+            <TextView
+                android:id="@+id/activityEventEventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:paddingRight="15dp"
+                android:text="@string/description"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
+
+            <TextView
+                android:id="@+id/activityEventEventAdditional"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:paddingRight="15dp"
+                android:text="@string/additional_information"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription" />
+
+            <TextView
+                android:id="@+id/activityEventEventCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/country"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+
+            <TextView
+                android:id="@+id/activityStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/status"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventCountry" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/manage_event_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="266dp"
         android:background="@drawable/roundpinkbutton"
         android:onClick="delete"
         android:paddingLeft="5dp"
@@ -117,16 +145,32 @@
         android:text="@string/delete"
         android:textColor="@color/white"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView11" />
 
     <TextView
         android:id="@+id/deleted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deleted"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/active"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/during_the_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/during_the_verification"
         android:visibility="gone"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

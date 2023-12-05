@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class ManageSocialAnnouncement extends AppCompatActivity {
 
-    TextView ends, company, desc, additional, countryTextView, deleted;
+    TextView ends, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
     String date_and_time = "", country = "", announcementDescription = "", announcementCompanyName = "", announcementAdditional = "", email= "";
     Date announcementDuration;
 
@@ -86,6 +86,9 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
         additional = findViewById(R.id.activityAnnouncementAdditional);
         countryTextView = findViewById(R.id.activityAnnouncementCountry);
         deleted = findViewById(R.id.deleted);
+        activityStatus = findViewById(R.id.activityStatus);
+        during_the_verification = findViewById(R.id.during_the_verification);
+        active = findViewById(R.id.active);
 
 
         countryTextView.setText(countryTextView.getText().toString() + ": " + country);
@@ -109,10 +112,12 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+              //  ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + announcementDuration.getTime());
                 company.setText(company.getText().toString() + " "+ announcementCompanyName);
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);
+                activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
 
             }
 
@@ -140,10 +145,12 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+               // ends.setText(ends.getText().toString() + " " + announcementDuration.getHours() + ":" + announcementDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + announcementDuration.getTime());
                 company.setText(company.getText().toString() + " "+ announcementCompanyName);
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);
+                activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
             }
 
             @Override

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/questionsbackground"
-    tools:context=".ManageEvent">
+    tools:context=".ManageCompetition">
 
     <Button
-        android:id="@+id/buttonExitManageEvent"
+        android:id="@+id/buttonExit"
         android:layout_width="47dp"
         android:layout_height="49dp"
         android:layout_marginTop="18dp"
@@ -20,94 +20,83 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView9"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/activity_event_name"
+                android:id="@+id/activity_competition_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="32sp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/activityEventEventEndsAt"
+                android:id="@+id/activityCompetitionEndsAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="59dp"
                 android:text="@string/ends_at"
-                android:textColor="@color/white"
                 android:textSize="20sp"
+                android:textColor="@color/white"
 
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_competition_title" />
 
             <TextView
-                android:id="@+id/activityEventEventLocation"
+                android:id="@+id/activityCompetitionOrganizer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="14dp"
-                android:text="@string/event_location"
-                android:textColor="@color/white"
+                android:text="@string/organizer"
                 android:textSize="20sp"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionEndsAt" />
 
             <TextView
-                android:id="@+id/activityEventEventCompanyName"
+                android:id="@+id/activityCompetitionReward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="14dp"
-                android:text="@string/company_name"
-                android:textColor="@color/white"
+                android:text="@string/reward"
                 android:textSize="20sp"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionOrganizer" />
+
 
             <TextView
-                android:id="@+id/activityEventEventDescription"
+                android:id="@+id/activityCompetitionDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="14dp"
-                android:paddingRight="15dp"
                 android:text="@string/description"
-                android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
-
-            <TextView
-                android:id="@+id/activityEventEventAdditional"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="14dp"
+                android:textColor="@color/white"
                 android:paddingRight="15dp"
-                android:text="@string/additional_information"
-                android:textColor="@color/white"
-                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionReward" />
+
 
             <TextView
-                android:id="@+id/activityEventEventCountry"
+                android:id="@+id/activityCompetitionEventCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -116,7 +105,56 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional" />
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionDescription" />
+
+            <TextView
+                android:id="@+id/activityCompetitionWhenResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/when_will_the_competition_results_be_announced"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionEventCountry" />
+
+            <TextView
+                android:id="@+id/activityCompetitionWhoCanTakePart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/who_can_take_part_in_the_competition"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionWhenResults" />
+
+            <TextView
+                android:id="@+id/activityCompetitionWhereResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/where_will_the_competition_results_be"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionWhoCanTakePart" />
+
+            <TextView
+                android:id="@+id/activityCompetitionAdditional"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/additional_information"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionWhereResults" />
+
 
             <TextView
                 android:id="@+id/activityStatus"
@@ -128,16 +166,22 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventCountry" />
+                app:layout_constraintTop_toBottomOf="@+id/activityCompetitionAdditional" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
     </ScrollView>
+
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/manage_event_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/roundpinkbutton"
         android:onClick="delete"
         android:paddingLeft="5dp"
@@ -148,8 +192,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView9" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/deleted"

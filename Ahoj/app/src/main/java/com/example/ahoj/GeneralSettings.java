@@ -2,6 +2,7 @@ package com.example.ahoj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -23,12 +24,13 @@ import java.util.Locale;
 
 public class GeneralSettings extends AppCompatActivity {
 
-    TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview, auto_log_out_textview, on_textview, off_textview;
+    TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview, auto_log_out_textview, on_textview, off_textview, notification_after_every_reached_five_kilometers_textview;
     Spinner languageSpinner;
     SharedPreferences sharedPreferences;
     Slider menu_duration_slider, scanning_radius_slider;
-    Switch auto_log_out_switch;
-    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false, is_auto_log_out_switch_visible = false;
+    Switch auto_log_out_switch, notification_after_every_reached_five_kilometers_switch;
+    Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false, is_auto_log_out_switch_visible = false
+            , is_notification_after_every_reached_five_kilometers_switch_visible = false;
     View auto_log_out_view;
     Intent intent;
     @Override
@@ -83,11 +85,20 @@ public class GeneralSettings extends AppCompatActivity {
         auto_log_out_switch = findViewById(R.id.auto_log_out_switch);
         on_textview = findViewById(R.id.on_textview);
         off_textview = findViewById(R.id.off_textview);
-
-        menu_duration_slider.setValue(sharedPreferences2.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
-        scanning_radius_slider.setValue(sharedPreferences2.getInt("scanning_radius", Integer.parseInt("20")));
-        auto_log_out_switch.setChecked(sharedPreferences2.getBoolean("auto_log_out", false));
+        notification_after_every_reached_five_kilometers_textview = findViewById(R.id.notification_after_every_reached_five_kilometers_textview);
+        notification_after_every_reached_five_kilometers_switch = findViewById(R.id.notification_after_every_reached_five_kilometers_switch);
         auto_log_out_view = findViewById(R.id.auto_log_out_view);
+
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        String nick = sharedPreferencesNick.getString("nick", "");
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+
+        menu_duration_slider.setValue(sharedPreferencesUser.getFloat("menu_animation_duration", Float.parseFloat("0.4")));
+        scanning_radius_slider.setValue(sharedPreferencesUser.getInt("scanning_radius", Integer.parseInt("20")));
+        auto_log_out_switch.setChecked(sharedPreferencesUser.getBoolean("auto_log_out", false));
+        notification_after_every_reached_five_kilometers_switch.setChecked(sharedPreferencesUser.getBoolean("notification_every_5_km", true));
+
 
         if(intent.getStringExtra("activity").equals("main")){
             auto_log_out_textview.setVisibility(View.GONE);
@@ -171,6 +182,20 @@ public class GeneralSettings extends AppCompatActivity {
             }
         });
 
+        notification_after_every_reached_five_kilometers_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_notification_after_every_reached_five_kilometers_switch_visible){
+                    notification_after_every_reached_five_kilometers_switch.setVisibility(View.VISIBLE);
+                    is_notification_after_every_reached_five_kilometers_switch_visible = true;
+                }
+                else{
+                    notification_after_every_reached_five_kilometers_switch.setVisibility(View.GONE);
+                    is_notification_after_every_reached_five_kilometers_switch_visible = false;
+                }
+            }
+        });
+
 
     }
 
@@ -224,6 +249,7 @@ public class GeneralSettings extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+
         if (languageSpinner.getSelectedItemPosition() == 1) {
             editor.putString("selectedLanguage", "en");
             editor.apply();
@@ -232,17 +258,23 @@ public class GeneralSettings extends AppCompatActivity {
             editor.apply();
         }
 
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        String nick = sharedPreferencesNick.getString("nick", "");
 
-        editor.putFloat("menu_animation_duration", Float.parseFloat(String.valueOf(menu_duration_slider.getValue())));
-        editor.apply();
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
 
-        editor.putInt("scanning_radius", (int) scanning_radius_slider.getValue());
-        editor.apply();
+        editorUser.putFloat("menu_animation_duration", Float.parseFloat(String.valueOf(menu_duration_slider.getValue())));
+        editorUser.apply();
 
-        editor.putBoolean("auto_log_out", auto_log_out_switch.isChecked());
-        editor.apply();
+        editorUser.putInt("scanning_radius", (int) scanning_radius_slider.getValue());
+        editorUser.apply();
 
+        editorUser.putBoolean("auto_log_out", auto_log_out_switch.isChecked());
+        editorUser.apply();
 
+        editorUser.putBoolean("notification_every_5_km", notification_after_every_reached_five_kilometers_switch.isChecked());
+        editorUser.apply();
 
 
         if(intent.getStringExtra("activity").equals("main")){

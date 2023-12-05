@@ -297,7 +297,13 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="competition_must_have_information_when_the_results_will_be_available">Competition must have information when the results will be available</string>
     <string name="competition_must_have_information_who_can_take_part_in_competition">Competition must have information who can take part in the competition</string>
     <string name="competition_must_have_information_where_will_be_results_announced">Competition must have information where will be results announced</string>
-
+    <string name="you_dont_have_any_competition">You don\'t have any competition</string>
+    <string name="during_the_verification">During the verification</string>
+    <string name="active">Active</string>
+    <string name="status">Status</string>
+    <string name="announcements">Announcements</string>
+    <string name="competitions">Competitions</string>
+    <string name="notification_after_every_reached_five_kilometers">Notification after every reached 5 kilometers</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

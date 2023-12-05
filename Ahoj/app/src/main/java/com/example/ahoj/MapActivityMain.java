@@ -134,7 +134,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     String countryName = "", search_announcements_str = "", nick = "";
 
-    Button add_button, points_button, manage_button, my_profile_button;
+    Button add_button, points_button, manage_button, my_profile_button, competitions_button;
 
     Intent activity_intent;
 
@@ -212,6 +212,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         my_profile_button = findViewById(R.id.my_profile_button);
         you_can_collect_extra_point = findViewById(R.id.you_can_collect_extra_point);
         something_went_wrong = findViewById(R.id.something_went_wrong);
+        competitions_button = findViewById(R.id.competitions_button);
 
         if(social_mode){
             socialSwitch.setChecked(true);
@@ -229,9 +230,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             my_profile_button.setVisibility(View.GONE);
             manage_button.setVisibility(View.VISIBLE);
         }
-
-        scan_radius = sharedPreferences2.getInt("scanning_radius", 20);
-        zoom_size = sharedPreferences2.getInt("zoom_size", 15);
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -254,6 +252,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         nick = sharedPreferencesNick.getString("nick", "");
 
         sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+
+        scan_radius = sharedPreferencesUser.getInt("scanning_radius", 20);
+        zoom_size = sharedPreferencesUser.getInt("zoom_size", 15);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
 
@@ -415,7 +416,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-        String mapType = sharedPreferences.getString("map_type", "normal");
+        String mapType = sharedPreferencesUser.getString("map_type", "normal");
         if (mapType.equals("normal")) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
@@ -508,7 +509,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
            */
 
-            boolean is_auto_zoom_on = sharedPreferences.getBoolean("auto_zoom", true);
+            boolean is_auto_zoom_on = sharedPreferencesUser.getBoolean("auto_zoom", true);
             if(is_auto_zoom_on){
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom_size), 1500, null);
             }
@@ -575,9 +576,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                     }
                     else{
-                        if(can_say_you_can_collect_extra_point){
-                            can_say_you_can_collect_extra_point = false;
-                            Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                        if(sharedPreferencesUser.getBoolean("notification_every_5_km", true)){
+                            if(can_say_you_can_collect_extra_point){
+                                can_say_you_can_collect_extra_point = false;
+                                Toast.makeText(getApplicationContext(), you_can_collect_extra_point.getText().toString(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
@@ -639,7 +642,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void menu(View view){
-        float animationDurationFloat = sharedPreferences.getFloat("menu_animation_duration", 0.4f);
+        float animationDurationFloat = sharedPreferencesUser.getFloat("menu_animation_duration", 0.4f);
         long animationDurationMillis = (long) (animationDurationFloat * 1000);
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.left_to_right_menu);
@@ -672,7 +675,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     public void exitMenu(View view){
 
-        float animationDurationFloat = sharedPreferences.getFloat("menu_animation_duration", 0.4f);
+        float animationDurationFloat = sharedPreferencesUser.getFloat("menu_animation_duration", 0.4f);
         long animationDurationMillis = (long) (animationDurationFloat * 1000);
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.right_to_left_menu);
@@ -784,6 +787,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         points_button.setVisibility(View.GONE);
         manage_button.setVisibility(View.GONE);
         my_profile_button.setVisibility(View.GONE);
+        competitions_button.setVisibility(View.GONE);
 
 
         exit_announcements.setVisibility(View.VISIBLE);
@@ -1006,6 +1010,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         exit_menu.setVisibility(View.VISIBLE);
         settings.setVisibility(View.VISIBLE);
         announcements.setVisibility(View.VISIBLE);
+        competitions_button.setVisibility(View.VISIBLE);
 
         exit_announcements.setVisibility(View.GONE);
         ahoy_announcements.setVisibility(View.GONE);
@@ -1070,6 +1075,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void profileActivity(View view){
         Intent intent = new Intent(MapActivityMain.this, ProfileActivity.class);
         intent.putExtra("nick", nick);
+        startActivity(intent);
+    }
+
+    public void competitionsActivity(View view){
+        Intent intent = new Intent(MapActivityMain.this, CompetitionsActivity.class);
+        if(activity_intent.getStringExtra("activity").equals("main")){
+            intent.putExtra("activity", "main");
+        }
+        else{
+            intent.putExtra("activity", "user");
+        }
         startActivity(intent);
     }
 

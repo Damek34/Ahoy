@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class ManageEvent extends AppCompatActivity {
 
-    TextView name, ends, location, company, desc, additional, countryTextView, deleted;
+    TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
     String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "";
     Date eventDuration;
 
@@ -84,6 +84,9 @@ public class ManageEvent extends AppCompatActivity {
         additional = findViewById(R.id.activityEventEventAdditional);
         countryTextView = findViewById(R.id.activityEventEventCountry);
         deleted = findViewById(R.id.deleted);
+        activityStatus = findViewById(R.id.activityStatus);
+        during_the_verification = findViewById(R.id.during_the_verification);
+        active = findViewById(R.id.active);
 
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
@@ -109,12 +112,15 @@ public class ManageEvent extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(eventDuration);
                 int month = calendar.get(Calendar.MONTH) + 1;
-                ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+               // ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                ends.setText(ends.getText().toString() + " " + eventDuration.getTime());
                 name.setText(name.getText().toString() + " "+ eventName);
                 location.setText(location.getText().toString() + " " +eventLocation);
                 company.setText(company.getText().toString() + " " + eventCompanyName);
                 desc.setText(desc.getText().toString() + " " + eventDescription);
                 additional.setText(additional.getText().toString() + " " + eventAdditional);
+                activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
+
 
             }
 
@@ -141,12 +147,14 @@ public class ManageEvent extends AppCompatActivity {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(eventDuration);
                     int month = calendar.get(Calendar.MONTH) + 1;
-                    ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                   // ends.setText(ends.getText().toString() + " " + eventDuration.getHours() + ":" + eventDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                    ends.setText(ends.getText().toString() + " " + eventDuration.getTime());
                     name.setText(name.getText().toString() + " "+ eventName);
                     location.setText(location.getText().toString() + " " +eventLocation);
                     company.setText(company.getText().toString() + " " + eventCompanyName);
                     desc.setText(desc.getText().toString() + " " + eventDescription);
                     additional.setText(additional.getText().toString() + " " + eventAdditional);
+                    activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
             }
 
             @Override

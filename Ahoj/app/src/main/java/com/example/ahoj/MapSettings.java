@@ -82,8 +82,13 @@ public class MapSettings extends AppCompatActivity {
         zoom_size_textview = findViewById(R.id.zoom_size_textview);
         zoom_size_slider = findViewById(R.id.zoom_size_slider);
 
-        auto_zoom_switch.setChecked(sharedPreferences2.getBoolean("auto_zoom", true));
-        zoom_size_slider.setValue(sharedPreferences2.getInt("zoom_size", 15));
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        String nick = sharedPreferencesNick.getString("nick", "");
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+
+        auto_zoom_switch.setChecked(sharedPreferencesUser.getBoolean("auto_zoom", true));
+        zoom_size_slider.setValue(sharedPreferencesUser.getInt("zoom_size", 15));
 
         map_type_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,29 +171,34 @@ public class MapSettings extends AppCompatActivity {
 
 
     public void saveSettings(View view){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+       // SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        String nick = sharedPreferencesNick.getString("nick", "");
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
         if(mapTypesSpinner.getSelectedItemPosition() == 1){
-            editor.putString("map_type", "hybrid");
-            editor.apply();
+            editorUser.putString("map_type", "hybrid");
+            editorUser.apply();
         }
         if(mapTypesSpinner.getSelectedItemPosition() == 2){
-            editor.putString("map_type", "normal");
-            editor.apply();
+            editorUser.putString("map_type", "normal");
+            editorUser.apply();
         }
         if(mapTypesSpinner.getSelectedItemPosition() == 3){
-            editor.putString("map_type", "satellite");
-            editor.apply();
+            editorUser.putString("map_type", "satellite");
+            editorUser.apply();
         }
         if(mapTypesSpinner.getSelectedItemPosition() == 4){
-            editor.putString("map_type", "terrain");
-            editor.apply();
+            editorUser.putString("map_type", "terrain");
+            editorUser.apply();
         }
 
-        editor.putBoolean("auto_zoom", auto_zoom_switch.isChecked());
-        editor.apply();
+        editorUser.putBoolean("auto_zoom", auto_zoom_switch.isChecked());
+        editorUser.apply();
 
-        editor.putInt("zoom_size", (int) zoom_size_slider.getValue());
-        editor.apply();
+        editorUser.putInt("zoom_size", (int) zoom_size_slider.getValue());
+        editorUser.apply();
 
 
         if(intent.getStringExtra("activity").equals("main")){

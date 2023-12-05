@@ -152,6 +152,30 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/notification_after_every_reached_five_kilometers_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_after_every_reached_five_kilometers"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+
+            <Switch
+                android:id="@+id/notification_after_every_reached_five_kilometers_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
         </LinearLayout>
 
 

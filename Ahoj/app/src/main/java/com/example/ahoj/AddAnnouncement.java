@@ -11,6 +11,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,7 +38,7 @@ import java.util.Locale;
 public class AddAnnouncement extends AppCompatActivity {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends;
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview;
 
     Spinner country;
     String countryName;
@@ -100,6 +102,7 @@ public class AddAnnouncement extends AppCompatActivity {
         must_have_desc = findViewById(R.id.textViewMustHaveDesc);
         must_have_hour = findViewById(R.id.textViewMustLastAHour);
         add = findViewById(R.id.add_announcementPreview);
+        duration_preview = findViewById(R.id.duration_preview);
 
         country = findViewById(R.id.announcementCountry);
 
@@ -134,6 +137,36 @@ public class AddAnnouncement extends AppCompatActivity {
             announcement_additional.setText(activity_intent.getStringExtra("additional"));
         }
 
+        announcement_duration.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(announcement_duration.getText().toString().trim().equals("")){
+                    duration_preview.setText("");
+                }
+                else{
+                    Date date = OnlineDate.getDate();
+                    long millis = System.currentTimeMillis();
+                    String date_and_time = date + " " + millis;
+
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+
+                    duration_preview.setText(calendar.getTime().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
     public void exitAdd(View view) {

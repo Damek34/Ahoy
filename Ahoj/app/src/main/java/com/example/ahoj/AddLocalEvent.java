@@ -8,12 +8,18 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahoj.OnlyJava.OnlineDate;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -23,7 +29,7 @@ public class AddLocalEvent extends AppCompatActivity {
     String nameV, descV, locationV, company_nameV, additionalV, durationStr, isSocial = "false";
     int durationV = 0;
 
-    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour;
+    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview;
     EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
     Intent intent;
@@ -89,6 +95,7 @@ public class AddLocalEvent extends AppCompatActivity {
         company_name = (EditText) findViewById(R.id.event_company_name);
         duration = (EditText) findViewById(R.id.event_duration);
         additional = (EditText) findViewById(R.id.event_additional_info);
+        duration_preview = findViewById(R.id.duration_preview);
 
         Intent autoIntent = getIntent();
 
@@ -102,6 +109,36 @@ public class AddLocalEvent extends AppCompatActivity {
             event_additional.setText(autoIntent.getStringExtra("additional"));
         }
 
+        event_duration.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(event_duration.getText().toString().trim().equals("")){
+                    duration_preview.setText("");
+                }
+                else{
+                    Date date = OnlineDate.getDate();
+                    long millis = System.currentTimeMillis();
+                    String date_and_time = date + " " + millis;
+
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    calendar.add(Calendar.HOUR, Integer.parseInt(event_duration.getText().toString()));
+
+                    duration_preview.setText(calendar.getTime().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 

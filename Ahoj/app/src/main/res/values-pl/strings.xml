@@ -311,5 +311,12 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="competition_must_have_information_when_the_results_will_be_available">Konkurs musi zawierać informację kiedy wyniki będą dostępne</string>
     <string name="competition_must_have_information_who_can_take_part_in_competition">Konkurs musi zawierać informację kto może wziąć w nim udział</string>
     <string name="competition_must_have_information_where_will_be_results_announced">Konkurs musi zawierać informacje gdzie wyniki zostaną ogłoszone</string>
+    <string name="you_dont_have_any_competition">NIe masz żadnego konkursu</string>
+    <string name="during_the_verification">Podczas weryfikacji</string>
+    <string name="active">Aktywne</string>
+    <string name="status">Status</string>
+    <string name="announcements">Ogłoszenia</string>
+    <string name="competitions">Konkursy</string>
+    <string name="notification_after_every_reached_five_kilometers">Powiadomienie po każdych przebytych 5 kilometrach</string>
 
 </resources>

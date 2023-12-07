@@ -243,14 +243,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void exit(View view) {
 
+        if(activity_intent.getStringExtra("from_leaderboard").equals("true")){
+            startActivity(new Intent(ProfileActivity.this, Leaderboard.class));
+            return;
+        }
         if(!nick.equals(mynick)){
             startActivity(new Intent(ProfileActivity.this, FriendsActivity.class));
+            return;
         }
         else{
             Intent intent = new Intent(ProfileActivity.this, MapActivityMain.class);
             intent.putExtra("activity", "user");
             startActivity(intent);
+            return;
         }
+
+
 
     }
 }

@@ -40,7 +40,7 @@ public class Competition extends AppCompatActivity {
     String date_and_time, country, additional_copy;
 
     TextView activity_competition_title, activityCompetitionEndsAt, activityCompetitionOrganizer, activityCompetitionReward, activityCompetitionDescription
-            , activityCompetitionEventCountry, activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional, copied;
+            , activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional, copied;
     Intent intent;
     AdView adview;
     AppCompatButton copy_button;
@@ -92,7 +92,6 @@ public class Competition extends AppCompatActivity {
         activityCompetitionOrganizer = findViewById(R.id.activityCompetitionOrganizer);
         activityCompetitionReward = findViewById(R.id.activityCompetitionReward);
         activityCompetitionDescription = findViewById(R.id.activityCompetitionDescription);
-        activityCompetitionEventCountry = findViewById(R.id.activityCompetitionEventCountry);
         activityCompetitionWhenResults = findViewById(R.id.activityCompetitionWhenResults);
         activityCompetitionWhoCanTakePart = findViewById(R.id.activityCompetitionWhoCanTakePart);
         activityCompetitionWhereResults = findViewById(R.id.activityCompetitionWhereResults);

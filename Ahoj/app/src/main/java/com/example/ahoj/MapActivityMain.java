@@ -1075,6 +1075,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void profileActivity(View view){
         Intent intent = new Intent(MapActivityMain.this, ProfileActivity.class);
         intent.putExtra("nick", nick);
+        intent.putExtra("from_leaderboard", "false");
         startActivity(intent);
     }
 

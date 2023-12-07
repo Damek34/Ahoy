@@ -161,6 +161,7 @@ public class FriendsActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent = new Intent(FriendsActivity.this, ProfileActivity.class);
                                 intent.putExtra("nick", nickV.getText().toString());
+                                intent.putExtra("from_leaderboard", "false");
                                 startActivity(intent);
                             }
                         });
@@ -233,6 +234,7 @@ public class FriendsActivity extends AppCompatActivity {
         Intent intent = new Intent(FriendsActivity.this, ProfileActivity.class);
         intent.putExtra("activity", "user");
         intent.putExtra("nick", nick);
+        intent.putExtra("from_leaderboard", "false");
         startActivity(intent);
     }
 

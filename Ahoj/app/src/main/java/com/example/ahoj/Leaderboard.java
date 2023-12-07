@@ -194,6 +194,16 @@ public class Leaderboard extends AppCompatActivity {
                     row.setText(leaderboardEntry);
                     downloadingLeaderboard.setText(leaderboard.getText().toString());
                     linear_layout.addView(row);
+
+                    row.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent profile = new Intent(Leaderboard.this, ProfileActivity.class);
+                            profile.putExtra("nick", user.nick);
+                            profile.putExtra("from_leaderboard", "true");
+                            startActivity(profile);
+                        }
+                    });
                 }
 
 
@@ -304,6 +314,17 @@ public class Leaderboard extends AppCompatActivity {
             row.setText(leaderboardEntry);
             downloadingLeaderboard.setText(leaderboard.getText().toString());
             linear_layout.addView(row);
+
+            int finalI = i;
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent profile = new Intent(Leaderboard.this, ProfileActivity.class);
+                    profile.putExtra("nick", friendsLeaderboard.get(finalI).nick);
+                    profile.putExtra("from_leaderboard", "true");
+                    startActivity(profile);
+                }
+            });
         }
 
 

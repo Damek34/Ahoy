@@ -318,5 +318,7 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="announcements">Ogłoszenia</string>
     <string name="competitions">Konkursy</string>
     <string name="notification_after_every_reached_five_kilometers">Powiadomienie po każdych przebytych 5 kilometrach</string>
+    <string name="filter">Filtruj</string>
+    <string name="no_competitions_found">Nie znaleziono żadnych konkursów</string>
 
 </resources>

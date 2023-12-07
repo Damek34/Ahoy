@@ -304,6 +304,8 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="announcements">Announcements</string>
     <string name="competitions">Competitions</string>
     <string name="notification_after_every_reached_five_kilometers">Notification after every reached 5 kilometers</string>
+    <string name="filter">Filter</string>
+    <string name="no_competitions_found">No competitions found</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

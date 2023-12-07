@@ -182,9 +182,6 @@ public class EventActivity extends AppCompatActivity {
             });
         }
 
-
-
-
         adview = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adview.loadAd(adRequest);

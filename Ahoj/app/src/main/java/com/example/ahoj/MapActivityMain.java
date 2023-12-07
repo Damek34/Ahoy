@@ -1086,6 +1086,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         else{
             intent.putExtra("activity", "user");
         }
+        intent.putExtra("country", countryName);
         startActivity(intent);
     }
 

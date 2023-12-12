@@ -84,25 +84,25 @@
         android:visibility="gone"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_world"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="4dp"
-        android:backgroundTint="@color/almost_transparent"
-        android:foreground="@android:drawable/ic_menu_mapmode"
+        android:foreground="@drawable/world_icon"
+        android:background="@color/almost_transparent3"
         android:onClick="world"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_friends"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="57dp"
+        android:layout_height="50dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/transparent"
-        android:foreground="@android:drawable/ic_menu_myplaces"
+        android:foreground="@drawable/friends_icon"
         android:onClick="friends"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

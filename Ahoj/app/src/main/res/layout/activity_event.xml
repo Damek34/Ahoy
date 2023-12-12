@@ -30,6 +30,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             >
             <TextView
                 android:id="@+id/activity_event_name"
@@ -38,6 +39,7 @@
                 android:textSize="32sp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
+                android:background="@color/almost_transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +53,7 @@
                 android:text="@string/ends_at"
                 android:textSize="20sp"
                 android:textColor="@color/white"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
 
@@ -63,6 +66,7 @@
                 android:text="@string/event_location"
                 android:textSize="20sp"
                 android:textColor="@color/white"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
 
@@ -75,6 +79,7 @@
                 android:text="@string/company_name"
                 android:textSize="20sp"
                 android:textColor="@color/white"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
 
@@ -88,6 +93,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:paddingRight="15dp"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
 
@@ -112,6 +118,7 @@
                         android:text="@string/additional_information"
                         android:textSize="20sp"
                         android:paddingRight="15dp"
+                        android:background="@color/almost_transparent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -122,10 +129,12 @@
                         android:id="@+id/manage_event_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/roundpinkbutton"
                         android:text="@string/copy"
                         android:onClick="copy"
                         android:textColor="@color/white"
+                        android:background="@drawable/roundpinkbutton"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -171,7 +180,7 @@
 
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/report_event_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -180,6 +189,10 @@
         android:text="@string/report"
         android:onClick="report"
         android:visibility="visible"
+        android:textColor="@color/white"
+        android:background="@drawable/roundpinkbutton"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent" />
 

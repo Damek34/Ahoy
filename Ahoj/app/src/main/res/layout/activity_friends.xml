@@ -21,11 +21,12 @@
 
     <Button
         android:id="@+id/buttonReceived"
-        android:layout_width="47dp"
-        android:layout_height="49dp"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="18dp"
         android:background="@color/transparent"
-        android:foreground="@android:drawable/sym_action_email"
+        android:foreground="@drawable/invites_icon"
         android:onClick="received"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -81,13 +82,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button5"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="124dp"
                 android:background="@color/transparent"
-                android:foreground="@android:drawable/ic_menu_search"
+                android:foreground="@drawable/search_icon"
                 android:onClick="addFriend"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_user_edittext" />

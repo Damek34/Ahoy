@@ -131,13 +131,13 @@ public class FriendsActivity extends AppCompatActivity {
                         int heightInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
 
                         Button friend_info_btn = new Button(getApplicationContext());
-                        friend_info_btn.setBackgroundResource(android.R.drawable.ic_dialog_info);
+                        friend_info_btn.setBackgroundResource(R.drawable.info_circle_icon);
                         friend_info_btn.setWidth(widthInDp);
                         friend_info_btn.setHeight(heightInDp);
 
 
                         Button remove_friend_btn = new Button(getApplicationContext());
-                        remove_friend_btn.setBackgroundResource(android.R.drawable.ic_menu_close_clear_cancel);
+                        remove_friend_btn.setBackgroundResource(R.drawable.remove_icon);
                         remove_friend_btn.setWidth(widthInDp);
                         remove_friend_btn.setHeight(heightInDp);
 
@@ -269,8 +269,8 @@ public class FriendsActivity extends AppCompatActivity {
 
                     Button addButton = new Button(getApplicationContext());
                     addButton.setText(invite.getText().toString());
-                    addButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
-                    addButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
+                    addButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.teal_200));
+                    addButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
                     addButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -280,6 +280,7 @@ public class FriendsActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     reference.child(nick).setValue(nick);
                                     Toast.makeText(getApplicationContext(), invitation_sent.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    cancelSearch(view);
                                 }
 
                                 @Override

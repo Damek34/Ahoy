@@ -311,6 +311,7 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="results">Results</string>
     <string name="no_results">No results</string>
     <string name="add_results">Add results</string>
+    <string name="account_is_banned">Account is banned</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

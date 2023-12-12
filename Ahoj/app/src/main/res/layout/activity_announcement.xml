@@ -28,6 +28,7 @@
                 android:id="@+id/toolbaradditional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityAnnouncementDescription">
 
@@ -40,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
+                        android:background="@color/almost_transparent"
                         android:paddingRight="15dp"
                         android:text="@string/additional_information"
                         android:textColor="@color/white"
@@ -49,11 +51,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/roundpinkbutton"
                         android:onClick="copy"
                         android:text="@string/copy"
+                        android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/activityAnnouncementAdditional" />
@@ -73,6 +77,7 @@
                 android:text="@string/description"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityAnnouncementEndsAt" />
 
@@ -85,6 +90,7 @@
                 android:text="@string/ends_at"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_announcement_company_name" />
 
@@ -95,6 +101,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="32sp"
+                android:background="@color/almost_transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +122,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/report_announcement_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,6 +131,8 @@
         android:text="@string/report"
         android:onClick="report"
         android:visibility="visible"
+        android:background="@drawable/roundpinkbutton"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/adViewAnnouncement"
         app:layout_constraintEnd_toEndOf="parent" />
 

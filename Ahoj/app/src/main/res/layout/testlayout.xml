@@ -8,7 +8,6 @@
 
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
@@ -165,12 +164,27 @@
                         app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/search_announcements"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/roundpinkbutton"
+                        android:onClick="searchAnnouncements"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/search"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements" />
 
 
                     <ScrollView
                         android:id="@+id/scrollView2"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp"
+                        android:layout_height="525dp"
                         android:isScrollContainer="false"
                         app:layout_constraintBottom_toTopOf="@+id/adView"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -220,7 +234,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_menu_preferences"
+                        android:foreground="@drawable/setting_icon"
                         android:gravity="center"
                         android:onClick="settings"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -247,8 +261,9 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/star_big_on"
+                        android:foreground="@drawable/points_icon"
                         android:onClick="pointsActivity"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/settingsButton" />
 
@@ -259,8 +274,9 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@drawable/ic_launcher_foreground"
+                        android:foreground="@drawable/profile_icon"
                         android:onClick="profileActivity"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/points_button" />
 
@@ -270,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@color/transparent"
-                        android:onClick="profileActivity"
+                        android:onClick="competitionsActivity"
                         android:text="@string/competitions"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -283,7 +299,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_lock_lock"
+                        android:foreground="@drawable/manage_icon"
                         android:onClick="manageActivity"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -313,7 +329,7 @@
             android:layout_width="match_parent"
             android:layout_height="84dp"
             android:layout_gravity="bottom"
-            android:background="@color/black"
+            android:background="@color/dark_grey"
 
             >
 
@@ -327,7 +343,7 @@
                 <Button
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
                     android:background="@color/transparent"
                     android:foreground="@drawable/ahoymenu"
                     android:gravity="center"
@@ -335,26 +351,29 @@
 
                 </Button>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
+                    android:textColor="@color/white"
+                    android:background="@drawable/roundpinkbutton"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
                     android:text="@string/scan"
                     android:onClick="scan"
                     android:textSize="18sp">
 
-                </Button>
+                </androidx.appcompat.widget.AppCompatButton>
 
                 <Button
                     android:id="@+id/addButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-
-                    android:foreground="@android:drawable/ic_input_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:foreground="@drawable/add_icon"
                     android:background="@color/transparent"
                     android:gravity="center"
                     android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
                     android:onClick="add"
                     >
 
@@ -450,6 +469,17 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="11dp"
         android:text="@string/something_went_wrong"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/no_events_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/no_events_found"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

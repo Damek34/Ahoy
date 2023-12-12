@@ -325,5 +325,6 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="results">Wyniki</string>
     <string name="no_results">Brak wyników</string>
     <string name="add_results">Dodaj wyniki</string>
+    <string name="account_is_banned">Konto zostało zablokowane</string>
 
 </resources>

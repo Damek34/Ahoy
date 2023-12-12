@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     >
 
+
+
     <fragment
         android:id="@+id/mapa"
         android:layout_width="match_parent"
@@ -17,9 +19,6 @@
         android:name="com.google.android.gms.maps.SupportMapFragment">
 
     </fragment>
-
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchLayout"
@@ -247,7 +246,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_menu_preferences"
+                        android:foreground="@drawable/setting_icon"
                         android:gravity="center"
                         android:onClick="settings"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -274,8 +273,9 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/star_big_on"
+                        android:foreground="@drawable/points_icon"
                         android:onClick="pointsActivity"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/settingsButton" />
 
@@ -286,8 +286,9 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@drawable/ic_launcher_foreground"
+                        android:foreground="@drawable/profile_icon"
                         android:onClick="profileActivity"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/points_button" />
 
@@ -310,7 +311,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@android:drawable/ic_lock_lock"
+                        android:foreground="@drawable/manage_icon"
                         android:onClick="manageActivity"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -340,7 +341,7 @@
             android:layout_width="match_parent"
             android:layout_height="84dp"
             android:layout_gravity="bottom"
-            android:background="@color/black"
+            android:background="@color/dark_grey"
 
             >
 
@@ -354,7 +355,7 @@
                 <Button
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
                     android:background="@color/transparent"
                     android:foreground="@drawable/ahoymenu"
                     android:gravity="center"
@@ -362,26 +363,29 @@
 
                 </Button>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
+                    android:textColor="@color/white"
+                    android:background="@drawable/roundpinkbutton"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
                     android:text="@string/scan"
                     android:onClick="scan"
                     android:textSize="18sp">
 
-                </Button>
+                </androidx.appcompat.widget.AppCompatButton>
 
                 <Button
                     android:id="@+id/addButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-
-                    android:foreground="@android:drawable/ic_input_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:foreground="@drawable/add_icon"
                     android:background="@color/transparent"
                     android:gravity="center"
                     android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
                     android:onClick="add"
                     >
 

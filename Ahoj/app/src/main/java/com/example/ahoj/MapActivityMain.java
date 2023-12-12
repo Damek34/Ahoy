@@ -501,7 +501,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
+            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.localization_tracker)).title(String.valueOf(your_localization.getText())));
             previousLocation = location;
 
           /*  SharedPreferences.Editor userEditor = sharedPreferencesUser.edit();
@@ -546,7 +546,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             MarkerOptions options = new MarkerOptions()
                     .position(new LatLng(location.getLatitude(), location.getLongitude()))
                     .title(String.valueOf(your_localization.getText()))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.localization_tracker));
             marker = mMap.addMarker(options);
         }
 
@@ -1378,7 +1378,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.twojalokalizacja)).title(String.valueOf(your_localization.getText())));
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.localization_tracker)).title(String.valueOf(your_localization.getText())));
 
         assert marker != null;
         current_lat = marker.getPosition().latitude;

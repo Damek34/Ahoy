@@ -95,7 +95,7 @@
     </Toolbar>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/collect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,6 +103,10 @@
         android:layout_marginTop="39dp"
         android:onClick="adRewardCollect"
         android:text="@string/collect"
+        android:background="@drawable/roundpinkbutton"
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -116,14 +120,13 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/rewardedVideoButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/rewardedVideoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,6 +134,10 @@
         android:layout_marginBottom="4dp"
         android:onClick="adReward"
         android:text="@string/watch_ad_to_get_extra_point"
+        android:background="@drawable/roundpinkbutton"
+        android:textColor="@color/white"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -176,12 +183,15 @@
     <Button
         android:id="@+id/leaderboard"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/transparent"
-        android:foreground="@android:drawable/ic_popup_reminder"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="19dp"
+        android:backgroundTint="@color/transparent"
+
+        android:foreground="@drawable/gold_winner_trophy_icon"
         android:onClick="leaderboard"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="19dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

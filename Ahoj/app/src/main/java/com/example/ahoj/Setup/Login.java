@@ -34,7 +34,7 @@ import java.util.Locale;
 public class Login extends AppCompatActivity {
 
     EditText email, password;
-    TextView enterEmail, enterPassword, success, fail, notVerified, not_exist;
+    TextView enterEmail, enterPassword, success, fail, notVerified, not_exist, account_is_banned;
 
     private FirebaseAuth mAuth;
     FirebaseUser user;
@@ -96,6 +96,7 @@ public class Login extends AppCompatActivity {
         fail = findViewById(R.id.Fail);
         notVerified = findViewById(R.id.notverified);
         not_exist = findViewById(R.id.accnotexist);
+        account_is_banned = findViewById(R.id.account_is_banned);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
@@ -146,12 +147,42 @@ public class Login extends AppCompatActivity {
 
     }
     void login(){
+
+        String modifiedEmail = email.getText().toString().replace(".", ",");
+        modifiedEmail = modifiedEmail.replace("#", "_");
+        modifiedEmail = modifiedEmail.replace("$", "-");
+        modifiedEmail = modifiedEmail.replace("[", "(");
+        modifiedEmail = modifiedEmail.replace("]", ")");
+        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/is_banned");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Toast.makeText(getApplicationContext(), account_is_banned.getText().toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else{
+                    countinue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    void countinue(){
         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     if(user.isEmailVerified()){
+
                         Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();

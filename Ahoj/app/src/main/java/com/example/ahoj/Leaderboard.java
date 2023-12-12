@@ -138,7 +138,7 @@ public class Leaderboard extends AppCompatActivity {
     public void world(View view){
         linear_layout.removeAllViews();
 
-        button_world.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.almost_transparent));
+        button_world.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.almost_transparent3));
         button_friends.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.transparent));
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Nick");
@@ -223,7 +223,7 @@ public class Leaderboard extends AppCompatActivity {
         linear_layout.removeAllViews();
 
         button_world.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.transparent));
-        button_friends.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.almost_transparent));
+        button_friends.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.almost_transparent3));
 
         friendsList = new ArrayList<>();
         friendsLeaderboard = new ArrayList<>();

@@ -56,6 +56,8 @@
                 android:valueFrom="5"
                 android:valueTo="100"
                 android:visibility="gone"
+                app:thumbColor="@color/teal_200"
+                app:trackColor="@color/light_grey"
                 android:stepSize="1"
                 app:tickVisible="false"
 
@@ -113,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-
+                android:trackTint="@color/white"
 
                 />
 
@@ -143,6 +145,8 @@
                 android:valueFrom="0"
                 android:valueTo="1"
                 android:visibility="gone"
+                app:thumbColor="@color/teal_200"
+                app:trackColor="@color/light_grey"
 
                 />
 
@@ -167,6 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:trackTint="@color/white"
 
                 />
 
@@ -182,12 +187,16 @@
     </ScrollView>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSaveSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="saveSettings"
         android:text="@string/save"
+        android:textColor="@color/white"
+        android:background="@drawable/roundpinkbutton"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

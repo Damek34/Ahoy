@@ -165,27 +165,12 @@
                         app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/search_announcements"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/roundpinkbutton"
-                        android:onClick="searchAnnouncements"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="@string/search"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements" />
 
 
                     <ScrollView
                         android:id="@+id/scrollView2"
                         android:layout_width="match_parent"
-                        android:layout_height="450dp"
+                        android:layout_height="500dp"
                         android:isScrollContainer="false"
                         app:layout_constraintBottom_toTopOf="@+id/adView"
                         app:layout_constraintEnd_toEndOf="parent"

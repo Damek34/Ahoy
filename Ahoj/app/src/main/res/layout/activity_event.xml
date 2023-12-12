@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/roadmapbackground"
+    android:background="@mipmap/event_background"
     tools:context=".EventActivity">
 
     <Button
@@ -19,112 +19,128 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/activity_event_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         android:layout_marginTop="64dp"
-        android:textSize="32sp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/activityEventEventEndsAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="59dp"
-        android:text="@string/ends_at"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
-
-    <TextView
-        android:id="@+id/activityEventEventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/event_location"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
-
-    <TextView
-        android:id="@+id/activityEventEventCompanyName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/company_name"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
-
-    <TextView
-        android:id="@+id/activityEventEventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/description"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:paddingRight="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
-
-
-    <Toolbar
-        android:id="@+id/toolbaradditional"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription">
-
+        app:layout_constraintTop_toTopOf="parent"
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            >
             <TextView
-                android:id="@+id/activityEventEventAdditional"
+                android:id="@+id/activity_event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:text="@string/additional_information"
-                android:textSize="20sp"
-                android:paddingRight="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/manage_event_button"
+            <TextView
+                android:id="@+id/activityEventEventEndsAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/roundpinkbutton"
-                android:text="@string/copy"
-                android:onClick="copy"
-                android:textColor="@color/white"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="59dp"
+                android:text="@string/ends_at"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/activity_event_name" />
 
+            <TextView
+                android:id="@+id/activityEventEventLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/event_location"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventEndsAt" />
+
+            <TextView
+                android:id="@+id/activityEventEventCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/company_name"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventLocation" />
+
+            <TextView
+                android:id="@+id/activityEventEventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/description"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:paddingRight="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventCompanyName" />
+
+
+            <Toolbar
+                android:id="@+id/toolbaradditional"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityEventEventDescription">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/activityEventEventAdditional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/additional_information"
+                        android:textSize="20sp"
+                        android:paddingRight="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/manage_event_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/roundpinkbutton"
+                        android:text="@string/copy"
+                        android:onClick="copy"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activityEventEventAdditional"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </Toolbar>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </Toolbar>
+    </ScrollView>
+
 
 
     <TextView

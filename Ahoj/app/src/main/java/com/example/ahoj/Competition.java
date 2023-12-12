@@ -40,10 +40,13 @@ public class Competition extends AppCompatActivity {
     String date_and_time, country, additional_copy;
 
     TextView activity_competition_title, activityCompetitionEndsAt, activityCompetitionOrganizer, activityCompetitionReward, activityCompetitionDescription
-            , activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional, copied;
+            , activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional, copied, textview_results
+            , no_results;
     Intent intent;
     AdView adview;
     AppCompatButton copy_button;
+
+    boolean is_results_visible = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -99,6 +102,8 @@ public class Competition extends AppCompatActivity {
         adview = findViewById(R.id.adView);
         copy_button = findViewById(R.id.copy_button);
         copied = findViewById(R.id.copied);
+        textview_results = findViewById(R.id.textview_results);
+        no_results = findViewById(R.id.no_results);
 
         reference = database.getReference("Competitions/" + country + "/" + date_and_time);
 
@@ -146,6 +151,37 @@ public class Competition extends AppCompatActivity {
         clipboard.setPrimaryClip(clip);
 
         Toast.makeText(getApplicationContext(), copied.getText().toString(), Toast.LENGTH_LONG).show();
+    }
+
+    public void results(View view){
+        if(is_results_visible){
+            is_results_visible = false;
+            textview_results.setVisibility(View.GONE);
+            return;
+        }
+        else{
+            is_results_visible = true;
+            textview_results.setVisibility(View.VISIBLE);
+        }
+
+        reference = database.getReference("Competitions/" + country + "/" + date_and_time);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("results").exists()){
+                    textview_results.setText(snapshot.child("results").getValue(String.class));
+                }
+                else{
+                    textview_results.setText(no_results.getText().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void exit (View view){

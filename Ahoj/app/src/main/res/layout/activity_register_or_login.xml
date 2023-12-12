@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/questionsbackground"
+    android:background="@mipmap/choosing_background"
 
     tools:context=".Setup.RegisterOrLogin">
     <Button
@@ -23,7 +23,8 @@
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
         android:onClick="login"
         android:padding="10dp"
         android:text="@string/login"
@@ -42,7 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
         android:onClick="register"
         android:padding="10dp"
         android:text="@string/register"

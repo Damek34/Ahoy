@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/questionsbackground"
+    android:background="@mipmap/choosing_background"
     tools:context=".Setup.Login">
 
     <Toolbar
@@ -91,7 +91,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
 
         android:onClick="login"
         android:paddingLeft="5dp"
@@ -175,7 +176,8 @@
         android:layout_marginTop="30dp"
 
         android:layout_marginEnd="131dp"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
         android:onClick="forgotPassword"
         android:paddingLeft="5dp"
 

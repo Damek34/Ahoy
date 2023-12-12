@@ -1,9 +1,11 @@
 package com.example.ahoj;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,11 +35,12 @@ public class ManageCompetition extends AppCompatActivity {
 
     TextView activity_competition_title, activityCompetitionEndsAt, activityCompetitionOrganizer, activityCompetitionReward, activityCompetitionDescription
             , activityCompetitionEventCountry, activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional
-            , deleted, activityStatus, during_the_verification, active;
+            , deleted, activityStatus, during_the_verification, active, add_results_txt, cancel;
 
     String date_and_time = "", country = "", email = "";
     Intent activity_intent;
     boolean is_from_competition = true;
+    String results_str = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -89,6 +94,8 @@ public class ManageCompetition extends AppCompatActivity {
         activityStatus = findViewById(R.id.activityStatus);
         during_the_verification = findViewById(R.id.during_the_verification);
         active = findViewById(R.id.active);
+        add_results_txt = findViewById(R.id.add_results_txt);
+        cancel = findViewById(R.id.cancel);
 
         date_and_time = activity_intent.getStringExtra("date_and_time");
         country = activity_intent.getStringExtra("country");
@@ -114,7 +121,16 @@ public class ManageCompetition extends AppCompatActivity {
                     activityCompetitionWhoCanTakePart.setText(activityCompetitionWhoCanTakePart.getText() + ": " +  snapshot.child("who_can_take_part").getValue(String.class));
                     activityCompetitionWhereResults.setText(activityCompetitionWhereResults.getText() + ": " +  snapshot.child("where_results").getValue(String.class));
                     activityCompetitionAdditional.setText(activityCompetitionAdditional.getText() + " " +  snapshot.child("additional").getValue(String.class));
-                    activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
+                    results_str = snapshot.child("results").getValue(String.class);
+                   // activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
+                    Date competitionDuration = snapshot.child("duration").getValue(Date.class);
+
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(competitionDuration);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText().toString() + " " + competitionDuration.getHours() + ":" + competitionDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+
 
                     activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
                 }
@@ -147,7 +163,17 @@ public class ManageCompetition extends AppCompatActivity {
                     activityCompetitionWhoCanTakePart.setText(activityCompetitionWhoCanTakePart.getText() + " " +  snapshot.child("who_can_take_part").getValue(String.class));
                     activityCompetitionWhereResults.setText(activityCompetitionWhereResults.getText() + " " +  snapshot.child("where_results").getValue(String.class));
                     activityCompetitionAdditional.setText(activityCompetitionAdditional.getText() + " " +  snapshot.child("additional").getValue(String.class));
-                    activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
+                  //  activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
+
+                    // activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
+                    Date competitionDuration = snapshot.child("duration").getValue(Date.class);
+
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(competitionDuration);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText().toString() + " " + competitionDuration.getHours() + ":" + competitionDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+
 
                     activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
                 }
@@ -178,6 +204,35 @@ public class ManageCompetition extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), deleted.getText().toString(), Toast.LENGTH_LONG).show();
         startActivity(new Intent(ManageCompetition.this, Manage.class));
+    }
+
+    public void addResults(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ManageCompetition.this);
+        builder.setTitle(add_results_txt.getText().toString());
+        final EditText resultsEditText = new EditText(getApplicationContext());
+        resultsEditText.setText(results_str);
+        builder.setView(resultsEditText);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String enteredResults = resultsEditText.getText().toString();
+
+                reference = database.getReference("Competitions/" + country + "/" + date_and_time);
+                reference.child("results").setValue(enteredResults);
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(cancel.getText().toString(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
     public void exit(View view){

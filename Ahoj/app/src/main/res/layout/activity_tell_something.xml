@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/questionsbackground"
+    android:background="@mipmap/choosing_background"
 
     tools:context=".Setup.TellSomething">
 
@@ -112,9 +112,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="151dp"
         android:onClick="sendInfo"
-
         android:text="@string/send"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
         android:textColor="@color/white"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -128,7 +128,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="68dp"
-        android:background="@drawable/roundpinkbutton"
+        android:background="@drawable/pink_transparent_round"
+        android:backgroundTint="@color/pink_almost_transparent"
         android:onClick="alreadyHave"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"

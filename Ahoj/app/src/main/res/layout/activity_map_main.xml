@@ -197,7 +197,7 @@
                     <ScrollView
                         android:id="@+id/scrollView2"
                         android:layout_width="match_parent"
-                        android:layout_height="450dp"
+                        android:layout_height="525dp"
                         android:isScrollContainer="false"
                         app:layout_constraintBottom_toTopOf="@+id/adView"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -477,6 +477,17 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="11dp"
         android:text="@string/something_went_wrong"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/no_events_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/no_events_found"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

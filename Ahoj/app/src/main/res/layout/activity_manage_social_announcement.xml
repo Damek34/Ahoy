@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/questionsbackground"
+    android:background="@mipmap/creating_and_managing_background"
     tools:context=".ManageSocialAnnouncement">
     <Button
         android:id="@+id/buttonExitManageAnnouncement"

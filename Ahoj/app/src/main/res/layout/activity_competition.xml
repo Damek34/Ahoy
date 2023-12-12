@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@mipmap/competition_background"
     tools:context=".Competition">
 
     <Button
@@ -21,7 +21,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="600dp"
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +132,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityCompetitionWhoCanTakePart" />
 
+
             <TextView
                 android:id="@+id/activityCompetitionAdditional"
                 android:layout_width="wrap_content"
@@ -158,6 +159,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/activityCompetitionAdditional"
                 />
 
+            <Button
+                android:id="@+id/results_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/results"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:backgroundTint="@color/dark_grey"
+                android:onClick="results"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/copy_button" />
+
+            <TextView
+                android:id="@+id/textview_results"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/results_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,6 +211,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/copied"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/no_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results"
         android:visibility="gone"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

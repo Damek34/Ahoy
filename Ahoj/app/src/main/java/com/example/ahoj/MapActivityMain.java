@@ -23,6 +23,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
@@ -130,7 +132,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     AdView adview;
 
-    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point, something_went_wrong;
+    TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point,
+            something_went_wrong, no_events_found;
 
     String countryName = "", search_announcements_str = "", nick = "";
 
@@ -213,7 +216,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         you_can_collect_extra_point = findViewById(R.id.you_can_collect_extra_point);
         something_went_wrong = findViewById(R.id.something_went_wrong);
         competitions_button = findViewById(R.id.competitions_button);
-
+        no_events_found = findViewById(R.id.no_events_found);
         if(social_mode){
             socialSwitch.setChecked(true);
         }
@@ -759,14 +762,42 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
         is_announcements_page_on = true;
+        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+        TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
+
+        search_announcements.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!search_announcements.getText().toString().trim().equals("")){
+                    //thereisnoannouncements.setVisibility(View.GONE);
+                    searchButtons(s.toString());
+                }
+                else{
+                    for(int i = 0; i < linearLayout.getChildCount(); i++){
+                        linearLayout.getChildAt(i).setVisibility(View.VISIBLE);
+                        thereisnoannouncements.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements, manage;
         TextView downloadingdata;
-        TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
 
-        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+
 
         exit_menu = findViewById(R.id.buttonExitMenu);
         settings = findViewById(R.id.settingsButton);
@@ -777,6 +808,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         manage = findViewById(R.id.manage_button);
         downloadingdata = findViewById(R.id.downloadingdata);
+
 
 
         exit_menu.setVisibility(View.GONE);
@@ -794,7 +826,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         ahoy_announcements.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.VISIBLE);
         editTextSearchAnnouncements.setVisibility(View.VISIBLE);
-        search_announcements.setVisibility(View.VISIBLE);
+
 
 
         manage.setVisibility(View.GONE);
@@ -845,6 +877,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         linearLayout.setVisibility(View.GONE);
                         editTextSearchAnnouncements.setVisibility(View.GONE);
                         search_announcements.setVisibility(View.GONE);
+                        thereisnoannouncements.setVisibility(View.GONE);
 
 
                         return;
@@ -951,8 +984,6 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         search_announcements_str.toLowerCase();
 
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
-
-
         if(!search_announcements_str.trim().isEmpty()){
             for(int i = 0; i < buttons.length; i++){
                 linearLayout.removeView(buttons[i]);
@@ -975,6 +1006,35 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         }
+    }
+    void searchButtons(String query) {
+        boolean foundMatch = false;
+        LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
+        TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
+
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            View view = linearLayout.getChildAt(i);
+            if (view instanceof Button) {
+                Button button = (Button) view;
+                String title = button.getText().toString();
+                if (title.toLowerCase().contains(query.toLowerCase())) {
+                    button.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
+                    thereisnoannouncements.setVisibility(View.GONE);
+                    foundMatch = true;
+                }
+
+                else {
+                    button.setVisibility(View.GONE);
+                    view.setVisibility(View.GONE);
+                }
+            }
+        }
+        if (!foundMatch) {
+            thereisnoannouncements.setVisibility(View.VISIBLE);
+        }
+
+
     }
     public void exitAnnouncements(View view){
         search_announcements.setText("");
@@ -1271,6 +1331,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     }
                     else{
                         global_count = 0;
+                        Toast.makeText(getApplicationContext(), no_events_found.getText().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
 

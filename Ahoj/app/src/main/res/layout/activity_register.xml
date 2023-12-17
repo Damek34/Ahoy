@@ -196,6 +196,7 @@
         android:text="@string/wait_for_account_verification"
         android:textAlignment="center"
         android:visibility="gone"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"

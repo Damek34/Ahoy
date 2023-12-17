@@ -89,7 +89,7 @@
                 android:id="@+id/buttonReconect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/white"
                 android:background="@color/transparent"
                 android:onClick="reconnect"
                 android:text="@string/enable_localization_btn" />
@@ -98,7 +98,7 @@
                 android:id="@+id/buttonClearCache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/white"
                 android:background="@color/transparent"
                 android:onClick="clearCache"
                 android:text="@string/clear_cache" />
@@ -111,7 +111,7 @@
                 android:background="@color/transparent"
                 android:onClick="logOut"
                 android:text="@string/log_out"
-
+                android:textColor="@color/white"
                 />
 
             <View
@@ -135,6 +135,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@color/transparent"
                 android:onClick="FAQ"
+                android:textColor="@color/white"
                 android:text="@string/faq"
                 />
 
@@ -145,6 +146,7 @@
                 android:background="@color/transparent"
                 android:onClick="showEmailAddress"
                 android:text="@string/support"
+                android:textColor="@color/white"
                 />
             <LinearLayout
                 android:id="@+id/support_linear_layout"

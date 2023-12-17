@@ -242,11 +242,11 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if (!connected) {
             if (activity_intent.getStringExtra("activity").equals("user")) {
                 Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
-                intent.putExtra("activity", "user");
+                intent.putExtra("from_activity", "user");
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(MapActivityMain.this, EnableInternetConnection.class);
-                intent.putExtra("activity", "main");
+                intent.putExtra("from_activity", "main");
                 startActivity(intent);
             }
 
@@ -455,12 +455,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        //Criteria criteria = new Criteria();
-        // String bestProvider = locationManager.getBestProvider(criteria, true);
-
-
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         Location location = null;
+/*
         try {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         } catch (java.lang.IllegalArgumentException e) {
@@ -495,6 +492,25 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         }
+
+ */
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if(location == null){
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", activity_intent.getStringExtra("activity"));
+                startActivity(intent);
+
+
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
+        } catch (SecurityException e) {
+            // Nie udało się uzyskać lokalizacji ze względu na brak uprawnień
+            // Tutaj możesz obsłużyć odpowiednie akcje, np. poprzez wyświetlenie komunikatu o braku uprawnień.
+        }
+
 
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
@@ -1159,6 +1175,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     public void onProviderDisabled(@NonNull String provider) {
 
     }
+
+    @Override
+    public void onFlushComplete(int requestCode) {
+     //   LocationListener.super.onFlushComplete(requestCode);
+    }
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -1196,6 +1218,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         //    eventAdditionalV.clear();
 
 
+            date = OnlineDate.getDate();
 
             calendar.setTime(date);
 

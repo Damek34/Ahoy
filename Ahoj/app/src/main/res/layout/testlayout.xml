@@ -96,7 +96,7 @@
                 android:layout_gravity="start"
 
                 android:background="@mipmap/navigationbackground"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 

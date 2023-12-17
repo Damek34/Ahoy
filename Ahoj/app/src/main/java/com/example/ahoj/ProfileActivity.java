@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -101,12 +103,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         description_str = description.getText().toString();
 
+
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         mynick = sharedPreferences.getString("nick", "");
         nick = activity_intent.getStringExtra("nick");
 
         textViewUser.setText(nick);
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+
+        if (!connected) {
+            Intent intent = new Intent(ProfileActivity.this, EnableInternetConnection.class);
+            intent.putExtra("from_activity", "profile");
+            intent.putExtra("nick", nick);
+            startActivity(intent);
+            return;
+
+        }
 
         if(!nick.equals(mynick)){
             edit_description_btn.setVisibility(View.GONE);

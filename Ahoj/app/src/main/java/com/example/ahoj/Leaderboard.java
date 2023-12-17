@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -44,7 +46,7 @@ import java.util.Locale;
 public class Leaderboard extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
-    private TextView point, points, points5, leaderboard, downloadingLeaderboard;
+    private TextView point, points, points5, leaderboard, downloadingLeaderboard, enable_internet_connection;
     private Button button_friends, button_world;
     String nick, downloading;
     SharedPreferences sharedPreferences;
@@ -99,6 +101,7 @@ public class Leaderboard extends AppCompatActivity {
         button_world = findViewById(R.id.button_world);
        // leaderboardTextView = findViewById(R.id.leaderboardTextView);
         linear_layout = findViewById(R.id.linear_layout);
+        enable_internet_connection = findViewById(R.id.enable_internet_connection);
 
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
@@ -144,6 +147,14 @@ public class Leaderboard extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Nick");
 
         downloadingLeaderboard.setText(downloading);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+
+        if (!connected) {
+            downloadingLeaderboard.setText(enable_internet_connection.getText().toString());
+        }
 
         Query query = databaseReference.orderByChild("points").startAt(1).limitToLast(10);
 
@@ -229,6 +240,14 @@ public class Leaderboard extends AppCompatActivity {
         friendsLeaderboard = new ArrayList<>();
 
         downloadingLeaderboard.setText(downloading);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+
+        if (!connected) {
+            downloadingLeaderboard.setText(enable_internet_connection.getText().toString());
+        }
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Nick/" + nick + "/Friends");
 

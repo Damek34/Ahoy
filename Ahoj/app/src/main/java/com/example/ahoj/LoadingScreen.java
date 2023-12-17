@@ -1,15 +1,21 @@
 package com.example.ahoj;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,10 +34,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.Locale;
 
 
-public class LoadingScreen extends AppCompatActivity {
+public class LoadingScreen extends AppCompatActivity implements LocationListener {
 
     private DatabaseReference versionRef;
     private String appVersion = "0.92";
@@ -46,7 +53,7 @@ public class LoadingScreen extends AppCompatActivity {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
         String savedLanguage = sharedPreferences2.getString("selectedLanguage", null);
 
-        if(savedLanguage != null) {
+        if (savedLanguage != null) {
 
 
             if (savedLanguage.equals("en")) {
@@ -76,18 +83,16 @@ public class LoadingScreen extends AppCompatActivity {
                 conf.locale = myLocale;
                 res.updateConfiguration(conf, dm);
             }
-        }
-        else{
+        } else {
             Locale systemLocale = Locale.getDefault();
             String systemLanguage = systemLocale.getLanguage();
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            if(systemLanguage.equals("pl")){
+            if (systemLanguage.equals("pl")) {
                 editor.putString("selectedLanguage", "pl");
-            }
-            else{
+            } else {
                 editor.putString("selectedLanguage", "en");
             }
 
@@ -108,7 +113,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         if (!connected) {
             Intent no_internet_intent = new Intent(LoadingScreen.this, EnableInternetConnection.class);
-            no_internet_intent.putExtra("activity", "loadingScreen");
+            no_internet_intent.putExtra("from_activity", "loadingScreen");
             startActivity(no_internet_intent);
         }
 
@@ -126,8 +131,7 @@ public class LoadingScreen extends AppCompatActivity {
                     if (!firebaseVersion.equals(appVersion)) {
                         showVersionMismatchDialog();
 
-                    }
-                    else{
+                    } else {
                         continueLoading();
                     }
                 }
@@ -156,15 +160,15 @@ public class LoadingScreen extends AppCompatActivity {
         builder.show();
     }
 
-    private void continueLoading(){
+    private void continueLoading()  {
         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
 
         SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         String nick = sharedPreferencesNick.getString("nick", "");
-        SharedPreferences sharedPreferences2 =  getSharedPreferences(nick, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences2 = getSharedPreferences(nick, Context.MODE_PRIVATE);
 
         boolean auto_log_out_user = sharedPreferences2.getBoolean("auto_log_out", false);
-        if (!auto_log_out_user){
+        if (!auto_log_out_user) {
             String authToken = sharedPreferences.getString("auth_token", null);
 
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -175,6 +179,22 @@ public class LoadingScreen extends AppCompatActivity {
 
             if (authToken != null) {
                 mAuth.signInWithCustomToken(authToken);
+/////
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                Location location = null;
+
+                try {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener)this);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+                catch (SecurityException e){
+
+                }
+////
                 Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
                 intent.putExtra("activity", "user");
                 new Handler().postDelayed(new Runnable() {
@@ -210,6 +230,32 @@ public class LoadingScreen extends AppCompatActivity {
         }
 
 
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onFlushComplete(int requestCode) {
+        LocationListener.super.onFlushComplete(requestCode);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+     //   super.onPointerCaptureChanged(hasCapture);
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+       // LocationListener.super.onProviderEnabled(provider);
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+      //  LocationListener.super.onProviderDisabled(provider);
 
     }
 }

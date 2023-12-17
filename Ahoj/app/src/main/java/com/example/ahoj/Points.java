@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -63,6 +65,7 @@ public class Points extends AppCompatActivity {
     ProgressBar progress;
     boolean is_from_progress = false;
 
+    Intent activity_intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -101,6 +104,7 @@ public class Points extends AppCompatActivity {
         setContentView(R.layout.activity_points);
 
         OnlineDate.fetchDateAsync();
+        activity_intent = getIntent();
 
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferences.getString("nick", "");
@@ -129,20 +133,22 @@ public class Points extends AppCompatActivity {
             collect.setVisibility(View.GONE);
         }
 
-        currentDate = OnlineDate.getDate();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
 
-        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+        if (!connected) {
+            Intent intent = new Intent(Points.this, EnableInternetConnection.class);
+            intent.putExtra("activity", "user");
+            intent.putExtra("from_activity", "points");
+            startActivity(intent);
+            return;
+
+        }
+
+
 
         reference = database.getReference("Nick/" + nick);
-
-        Calendar checkDate = Calendar.getInstance();
-        checkDate.setTime(currentDate);
-
-        checkDate.set(Calendar.HOUR_OF_DAY, 0);
-        checkDate.set(Calendar.MINUTE, 0);
-        checkDate.set(Calendar.SECOND, 0);
-        checkDate.set(Calendar.MILLISECOND, 0);
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,6 +162,19 @@ public class Points extends AppCompatActivity {
 
                         Calendar calendar_last_login = Calendar.getInstance();
                         calendar_last_login.set(Integer.parseInt(date_array[0]), Integer.parseInt(date_array[1]) - 1, Integer.parseInt(date_array[2]), 0, 0, 0);
+
+                        currentDate = OnlineDate.getDate();
+
+                        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+
+
+                        Calendar checkDate = Calendar.getInstance();
+                        checkDate.setTime(currentDate);
+
+                        checkDate.set(Calendar.HOUR_OF_DAY, 0);
+                        checkDate.set(Calendar.MINUTE, 0);
+                        checkDate.set(Calendar.SECOND, 0);
+                        checkDate.set(Calendar.MILLISECOND, 0);
 
                         if (checkDate.get(Calendar.YEAR) == calendar_last_login.get(Calendar.YEAR)
                                 && checkDate.get(Calendar.MONTH) == calendar_last_login.get(Calendar.MONTH)

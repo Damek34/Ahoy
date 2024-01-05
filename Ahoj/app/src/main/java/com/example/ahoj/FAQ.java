@@ -59,9 +59,10 @@ public class FAQ extends AppCompatActivity {
 
         intent = getIntent();
         terms = findViewById(R.id.terms);
-        if(intent.getStringExtra("activity").equals("setup")){
+        if(intent.getStringExtra("activity").equals("setup") || intent.getStringExtra("activity").equals("register") || intent.getStringExtra("activity").equals("registerUser")){
             terms.setVisibility(View.GONE);
         }
+
     }
 
     public void statute(View view){
@@ -93,6 +94,16 @@ public class FAQ extends AppCompatActivity {
             Intent intent_activity = new Intent(FAQ.this, SettingActivity.class);
             intent_activity.putExtra("activity", "user");
             startActivity(intent_activity);
+        }
+        else if(intent.getStringExtra("activity").equals("register")){
+            Intent intent1 = new Intent(FAQ.this, Statute.class);
+            intent1.putExtra("activity", "register");
+            startActivity(intent1);
+        }
+        else if(intent.getStringExtra("activity").equals("registerUser")){
+            Intent intent1 = new Intent(FAQ.this, Statute.class);
+            intent1.putExtra("activity", "registerUser");
+            startActivity(intent1);
         }
         else{
             startActivity(new Intent(FAQ.this, setup.class));

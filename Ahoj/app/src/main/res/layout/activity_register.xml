@@ -187,6 +187,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/by_clicking_register_button"
+        android:textColor="@color/purple_200"
+        android:textAlignment="center"
+        android:onClick="terms"
+        app:layout_constraintBottom_toTopOf="@+id/registerBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRepeat" />
+
     <TextView
         android:id="@+id/wait"
         android:layout_width="wrap_content"
@@ -236,6 +250,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
     <TextView
         android:id="@+id/EnterEmail"

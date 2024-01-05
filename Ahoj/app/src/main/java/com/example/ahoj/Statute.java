@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ahoj.Setup.Register;
+import com.example.ahoj.Setup.RegisterUser;
 import com.example.ahoj.Setup.setup;
 
 import java.util.Locale;
@@ -61,7 +63,7 @@ public class Statute extends AppCompatActivity {
         setContentView(R.layout.activity_statute);
         intent = getIntent();
         faq_btn = findViewById(R.id.faq_btn);
-        if(!intent.getStringExtra("activity").equals("setup")){
+        if(!intent.getStringExtra("activity").equals("setup") && !intent.getStringExtra("activity").equals("register") && !intent.getStringExtra("activity").equals("registerUser")){
             faq_btn.setVisibility(View.GONE);
         }
 
@@ -144,6 +146,16 @@ public class Statute extends AppCompatActivity {
             return;
         }
 
+        if(intent.getStringExtra("activity").equals("register")){
+            startActivity(new Intent(Statute.this, Register.class));
+            return;
+        }
+
+        if(intent.getStringExtra("activity").equals("registerUser")){
+            startActivity(new Intent(Statute.this, RegisterUser.class));
+            return;
+        }
+
         if(intent.getStringExtra("activity").equals("faqMain")){
             Intent intent2 = new Intent(Statute.this, FAQ.class);
             intent2.putExtra("activity", "main");
@@ -164,8 +176,23 @@ public class Statute extends AppCompatActivity {
 
     }
     public void faq(View view){
-        Intent intent1 = new Intent(Statute.this, FAQ.class);
-        intent1.putExtra("activity", "setup");
-        startActivity(intent1);
+        if(intent.getStringExtra("activity").equals("setup")){
+            Intent intent1 = new Intent(Statute.this, FAQ.class);
+            intent1.putExtra("activity", "setup");
+            startActivity(intent1);
+        }
+
+        if(intent.getStringExtra("activity").equals("register")){
+            Intent intent1 = new Intent(Statute.this, FAQ.class);
+            intent1.putExtra("activity", "register");
+            startActivity(intent1);
+        }
+
+        if(intent.getStringExtra("activity").equals("registerUser")){
+            Intent intent1 = new Intent(Statute.this, FAQ.class);
+            intent1.putExtra("activity", "registerUser");
+            startActivity(intent1);
+        }
+
     }
 }

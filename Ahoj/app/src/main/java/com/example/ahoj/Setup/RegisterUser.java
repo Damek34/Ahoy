@@ -20,6 +20,7 @@ import android.widget.Toolbar;
 import com.example.ahoj.OnlyJava.Setup.RegisterInfo;
 import com.example.ahoj.OnlyJava.UserInfo;
 import com.example.ahoj.R;
+import com.example.ahoj.Statute;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -118,6 +119,11 @@ public class RegisterUser extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void terms(View view){
+        Intent intent = new Intent(RegisterUser.this, Statute.class);
+        intent.putExtra("activity", "registerUser");
+        startActivity(intent);
+    }
     public void register(View view){
         emailEdit = findViewById(R.id.Email);
         passwordEdit = findViewById(R.id.password);

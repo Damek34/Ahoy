@@ -168,44 +168,46 @@ c) Violating any applicable laws or regulations while using the App.\n
     <string name="promotional_mode">Promotional mode</string>
     <string name="enable_localization_btn">Enable localization</string>
     <string name="rules_and_info">
-By using the application, you agree to the following terms and conditions:
-\n
+Using the application implies agreement to the following regulations:
+
 1. Information \n
-1.1 Ahoy enables the addition of events and announcements by companies and organizations, as well as their display and participation by users. \n
-1.2 Events and announcements are categorized into two types: \n
-\n
-Promotional (companies can announce specific promotions of any kind at a particular location, targeting Ahoy users). \n
-Social (organizers announce events of a certain nature at a specific time and place, bringing people together, e.g., festivals, protests, etc.). \n
-1.3 Users can accumulate points (2 for joining any event, 1 for viewing daily advertisements) and compete with each other in rankings. These points CURRENTLY do not yield any benefits; they are solely for entertainment purposes. \n
-1.4 Events are visible to all within a 20-kilometer radius, while announcements are visible to all individuals from the country chosen by the organizer. \n
-1.5 To establish a business account (an account with the ability to add events and announcements), the application\'s registration form must be completed. Submissions are manually reviewed by the application\'s supervisory team (Point 3).\n
-1.6 The terms and conditions may be changed at any time. \n
-\n
-2. Rules for Adding Events and Announcements \n
-2.1 Events and announcements fall into two categories: \n
-Promotional (companies can announce specific promotions of any kind at a particular location, targeting Ahoy users). \n
-Social (organizers announce events of a certain nature at a specific time and place, bringing people together, e.g., festivals, protests, etc.). \n
-2.2 Organizers MUST provide accurate information in the submission form. \n
-2.3 If an event/announcement ends sooner than the date provided in the form, it must be manually removed in the "Manage" window. \n
-2.4 Always remember that an event/announcement will only be visible in the country entered in the form. For instance, if the address is in Poland but the organizer selects a different country, the event will not be visible in Poland. \n
-2.5 Each organizer can add only one event/announcement of each type.\n
-2.6 Each request to add an event/announcement is manually verified by the Ahoy supervisory team (Point 3). \n
-\n
-3. Submissions \n
-3.1 All submissions are accepted/rejected at the discretion of Ahoy moderators. \n
-3.2 Submissions for creating business accounts should include detailed information about how and why the applicant intends to use the application. \n
-3.3 Submissions for events/announcements must contain accurate information. \n
-3.4 The duration of an event/announcement is counted from the moment the submission is sent to Ahoy. Please note that an event/announcement might be added to Ahoy later than when the submission was made due to this. \n
-3.5 An event/announcement becomes active immediately upon approval by moderators and remains active until the\'s specified deadline. Organizers can also manually remove their event/announcement before the deadline. \n
-3.6 The waiting time for submission approval is unknown and depends on the volume of submissions and the time of submission. \n
-3.7 Moderators review submissions during typical working hours in Poland. Submissions might not be reviewed during weekends and late Polish hours. Moderators may voluntarily review submissions during weekends and late hours, but this is not a rule and depends solely on their discretion. \n
-\n
+   1.1 Ahoy enables the addition of events, announcements, and contests by companies and organizations, as well as viewing/joining them by users. \n
+   1.2 Events and announcements are categorized into two types: \n
+       - Promotional (a company can announce ongoing promotions in a specific location, involving Ahoy users). \n
+       - Social (an organizer announces a social event at a specific time and place, such as a festival or protest). \n
+   1.3 Users can accumulate points (2 for joining any event, 1 for viewing daily ads) and compete with each other in a ranking. Points CURRENTLY DO NOT bring any benefits; they are purely for entertainment. \n
+   1.4 Events are visible to everyone within a radius of 5 to 100 kilometers, while announcements are visible to all persons in the country chosen by the organizer. \n
+   1.5 Contests are for informational purposes. They can be viewed, check results (if added by the organizer), but submitting entries to a contest through the application is not possible. \n
+   1.6 To create an organizer account (an account with the ability to add events, announcements, and contests), you must fill out the registration form. The application\'s supervisory team manually reviews the application (Point 3). \n
+   1.7 An organizer\'s account may be blocked for inappropriate use of the application. \n
+   1.8 The regulations may be changed at any time \n
+2. Rules for Adding Events, Announcements, and Contests \n
+   2.1 Events and announcements are categorized into two types: \n
+       - Promotional (a company can announce ongoing promotions in a specific location, involving Ahoy users). \n
+       - Social (an organizer announces a social event at a specific time and place, such as a festival or protest). \n
+   2.2 The organizer MUST provide accurate information in the form. \n
+   2.3 If an event/announcement/contest ends earlier than the date specified in the form, it must be manually deleted in the "Manage" window. \n
+   2.4 Always remember that the event/announcement will only be visible in the country entered in the form. For example, if the address is in Poland but the organizer chooses a different country, the event will not be visible in Poland. \n
+   2.5 Contests can be viewed even when located outside the country set in the form. \n
+   2.6 Organizers can independently add contest results in the "Manage" window. \n
+   2.7 Each organizer can add only one event/announcement/contest of each type. \n
+   2.8 Each request to add an event/announcement/contest is manually verified by the Ahoy supervisory team (Point 3). \n
+
+3. Reports \n
+   3.1 All applications are accepted/rejected at the discretion of Ahoy moderators. \n
+   3.2 Applications to create organizational accounts should contain detailed information about how and why the applicant wants to use the application. \n
+   3.3 Applications for events/announcements/contests must contain information consistent with the truth. \n
+   3.4 The duration of an event/announcement/contest is counted from the moment the request to add it to Ahoy is sent. Please note that due to this, an event/announcement may be introduced to Ahoy later than when the application is submitted. \n
+   3.5 The event/announcement/contest is active immediately after being accepted by moderators and lasts until the deadline set by the organizer. The organizer can also manually remove their event/announcement/contest earlier than its deadline. \n
+   3.6 The waiting time for application approval is unknown and depends on the number of submissions and the time of submission. \n
+   3.7 Moderators review applications during typical working hours in Poland. Applications may not be reviewed on weekends and late hours in Polish time. Moderators may voluntarily verify applications on weekends and during late hours, but it is not a rule and depends solely on their goodwill. \n
+
 4. Credits \n
-4.1 All graphic work (backgrounds, icons) was created by: Traffka \n
-4.2 The entire application was conceived and developed by: Damek34 \n
-\n
+   4.1 Some graphics and icons in the application were created by: Traffka \n
+   4.2 The entire application was conceived and created by: Damek34 \n
+
 5. Ownership \n
-5.1 All graphics, icons, and application logic are original, and their use for personal purposes is prohibited. \n
+   5.1 All graphics, icons, and the application\'s logic are original, and using them for personal purposes is prohibited. \n
     </string>
     <string name="report_event_reason">Tell us why do you reporting this event</string>
     <string name="report_announcement_reason">Tell us why do you reporting this announcement</string>
@@ -312,6 +314,7 @@ Social (organizers announce events of a certain nature at a specific time and pl
     <string name="no_results">No results</string>
     <string name="add_results">Add results</string>
     <string name="account_is_banned">Account is banned</string>
+    <string name="by_clicking_register_button">By clicking the \'Register\' button, you declare that you have read the application\'s TERMS AND CONDITIONS.</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

@@ -21,6 +21,7 @@ import com.example.ahoj.OnlyJava.Setup.RegisterInfo;
 import com.example.ahoj.OnlyJava.Setup.VerifyAccounts;
 import com.example.ahoj.OnlyJava.UserInfo;
 import com.example.ahoj.R;
+import com.example.ahoj.Statute;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -182,6 +183,12 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    public void terms(View view){
+        Intent intent = new Intent(Register.this, Statute.class);
+        intent.putExtra("activity", "register");
+        startActivity(intent);
+    }
+
 
 
     private void sendEmailVerification(FirebaseUser user) {
@@ -274,4 +281,5 @@ public class Register extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("VerifiedAccounts/").child(temporary_name_edit.getText().toString());
         reference.removeValue();
     }
+
 }

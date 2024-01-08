@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/competition_select_background"
     android:id="@+id/main_layout"
-    tools:context=".CompetitionsActivity">
+    tools:context="com.chatoyment.ahoyapp.CompetitionsActivity">
 
     <Button
         android:id="@+id/buttonExit"

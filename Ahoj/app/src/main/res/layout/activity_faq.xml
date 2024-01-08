@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/backgroundtextahoy"
-    tools:context=".FAQ">
+    tools:context="com.chatoyment.ahoyapp.FAQ">
     <Button
         android:id="@+id/buttonExitAdd"
         android:layout_width="47dp"

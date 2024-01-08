@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/user_profile_background"
-    tools:context=".ProfileActivity">
+    tools:context="com.chatoyment.ahoyapp.ProfileActivity">
 
     <Button
         android:id="@+id/buttonExit"

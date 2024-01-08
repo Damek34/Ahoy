@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/choosing_background"
-    tools:context=".Setup.Login">
+    tools:context="com.chatoyment.ahoyapp.Setup.Login">
 
     <Toolbar
         android:id="@+id/toolbarEmail"

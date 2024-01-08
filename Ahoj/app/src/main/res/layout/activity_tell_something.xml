@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/choosing_background"
 
-    tools:context=".Setup.TellSomething">
+    tools:context="com.chatoyment.ahoyapp.Setup.TellSomething">
 
     <Toolbar
         android:id="@+id/toolbarWriteSomething"

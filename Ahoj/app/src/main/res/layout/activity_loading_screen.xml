@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/ahoy_loading_screen2"
-    tools:context=".LoadingScreen">
+    tools:context="com.chatoyment.ahoyapp.LoadingScreen">
 
     <TextView
         android:id="@+id/Textview_please_update_application"

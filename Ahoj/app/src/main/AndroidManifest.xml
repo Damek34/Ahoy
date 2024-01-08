@@ -19,166 +19,166 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
-            android:name=".Competition"
+            android:name="com.chatoyment.ahoyapp.Competition"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CompetitionsActivity"
+            android:name="com.chatoyment.ahoyapp.CompetitionsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ManageCompetition"
+            android:name="com.chatoyment.ahoyapp.ManageCompetition"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddCompetition"
+            android:name="com.chatoyment.ahoyapp.AddCompetition"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.chatoyment.ahoyapp.ProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Received_Invites"
+            android:name="com.chatoyment.ahoyapp.Received_Invites"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FriendsActivity"
+            android:name="com.chatoyment.ahoyapp.FriendsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".AccountSettings"
+            android:name="com.chatoyment.ahoyapp.AccountSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FAQ"
+            android:name="com.chatoyment.ahoyapp.FAQ"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MapSettings"
+            android:name="com.chatoyment.ahoyapp.MapSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GeneralSettings"
+            android:name="com.chatoyment.ahoyapp.GeneralSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReportActivity"
+            android:name="com.chatoyment.ahoyapp.ReportActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ManageSocialAnnouncement"
+            android:name="com.chatoyment.ahoyapp.ManageSocialAnnouncement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ManageSocialEvent"
+            android:name="com.chatoyment.ahoyapp.ManageSocialEvent"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ManageAnnouncement"
+            android:name="com.chatoyment.ahoyapp.ManageAnnouncement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ManageEvent"
+            android:name="com.chatoyment.ahoyapp.ManageEvent"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Manage"
+            android:name="com.chatoyment.ahoyapp.Manage"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Statute"
+            android:name="com.chatoyment.ahoyapp.Statute"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.ForgotPassword"
+            android:name="com.chatoyment.ahoyapp.Setup.ForgotPassword"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Leaderboard"
+            android:name="com.chatoyment.ahoyapp.Leaderboard"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Points"
+            android:name="com.chatoyment.ahoyapp.Points"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.LoginUser"
+            android:name="com.chatoyment.ahoyapp.Setup.LoginUser"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.RegisterUser"
+            android:name="com.chatoyment.ahoyapp.Setup.RegisterUser"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AhoyAnnouncements"
+            android:name="com.chatoyment.ahoyapp.AhoyAnnouncements"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AnnouncementActivity"
+            android:name="com.chatoyment.ahoyapp.AnnouncementActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddAnnouncement"
+            android:name="com.chatoyment.ahoyapp.AddAnnouncement"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".EventLocalizationPreview"
+            android:name="com.chatoyment.ahoyapp.EventLocalizationPreview"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.TellSomething"
+            android:name="com.chatoyment.ahoyapp.Setup.TellSomething"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Pay"
+            android:name="com.chatoyment.ahoyapp.Pay"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.Login"
+            android:name="com.chatoyment.ahoyapp.Setup.Login"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.RegisterOrLogin"
+            android:name="com.chatoyment.ahoyapp.Setup.RegisterOrLogin"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectWhatToAdd"
+            android:name="com.chatoyment.ahoyapp.SelectWhatToAdd"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EventActivity"
+            android:name="com.chatoyment.ahoyapp.EventActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddLocalEvent"
+            android:name="com.chatoyment.ahoyapp.AddLocalEvent"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".EnableInternetConnection"
+            android:name="com.chatoyment.ahoyapp.EnableInternetConnection"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EnableLocalization"
+            android:name="com.chatoyment.ahoyapp.EnableLocalization"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingActivity"
+            android:name="com.chatoyment.ahoyapp.SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MapActivityMain"
+            android:name="com.chatoyment.ahoyapp.MapActivityMain"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".LoadingScreen"
+            android:name="com.chatoyment.ahoyapp.LoadingScreen"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -188,11 +188,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Setup.setup"
+            android:name="com.chatoyment.ahoyapp.Setup.setup"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setup.Register"
+            android:name="com.chatoyment.ahoyapp.Setup.Register"
             android:exported="false"
             android:screenOrientation="portrait" />
 

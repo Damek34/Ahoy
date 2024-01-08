@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.ahoj'
+    namespace 'com.chatoyment.ahoyapp'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.ahoj"
+        applicationId "com.chatoyment.ahoyapp"
         minSdk 24
         targetSdk 33
         versionCode 1

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/nosignalbackground"
-    tools:context=".EnableInternetConnection">
+    tools:context="com.chatoyment.ahoyapp.EnableInternetConnection">
 
     <TextView
         android:id="@+id/textView"

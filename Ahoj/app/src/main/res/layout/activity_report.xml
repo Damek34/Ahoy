@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/reporting_background"
-    tools:context=".ReportActivity">
+    tools:context="com.chatoyment.ahoyapp.ReportActivity">
 
     <Button
         android:id="@+id/buttonExitAdd2"

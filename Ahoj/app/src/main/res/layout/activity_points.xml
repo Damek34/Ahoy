@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/points_background"
-    tools:context=".Points">
+    tools:context="com.chatoyment.ahoyapp.Points">
 
     <Button
         android:id="@+id/buttonExitPoints"

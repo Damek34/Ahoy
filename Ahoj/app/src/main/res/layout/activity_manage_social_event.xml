@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/creating_and_managing_background"
-    tools:context=".ManageSocialEvent">
+    tools:context="com.chatoyment.ahoyapp.ManageSocialEvent">
     <Button
         android:id="@+id/buttonExitManageEvent"
         android:layout_width="47dp"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/ahoy_announcements_background"
-    tools:context=".AhoyAnnouncements">
+    tools:context="com.chatoyment.ahoyapp.AhoyAnnouncements">
 
     <Button
         android:id="@+id/exitAhoyAnnouncements"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/settings_background"
-    tools:context=".AccountSettings">
+    tools:context="com.chatoyment.ahoyapp.AccountSettings">
 
     <Button
         android:id="@+id/buttonExit"
@@ -103,6 +103,7 @@
                 android:text="@string/change_password"
                 android:background="@color/transparent"
                 android:layout_gravity="center"
+                android:textColor="@color/white"
                 android:onClick="changePassword"
                 />
             <androidx.constraintlayout.widget.ConstraintLayout

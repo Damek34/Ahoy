@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/announcement_background"
-    tools:context=".AnnouncementActivity">
+    tools:context="com.chatoyment.ahoyapp.AnnouncementActivity">
 
 
     <ScrollView

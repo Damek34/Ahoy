@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/backgroundahoysetup"
-    tools:context=".Setup.setup">
+    tools:context="com.chatoyment.ahoyapp.Setup.setup">
 
     <Button
         android:id="@+id/im_user_btn"

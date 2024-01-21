@@ -36,6 +36,7 @@ public class AddLocalEvent extends AppCompatActivity {
 
     Intent intent;
 
+    Date date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -99,6 +100,8 @@ public class AddLocalEvent extends AppCompatActivity {
         additional = (EditText) findViewById(R.id.event_additional_info);
         duration_preview = findViewById(R.id.duration_preview);
 
+        Date date = OnlineDate.getDate();
+
         Intent autoIntent = getIntent();
 
         String test_name = autoIntent.getStringExtra("event_name");
@@ -123,7 +126,7 @@ public class AddLocalEvent extends AppCompatActivity {
                     duration_preview.setText("");
                 }
                 else{
-                    Date date = OnlineDate.getDate();
+               //     Date date = OnlineDate.getDate();
                     long millis = System.currentTimeMillis();
                     String date_and_time = date + " " + millis;
 

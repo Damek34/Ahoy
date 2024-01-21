@@ -249,6 +249,15 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         }
+
+        if (!checkLocationPermission()) {
+            Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+            intent.putExtra("activity", activity_intent.getStringExtra("activity"));
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+
+
         sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         nick = sharedPreferencesNick.getString("nick", "");
 
@@ -492,6 +501,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
  */
+
+        /* test 21.01.2024
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -505,11 +516,32 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
 
         } catch (SecurityException e) {
-            // Nie udało się uzyskać lokalizacji ze względu na brak uprawnień
-            // Tutaj możesz obsłużyć odpowiednie akcje, np. poprzez wyświetlenie komunikatu o braku uprawnień.
         }
 
 
+         */
+        try {
+            boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if (!isGpsEnabled && !isNetworkEnabled) {
+                // Lokalizacja jest wyłączona
+                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                intent.putExtra("activity", activity_intent.getStringExtra("activity"));
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            } else {
+                // Lokalizacja jest włączona, możesz kontynuować pobieranie lokalizacji
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location == null) {
+                    // Tutaj możesz podjąć dodatkowe kroki w przypadku braku dostępnej lokalizacji
+                }
+            }
+
+        } catch (SecurityException e) {
+            // Obsługa błędu związanego z uprawnieniami
+        }
         if (location != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
@@ -1372,39 +1404,52 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
     void showMyLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        // Sprawdź uprawnienia
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Brak uprawnień, obsłuż odpowiednio
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        Location location = null;
+
         try {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        } catch (java.lang.IllegalArgumentException e) {
-            if (activity_intent.getStringExtra("activity").equals("user")) {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "user");
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "main");
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            // Spróbuj uzyskać lokalizację z NETWORK_PROVIDER
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (location == null) {
+                // Jeżeli nie udało się uzyskać lokalizacji z NETWORK_PROVIDER, spróbuj z GPS_PROVIDER
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
+
+            if (location != null) {
+                // Jeżeli udało się uzyskać lokalizację, dodaj marker na mapie
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.localization_tracker)).title(String.valueOf(your_localization.getText())));
+
+                assert marker != null;
+                current_lat = marker.getPosition().latitude;
+                current_lng = marker.getPosition().longitude;
+            } else {
+                // Jeżeli nie udało się uzyskać lokalizacji, przejdź do EnableLocalization
+                if (activity_intent.getStringExtra("activity").equals("user")) {
+                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                    intent.putExtra("activity", "user");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
+                    intent.putExtra("activity", "main");
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+
+        } catch (SecurityException e) {
+            // Obsługa błędu związanego z uprawnieniami
         }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.localization_tracker)).title(String.valueOf(your_localization.getText())));
-
-        assert marker != null;
-        current_lat = marker.getPosition().latitude;
-        current_lng = marker.getPosition().longitude;
     }
+
     double calculateDistance(double lat1, double lng1, double lat2, double lng2){
         lng1 = Math.toRadians(lng1);
         lng2 = Math.toRadians(lng2);
@@ -1574,6 +1619,12 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         can_be_deleted_scan = true;
 
         markerOnClick();
+    }
+
+    private boolean checkLocationPermission() {
+        return ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {

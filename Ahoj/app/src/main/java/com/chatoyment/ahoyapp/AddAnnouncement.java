@@ -51,6 +51,8 @@ public class AddAnnouncement extends AppCompatActivity {
 
     Intent social_intent;
 
+    Date date;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,8 @@ public class AddAnnouncement extends AppCompatActivity {
 
         check_internet_connection = findViewById(R.id.check_internet_connection);
 
+         date = OnlineDate.getDate();
+
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
 
@@ -150,7 +154,7 @@ public class AddAnnouncement extends AppCompatActivity {
                     duration_preview.setText("");
                 }
                 else{
-                    Date date = OnlineDate.getDate();
+                 //   Date date = OnlineDate.getDate();
                     long millis = System.currentTimeMillis();
                     String date_and_time = date + " " + millis;
 

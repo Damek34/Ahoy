@@ -49,6 +49,8 @@ public class AddCompetition extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
+    Date date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -85,6 +87,7 @@ public class AddCompetition extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_competition);
+        Date date = OnlineDate.getDate();
 
         competition_title_editText = findViewById(R.id.competition_title_editText);
         competition_organizer_editText = findViewById(R.id.competition_organizer_editText);
@@ -138,7 +141,7 @@ public class AddCompetition extends AppCompatActivity {
                     duration_preview.setText("");
                 }
                 else{
-                    Date date = OnlineDate.getDate();
+                   // Date date = OnlineDate.getDate();
                     long millis = System.currentTimeMillis();
                     String date_and_time = date + " " + millis;
 

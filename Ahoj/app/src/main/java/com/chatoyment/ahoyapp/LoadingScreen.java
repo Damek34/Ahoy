@@ -40,7 +40,7 @@ import java.util.Locale;
 public class LoadingScreen extends AppCompatActivity implements LocationListener {
 
     private DatabaseReference versionRef;
-    private String appVersion = "0.92";
+    private String appVersion = "0.921";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application;
 
@@ -178,22 +178,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
 
             if (authToken != null) {
                 mAuth.signInWithCustomToken(authToken);
-/////
-                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-                Location location = null;
 
-                try {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener)this);
-                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                }
-                catch (SecurityException e){
-
-                }
-////
                 Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
                 intent.putExtra("activity", "user");
                 new Handler().postDelayed(new Runnable() {

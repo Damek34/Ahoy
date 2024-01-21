@@ -85,14 +85,6 @@
                 />
 
 
-            <Button
-                android:id="@+id/buttonReconect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:background="@color/transparent"
-                android:onClick="reconnect"
-                android:text="@string/enable_localization_btn" />
 
             <Button
                 android:id="@+id/buttonClearCache"

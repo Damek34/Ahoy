@@ -332,6 +332,8 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="add_results">Dodaj wyniki</string>
     <string name="account_is_banned">Konto zostało zablokowane</string>
     <string name="by_clicking_register_button">Klikając przycisk \'Zarejestruj się\' oświadczasz, że zapoznałeś się z REGULAMINEM aplikacji.</string>
+    <string name="go_to_settings">Przejdź do ustawień</string>
+    <string name="enable_localizaton_from_settings">Aby aplikacja działała poprawnie, należy udzielić jej zgody na korzystanie z lokalizacji. Możesz to zrobić za pomocą przejścia do ustawień aplikacji.</string>
 
 
 </resources>

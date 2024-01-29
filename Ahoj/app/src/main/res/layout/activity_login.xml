@@ -94,7 +94,7 @@
         android:background="@drawable/pink_transparent_round"
         android:backgroundTint="@color/pink_almost_transparent"
 
-        android:onClick="login"
+        android:onClick="sendLink"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="@string/login"
@@ -189,6 +189,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarPassword" />
 
+
+    <TextView
+        android:id="@+id/we_sent_you_new_activation_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="79dp"
+        android:text="@string/we_sent_you_new_activation_link"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <TextView
         android:id="@+id/account_is_banned"

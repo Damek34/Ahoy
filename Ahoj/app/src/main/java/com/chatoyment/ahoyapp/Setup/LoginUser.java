@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ import java.util.Locale;
 public class LoginUser extends AppCompatActivity {
 
     EditText nick, password;
-    TextView enterNick, enterPassword, success, fail, notVerified, not_exist;
+    TextView enterNick, enterPassword, success, fail, notVerified, not_exist, we_sent_you_new_activation_link;
 
     private FirebaseAuth mAuth;
     FirebaseUser user;
@@ -97,6 +99,25 @@ public class LoginUser extends AppCompatActivity {
         fail = findViewById(R.id.Fail);
         notVerified = findViewById(R.id.notverified);
         not_exist = findViewById(R.id.accnotexist);
+        we_sent_you_new_activation_link = findViewById(R.id.we_sent_you_new_activation_link);
+
+
+        nick.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                we_sent_you_new_activation_link.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }
@@ -151,6 +172,9 @@ public class LoginUser extends AppCompatActivity {
                         getToken();
                     }
                     else{
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        sendEmailVerification(user);
+
                         mAuth.signOut();
                         Toast.makeText(getApplicationContext(), notVerified.getText().toString(), Toast.LENGTH_LONG).show();
 
@@ -165,6 +189,20 @@ public class LoginUser extends AppCompatActivity {
         });
     }
 
+    private void sendEmailVerification(FirebaseUser user) {
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        we_sent_you_new_activation_link.setVisibility(View.VISIBLE);
+                    } else {
+                        //   Toast.makeText(getApplicationContext(), verifyLinkSendFail.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
     void getToken(){
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             @Override

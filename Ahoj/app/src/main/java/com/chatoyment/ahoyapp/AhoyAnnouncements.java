@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -89,6 +90,12 @@ public class AhoyAnnouncements extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void visitUs(View view){
+        String url = "https://linktr.ee/AhoyApp";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
     public void exit(View view){

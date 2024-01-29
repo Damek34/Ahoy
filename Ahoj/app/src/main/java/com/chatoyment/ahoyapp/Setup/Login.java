@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
@@ -35,7 +37,7 @@ import java.util.Locale;
 public class Login extends AppCompatActivity {
 
     EditText email, password;
-    TextView enterEmail, enterPassword, success, fail, notVerified, not_exist, account_is_banned;
+    TextView enterEmail, enterPassword, success, fail, notVerified, not_exist, account_is_banned, we_sent_you_new_activation_link;
 
     private FirebaseAuth mAuth;
     FirebaseUser user;
@@ -98,8 +100,26 @@ public class Login extends AppCompatActivity {
         notVerified = findViewById(R.id.notverified);
         not_exist = findViewById(R.id.accnotexist);
         account_is_banned = findViewById(R.id.account_is_banned);
+        we_sent_you_new_activation_link = findViewById(R.id.we_sent_you_new_activation_link);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                we_sent_you_new_activation_link.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void login(View view) {
@@ -198,8 +218,12 @@ public class Login extends AppCompatActivity {
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                     else{
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        sendEmailVerification(user);
+
                         mAuth.signOut();
                         Toast.makeText(getApplicationContext(), notVerified.getText().toString(), Toast.LENGTH_LONG).show();
+
 
                     }
 
@@ -210,6 +234,20 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void sendEmailVerification(FirebaseUser user) {
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        we_sent_you_new_activation_link.setVisibility(View.VISIBLE);
+                    } else {
+                     //   Toast.makeText(getApplicationContext(), verifyLinkSendFail.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
     }
 
     public void forgotPassword(View view){

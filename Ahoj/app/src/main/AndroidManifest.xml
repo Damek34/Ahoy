@@ -19,6 +19,16 @@
         android:theme="@style/Theme.NoBar"
         tools:targetApi="31">
         <activity
+            android:name="com.chatoyment.ahoyapp.Setup.setup"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.chatoyment.ahoyapp.Setup.Register"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name="com.chatoyment.ahoyapp.Competition"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -187,14 +197,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.chatoyment.ahoyapp.Setup.setup"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.chatoyment.ahoyapp.Setup.Register"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

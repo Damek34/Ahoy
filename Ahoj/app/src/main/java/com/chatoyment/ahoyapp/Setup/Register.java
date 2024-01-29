@@ -161,16 +161,16 @@ public class Register extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.hasChild(temporary_name_edit.getText().toString())){
-                   DataSnapshot mySnapshot = snapshot.child(temporary_name_edit.getText().toString());
-                   isverified[0] = mySnapshot.child("IsVerified").getValue(Integer.class);
+                if(snapshot.hasChild(temporary_name_edit.getText().toString())){
+                    DataSnapshot mySnapshot = snapshot.child(temporary_name_edit.getText().toString());
+                    isverified[0] = mySnapshot.child("IsVerified").getValue(Integer.class);
 
-                   cont(isverified[0]);
+                    cont(isverified[0]);
 
-               }
-               else{
-                   isRejected();
-               }
+                }
+                else{
+                    isRejected();
+                }
             }
 
             @Override

@@ -318,6 +318,9 @@ Using the application implies agreement to the following regulations:
     <string name="by_clicking_register_button">By clicking the \'Register\' button, you declare that you have read the application\'s TERMS AND CONDITIONS.</string>
     <string name="go_to_settings">Go to settings</string>
     <string name="enable_localizaton_from_settings">To ensure the proper functioning of the application, you need to grant it permission to access your location. You can do this by navigating to the app settings.</string>
+    <string name="social_media">Visit us here!</string>
+    <string name="we_sent_you_new_activation_link">Your account is not verified! Check your e-mail, we sent you new verification link!</string>
+
 
 
     <string-array name="map_types_spinner" translatable="true">

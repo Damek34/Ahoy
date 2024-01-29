@@ -334,6 +334,8 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="by_clicking_register_button">Klikając przycisk \'Zarejestruj się\' oświadczasz, że zapoznałeś się z REGULAMINEM aplikacji.</string>
     <string name="go_to_settings">Przejdź do ustawień</string>
     <string name="enable_localizaton_from_settings">Aby aplikacja działała poprawnie, należy udzielić jej zgody na korzystanie z lokalizacji. Możesz to zrobić za pomocą przejścia do ustawień aplikacji.</string>
+    <string name="social_media">Odwiedź nas tutaj!</string>
+    <string name="we_sent_you_new_activation_link">Twoje konto nie zostało zweryfikowane! Sprawdź swoją pocztę e-mail, wysłaliśmy Ci nowy link weryfikacyjny!</string>
 
 
 </resources>

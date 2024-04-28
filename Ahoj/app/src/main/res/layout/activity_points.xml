@@ -13,7 +13,7 @@
         android:layout_height="49dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="21dp"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:foreground="@drawable/x_icon"
         android:background="@color/transparent"
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,13 +182,13 @@
 
     <Button
         android:id="@+id/leaderboard"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="19dp"
         android:backgroundTint="@color/transparent"
 
-        android:foreground="@drawable/gold_winner_trophy_icon"
+        android:foreground="@drawable/golden_shiny_trophy"
         android:onClick="leaderboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

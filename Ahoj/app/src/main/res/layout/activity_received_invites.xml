@@ -13,13 +13,11 @@
         android:layout_height="49dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="21dp"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
         android:background="@color/transparent"
+        android:foreground="@drawable/x_icon"
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
     <ScrollView
@@ -27,6 +25,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="600dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +56,6 @@
 
             </GridLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </ScrollView>

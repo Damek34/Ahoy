@@ -464,62 +464,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         Location location = null;
-/*
-        try {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        } catch (java.lang.IllegalArgumentException e) {
-            if (activity_intent.getStringExtra("activity").equals("user")) {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "user");
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", "main");
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        }
 
-
-        if (location == null) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            if (location == null) {
-                if (activity_intent.getStringExtra("activity").equals("user")) {
-                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                    intent.putExtra("activity", "user");
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                    intent.putExtra("activity", "main");
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            }
-
-        }
-
- */
-
-        /* test 21.01.2024
-        try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if(location == null){
-                Intent intent = new Intent(MapActivityMain.this, EnableLocalization.class);
-                intent.putExtra("activity", activity_intent.getStringExtra("activity"));
-                startActivity(intent);
-
-
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-
-        } catch (SecurityException e) {
-        }
-
-
-         */
         try {
             boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -850,7 +795,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         announcements = findViewById(R.id.announcementsButton);
         exit_announcements = findViewById(R.id.buttonExitAnnouncements);
         ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
-        search_announcements = findViewById(R.id.search_announcements);
+
 
         manage = findViewById(R.id.manage_button);
         downloadingdata = findViewById(R.id.downloadingdata);
@@ -922,7 +867,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         ahoy_announcements.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.GONE);
                         editTextSearchAnnouncements.setVisibility(View.GONE);
-                        search_announcements.setVisibility(View.GONE);
+
                         thereisnoannouncements.setVisibility(View.GONE);
 
 
@@ -1111,7 +1056,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         announcements = findViewById(R.id.announcementsButton);
         exit_announcements = findViewById(R.id.buttonExitAnnouncements);
         ahoy_announcements = findViewById(R.id.AhoyAnnouncements);
-        search_announcements = findViewById(R.id.search_announcements);
+
 
         exit_menu.setVisibility(View.VISIBLE);
         settings.setVisibility(View.VISIBLE);
@@ -1122,7 +1067,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         ahoy_announcements.setVisibility(View.GONE);
         linearLayout.setVisibility(View.GONE);
         editTextSearchAnnouncements.setVisibility(View.GONE);
-        search_announcements.setVisibility(View.GONE);
+
         thereisnoannouncements.setVisibility(View.GONE);
         downloadingdata.setVisibility(View.GONE);
 
@@ -1175,7 +1120,17 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         }
 
-        scanEvents();
+       // scanEvents();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    scanEvents();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void profileActivity(View view){

@@ -13,33 +13,40 @@
         android:layout_height="49dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="21dp"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
         android:background="@color/transparent"
+        android:foreground="@drawable/x_icon"
         android:onClick="exitSettings"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <ScrollView
         android:id="@+id/scrollView4"
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="550dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@drawable/round"
+            android:backgroundTint="@color/almost_transparent"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:textColor="@color/light_grey"
                 android:layout_gravity="center"
-                />
+                android:text="@string/settings"
+                android:paddingTop="10dp"
+                android:textColor="@color/light_grey2" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -79,21 +86,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/functions"
-                android:textColor="@color/light_grey"
                 android:layout_gravity="center"
-                />
-
+                android:text="@string/functions"
+                android:textColor="@color/light_grey2"  />
 
 
             <Button
                 android:id="@+id/buttonClearCache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:background="@color/transparent"
                 android:onClick="clearCache"
-                android:text="@string/clear_cache" />
+                android:text="@string/clear_cache"
+                android:textColor="@color/white" />
 
 
             <Button
@@ -103,8 +108,7 @@
                 android:background="@color/transparent"
                 android:onClick="logOut"
                 android:text="@string/log_out"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
 
             <View
                 android:layout_width="match_parent"
@@ -116,10 +120,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/information"
-                android:textColor="@color/light_grey"
                 android:layout_gravity="center"
-                />
+                android:text="@string/information"
+                android:textColor="@color/light_grey2"  />
 
             <Button
                 android:layout_width="wrap_content"
@@ -127,9 +130,8 @@
                 android:layout_marginEnd="4dp"
                 android:background="@color/transparent"
                 android:onClick="FAQ"
-                android:textColor="@color/white"
                 android:text="@string/faq"
-                />
+                android:textColor="@color/white" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -138,36 +140,33 @@
                 android:background="@color/transparent"
                 android:onClick="showEmailAddress"
                 android:text="@string/support"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
+
             <LinearLayout
                 android:id="@+id/support_linear_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/our_support_email"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:textSize="16sp"
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/our_support_email"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="4dp"
                     android:background="@color/transparent"
                     android:onClick="copyAddress"
                     android:text="@string/copy_support_email_address"
-                    android:layout_gravity="center"
-                    android:textColor="@color/light_grey"
-                    />
+                    android:textColor="@color/light_grey" />
 
             </LinearLayout>
 
@@ -180,21 +179,22 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:background="@color/light_grey"
         app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView4"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView4" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/transparent"
         android:onClick="statute"
         android:text="@string/terms_of_service"
-        android:textColor="@color/white"
+        android:textColor="@color/light_grey2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

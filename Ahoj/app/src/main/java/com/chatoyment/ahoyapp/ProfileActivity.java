@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
     ConstraintLayout constrain_layout_description;
     EditText editText_description;
     Intent activity_intent;
+    ImageButton expand_events;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -98,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
         max_100 = findViewById(R.id.max_100);
         friends_button = findViewById(R.id.friends_button);
         total_distance = findViewById(R.id.total_distance);
+        expand_events = findViewById(R.id.expand_events);
 
         activity_intent = getIntent();
 
@@ -163,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     int total_visited = visited_eventsV + visited_social_eventsV;
 
-                    visited_events.setText(visited_events.getText() + ": " + total_visited);
+                    visited_events.setText(visited_events.getText() + ": " + total_visited + " ");
                     visited_social_events.setText(visited_social_events.getText() + ": " + visited_social_eventsV);
                     visited_promo_events.setText(visited_promo_events.getText() + ": " + visited_eventsV);
 
@@ -217,11 +220,13 @@ public class ProfileActivity extends AppCompatActivity {
             is_visit_details_visible = false;
             visited_social_events.setVisibility(View.GONE);
             visited_promo_events.setVisibility(View.GONE);
+            expand_events.setRotation(0);
         }
         else{
             is_visit_details_visible = true;
             visited_social_events.setVisibility(View.VISIBLE);
             visited_promo_events.setVisibility(View.VISIBLE);
+            expand_events.setRotation(180);
         }
     }
 

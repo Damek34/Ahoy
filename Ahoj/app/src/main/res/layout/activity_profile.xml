@@ -11,14 +11,13 @@
         android:id="@+id/buttonExit"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="21dp"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/transparent"
+        android:foreground="@drawable/x_icon"
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <ScrollView
@@ -26,13 +25,10 @@
         android:layout_width="match_parent"
 
         android:layout_height="520dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonExit"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/buttonExit">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -115,6 +111,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/visited_promo_events" />
 
+
+            <ImageButton
+                android:id="@+id/expand_events"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/arrow_to_the_bottom_in_circle__expand_icon"
+                android:onClick="visitedEventsDetail"
+                app:layout_constraintBottom_toTopOf="@+id/description"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+            </ImageButton>
+
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
@@ -122,6 +133,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:maxWidth="350dp"
+                android:paddingRight="50dp"
                 android:text="@string/description"
                 android:textColor="@color/light_grey"
                 android:textSize="22sp"
@@ -130,15 +142,16 @@
 
             <Button
                 android:id="@+id/edit_description_btn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/transparent"
                 android:foreground="@drawable/edit_icon"
                 android:onClick="editDescription"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/visited_social_events" />
+                app:layout_constraintTop_toBottomOf="@+id/visited_social_events"
+                app:layout_constraintVertical_bias="0.937" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constrain_layout_description"
@@ -169,6 +182,7 @@
 
 
                 <Button
+                    android:id="@+id/save_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -176,12 +190,13 @@
                     android:background="@color/transparent"
                     android:onClick="saveDescription"
                     android:text="@string/save"
+                    android:textColor="@color/light_grey2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/button6"
+                    app:layout_constraintStart_toEndOf="@+id/cancel_description"
                     app:layout_constraintTop_toBottomOf="@+id/editText_description" />
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/cancel_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -189,6 +204,7 @@
                     android:background="@color/transparent"
                     android:onClick="cancelDescription"
                     android:text="@string/cancel"
+                    android:textColor="@color/light_grey2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editText_description" />
 
@@ -201,14 +217,15 @@
 
     <Button
         android:id="@+id/friends_button"
-        android:layout_width="75dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="@color/transparent"
         android:foreground="@drawable/friends_icon"
         android:onClick="friends"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView7" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/no_description"
@@ -233,8 +250,8 @@
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

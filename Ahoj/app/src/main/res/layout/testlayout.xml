@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
 
         <Toolbar
             android:layout_width="300dp"
@@ -19,7 +21,7 @@
             android:background="@drawable/round"
             android:layout_marginTop="5dp"
             android:onClick="openSearch"
-
+            android:backgroundTint="@color/light_grey2"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,10 +34,13 @@
                 android:layout_width="270dp"
                 android:layout_height="30dp"
                 android:queryHint="@string/search_localizations"
+                android:theme="@style/MySearchViewStyle"
+                android:outlineAmbientShadowColor="@color/black"
                 >
 
             </SearchView>
         </Toolbar>
+
 
         <Button
             android:id="@+id/close"
@@ -54,29 +59,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <Switch
+        android:id="@+id/socialSwitch"
+        style="@style/MySwitchStyle"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="134dp"
         android:layout_alignParentEnd="true"
-        >
 
-        <Switch
-            android:id="@+id/socialSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="134dp"
-            android:layout_marginBottom="570dp"
+        android:layout_marginBottom="570dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseSwitchCompatOrMaterialXml">
 
-            style="@style/MySwitchStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="UseSwitchCompatOrMaterialXml">
-
-        </Switch>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </Switch>
 
 
 
@@ -85,6 +82,7 @@
         android:layout_height="match_parent"
 
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -164,27 +162,12 @@
                         app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/search_announcements"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/roundpinkbutton"
-                        android:onClick="searchAnnouncements"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="@string/search"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements" />
 
 
                     <ScrollView
                         android:id="@+id/scrollView2"
                         android:layout_width="match_parent"
-                        android:layout_height="525dp"
+                        android:layout_height="420dp"
                         android:isScrollContainer="false"
                         app:layout_constraintBottom_toTopOf="@+id/adView"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -234,7 +217,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@drawable/setting_icon"
+                        android:foreground="@drawable/settings_icon"
                         android:gravity="center"
                         android:onClick="settings"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -250,6 +233,7 @@
                         android:gravity="center"
                         android:onClick="announcements"
                         android:text="@string/announcements"
+                        android:textColor="@color/light_grey2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/editTextSearchAnnouncements" />
@@ -257,11 +241,11 @@
                     <Button
                         android:id="@+id/points_button"
                         android:layout_width="50dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@drawable/points_icon"
+                        android:foreground="@drawable/achievements__orange_color_icon"
                         android:onClick="pointsActivity"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -274,7 +258,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="64dp"
                         android:background="@color/transparent"
-                        android:foreground="@drawable/profile_icon"
+                        android:foreground="@drawable/user_profile_blue_icon"
                         android:onClick="profileActivity"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -288,6 +272,7 @@
                         android:background="@color/transparent"
                         android:onClick="competitionsActivity"
                         android:text="@string/competitions"
+                        android:textColor="@color/light_grey2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/announcementsButton" />
@@ -336,16 +321,15 @@
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="4"
                 android:layout_gravity="center"
-                >
+                android:columnCount="4">
 
                 <Button
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
                     android:background="@color/transparent"
-                    android:foreground="@drawable/ahoymenu"
+                    android:foreground="@drawable/ahoy_menu_icon"
                     android:gravity="center"
                     android:onClick="menu">
 
@@ -354,13 +338,13 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/white"
-                    android:background="@drawable/roundpinkbutton"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:background="@drawable/roundpinkbutton"
                     android:gravity="center"
-                    android:text="@string/scan"
                     android:onClick="scan"
+                    android:text="@string/scan"
+                    android:textColor="@color/white"
                     android:textSize="18sp">
 
                 </androidx.appcompat.widget.AppCompatButton>
@@ -369,13 +353,12 @@
                     android:id="@+id/addButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:foreground="@drawable/add_icon"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:textSize="18sp"
                     android:layout_marginLeft="5dp"
+                    android:background="@color/transparent"
+                    android:foreground="@drawable/add_sea_blue_icon"
+                    android:gravity="center"
                     android:onClick="add"
-                    >
+                    android:textSize="18sp">
 
                 </Button>
 

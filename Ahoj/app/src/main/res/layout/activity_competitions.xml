@@ -15,7 +15,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="21dp"
         android:background="@color/transparent"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:foreground="@drawable/x_icon"
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
     <ScrollView
         android:id="@+id/scrollView12"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="450dp"
         android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -50,6 +50,7 @@
         android:backgroundTint="@color/dark_grey"
         android:onClick="filter"
         android:text="@string/filter"
+        android:textColor="@color/light_grey2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView12" />
 
@@ -57,14 +58,15 @@
         android:id="@+id/country_spinner"
         android:layout_width="168dp"
         android:layout_height="39dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
         android:background="@color/dark_grey"
         android:ems="10"
         android:hint="@string/country"
         android:popupBackground="@color/light_grey"
         android:spinnerMode="dropdown"
         android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView12" />
 
@@ -72,9 +74,11 @@
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="43dp"
         android:backgroundTint="@color/dark_grey"
         android:onClick="save"
         android:text="@string/save"
+        android:textColor="@color/light_grey2"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,4 +121,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/an_error_occurred"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:text="@string/an_error_occurred"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

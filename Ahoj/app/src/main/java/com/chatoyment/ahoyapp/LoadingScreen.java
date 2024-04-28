@@ -40,7 +40,7 @@ import java.util.Locale;
 public class LoadingScreen extends AppCompatActivity implements LocationListener {
 
     private DatabaseReference versionRef;
-    private String appVersion = "0.923";
+    private String appVersion = "0.924";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application;
 

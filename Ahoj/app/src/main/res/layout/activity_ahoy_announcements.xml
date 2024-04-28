@@ -14,7 +14,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="21dp"
         android:background="@color/transparent"
-        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:foreground="@drawable/x_icon"
         android:onClick="exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,10 +49,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/social_media"
+        android:layout_marginBottom="16dp"
         android:background="@color/transparent"
-        android:textColor="@color/white"
         android:onClick="visitUs"
+        android:text="@string/social_media"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

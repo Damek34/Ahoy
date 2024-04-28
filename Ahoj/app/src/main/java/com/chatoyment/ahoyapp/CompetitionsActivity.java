@@ -1,10 +1,17 @@
 package com.chatoyment.ahoyapp;
+
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -16,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,11 +31,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.OnlineDate;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +52,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CompetitionsActivity extends AppCompatActivity {
+public class CompetitionsActivity extends AppCompatActivity implements LocationListener {
 
     Intent intent;
     Spinner country_spinner;
@@ -54,9 +65,12 @@ public class CompetitionsActivity extends AppCompatActivity {
     DatabaseReference reference, reference_remove;
     Date date;
 
-    TextView no_competitions_found, check_internet_connection, no_competitions_found_notification;
+    TextView no_competitions_found, check_internet_connection, no_competitions_found_notification, an_error_occurred;
     EditText search;
     ConstraintLayout main_layout;
+    Geocoder geocoder;
+  //  double current_lat, current_lng;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +92,7 @@ public class CompetitionsActivity extends AppCompatActivity {
             res.updateConfiguration(conf, dm);
 
 
-        }
-        else if (savedLanguage.equals("pl")) {
+        } else if (savedLanguage.equals("pl")) {
             Locale locale2 = new Locale("pl");
             Locale.setDefault(locale2);
             Configuration config = new Configuration();
@@ -99,15 +112,16 @@ public class CompetitionsActivity extends AppCompatActivity {
 
         intent = getIntent();
 
-        country = intent.getStringExtra("country");
+        //country = intent.getStringExtra("country");
 
         country_spinner = findViewById(R.id.country_spinner);
-        linear_layout_competitions  = findViewById(R.id.linear_layout_competitions);
+        linear_layout_competitions = findViewById(R.id.linear_layout_competitions);
         save = findViewById(R.id.save);
         no_competitions_found = findViewById(R.id.no_competitions_found);
         check_internet_connection = findViewById(R.id.check_internet_connection);
         search = findViewById(R.id.search);
         main_layout = findViewById(R.id.main_layout);
+        an_error_occurred = findViewById(R.id.an_error_occurred);
 
         date = OnlineDate.getDate();
         no_competitions_found_notification = new TextView(getApplicationContext());
@@ -115,13 +129,47 @@ public class CompetitionsActivity extends AppCompatActivity {
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
 
-        for(Locale locale: locales){
+        for (Locale locale : locales) {
             String country = locale.getDisplayCountry();
-            if (country.trim().length()>0 && !countries.contains(country)) {
+            if (country.trim().length() > 0 && !countries.contains(country)) {
                 countries.add(country);
             }
         }
         Collections.sort(countries);
+
+
+        if(country == null || country.equals("")){
+
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0 , 0, this);
+            Location location = null;
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            } catch (IOException e) {
+                //  throw new RuntimeException(e);
+            }
+
+            if (addresses.size() > 0) {
+                country = addresses.get(0).getCountryName();
+            }
+        }
+
+
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -196,9 +244,14 @@ public class CompetitionsActivity extends AppCompatActivity {
         });
 
 
+
      //   Toast.makeText(getApplicationContext(), country, Toast.LENGTH_LONG).show();
         scan();
+
+
+
     }
+
 
     void searchButtons(String query) {
         boolean foundMatch = false;
@@ -236,6 +289,7 @@ public class CompetitionsActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Date competition_date_temp =  snapshot.child("duration").getValue(Date.class);
+
 
                         if(date.before(competition_date_temp)){
                             String title = snapshot.child("title").getValue(String.class);
@@ -310,7 +364,11 @@ public class CompetitionsActivity extends AppCompatActivity {
 
                         }
 
-                    }
+
+
+
+                        }
+
                 }
                 else{
                     TextView no_competitions_found_notification = new TextView(getApplicationContext());
@@ -372,6 +430,7 @@ public class CompetitionsActivity extends AppCompatActivity {
         }
     }
     public void filter(View view){
+        search.clearFocus();
         if(is_filter_opened){
             is_filter_opened = false;
             save.setVisibility(View.GONE);
@@ -382,5 +441,10 @@ public class CompetitionsActivity extends AppCompatActivity {
             save.setVisibility(View.VISIBLE);
             country_spinner.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 }

@@ -24,10 +24,10 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddEventInfo;
 import com.example.ahoyapp.OnlyJava.CompanyEvent;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,7 +48,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EventLocalizationPreview extends AppCompatActivity {
+public class EventLocalizationPreview extends AppCompatActivity implements OnlineDate.OnDateFetchedListener{
 
     String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str, isSocial;
     Spinner countrySpinner;
@@ -113,7 +113,7 @@ public class EventLocalizationPreview extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_localization_previev);
-        OnlineDate.fetchDateAsync();
+        OnlineDate.fetchDateAsync(this);
 
         social_intent = getIntent();
 
@@ -355,6 +355,11 @@ public class EventLocalizationPreview extends AppCompatActivity {
         Intent intent = new Intent(EventLocalizationPreview.this, MapActivityMain.class);
         intent.putExtra("activity", "main");
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onDateFetched(Date date) {
 
     }
 }

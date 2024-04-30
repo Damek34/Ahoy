@@ -16,8 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Date;
 import java.util.Locale;
 
-public class Manage extends AppCompatActivity {
+public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -74,7 +75,7 @@ public class Manage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
-        OnlineDate.fetchDateAsync();
+        OnlineDate.fetchDateAsync(this);
 
         date = OnlineDate.getDate();
 
@@ -323,4 +324,8 @@ public class Manage extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDateFetched(Date date) {
+
+    }
 }

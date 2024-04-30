@@ -35,8 +35,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +56,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
     Intent intent;
     Spinner country_spinner;
-    String country = "";
+    String country = "", no_competitions_found_notification_string;
     LinearLayout linear_layout_competitions;
     Button save;
     boolean is_filter_opened = false;
@@ -65,7 +65,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
     DatabaseReference reference, reference_remove;
     Date date;
 
-    TextView no_competitions_found, check_internet_connection, no_competitions_found_notification, an_error_occurred;
+    TextView no_competitions_found, check_internet_connection, no_competitions_found_notification, an_error_occurred, downloading;
     EditText search;
     ConstraintLayout main_layout;
     Geocoder geocoder;
@@ -122,9 +122,11 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
         search = findViewById(R.id.search);
         main_layout = findViewById(R.id.main_layout);
         an_error_occurred = findViewById(R.id.an_error_occurred);
+        downloading = findViewById(R.id.downloading);
 
         date = OnlineDate.getDate();
-        no_competitions_found_notification = new TextView(getApplicationContext());
+        no_competitions_found_notification = findViewById(R.id.no_competitions_found);
+        no_competitions_found_notification_string = no_competitions_found_notification.getText().toString();
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -188,12 +190,6 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!search.getText().toString().trim().equals("")){
 
-                    no_competitions_found_notification.setText(no_competitions_found.getText().toString());
-                    no_competitions_found_notification.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
-                    no_competitions_found_notification.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
-                    no_competitions_found_notification.setTextSize(18);
-                    no_competitions_found_notification.setGravity(Gravity.CENTER_HORIZONTAL);
-
                     boolean isTextViewFound = false;
 
                     for (int i = 0; i < linear_layout_competitions.getChildCount(); i++) {
@@ -210,7 +206,8 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                         }
                     }
                     if (!isTextViewFound){
-                        linear_layout_competitions.addView(no_competitions_found_notification);
+                      //  linear_layout_competitions.addView(no_competitions_found_notification);
+                        no_competitions_found.setVisibility(View.VISIBLE);
                     }
 
                     searchButtons(s.toString());
@@ -226,7 +223,11 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
                         }
                     }
-                    linear_layout_competitions.removeView(no_competitions_found_notification);
+                    //linear_layout_competitions.removeView(no_competitions_found_notification);
+                    no_competitions_found.setVisibility(View.GONE);
+                    if(linear_layout_competitions.getChildCount() == 0){
+                        no_competitions_found.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -275,6 +276,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
             }
         }
         if (!foundMatch) {
+            no_competitions_found.setText(no_competitions_found_notification_string);
             no_competitions_found_notification.setVisibility(View.VISIBLE);
         }
 
@@ -287,6 +289,8 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+                    no_competitions_found.setVisibility(View.VISIBLE);
+                    no_competitions_found.setText(downloading.getText().toString());
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Date competition_date_temp =  snapshot.child("duration").getValue(Date.class);
 
@@ -345,6 +349,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                                 }
                             });
 
+                            no_competitions_found.setVisibility(View.GONE);
                         }
                         else{
                             String date_and_time = snapshot.child("date_and_time").getValue(String.class);
@@ -371,7 +376,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
                 }
                 else{
-                    TextView no_competitions_found_notification = new TextView(getApplicationContext());
+                   /* TextView no_competitions_found_notification = new TextView(getApplicationContext());
                     no_competitions_found_notification.setText(no_competitions_found.getText().toString());
                     no_competitions_found_notification.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
                     no_competitions_found_notification.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
@@ -379,6 +384,10 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                     no_competitions_found_notification.setGravity(Gravity.CENTER_HORIZONTAL);
 
                     linear_layout_competitions.addView(no_competitions_found_notification);
+
+                    */
+                    no_competitions_found.setText(no_competitions_found_notification_string);
+                    no_competitions_found.setVisibility(View.VISIBLE);
                 }
 
             }

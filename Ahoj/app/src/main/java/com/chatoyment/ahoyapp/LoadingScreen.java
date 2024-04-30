@@ -1,4 +1,5 @@
 package com.chatoyment.ahoyapp;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,16 +16,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.Setup.setup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,18 +39,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
 import java.util.Locale;
 
 
-public class LoadingScreen extends AppCompatActivity implements LocationListener {
+public class LoadingScreen extends AppCompatActivity implements LocationListener, OnlineDate.OnDateFetchedListener{
 
     private DatabaseReference versionRef;
     private String appVersion = "0.924";
 
-    TextView Textview_app_version_is_not_actual, Textview_please_update_application;
-
+    TextView Textview_app_version_is_not_actual, Textview_please_update_application, loading_data, checking_internet_connection, checking_app_version;
+    ScrollView status_scrollview;
     private FirebaseAuth mAuth;
     FirebaseUser user;
+
+    int green;
+    Intent log_off;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +107,38 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             editor.apply();
         }
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_screen);
         Textview_please_update_application = findViewById(R.id.Textview_please_update_application);
         Textview_app_version_is_not_actual = findViewById(R.id.Textview_app_version_is_not_actual);
+        status_scrollview = findViewById(R.id.status_scrollview);
+        loading_data = findViewById(R.id.loading_data);
+        checking_internet_connection = findViewById(R.id.checking_internet_connection);
+        checking_app_version = findViewById(R.id.checking_app_version);
 
         mAuth = FirebaseAuth.getInstance();
+
+        green = ContextCompat.getColor(getApplicationContext(), R.color.green);
+
+        log_off = getIntent();
+
+            if(log_off.getStringExtra("log_off") != null){
+                status_scrollview.setVisibility(View.GONE);
+            }
+
+
+
+
+
+        status_scrollview.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -116,8 +151,18 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             startActivity(no_internet_intent);
         }
 
-        OnlineDate.fetchDateAsync();
+        final int[] checkingAppVersionY = {checking_app_version.getTop()};
 
+        checking_internet_connection.setTextColor(green);
+       // status_scrollview.smoothScrollTo(0, checkingAppVersionY[0]);
+
+        status_scrollview.post(new Runnable() {
+            @Override
+            public void run() {
+                checkingAppVersionY[0] = checking_app_version.getTop();
+                status_scrollview.smoothScrollTo(0, checkingAppVersionY[0] - 35);
+            }
+        });
 
         versionRef = FirebaseDatabase.getInstance().getReference().child("Version");
 
@@ -125,6 +170,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     String firebaseVersion = dataSnapshot.getValue(String.class);
 
                     if (!firebaseVersion.equals(appVersion)) {
@@ -160,6 +206,12 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
     }
 
     private void continueLoading()  {
+        int loadingDataY = loading_data.getTop();
+        checking_app_version.setTextColor(green);
+        status_scrollview.smoothScrollTo(0, loadingDataY);
+
+        OnlineDate.fetchDateAsync(this);
+
         SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
 
         SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
@@ -184,6 +236,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        loading_data.setTextColor(green);
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
@@ -192,6 +245,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        loading_data.setTextColor(green);
                         startActivity(new Intent(LoadingScreen.this, setup.class));
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
@@ -207,6 +261,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    loading_data.setTextColor(green);
                     startActivity(new Intent(LoadingScreen.this, setup.class));
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
@@ -240,6 +295,11 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
     @Override
     public void onProviderDisabled(@NonNull String provider) {
       //  LocationListener.super.onProviderDisabled(provider);
+
+    }
+
+    @Override
+    public void onDateFetched(Date date) {
 
     }
 }

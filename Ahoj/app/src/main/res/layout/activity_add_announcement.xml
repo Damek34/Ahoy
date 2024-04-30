@@ -20,31 +20,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView15"
         android:layout_width="373dp"
         android:layout_height="615dp"
-        android:layout_marginStart="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <Toolbar
                 android:id="@+id/ToolbarCompany"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="157dp"
+                android:layout_marginEnd="157dp"
+                android:layout_marginTop="10dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
-                android:layout_marginStart="157dp"
-                android:layout_marginEnd="157dp"
 
                 >
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -57,9 +60,9 @@
 
                         android:text="@string/company_name"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -90,16 +93,15 @@
 
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.513"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/announcement_company_name"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="157dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
-                >
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/announcement_company_name">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -113,10 +115,10 @@
                         android:layout_marginEnd="10dp"
                         android:text="@string/description"
                         android:textAlignment="center"
-                        android:textSize="24sp"
-
-                        android:visibility="visible"
                         android:textColor="@color/black"
+
+                        android:textSize="24sp"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -128,13 +130,13 @@
                 android:id="@+id/announcement_description"
                 android:layout_width="260dp"
                 android:layout_height="match_parent"
-                android:minHeight="189dp"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="101dp"
                 android:background="@color/light_grey"
                 android:ems="10"
                 android:inputType="textMultiLine"
+                android:minHeight="189dp"
                 android:textSize="24sp"
                 android:visibility="visible"
 
@@ -148,35 +150,35 @@
                 android:id="@+id/ToolbarEventLocation"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/announcement_description"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/announcement_description">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textViewEventLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <TextView
+                        android:id="@+id/textViewEventLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/announcement_location"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:visibility="visible"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/announcement_location"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </Toolbar>
+
             <Spinner
                 android:id="@+id/announcementCountry"
                 android:layout_width="168dp"
@@ -198,36 +200,36 @@
                 android:id="@+id/ToolbarAnnouncementDuration"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/announcementCountry"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/announcementCountry">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/textViewAnnouncementDuration"
-                android:layout_width="288dp"
-                android:layout_height="63dp"
+                    <TextView
+                        android:id="@+id/textViewAnnouncementDuration"
+                        android:layout_width="288dp"
+                        android:layout_height="63dp"
 
-                android:text="@string/how_long_should_announcement_be_active"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:visibility="visible"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/how_long_should_announcement_be_active"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
 
-                />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </Toolbar>
@@ -238,35 +240,34 @@
 
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.507"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/announcement_duration"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/announcement_duration">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/textViewAnnouncementAdditionalInfo"
-                android:layout_width="288dp"
-                android:layout_height="63dp"
+                    <TextView
+                        android:id="@+id/textViewAnnouncementAdditionalInfo"
+                        android:layout_width="288dp"
+                        android:layout_height="63dp"
 
-                android:text="@string/additional_information"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:visibility="visible"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                        android:text="@string/additional_information"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -279,11 +280,11 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/light_grey"
                 android:ems="10"
+                android:hint="@string/hours_from_now"
                 android:inputType="number"
+                android:maxLength="5"
                 android:textSize="24sp"
                 android:visibility="visible"
-                android:maxLength="5"
-                android:hint="@string/hours_from_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ToolbarAnnouncementDuration" />
@@ -316,20 +317,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:onClick="addAnnouncement"
-                android:text="@string/add"
-                android:visibility="visible"
                 android:background="@drawable/pink_transparent_round"
                 android:backgroundTint="@color/pink_almost_transparent"
-                android:textColor="@color/white"
+                android:onClick="addAnnouncement"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:visibility="visible"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/announcement_additional_info" />
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -401,15 +400,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <TextView
+        android:id="@+id/error_caused_by_unstable_internet_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:text="@string/terms_of_service"
+        android:text="@string/error_caused_by_unstable_internet_connection"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:textColor="@color/white"
         android:onClick="statute"
+        android:text="@string/terms_of_service"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView15" />
 </androidx.constraintlayout.widget.ConstraintLayout>

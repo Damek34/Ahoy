@@ -1,4 +1,4 @@
-package com.example.ahoyapp.OnlyJava;
+package com.chatoyment.ahoyapp.OnlyJava;
 
 import android.os.AsyncTask;
 
@@ -10,21 +10,26 @@ import java.util.Date;
 
 public class OnlineDate {
 
-    private static Date lastFetchedDate;  // Statyczna zmienna do przechowywania ostatnio pobranej daty
+    private static Date lastFetchedDate;
 
-    public static void fetchDateAsync() {
-        new NtpDateFetchTask().execute();
+    public interface OnDateFetchedListener {
+        void onDateFetched(Date date);
+    }
+
+    public static void fetchDateAsync(OnDateFetchedListener listener) {
+        new NtpDateFetchTask(listener).execute();
     }
 
     public static Date getDate() {
         return lastFetchedDate;
     }
 
-    public interface OnDateFetchedListener {
-        void onDateFetched(Date date);
-    }
-
     private static class NtpDateFetchTask extends AsyncTask<Void, Void, Date> {
+        private OnDateFetchedListener mListener;
+
+        public NtpDateFetchTask(OnDateFetchedListener listener) {
+            mListener = listener;
+        }
 
         @Override
         protected Date doInBackground(Void... voids) {
@@ -48,7 +53,8 @@ public class OnlineDate {
 
         @Override
         protected void onPostExecute(Date date) {
-            lastFetchedDate = date;  // Aktualizacja ostatnio pobranej daty
+            lastFetchedDate = date;
+            mListener.onDateFetched(date);
         }
     }
 }

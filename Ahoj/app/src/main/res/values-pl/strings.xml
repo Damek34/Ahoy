@@ -336,6 +336,10 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="enable_localizaton_from_settings">Aby aplikacja działała poprawnie, należy udzielić jej zgody na korzystanie z lokalizacji. Możesz to zrobić za pomocą przejścia do ustawień aplikacji.</string>
     <string name="social_media">Odwiedź nas tutaj!</string>
     <string name="we_sent_you_new_activation_link">Twoje konto nie zostało zweryfikowane! Sprawdź swoją pocztę e-mail, wysłaliśmy Ci nowy link weryfikacyjny!</string>
+    <string name="error_caused_by_unstable_internet_connection">Błąd spowodowany niestabilnym połączeniem z internetem</string>
+    <string name="loading_data">Wczytywanie danych</string>
+    <string name="checking_app_version">Sprawdzanie wersji aplikacji</string>
+    <string name="checking_internet_connection">Sprawdzanie połączenia internetowego</string>
 
 
 </resources>

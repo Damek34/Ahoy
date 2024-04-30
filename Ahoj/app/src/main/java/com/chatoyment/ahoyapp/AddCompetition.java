@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddCompetitionInfo;
 import com.example.ahoyapp.OnlyJava.CompanyCompetition;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,7 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddCompetition extends AppCompatActivity {
+public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     EditText competition_title_editText, competition_organizer_editText, competition_reward, competition_description, competition_duration_editText, competition_when_results_editText
             , competition_who_can_take_part_editText, competition_where_results_editText, competition_additional_info;
@@ -44,7 +44,7 @@ public class AddCompetition extends AppCompatActivity {
     Spinner competitionCountry;
     TextView duration_preview, competition_must_have_title, competition_must_have_organizer, competition_must_have_reward, competition_must_have_description
             , competition_must_last_at_least_an_hour, competition_must_have_information_when_the_results_will_be_available, competition_must_have_information_who_can_take_part_in_competition
-            , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success;
+            , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success, error_caused_by_unstable_internet_connection;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -110,6 +110,7 @@ public class AddCompetition extends AppCompatActivity {
         competition_must_have_information_where_will_be_results_announced = findViewById(R.id.competition_must_have_information_where_will_be_results_announced);
         check_internet_connection = findViewById(R.id.check_internet_connection);
         success = findViewById(R.id.success);
+        error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -145,11 +146,15 @@ public class AddCompetition extends AppCompatActivity {
                     long millis = System.currentTimeMillis();
                     String date_and_time = date + " " + millis;
 
-
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
-
+                    try{
+                        calendar.setTime(date);
+                        calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
+                    }
+                    catch(NullPointerException e){
+                        duration_preview.setText(error_caused_by_unstable_internet_connection.getText().toString());
+                        fetchDate();
+                    }
                     duration_preview.setText(calendar.getTime().toString());
                 }
             }
@@ -258,6 +263,14 @@ public class AddCompetition extends AppCompatActivity {
         intent.putExtra("activity", "main");
         startActivity(intent);
 
+
+    }
+    public void fetchDate() {
+        OnlineDate.fetchDateAsync(this);
+    }
+
+    @Override
+    public void onDateFetched(Date date) {
 
     }
 }

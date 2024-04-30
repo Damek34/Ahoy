@@ -197,7 +197,9 @@ public class SettingActivity extends AppCompatActivity {
         editor.putString("auth_token", null);
         editor.apply();
 
-        startActivity(new Intent(SettingActivity.this, LoadingScreen.class));
+        Intent log_out = new Intent(SettingActivity.this, LoadingScreen.class);
+        log_out.putExtra("log_off", "true");
+        startActivity(log_out);
     }
 
     public void FAQ(View view){

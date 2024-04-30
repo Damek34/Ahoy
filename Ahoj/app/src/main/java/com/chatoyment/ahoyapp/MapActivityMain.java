@@ -26,7 +26,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -41,12 +43,14 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
+import com.chatoyment.ahoyapp.Setup.setup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -74,10 +78,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 
-
-public class MapActivityMain extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
+public class MapActivityMain extends AppCompatActivity implements OnMapReadyCallback, LocationListener, OnlineDate.OnDateFetchedListener {
 
     private GoogleMap mMap;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -117,7 +121,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> announcement_organizer_List_remove = new ArrayList<>();
 
 
-    Date date;
+    public Date date;
     Calendar calendar = Calendar.getInstance();
 
 
@@ -131,7 +135,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     AdView adview;
 
     TextView your_localization, check_internet_connection, failed_location, promotional_mode, social_modeTextView, no_such_place_has_been_found, you_can_collect_extra_point,
-            something_went_wrong, no_events_found;
+            something_went_wrong, no_events_found, downloadingdata;
 
     String countryName = "", search_announcements_str = "", nick = "";
 
@@ -154,6 +158,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     int scan_radius, zoom_size;
 
     private Location previousLocation;
+
+    AppCompatButton scan_button;
+
+    boolean scan_button_animation = false, downloading_data_animation = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -215,11 +223,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         something_went_wrong = findViewById(R.id.something_went_wrong);
         competitions_button = findViewById(R.id.competitions_button);
         no_events_found = findViewById(R.id.no_events_found);
+        scan_button = findViewById(R.id.scan_button);
+        downloadingdata = findViewById(R.id.downloadingdata);
         if(social_mode){
             socialSwitch.setChecked(true);
         }
 
-        date = OnlineDate.getDate();
+      //  date = OnlineDate.getDate();
 
         add_button = findViewById(R.id.addButton);
         activity_intent = getIntent();
@@ -512,6 +522,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             current_lat = marker.getPosition().latitude;
             current_lng = marker.getPosition().longitude;
 
+            /*
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -523,6 +534,9 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 }
             }, 1800);
 
+
+             */
+            fetchDateAndScanEvents();
 
         }
 
@@ -611,9 +625,13 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if (!connected) {
             return;
         }
-        OnlineDate.fetchDateAsync();
+        if(date == null){
+            Toast.makeText(getApplicationContext(), "data jest nullem", Toast.LENGTH_LONG).show();
+            return;
+        }
+      //  OnlineDate.fetchDateAsync();
 
-        date = OnlineDate.getDate();
+       // date = OnlineDate.getDate();
        // OnlineDate onlineDate = new OnlineDate();
        // Toast.makeText(getApplicationContext(), String.valueOf(OnlineDate.getDate()), Toast.LENGTH_LONG).show();
 
@@ -745,10 +763,16 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 addresses = geocoder.getFromLocation(current_lat, current_lng, 1);
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
+
             }
 
-            if (addresses.size() > 0) {
+
+
+            if (addresses != null && addresses.size() > 0 ) {
                 countryName = addresses.get(0).getCountryName();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -786,7 +810,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         EditText editTextSearchAnnouncements = findViewById(R.id.editTextSearchAnnouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements, manage;
-        TextView downloadingdata;
+
 
 
 
@@ -798,7 +822,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
 
         manage = findViewById(R.id.manage_button);
-        downloadingdata = findViewById(R.id.downloadingdata);
+
 
 
 
@@ -836,6 +860,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
         downloadingdata.setVisibility(View.VISIBLE);
+
+        downloading_data_animation = true;
+        downloadingDataAnimation();
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -855,7 +883,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     }
                     catch (NullPointerException e){
-                        date = OnlineDate.getDate();
+                     //   date = OnlineDate.getDate();
                         navigationView.setVisibility(View.GONE);
 
 
@@ -880,6 +908,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
                 if(count[0] == 0){
                     thereisnoannouncements.setVisibility(View.VISIBLE);
+                    downloading_data_animation = false;
+                    downloadingdata.clearAnimation();
                     downloadingdata.setVisibility(View.GONE);
                 }
 
@@ -894,6 +924,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT
                     ));
+                    downloading_data_animation = false;
                     downloadingdata.setVisibility(View.GONE);
                     linearLayout.addView(buttons[i]);
 
@@ -1047,9 +1078,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         TextView thereisnoannouncements = findViewById(R.id.thereisnoannouncements);
         Button exit_menu, settings, announcements, exit_announcements, ahoy_announcements, search_announcements;
         LinearLayout linearLayout = findViewById(R.id.menuLinearLayout);
-        TextView downloadingdata;
 
-        downloadingdata = findViewById(R.id.downloadingdata);
 
         exit_menu = findViewById(R.id.buttonExitMenu);
         settings = findViewById(R.id.settingsButton);
@@ -1109,6 +1138,8 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         if(!can_be_deleted_scan){
             return;
         }
+        scan_button_animation = true;
+        scanButtonAnimation();
         //remove old markers
         if(global_count != 0){
             if(near_events.length != 0) {
@@ -1121,6 +1152,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         }
 
        // scanEvents();
+        /*
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1131,6 +1163,10 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                 }
             }
         });
+
+         */
+
+        fetchDateAndScanEvents();
     }
 
     public void profileActivity(View view){
@@ -1203,7 +1239,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         //    eventAdditionalV.clear();
 
 
-            date = OnlineDate.getDate();
+          //  date = OnlineDate.getDate();
 
             calendar.setTime(date);
 
@@ -1340,6 +1376,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     else{
                         global_count = 0;
                         Toast.makeText(getApplicationContext(), no_events_found.getText().toString(), Toast.LENGTH_LONG).show();
+                        scan_button_animation = false;
                     }
                 }
 
@@ -1521,6 +1558,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         });
 
         can_scan_events = true;
+        scan_button_animation = false;
     }
 
     void createAndPlaceMarkers() throws IOException {
@@ -1596,4 +1634,86 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    private void scanButtonAnimation(){
+        final boolean[] isFadeIn = {true};
+        AlphaAnimation fadeIn = new AlphaAnimation(0.5f, 1.0f);
+        fadeIn.setDuration(800);
+
+        AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.5f);
+        fadeOut.setDuration(800);
+
+
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(fadeOut);
+        animationSet.addAnimation(fadeIn);
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                isFadeIn[0] = !isFadeIn[0];
+                if(scan_button_animation){
+                    scanButtonAnimation();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+
+        scan_button.startAnimation(animationSet);
+    }
+
+    private void downloadingDataAnimation(){
+        final boolean[] isFadeIn = {true};
+        AlphaAnimation fadeIn = new AlphaAnimation(0.5f, 1.0f);
+        fadeIn.setDuration(800);
+
+        AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.5f);
+        fadeOut.setDuration(800);
+
+
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(fadeOut);
+        animationSet.addAnimation(fadeIn);
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                isFadeIn[0] = !isFadeIn[0];
+                if(downloading_data_animation){
+                    downloadingDataAnimation();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+
+        downloadingdata.startAnimation(animationSet);
+    }
+
+
+    public void fetchDateAndScanEvents() {
+        OnlineDate.fetchDateAsync(this);
+    }
+
+    @Override
+    public void onDateFetched(Date date) {
+        if (date != null) {
+            try {
+                this.date = OnlineDate.getDate();
+                scanEvents();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 }

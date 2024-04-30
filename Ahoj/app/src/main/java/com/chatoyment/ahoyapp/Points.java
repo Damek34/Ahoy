@@ -19,8 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
@@ -43,7 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class Points extends AppCompatActivity {
+public class Points extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     TextView user_points, your_points, ad_is_not_ready_yet, come_back, you_earned_one_point, preparing_ad_for_progress;
@@ -100,7 +100,7 @@ public class Points extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points);
 
-        OnlineDate.fetchDateAsync();
+        OnlineDate.fetchDateAsync(this);
         activity_intent = getIntent();
 
         sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
@@ -123,6 +123,7 @@ public class Points extends AppCompatActivity {
         you_earned_one_point = findViewById(R.id.you_earned_one_point);
 
         rewardedVideoButton = findViewById(R.id.rewardedVideoButton);
+        currentDate = OnlineDate.getDate();
 
         progress.setProgress((int) sharedPreferencesUser.getFloat("distance", 0));
 
@@ -144,7 +145,26 @@ public class Points extends AppCompatActivity {
         }
 
 
+        if(currentDate != null){
+            downloadPoints();
+        }
+        else{
+            OnlineDate.fetchDateAsync(this);
+        }
 
+
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+
+
+    }
+
+    private void downloadPoints(){
         reference = database.getReference("Nick/" + nick);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -160,9 +180,14 @@ public class Points extends AppCompatActivity {
                         Calendar calendar_last_login = Calendar.getInstance();
                         calendar_last_login.set(Integer.parseInt(date_array[0]), Integer.parseInt(date_array[1]) - 1, Integer.parseInt(date_array[2]), 0, 0, 0);
 
-                        currentDate = OnlineDate.getDate();
 
-                        formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+                        try{
+                            formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
+                        }
+                        catch(NullPointerException e){
+
+                            return;
+                        }
 
 
                         Calendar checkDate = Calendar.getInstance();
@@ -180,9 +205,6 @@ public class Points extends AppCompatActivity {
                         }
                     }
 
-
-
-
                     loadPoints(pointsDB, login_date);
                 }
             }
@@ -192,20 +214,11 @@ public class Points extends AppCompatActivity {
 
             }
         });
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-
-            }
-        });
-
-
     }
 
     @SuppressLint("SetTextI18n")
     void loadPoints(int pointsDB, String login_date) {
-        points += pointsDB;
+        points = 0 + pointsDB;
         your_points.setText(your_points_str + points);
     }
 
@@ -326,4 +339,9 @@ public class Points extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDateFetched(Date date) {
+        currentDate = OnlineDate.getDate();
+        downloadPoints();
+    }
 }

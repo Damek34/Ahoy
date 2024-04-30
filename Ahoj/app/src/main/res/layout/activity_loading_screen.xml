@@ -7,6 +7,87 @@
     android:background="@mipmap/ahoy_loading_screen2"
     tools:context="com.chatoyment.ahoyapp.LoadingScreen">
 
+
+    <ScrollView
+        android:id="@+id/status_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+
+        android:layout_marginTop="631dp"
+        android:background="@color/almost_transparent3"
+        android:padding="5dp"
+        android:scrollbars="none"
+        android:text="@string/checking_internet_connection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/checking_internet_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:padding="5dp"
+                android:text="@string/checking_internet_connection"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey2"
+                android:textSize="26sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/checking_app_version"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/checking_app_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:text="@string/checking_app_version"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey2"
+                android:textSize="26sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checking_internet_connection" />
+
+            <TextView
+                android:id="@+id/loading_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:padding="5dp"
+                android:text="@string/loading_data"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey2"
+                android:textSize="26sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checking_app_version" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+
     <TextView
         android:id="@+id/Textview_please_update_application"
         android:layout_width="match_parent"
@@ -22,4 +103,8 @@
         android:visibility="gone"
         android:text="@string/app_version_is_not_actual"
         />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

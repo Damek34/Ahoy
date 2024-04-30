@@ -22,29 +22,30 @@
     <ScrollView
         android:layout_width="373dp"
         android:layout_height="615dp"
-        android:layout_marginStart="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExitAdd">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <Toolbar
                 android:id="@+id/ToolbarTitle"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="157dp"
+                android:layout_marginEnd="157dp"
+                android:alpha="0.5"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
-                android:layout_marginStart="157dp"
-                android:layout_marginEnd="157dp"
 
                 >
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -55,9 +56,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/title"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -86,11 +87,11 @@
                 android:id="@+id/ToolbarOrganizer"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:background="@drawable/round_toolbar"
                 android:layout_marginStart="157dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/competition_title_editText">
@@ -139,11 +140,11 @@
                 android:id="@+id/ToolbarReward"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:background="@drawable/round_toolbar"
                 android:layout_marginStart="157dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/competition_organizer_editText">
@@ -172,13 +173,13 @@
                 android:id="@+id/competition_reward"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:minHeight="43dp"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="101dp"
                 android:background="@color/light_grey"
                 android:ems="10"
                 android:inputType="textMultiLine"
+                android:minHeight="43dp"
                 android:textSize="24sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -187,22 +188,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/ToolbarReward" />
 
 
-
             <Toolbar
                 android:id="@+id/ToolbarCompetitionDescription"
 
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.513"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_reward"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="157dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="157dp"
-                >
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/competition_reward">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -216,10 +215,10 @@
                         android:layout_marginEnd="10dp"
                         android:text="@string/description"
                         android:textAlignment="center"
-                        android:textSize="24sp"
-
-                        android:visibility="visible"
                         android:textColor="@color/black"
+
+                        android:textSize="24sp"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -231,13 +230,13 @@
                 android:id="@+id/competition_description"
                 android:layout_width="260dp"
                 android:layout_height="match_parent"
-                android:minHeight="189dp"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="101dp"
                 android:background="@color/light_grey"
                 android:ems="10"
                 android:inputType="textMultiLine"
+                android:minHeight="189dp"
                 android:textSize="24sp"
                 android:visibility="visible"
 
@@ -251,13 +250,12 @@
                 android:id="@+id/ToolbarCompetitionLocation"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_description"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competition_description">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -271,15 +269,16 @@
                         android:layout_marginEnd="10dp"
                         android:text="@string/competition_location"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </Toolbar>
+
             <Spinner
                 android:id="@+id/competitionCountry"
                 android:layout_width="168dp"
@@ -301,16 +300,16 @@
                 android:id="@+id/ToolbarAnnouncementDuration"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competitionCountry"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competitionCountry">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -323,9 +322,9 @@
 
                         android:text="@string/how_long_should_competition_be_active"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -342,11 +341,11 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/light_grey"
                 android:ems="10"
+                android:hint="@string/hours_from_now"
                 android:inputType="number"
+                android:maxLength="5"
                 android:textSize="24sp"
                 android:visibility="visible"
-                android:maxLength="5"
-                android:hint="@string/hours_from_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ToolbarAnnouncementDuration" />
@@ -365,16 +364,16 @@
                 android:id="@+id/ToolbarCompetitionWhenResults"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_duration_editText"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competition_duration_editText">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -387,9 +386,9 @@
 
                         android:text="@string/when_will_the_competition_results_be_announced"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -417,16 +416,16 @@
                 android:id="@+id/ToolbarCompetitionWhoCanTakePart"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_when_results_editText"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competition_when_results_editText">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -438,9 +437,9 @@
                         android:layout_height="63dp"
                         android:text="@string/who_can_take_part_in_the_competition"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -454,11 +453,11 @@
                 android:id="@+id/competition_who_can_take_part_editText"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:minHeight="43dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/light_grey"
                 android:ems="10"
                 android:inputType="textMultiLine"
+                android:minHeight="43dp"
                 android:textSize="24sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -469,16 +468,16 @@
                 android:id="@+id/ToolbarCompetitionWhereResults"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_who_can_take_part_editText"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competition_who_can_take_part_editText">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -490,9 +489,9 @@
                         android:layout_height="63dp"
                         android:text="@string/where_will_the_competition_results_be"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -506,11 +505,11 @@
                 android:id="@+id/competition_where_results_editText"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:minHeight="43dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/light_grey"
                 android:ems="10"
                 android:inputType="textMultiLine"
+                android:minHeight="43dp"
                 android:textSize="24sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -518,22 +517,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/ToolbarCompetitionWhereResults" />
 
 
-
             <Toolbar
                 android:id="@+id/ToolbarCompetitionAdditional"
 
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_toolbar"
-                android:alpha="0.5"
                 android:layout_marginStart="109dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="108dp"
+                android:alpha="0.5"
+                android:background="@drawable/round_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.507"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/competition_where_results_editText"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/competition_where_results_editText">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -546,18 +544,16 @@
 
                         android:text="@string/additional_information"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:visibility="visible"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </Toolbar>
-
 
 
             <EditText
@@ -579,20 +575,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:onClick="addCompetition"
-                android:text="@string/add"
-                android:visibility="visible"
                 android:background="@drawable/pink_transparent_round"
                 android:backgroundTint="@color/pink_almost_transparent"
-                android:textColor="@color/white"
+                android:onClick="addCompetition"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:visibility="visible"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/competition_additional_info" />
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -682,5 +676,14 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/error_caused_by_unstable_internet_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_caused_by_unstable_internet_connection"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,21 +17,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 
-public class AddLocalEvent extends AppCompatActivity {
+public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     int page = 1;
     String nameV, descV, locationV, company_nameV, additionalV, durationStr, isSocial = "false";
     int durationV = 0;
 
-    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview;
+    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview, error_caused_by_unstable_internet_connection;
     EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
     Intent intent;
@@ -99,6 +99,7 @@ public class AddLocalEvent extends AppCompatActivity {
         duration = (EditText) findViewById(R.id.event_duration);
         additional = (EditText) findViewById(R.id.event_additional_info);
         duration_preview = findViewById(R.id.duration_preview);
+        error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
 
         Date date = OnlineDate.getDate();
 
@@ -132,8 +133,14 @@ public class AddLocalEvent extends AppCompatActivity {
 
 
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    calendar.add(Calendar.HOUR, Integer.parseInt(event_duration.getText().toString()));
+                    try{
+                        calendar.setTime(date);
+                        calendar.add(Calendar.HOUR, Integer.parseInt(event_duration.getText().toString()));
+                    }
+                    catch(NullPointerException e){
+                        duration_preview.setText(error_caused_by_unstable_internet_connection.getText().toString());
+                        fetchDate();
+                    }
 
                     duration_preview.setText(calendar.getTime().toString());
                 }
@@ -229,5 +236,14 @@ public class AddLocalEvent extends AppCompatActivity {
         }
 
         startActivity(intent);
+    }
+
+    public void fetchDate() {
+        OnlineDate.fetchDateAsync(this);
+    }
+
+    @Override
+    public void onDateFetched(Date date) {
+
     }
 }

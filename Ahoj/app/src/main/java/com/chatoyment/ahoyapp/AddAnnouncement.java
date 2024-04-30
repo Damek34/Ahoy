@@ -21,10 +21,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddAnnouncementInfo;
 import com.example.ahoyapp.OnlyJava.CompanyAnnouncement;
-import com.example.ahoyapp.OnlyJava.OnlineDate;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,10 +37,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddAnnouncement extends AppCompatActivity {
+public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview;
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview, error_caused_by_unstable_internet_connection;
 
     Spinner country;
     String countryName;
@@ -91,7 +92,7 @@ public class AddAnnouncement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_announcement);
 
-        OnlineDate.fetchDateAsync();
+        OnlineDate.fetchDateAsync(this);
 
         social_intent = getIntent();
 
@@ -106,6 +107,7 @@ public class AddAnnouncement extends AppCompatActivity {
         must_have_hour = findViewById(R.id.textViewMustLastAHour);
         add = findViewById(R.id.add_announcementPreview);
         duration_preview = findViewById(R.id.duration_preview);
+        error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
 
         country = findViewById(R.id.announcementCountry);
 
@@ -160,8 +162,14 @@ public class AddAnnouncement extends AppCompatActivity {
 
 
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+                    try{
+                        calendar.setTime(date);
+                        calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
+                    }
+                    catch(NullPointerException e){
+                        duration_preview.setText(error_caused_by_unstable_internet_connection.getText().toString());
+                        fetchDate();
+                    }
 
                     duration_preview.setText(calendar.getTime().toString());
                 }
@@ -301,5 +309,11 @@ public class AddAnnouncement extends AppCompatActivity {
 
         startActivity(statue);
     }
+    public void fetchDate() {
+        OnlineDate.fetchDateAsync(this);
+    }
+    @Override
+    public void onDateFetched(Date date) {
 
+    }
 }

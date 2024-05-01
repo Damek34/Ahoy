@@ -1,5 +1,6 @@
 package com.chatoyment.ahoyapp;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,14 +14,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddAnnouncementInfo;
@@ -40,7 +48,7 @@ import java.util.Locale;
 public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview, error_caused_by_unstable_internet_connection;
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview, error_caused_by_unstable_internet_connection, your_application_is_being_reviewed;
 
     Spinner country;
     String countryName;
@@ -53,8 +61,9 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
     Intent social_intent;
 
     Date date;
-
-
+    ScrollView scrollview;
+    Button tos, ok;
+    LottieAnimationView done_animation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -108,12 +117,17 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         add = findViewById(R.id.add_announcementPreview);
         duration_preview = findViewById(R.id.duration_preview);
         error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
-
         country = findViewById(R.id.announcementCountry);
-
         check_internet_connection = findViewById(R.id.check_internet_connection);
+        scrollview = findViewById(R.id.scrollview);
+        tos = findViewById(R.id.tos);
+        done_animation = findViewById(R.id.done_animation);
+        ok = findViewById(R.id.ok);
+        your_application_is_being_reviewed = findViewById(R.id.your_application_is_being_reviewed);
 
-         date = OnlineDate.getDate();
+
+
+        date = OnlineDate.getDate();
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -248,11 +262,14 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             reference = database.getReference("WaitingAnnouncements");
         }
 
+        scrollview.setVisibility(View.GONE);
+        tos.setVisibility(View.GONE);
+
 
         AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, savedEmail);
         reference.child(date_and_time).setValue(newAnnouncement);
 
-
+/*
         if(calendar.get(Calendar.MINUTE) < 10){
             Toast.makeText(this, add.getText().toString() + ". " + announcement_will_ends.getText().toString() + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
                     + ", " + calendar.get(Calendar.HOUR) + ":" + "0" + calendar.get(Calendar.MINUTE) , Toast.LENGTH_LONG).show();
@@ -262,6 +279,8 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
                     + ", " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) , Toast.LENGTH_LONG).show();
         }
 
+
+ */
 
         String modifiedEmail = savedEmail.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
@@ -282,15 +301,46 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             reference.child("CompanyAnnouncement").setValue(companyAnnouncement);
         }
 
+        done_animation.setVisibility(View.VISIBLE);
+        done_animation.setSpeed(1.75F);
+        done_animation.playAnimation();
 
-        Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);
-        intent.putExtra("activity", "main");
-        startActivity(intent);
+        done_animation.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
 
+            }
 
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+
+                ok.setVisibility(View.VISIBLE);
+                your_application_is_being_reviewed.setVisibility(View.VISIBLE);
+
+                ok.startAnimation(fadeIn);
+                your_application_is_being_reviewed.startAnimation(fadeIn);
+
+            }
+
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+        });
 
     }
 
+    public void exit(View view){
+        Intent intent = new Intent(AddAnnouncement.this, MapActivityMain.class);
+        intent.putExtra("activity", "main");
+        startActivity(intent);
+    }
 
     public void statute(View view){
         Intent statue = new Intent(AddAnnouncement.this, Statute.class);

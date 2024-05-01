@@ -340,6 +340,8 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="loading_data">Wczytywanie danych</string>
     <string name="checking_app_version">Sprawdzanie wersji aplikacji</string>
     <string name="checking_internet_connection">Sprawdzanie połączenia internetowego</string>
+    <string name="welcome_to_ahoy">Witamy w Ahoy!</string>
+    <string name="submitting_a_request">Przesyłanie żądania</string>
 
 
 </resources>

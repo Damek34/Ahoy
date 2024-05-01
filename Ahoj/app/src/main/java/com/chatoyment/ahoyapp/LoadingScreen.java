@@ -1,4 +1,5 @@
 package com.chatoyment.ahoyapp;
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,8 +19,11 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +32,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.Setup.setup;
@@ -48,13 +53,15 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
     private DatabaseReference versionRef;
     private String appVersion = "0.924";
 
-    TextView Textview_app_version_is_not_actual, Textview_please_update_application, loading_data, checking_internet_connection, checking_app_version;
+    TextView Textview_app_version_is_not_actual, Textview_please_update_application, loading_data, checking_internet_connection, checking_app_version, welcome_to_ahoy;
     ScrollView status_scrollview;
     private FirebaseAuth mAuth;
     FirebaseUser user;
 
     int green;
     Intent log_off;
+
+    LottieAnimationView loading_animation, done_animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +121,12 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
         Textview_please_update_application = findViewById(R.id.Textview_please_update_application);
         Textview_app_version_is_not_actual = findViewById(R.id.Textview_app_version_is_not_actual);
         status_scrollview = findViewById(R.id.status_scrollview);
-        loading_data = findViewById(R.id.loading_data);
+       // loading_data = findViewById(R.id.loading_data);
         checking_internet_connection = findViewById(R.id.checking_internet_connection);
         checking_app_version = findViewById(R.id.checking_app_version);
+        loading_animation = findViewById(R.id.loading_animation);
+        done_animation = findViewById(R.id.done_animation);
+        welcome_to_ahoy = findViewById(R.id.welcome_to_ahoy);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -164,6 +174,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             }
         });
 
+
         versionRef = FirebaseDatabase.getInstance().getReference().child("Version");
 
         versionRef.addValueEventListener(new ValueEventListener() {
@@ -206,9 +217,9 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
     }
 
     private void continueLoading()  {
-        int loadingDataY = loading_data.getTop();
-        checking_app_version.setTextColor(green);
-        status_scrollview.smoothScrollTo(0, loadingDataY);
+       // int loadingDataY = loading_data.getTop();
+       // checking_app_version.setTextColor(green);
+       // status_scrollview.smoothScrollTo(0, loadingDataY - 35);
 
         OnlineDate.fetchDateAsync(this);
 
@@ -233,23 +244,91 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
 
                 Intent intent = new Intent(LoadingScreen.this, MapActivityMain.class);
                 intent.putExtra("activity", "user");
-                new Handler().postDelayed(new Runnable() {
+
+             //   loading_data.setTextColor(green);
+
+                status_scrollview.post(new Runnable() {
                     @Override
                     public void run() {
-                        loading_data.setTextColor(green);
+                        status_scrollview.smoothScrollTo(0, welcome_to_ahoy.getTop() - 35);
+                    }
+                });
+
+                loading_animation.clearAnimation();
+                loading_animation.setVisibility(View.GONE);
+
+
+                done_animation.setVisibility(View.VISIBLE);
+                done_animation.setSpeed(1.75F);
+                done_animation.playAnimation();
+
+                done_animation.addAnimatorListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(@NonNull Animator animation) {
+
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                     }
-                }, 1500);
+
+                    @Override
+                    public void onAnimationCancel(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(@NonNull Animator animation) {
+
+                    }
+                });
+
+
             } else {
-                new Handler().postDelayed(new Runnable() {
+
+//                loading_data.setTextColor(green);
+                status_scrollview.post(new Runnable() {
                     @Override
                     public void run() {
-                        loading_data.setTextColor(green);
+                        status_scrollview.smoothScrollTo(0, welcome_to_ahoy.getTop() - 35);
+                    }
+                });
+
+                loading_animation.clearAnimation();
+                loading_animation.setVisibility(View.GONE);
+
+                done_animation.setVisibility(View.VISIBLE);
+                done_animation.setSpeed(1.75F);
+                done_animation.playAnimation();
+
+                done_animation.addAnimatorListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(@NonNull Animator animation) {
                         startActivity(new Intent(LoadingScreen.this, setup.class));
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                     }
-                }, 1500);
+
+                    @Override
+                    public void onAnimationCancel(@NonNull Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(@NonNull Animator animation) {
+
+                    }
+                });
+
             }
         }
         else{
@@ -258,14 +337,51 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             editor.putString("email", "");
             editor.apply();
 
-            new Handler().postDelayed(new Runnable() {
+            loading_data.setTextColor(green);
+            status_scrollview.post(new Runnable() {
                 @Override
                 public void run() {
-                    loading_data.setTextColor(green);
+                    status_scrollview.smoothScrollTo(0, welcome_to_ahoy.getTop() - 35);
+                }
+            });
+
+            loading_animation.clearAnimation();
+            loading_animation.setVisibility(View.GONE);
+
+            done_animation.setVisibility(View.VISIBLE);
+            done_animation.setSpeed(1.75F);
+            done_animation.playAnimation();
+
+
+
+            done_animation.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(@NonNull Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(@NonNull Animator animation) {
+
+
+
                     startActivity(new Intent(LoadingScreen.this, setup.class));
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                 }
-            }, 1500);
+
+                @Override
+                public void onAnimationCancel(@NonNull Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(@NonNull Animator animation) {
+
+                }
+            });
+
+
         }
 
 

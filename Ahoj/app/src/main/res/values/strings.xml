@@ -324,6 +324,9 @@ Using the application implies agreement to the following regulations:
     <string name="loading_data">Loading data</string>
     <string name="checking_app_version">Checking app version</string>
     <string name="checking_internet_connection">Checking internet connection</string>
+    <string name="welcome_to_ahoy">Welcome to Ahoy!</string>
+    <string name="submitting_a_request">Submitting a request</string>
+
 
 
 

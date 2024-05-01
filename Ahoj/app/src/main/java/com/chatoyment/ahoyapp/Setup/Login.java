@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.MapActivityMain;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +49,8 @@ public class Login extends AppCompatActivity {
     Intent activity_intent;
 
     private SharedPreferences sharedPreferences;
+
+    LottieAnimationView loading_animation;
 
 
     @Override
@@ -101,6 +104,7 @@ public class Login extends AppCompatActivity {
         not_exist = findViewById(R.id.accnotexist);
         account_is_banned = findViewById(R.id.account_is_banned);
         we_sent_you_new_activation_link = findViewById(R.id.we_sent_you_new_activation_link);
+        loading_animation = findViewById(R.id.loading_animation);
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
@@ -132,6 +136,8 @@ public class Login extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), enterPassword.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
+
+        loading_animation.setVisibility(View.VISIBLE);
         String email_str = email.getText().toString();
 
         String modifiedEmail = email_str.replace(".", ",");
@@ -149,6 +155,7 @@ public class Login extends AppCompatActivity {
                 if (snapshot.exists() && snapshot.child(finalModifiedEmail).exists()) {
                     login();
                 } else {
+                    loading_animation.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -180,6 +187,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    loading_animation.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), account_is_banned.getText().toString(), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -223,14 +231,14 @@ public class Login extends AppCompatActivity {
 
                         mAuth.signOut();
                         Toast.makeText(getApplicationContext(), notVerified.getText().toString(), Toast.LENGTH_LONG).show();
-
+                        loading_animation.setVisibility(View.GONE);
 
                     }
 
                 }
                 else{
                     Toast.makeText(getApplicationContext(), fail.getText().toString(), Toast.LENGTH_LONG).show();
-
+                    loading_animation.setVisibility(View.GONE);
                 }
             }
         });

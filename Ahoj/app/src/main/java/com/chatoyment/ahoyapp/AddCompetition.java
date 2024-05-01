@@ -1,5 +1,6 @@
 package com.chatoyment.ahoyapp;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,14 +14,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddCompetitionInfo;
@@ -44,12 +51,17 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     Spinner competitionCountry;
     TextView duration_preview, competition_must_have_title, competition_must_have_organizer, competition_must_have_reward, competition_must_have_description
             , competition_must_last_at_least_an_hour, competition_must_have_information_when_the_results_will_be_available, competition_must_have_information_who_can_take_part_in_competition
-            , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success, error_caused_by_unstable_internet_connection;
+            , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success, error_caused_by_unstable_internet_connection
+            , your_application_is_being_reviewed;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
     Date date;
+
+    LottieAnimationView done_animation;
+    Button ok;
+    ScrollView scrollview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +123,10 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         check_internet_connection = findViewById(R.id.check_internet_connection);
         success = findViewById(R.id.success);
         error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
+        done_animation = findViewById(R.id.done_animation);
+        your_application_is_being_reviewed = findViewById(R.id.your_application_is_being_reviewed);
+        ok = findViewById(R.id.ok);
+        scrollview = findViewById(R.id.scrollview);
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -250,6 +266,10 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         , savedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
         , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString());
 
+
+        scrollview.setVisibility(View.GONE);
+
+
         reference = database.getReference("WaitingCompetitions");
         reference.child(date_and_time).setValue(addCompetitionInfo);
 
@@ -257,13 +277,52 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         reference = database.getReference("CompanyEmails/" + modifiedEmail);
         reference.child("CompanyCompetition").setValue(companyCompetition);
 
-        Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
 
+        done_animation.setVisibility(View.VISIBLE);
+        done_animation.setSpeed(1.75F);
+        done_animation.playAnimation();
+
+        done_animation.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+
+                ok.setVisibility(View.VISIBLE);
+                your_application_is_being_reviewed.setVisibility(View.VISIBLE);
+
+                ok.startAnimation(fadeIn);
+                your_application_is_being_reviewed.startAnimation(fadeIn);
+
+            }
+
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+        });
+
+
+       // Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
+
+
+
+
+    }
+
+    public void exit (View view){
         Intent intent = new Intent(AddCompetition.this, MapActivityMain.class);
         intent.putExtra("activity", "main");
         startActivity(intent);
-
-
     }
     public void fetchDate() {
         OnlineDate.fetchDateAsync(this);

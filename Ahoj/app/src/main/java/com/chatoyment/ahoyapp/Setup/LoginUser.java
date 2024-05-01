@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.MapActivityMain;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +50,8 @@ public class LoginUser extends AppCompatActivity {
     Intent activity_intent;
 
     String emailDB = "";
+
+    LottieAnimationView loading_animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,7 @@ public class LoginUser extends AppCompatActivity {
         notVerified = findViewById(R.id.notverified);
         not_exist = findViewById(R.id.accnotexist);
         we_sent_you_new_activation_link = findViewById(R.id.we_sent_you_new_activation_link);
+        loading_animation = findViewById(R.id.loading_animation);
 
 
         nick.addTextChangedListener(new TextWatcher() {
@@ -139,7 +143,7 @@ public class LoginUser extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), enterPassword.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
-
+        loading_animation.setVisibility(View.VISIBLE);
         reference = database.getReference("Nick/" + nick.getText().toString());
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -150,6 +154,7 @@ public class LoginUser extends AppCompatActivity {
                     login();
                 } else {
                    Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
+                    loading_animation.setVisibility(View.GONE);
 
                     return;
                 }
@@ -176,12 +181,15 @@ public class LoginUser extends AppCompatActivity {
                         sendEmailVerification(user);
 
                         mAuth.signOut();
+
+                        loading_animation.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), notVerified.getText().toString(), Toast.LENGTH_LONG).show();
 
                     }
 
                 }
                 else{
+                    loading_animation.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), fail.getText().toString(), Toast.LENGTH_LONG).show();
 
                 }

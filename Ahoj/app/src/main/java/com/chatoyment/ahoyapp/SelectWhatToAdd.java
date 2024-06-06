@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +29,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
-    String savedEmail = "", modifiedEmail = "";
+    String savedEmail = "", modifiedEmail = "", encryptedEmail, email_date_and_time;
     TextView you_already_created_announcement, you_already_created_event, you_already_created_competition;
 
     @Override
@@ -83,6 +84,30 @@ public class SelectWhatToAdd extends AppCompatActivity {
 
 
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
+        encryptedEmail = EncryptionHelper.encrypt(savedEmail);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                        email_date_and_time = companySnapshot.getKey();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void exit(View view){
@@ -93,7 +118,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     }
 
     public void local(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -120,7 +145,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     }
 
     public void localSocial(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -144,7 +169,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     }
 
     public void socialAnnouncement(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -168,7 +193,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     }
 
     public void announcement(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -192,7 +217,7 @@ public class SelectWhatToAdd extends AppCompatActivity {
     }
 
     public void competition(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

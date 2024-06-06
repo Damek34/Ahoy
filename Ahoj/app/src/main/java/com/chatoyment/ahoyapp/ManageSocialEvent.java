@@ -27,7 +27,7 @@ import java.util.Locale;
 public class ManageSocialEvent extends AppCompatActivity {
 
     TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
-    String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "";
+    String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "", email_date_and_time = "";
     Date eventDuration;
 
     Intent intent;
@@ -91,6 +91,8 @@ public class ManageSocialEvent extends AppCompatActivity {
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
         email = intent.getStringExtra("email");
+        email_date_and_time = intent.getStringExtra("email_date_and_time");
+
         countryTextView.setText(countryTextView.getText().toString() + ": " + country);
 
         reference = database.getReference("SocialEvent/" + country + "/" + date_and_time);
@@ -168,14 +170,14 @@ public class ManageSocialEvent extends AppCompatActivity {
             reference = database.getReference("SocialEvent/" + country + "/" + date_and_time);
             reference.removeValue();
 
-            reference = database.getReference("CompanyEmails/" + email + "/CompanySocialEvent");
+            reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanySocialEvent");
             reference.removeValue();
         }
         else{
             reference = database.getReference("WaitingSocialEvents/" + date_and_time);
             reference.removeValue();
 
-            reference = database.getReference("CompanyEmails/" + email + "/CompanySocialEvent");
+            reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanySocialEvent");
             reference.removeValue();
         }
 

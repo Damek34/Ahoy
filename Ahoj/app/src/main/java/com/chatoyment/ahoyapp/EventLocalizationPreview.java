@@ -21,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddEventInfo;
@@ -37,8 +39,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +55,7 @@ import java.util.Locale;
 
 public class EventLocalizationPreview extends AppCompatActivity implements OnlineDate.OnDateFetchedListener{
 
-    String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str, isSocial;
+    String event_name, location, desc, company_name, additional, duration, countryName, event_will_ends_str, isSocial, encryptedEmail, email_date_and_time;
     Spinner countrySpinner;
 
     Toolbar toolbar;
@@ -174,7 +179,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
         calendar.setTime(date);
 
         calendar.add(Calendar.HOUR, Integer.parseInt(duration));
-        //calendar.add(Calendar.SECOND, Integer.parseInt(duration));
+       // calendar.add(Calendar.SECOND, 34);
 
         if(calendar.get(Calendar.MINUTE) < 10){
             event_will_ends.setText(event_will_ends_str + ": "  + calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR)
@@ -196,6 +201,30 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
             }
         });
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
+        encryptedEmail = EncryptionHelper.encrypt(savedEmail);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                        email_date_and_time = companySnapshot.getKey();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void cancel(View view){
@@ -303,12 +332,12 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
             reference = database.getReference("Waiting");
 
 
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail);
             reference.child(date_and_time).setValue(newEvent);
 
             Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
 
-
+/*
             String modifiedEmail = savedEmail.replace(".", ",");
             modifiedEmail = modifiedEmail.replace("#", "_");
             modifiedEmail = modifiedEmail.replace("$", "-");
@@ -317,7 +346,9 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
 
 
 
-            reference = database.getReference("CompanyEmails/" + modifiedEmail);
+ */
+
+            reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
             CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
             reference.child("CompanyEvent").setValue(companyEvent);
@@ -326,21 +357,12 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
             reference = database.getReference("WaitingSocialEvents");
 
 
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, savedEmail);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail);
             reference.child(date_and_time).setValue(newEvent);
 
             Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
 
-
-            String modifiedEmail = savedEmail.replace(".", ",");
-            modifiedEmail = modifiedEmail.replace("#", "_");
-            modifiedEmail = modifiedEmail.replace("$", "-");
-            modifiedEmail = modifiedEmail.replace("[", "(");
-            modifiedEmail = modifiedEmail.replace("]", ")");
-
-
-
-            reference = database.getReference("CompanyEmails/" + modifiedEmail);
+            reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
             CompanyEvent companyEvent = new CompanyEvent(date_and_time, calendar.getTime(), countryName);
             reference.child("CompanySocialEvent").setValue(companyEvent);
@@ -360,6 +382,10 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
 
     @Override
     public void onDateFetched(Date date) {
-
+        date = OnlineDate.getDate();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
     }
+
+
 }

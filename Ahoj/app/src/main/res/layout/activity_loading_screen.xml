@@ -40,15 +40,13 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
 
-        android:layout_marginTop="631dp"
         android:background="@color/almost_transparent3"
         android:padding="5dp"
         android:scrollbars="none"
         android:text="@string/checking_internet_connection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:padding="5dp"
                 android:text="@string/checking_internet_connection"
@@ -88,7 +86,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checking_internet_connection" />
-
 
 
             <TextView

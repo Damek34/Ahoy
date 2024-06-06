@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -17,182 +16,196 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoBar"
-        tools:targetApi="31">
+        tools:replace="android:allowBackup"
+        tools:targetApi="31" >
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCpJ9RkhjPN72dGWHZLEsMNGH3xM8kkIT0" />
+
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.setup"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name="com.chatoyment.ahoyapp.Setup.Register"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name="com.chatoyment.ahoyapp.Competition"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.chatoyment.ahoyapp.CompetitionsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.chatoyment.ahoyapp.ManageCompetition"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.chatoyment.ahoyapp.AddCompetition"
+            android:name=".Setup.setup"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ProfileActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name="com.chatoyment.ahoyapp.Received_Invites"
+            android:name=".Setup.Register"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.FriendsActivity"
+            android:name=".Competition"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CompetitionsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ManageCompetition"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddCompetition"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.chatoyment.ahoyapp.AccountSettings"
+            android:name=".Received_Invites"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.FAQ"
+            android:name=".FriendsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AccountSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.MapSettings"
+            android:name=".FAQ"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.GeneralSettings"
+            android:name=".MapSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ReportActivity"
+            android:name=".GeneralSettings"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ManageSocialAnnouncement"
+            android:name=".ReportActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ManageSocialEvent"
+            android:name=".ManageSocialAnnouncement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ManageAnnouncement"
+            android:name=".ManageSocialEvent"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.ManageEvent"
+            android:name=".ManageAnnouncement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Manage"
+            android:name=".ManageEvent"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Statute"
+            android:name=".Manage"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.ForgotPassword"
+            android:name=".Statute"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Leaderboard"
+            android:name=".Setup.ForgotPassword"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Points"
+            android:name=".Leaderboard"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.LoginUser"
+            android:name=".Points"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.RegisterUser"
+            android:name=".Setup.LoginUser"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.AhoyAnnouncements"
+            android:name=".Setup.RegisterUser"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.AnnouncementActivity"
+            android:name=".AhoyAnnouncements"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.AddAnnouncement"
+            android:name=".AnnouncementActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddAnnouncement"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.chatoyment.ahoyapp.EventLocalizationPreview"
+            android:name=".EventLocalizationPreview"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.TellSomething"
+            android:name=".Setup.TellSomething"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Pay"
+            android:name=".Pay"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.Login"
+            android:name=".Setup.Login"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.Setup.RegisterOrLogin"
+            android:name=".Setup.RegisterOrLogin"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.SelectWhatToAdd"
+            android:name=".SelectWhatToAdd"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.EventActivity"
+            android:name=".EventActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.AddLocalEvent"
+            android:name=".AddLocalEvent"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.chatoyment.ahoyapp.EnableInternetConnection"
+            android:name=".EnableInternetConnection"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.EnableLocalization"
+            android:name=".EnableLocalization"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.SettingActivity"
+            android:name=".SettingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.chatoyment.ahoyapp.MapActivityMain"
+            android:name=".MapActivityMain"
             android:exported="false"
             android:isScrollContainer="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.chatoyment.ahoyapp.LoadingScreen"
+            android:name=".LoadingScreen"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -200,10 +213,6 @@
             </intent-filter>
         </activity>
 
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBrLErnn9oVotqlNGhRGvuzNs9k3ALp-hQ" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9137887034279886~7955478960" />

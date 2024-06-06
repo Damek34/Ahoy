@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 
@@ -33,8 +34,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
-    String savedEmail = "", modifiedEmail = "", country = "", date_and_time = "";
+    String savedEmail = "", country = "", date_and_time = "", encryptedEmail = "";
+    //modifiedEmail = ""
     Date eventDuration, date;
+
+    String email_date_and_time = "";
 
     TextView you_dont_have_any_announcement, you_dont_have_any_event, you_dont_have_any_competition;
 
@@ -81,16 +85,56 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         savedEmail = sharedPreferences.getString("email", "");
-
+        encryptedEmail = EncryptionHelper.encrypt(savedEmail);
+/*
         modifiedEmail = savedEmail.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
         modifiedEmail = modifiedEmail.replace("$", "-");
         modifiedEmail = modifiedEmail.replace("[", "(");
         modifiedEmail = modifiedEmail.replace("]", ")");
 
+
+ */
         you_dont_have_any_announcement = findViewById(R.id.you_dont_have_any_announcement);
         you_dont_have_any_event = findViewById(R.id.you_dont_have_any_event);
         you_dont_have_any_competition = findViewById(R.id.you_dont_have_any_competition);
+
+
+
+      //  Toast.makeText(getApplicationContext(), "zapisany " + savedEmail, Toast.LENGTH_LONG).show();
+
+
+        ////////////////////////////////////////////////////
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                         email_date_and_time = companySnapshot.getKey();
+
+                      //   Toast.makeText(getApplicationContext(), email_date_and_time, Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
+
+
     }
 
     public void exit(View view){
@@ -101,7 +145,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
     }
 
     public void socialEvent(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialEvent");
+        if(email_date_and_time.equals("")){
+            return;
+        }
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanySocialEvent");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -128,7 +176,8 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
                     Intent intent = new Intent(Manage.this, ManageSocialEvent.class);
                     intent.putExtra("date_and_time", date_and_time);
                     intent.putExtra("country", country);
-                    intent.putExtra("email", modifiedEmail);
+                    intent.putExtra("email", encryptedEmail);
+                    intent.putExtra("email_date_and_time", email_date_and_time);
                     startActivity(intent);
                 }
                 else{
@@ -146,7 +195,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
 
 
     public void event(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
+        if(email_date_and_time.equals("")){
+            return;
+        }
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyEvent");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -173,7 +226,8 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
                     Intent intent = new Intent(Manage.this, ManageEvent.class);
                     intent.putExtra("date_and_time", date_and_time);
                     intent.putExtra("country", country);
-                    intent.putExtra("email", modifiedEmail);
+                    intent.putExtra("email", encryptedEmail);
+                    intent.putExtra("email_date_and_time", email_date_and_time);
                     startActivity(intent);
                 }
                 else{
@@ -190,7 +244,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
     }
 
     public void socialAnnouncement(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialAnnouncement");
+        if(email_date_and_time.equals("")){
+            return;
+        }
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanySocialAnnouncement");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("ResourceType")
@@ -218,7 +276,8 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
                     Intent intent = new Intent(Manage.this, ManageSocialAnnouncement.class);
                     intent.putExtra("date_and_time", date_and_time);
                     intent.putExtra("country", country);
-                    intent.putExtra("email", modifiedEmail);
+                    intent.putExtra("email", encryptedEmail);
+                    intent.putExtra("email_date_and_time", email_date_and_time);
                     startActivity(intent);
                 }
                 else{
@@ -235,7 +294,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
     }
 
     public void announcement(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
+        if(email_date_and_time.equals("")){
+            return;
+        }
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyAnnouncement");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("ResourceType")
@@ -263,7 +326,8 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
                     Intent intent = new Intent(Manage.this, ManageAnnouncement.class);
                     intent.putExtra("date_and_time", date_and_time);
                     intent.putExtra("country", country);
-                    intent.putExtra("email", modifiedEmail);
+                    intent.putExtra("email", encryptedEmail);
+                    intent.putExtra("email_date_and_time", email_date_and_time);
                     startActivity(intent);
                 }
                 else{
@@ -280,7 +344,11 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
     }
 
     public void competition(View view){
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyCompetition");
+        if(email_date_and_time.equals("")){
+            return;
+        }
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyCompetition");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("ResourceType")
@@ -308,7 +376,8 @@ public class Manage extends AppCompatActivity implements OnlineDate.OnDateFetche
                     Intent intent = new Intent(Manage.this, ManageCompetition.class);
                     intent.putExtra("date_and_time", date_and_time);
                     intent.putExtra("country", country);
-                    intent.putExtra("email", modifiedEmail);
+                    intent.putExtra("email", encryptedEmail);
+                    intent.putExtra("email_date_and_time", email_date_and_time);
                     startActivity(intent);
                 }
                 else{

@@ -28,7 +28,7 @@ import java.util.Locale;
 public class ManageAnnouncement extends AppCompatActivity {
 
     TextView ends, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;;
-    String date_and_time = "", country = "", announcementDescription = "", announcementCompanyName = "", announcementAdditional = "", email= "";
+    String date_and_time = "", country = "", announcementDescription = "", announcementCompanyName = "", announcementAdditional = "", email= "", email_date_and_time = "";
     Date announcementDuration;
 
     Intent intent;
@@ -81,6 +81,7 @@ public class ManageAnnouncement extends AppCompatActivity {
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
         email = intent.getStringExtra("email");
+        email_date_and_time = intent.getStringExtra("email_date_and_time");
 
         ends = findViewById(R.id.activityAnnouncementEndsAt);
         company = findViewById(R.id.activity_announcement_company_name);
@@ -174,7 +175,7 @@ public class ManageAnnouncement extends AppCompatActivity {
 
         }
         reference.removeValue();
-        reference = database.getReference("CompanyEmails/" + email + "/CompanyAnnouncement");
+        reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyAnnouncement");
         reference.removeValue();
 
         Toast.makeText(getApplicationContext(), deleted.getText().toString(), Toast.LENGTH_LONG).show();

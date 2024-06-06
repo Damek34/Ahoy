@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.Setup.RegisterInfo;
 import com.chatoyment.ahoyapp.Statute;
@@ -32,16 +34,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
 import java.util.Locale;
 
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompatActivity implements OnlineDate.OnDateFetchedListener{
 
     EditText emailEdit, passwordEdit, repeat_passwordEdit, temporary_name_edit;
     Button register_btn;
     String email = "", password = "", repeat_password = "";
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet;
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet, tos;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -49,7 +52,9 @@ public class Register extends AppCompatActivity {
 
     Toolbar toolbarTemporary, toolbarEmail, toolbarPassword, toolbarRepeat;
 
-
+    Date date;
+    Long millis;
+    String date_and_time;
     Intent activity_intent;
 
     @Override
@@ -112,6 +117,14 @@ public class Register extends AppCompatActivity {
         toolbarEmail = findViewById(R.id.toolbarEmail);
         toolbarPassword = findViewById(R.id.toolbarPassword);
         toolbarRepeat = findViewById(R.id.toolbarRepeat);
+        tos = findViewById(R.id.tos);
+
+
+        OnlineDate.fetchDateAsync(this);
+
+        date = OnlineDate.getDate();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
     }
 
     public void exit(View view){
@@ -211,25 +224,32 @@ public class Register extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     sendEmailVerification(user);
 
+                    String encryptedText_str = EncryptionHelper.encrypt(email);
 
                     toolbarEmail.setVisibility(View.GONE);
                     toolbarPassword.setVisibility(View.GONE);
                     toolbarRepeat.setVisibility(View.GONE);
                     register_btn.setVisibility(View.GONE);
                     toolbarTemporary.setVisibility(View.GONE);
+                    tos.setVisibility(View.GONE);
 
                     reference = database.getReference("CompanyEmails");
 
                     RegisterInfo registerInfo = new RegisterInfo(email);
 
-                    String modifiedEmail = email.replace(".", ",");
+                   /* String modifiedEmail = email.replace(".", ",");
                     modifiedEmail = modifiedEmail.replace("#", "_");
                     modifiedEmail = modifiedEmail.replace("$", "-");
                     modifiedEmail = modifiedEmail.replace("[", "(");
                     modifiedEmail = modifiedEmail.replace("]", ")");
 
-                    reference.child(modifiedEmail).setValue(registerInfo);
+
+                    */
+                   // reference.child(modifiedEmail).setValue(registerInfo);
+                    reference.child(date_and_time).child("email").setValue(encryptedText_str);
                     verify.setVisibility(View.VISIBLE);
+
+
 
                     clearDB();
 
@@ -279,4 +299,10 @@ public class Register extends AppCompatActivity {
         reference.removeValue();
     }
 
+    @Override
+    public void onDateFetched(Date date) {
+        date = OnlineDate.getDate();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
+    }
 }

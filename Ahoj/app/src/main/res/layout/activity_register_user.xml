@@ -224,6 +224,7 @@
         android:textAlignment="center"
         android:onClick="terms"
         android:textStyle="bold|italic"
+        android:id="@+id/tos"
         app:layout_constraintBottom_toTopOf="@+id/registerBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

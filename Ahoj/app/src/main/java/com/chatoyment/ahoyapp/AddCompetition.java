@@ -28,12 +28,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddCompetitionInfo;
 import com.example.ahoyapp.OnlyJava.CompanyCompetition;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +66,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     LottieAnimationView done_animation;
     Button ok;
     ScrollView scrollview;
+    String encryptedEmail, email_date_and_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +185,31 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
             }
         });
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
+        encryptedEmail = EncryptionHelper.encrypt(savedEmail);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                        email_date_and_time = companySnapshot.getKey();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void exitAdd(View view) {
@@ -249,21 +279,12 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
+       // calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
+        calendar.add(Calendar.SECOND, 1);
 
-
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String savedEmail = sharedPreferences.getString("email", "");
-
-        String modifiedEmail = savedEmail.replace(".", ",");
-        modifiedEmail = modifiedEmail.replace("#", "_");
-        modifiedEmail = modifiedEmail.replace("$", "-");
-        modifiedEmail = modifiedEmail.replace("[", "(");
-        modifiedEmail = modifiedEmail.replace("]", ")");
 
         AddCompetitionInfo addCompetitionInfo = new AddCompetitionInfo(date_and_time, competition_title_editText.getText().toString(), competition_organizer_editText.getText().toString()
-        , savedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
+        , encryptedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
         , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString());
 
 
@@ -274,7 +295,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         reference.child(date_and_time).setValue(addCompetitionInfo);
 
         CompanyCompetition companyCompetition = new CompanyCompetition(date_and_time, countryName, calendar.getTime());
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
         reference.child("CompanyCompetition").setValue(companyCompetition);
 
 

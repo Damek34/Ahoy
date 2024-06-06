@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "722528311351-jar2v15rj7l6cagcno2lckm58nemfbm7.apps.googleusercontent.com",
+          "client_id": "722528311351-bdubfgji5s64keftsivvo8e0mo3hogq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatoyment.ahoyapp",
+            "certificate_hash": "c220d867b37ac7abd470eece5e1922e69d53625d"
+          }
+        },
+        {
+          "client_id": "722528311351-13msgv6t05ba77kligaj0n7u9vnpn6jd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,7 +36,36 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "722528311351-jar2v15rj7l6cagcno2lckm58nemfbm7.apps.googleusercontent.com",
+              "client_id": "722528311351-13msgv6t05ba77kligaj0n7u9vnpn6jd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722528311351:android:de647b7bb0e13f325ec7b2",
+        "android_client_info": {
+          "package_name": "com.example.ahoymoderators"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722528311351-13msgv6t05ba77kligaj0n7u9vnpn6jd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpJ9RkhjPN72dGWHZLEsMNGH3xM8kkIT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722528311351-13msgv6t05ba77kligaj0n7u9vnpn6jd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

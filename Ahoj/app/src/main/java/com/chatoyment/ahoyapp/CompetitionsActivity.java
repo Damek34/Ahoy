@@ -364,8 +364,31 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                             reference_remove = database.getReference("Competitions/" + country +"/" + date_and_time);
                             reference_remove.removeValue();
 
-                            reference_remove = database.getReference("CompanyEmails/" + modifiedEmail +"/CompanyCompetition");
-                            reference_remove.removeValue();
+
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+                            final String[] email_date_and_time = new String[1];
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                                        String emailDB = companySnapshot.child("email").getValue(String.class);
+                                        if (emailDB.equals(organizer_email)) {
+                                            email_date_and_time[0] = companySnapshot.getKey();
+
+                                            reference_remove = database.getReference("CompanyEmails/" + email_date_and_time[0] +"/CompanyCompetition");
+                                            reference_remove.removeValue();
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
 
                         }
 

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.MapActivityMain;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -139,6 +140,8 @@ public class Login extends AppCompatActivity {
 
         loading_animation.setVisibility(View.VISIBLE);
         String email_str = email.getText().toString();
+        String encryption_email = EncryptionHelper.encrypt(email_str);
+        final boolean[] account_exist = {false};
 
         String modifiedEmail = email_str.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
@@ -152,7 +155,7 @@ public class Login extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.child(finalModifiedEmail).exists()) {
+                /*if (snapshot.exists() && snapshot.child(finalModifiedEmail).exists()) {
                     login();
                 } else {
                     loading_animation.setVisibility(View.GONE);
@@ -160,6 +163,23 @@ public class Login extends AppCompatActivity {
                     return;
                 }
             }
+
+                 */
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    String email = userSnapshot.child("email").getValue(String.class);
+
+                    if (encryption_email.equals(email)) {
+                        account_exist[0] = true;
+                        login();
+                    }
+                    }
+                if(!account_exist[0]){
+                    loading_animation.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

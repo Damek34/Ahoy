@@ -342,6 +342,8 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="checking_internet_connection">Sprawdzanie połączenia internetowego</string>
     <string name="welcome_to_ahoy">Witamy w Ahoy!</string>
     <string name="submitting_a_request">Przesyłanie żądania</string>
+    <string name="or">Lub</string>
+    <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
 
 
 </resources>

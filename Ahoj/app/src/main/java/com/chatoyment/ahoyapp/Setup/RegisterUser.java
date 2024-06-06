@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
+import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.Setup.RegisterInfo;
 import com.example.ahoyapp.OnlyJava.UserInfo;
@@ -38,7 +40,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterUser extends AppCompatActivity implements OnlineDate.OnDateFetchedListener{
 
     EditText emailEdit, passwordEdit, repeat_passwordEdit, nick;
     Button register_btn;
@@ -46,12 +48,15 @@ public class RegisterUser extends AppCompatActivity {
 
     Toolbar toolbarNick, toolbarEmail, toolbarPassword, toolbarRepeat;
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, already_exist, should_not;
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, already_exist, should_not, tos;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
     private FirebaseAuth mAuth;
 
+    Date date;
+    Long millis;
+    String date_and_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +117,14 @@ public class RegisterUser extends AppCompatActivity {
         toolbarRepeat = findViewById(R.id.toolbarRepeat);
 
         should_not = findViewById(R.id.shouldnot);
+        tos = findViewById(R.id.tos);
+
+        OnlineDate.fetchDateAsync(this);
+        date = OnlineDate.getDate();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
+
+
     }
 
     public void exit(View view){
@@ -178,6 +191,8 @@ public class RegisterUser extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 sendEmailVerification(user);
 
+                                String encryptedText_str = EncryptionHelper.encrypt(email);
+
 
                                 toolbarEmail.setVisibility(View.GONE);
                                 toolbarPassword.setVisibility(View.GONE);
@@ -191,14 +206,18 @@ public class RegisterUser extends AppCompatActivity {
                                 reference = database.getReference("UserEmails");
 
                                 RegisterInfo registerInfo = new RegisterInfo(email);
-
+/*
                                 String modifiedEmail = email.replace(".", ",");
                                 modifiedEmail = modifiedEmail.replace("#", "_");
                                 modifiedEmail = modifiedEmail.replace("$", "-");
                                 modifiedEmail = modifiedEmail.replace("[", "(");
                                 modifiedEmail = modifiedEmail.replace("]", ")");
 
-                                reference.child(modifiedEmail).setValue(registerInfo);
+
+ */
+                               // reference.child(modifiedEmail).setValue(encryptedText_str);
+                                reference.child(date_and_time).child("email").setValue(encryptedText_str);
+
 
 
                                 Date currentDate = Calendar.getInstance().getTime();
@@ -206,10 +225,12 @@ public class RegisterUser extends AppCompatActivity {
 
                                 reference = database.getReference("Nick");
 
-                                UserInfo userInfo = new UserInfo(nick.getText().toString(), email, 0, formattedCurrentDate);
+                               // UserInfo userInfo = new UserInfo(nick.getText().toString(), email, 0, formattedCurrentDate);
+                                UserInfo userInfo = new UserInfo(nick.getText().toString(), encryptedText_str, 0, formattedCurrentDate);
 
                                 reference.child(nick.getText().toString()).setValue(userInfo);
 
+                                tos.setVisibility(View.GONE);
 
 
                             }
@@ -242,4 +263,10 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onDateFetched(Date date) {
+        date = OnlineDate.getDate();
+        millis = System.currentTimeMillis();
+        date_and_time = date + " " + millis;
+    }
 }

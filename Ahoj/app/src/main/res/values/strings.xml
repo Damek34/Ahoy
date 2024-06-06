@@ -326,6 +326,8 @@ Using the application implies agreement to the following regulations:
     <string name="checking_internet_connection">Checking internet connection</string>
     <string name="welcome_to_ahoy">Welcome to Ahoy!</string>
     <string name="submitting_a_request">Submitting a request</string>
+    <string name="or">Or</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 
 
 
@@ -343,4 +345,5 @@ Using the application implies agreement to the following regulations:
         <item>English</item>
         <item>Polish</item>
     </string-array>
+    <string name="title_activity_test_maps">TestMapsActivity</string>
 </resources>

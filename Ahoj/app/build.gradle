@@ -1,11 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
     namespace 'com.chatoyment.ahoyapp'
     compileSdk 33
+
 
     defaultConfig {
         applicationId "com.chatoyment.ahoyapp"
@@ -28,8 +30,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
-
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 dependencies {
     def lottieVersion = "6.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
@@ -38,6 +44,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-database:20.0.4'
     implementation 'com.google.firebase:firebase-auth:21.0.3'
+    implementation 'com.google.firebase:firebase-firestore:24.2.0'
 
     implementation 'com.google.android.gms:play-services-ads:22.1.0'
 
@@ -54,4 +61,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.github.TutorialsAndroid:GButton:v1.0.19'
+
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+
 }

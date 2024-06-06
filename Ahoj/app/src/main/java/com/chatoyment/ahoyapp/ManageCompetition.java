@@ -36,7 +36,7 @@ public class ManageCompetition extends AppCompatActivity {
             , activityCompetitionEventCountry, activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional
             , deleted, activityStatus, during_the_verification, active, add_results_txt, cancel;
 
-    String date_and_time = "", country = "", email = "";
+    String date_and_time = "", country = "", email = "", email_date_and_time = "";
     Intent activity_intent;
     boolean is_from_competition = true;
     String results_str = "";
@@ -99,6 +99,7 @@ public class ManageCompetition extends AppCompatActivity {
         date_and_time = activity_intent.getStringExtra("date_and_time");
         country = activity_intent.getStringExtra("country");
         email = activity_intent.getStringExtra("email");
+        email_date_and_time = activity_intent.getStringExtra("email_date_and_time");
         activityCompetitionEventCountry.setText(activityCompetitionEventCountry.getText().toString() + ": " + country);
 
         reference = database.getReference("Competitions/" + country + "/" + date_and_time);
@@ -190,14 +191,14 @@ public class ManageCompetition extends AppCompatActivity {
             reference = database.getReference("Competitions/" + country + "/" + date_and_time);
             reference.removeValue();
 
-            reference = database.getReference("CompanyEmails/" + email + "/CompanyCompetition");
+            reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyCompetition");
             reference.removeValue();
         }
         else{
             reference = database.getReference("WaitingCompetitions/" + date_and_time);
             reference.removeValue();
 
-            reference = database.getReference("CompanyEmails/" + email + "/CompanyCompetition");
+            reference = database.getReference("CompanyEmails/" + email_date_and_time + "/CompanyCompetition");
             reference.removeValue();
         }
 

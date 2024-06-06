@@ -25,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -48,6 +49,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.Setup.setup;
@@ -65,6 +67,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -963,32 +967,56 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         }
                     });
                 }
-                for(int i = 0; i < countRemove[0]; i++){
-
-                    if(social_mode){
-                        reference = FirebaseDatabase.getInstance().getReference("SocialAnnouncement/" + countryName).child(date_and_timeList_remove.get(i));
+                for (int i = 0; i < countRemove[0]; i++) {
+                    String announcementPath;
+                    if (social_mode) {
+                        announcementPath = "SocialAnnouncement/" + countryName + "/" + date_and_timeList_remove.get(i);
+                    } else {
+                        announcementPath = "Announcement/" + countryName + "/" + date_and_timeList_remove.get(i);
                     }
-                    else{
-                        reference = FirebaseDatabase.getInstance().getReference("Announcement/" + countryName).child(date_and_timeList_remove.get(i));
-                    }
 
-                    reference.removeValue();
-
+                    DatabaseReference announcementRef = FirebaseDatabase.getInstance().getReference(announcementPath);
                     String email = announcement_organizer_List_remove.get(i);
 
-                    String modifiedEmail = email.replace(".", ",");
-                    modifiedEmail = modifiedEmail.replace("#", "_");
-                    modifiedEmail = modifiedEmail.replace("$", "-");
-                    modifiedEmail = modifiedEmail.replace("[", "(");
-                    modifiedEmail = modifiedEmail.replace("]", ")");
 
-                    if(social_mode){
-                        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialAnnouncement");
-                    }
-                    else{
-                        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyAnnouncement");
-                    }
-                    reference.removeValue();
+                    // Usuwanie ogłoszenia
+                    announcementRef.removeValue().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Znajdź i usuń odpowiednie CompanyEmails
+                            DatabaseReference companyEmailsRef = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+                            companyEmailsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                                        String storedEmail = companySnapshot.child("email").getValue(String.class);
+                                        if (storedEmail != null && storedEmail.equals(email)) {
+                                            String email_date_and_time = companySnapshot.getKey();
+                                            Log.e("to_czego_szukam_2", email_date_and_time);
+
+                                            String targetPath;
+                                            if (social_mode) {
+                                                targetPath = "CompanyEmails/" + email_date_and_time + "/CompanySocialAnnouncement";
+                                            } else {
+                                                targetPath = "CompanyEmails/" + email_date_and_time + "/CompanyAnnouncement";
+                                            }
+
+                                            DatabaseReference targetRef = FirebaseDatabase.getInstance().getReference(targetPath);
+                                            targetRef.removeValue();
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e("error_announcement_remove_database", String.valueOf(error));
+                                }
+                            });
+                        } else {
+                            Log.e("error_failed_remove_announcement", "fail");
+                        }
+                    });
                 }
 
 
@@ -1334,24 +1362,36 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 }
                                 reference.removeValue();
 
-                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+                                final DatabaseReference[] reference = {FirebaseDatabase.getInstance().getReference("CompanyEmails")};
                                 String email = eventOrganizerV.get(j);
+                                final String[] email_date_and_time = new String[1];
+                                reference[0].addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                                            String emailDB = companySnapshot.child("email").getValue(String.class);
+                                            if (emailDB.equals(email)) {
+                                                email_date_and_time[0] = companySnapshot.getKey();
 
-                                String modifiedEmail = email.replace(".", ",");
-                                modifiedEmail = modifiedEmail.replace("#", "_");
-                                modifiedEmail = modifiedEmail.replace("$", "-");
-                                modifiedEmail = modifiedEmail.replace("[", "(");
-                                modifiedEmail = modifiedEmail.replace("]", ")");
+                                                if(social_mode){
+                                                    reference[0] = database.getReference("CompanyEmails/" + email_date_and_time[0] + "/CompanySocialEvent");
 
-                                if(social_mode){
-                                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanySocialEvent");
+                                                }
+                                                else{
+                                                    reference[0] = database.getReference("CompanyEmails/" + email_date_and_time[0] + "/CompanyEvent");
+                                                }
+                                                reference[0].removeValue();
+                                                break;
+                                            }
+                                        }
+                                    }
 
-                                }
-                                else{
-                                    reference = database.getReference("CompanyEmails/" + modifiedEmail + "/CompanyEvent");
-                                }
-                                reference.removeValue();
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
+                                    }
+                                });
                             }
                         }
 
@@ -1715,5 +1755,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             }
         }
     }
+
+
 
 }

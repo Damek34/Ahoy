@@ -29,13 +29,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.AddAnnouncementInfo;
 import com.example.ahoyapp.OnlyJava.CompanyAnnouncement;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +55,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
     TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview, error_caused_by_unstable_internet_connection, your_application_is_being_reviewed;
 
     Spinner country;
-    String countryName;
+    String countryName, encryptedEmail, email_date_and_time;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -195,6 +199,30 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             }
         });
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String savedEmail = sharedPreferences.getString("email", "");
+        encryptedEmail = EncryptionHelper.encrypt(savedEmail);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                        email_date_and_time = companySnapshot.getKey();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
     public void exitAdd(View view) {
         startActivity(new Intent(AddAnnouncement.this, SelectWhatToAdd.class));
@@ -248,12 +276,13 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         calendar.setTime(date);
 
         calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
-        //calendar.add(Calendar.SECOND, Integer.parseInt(announcement_duration.getText().toString()));
+       // calendar.add(Calendar.SECOND, 34);
 
 
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String savedEmail = sharedPreferences.getString("email", "");
+        String encryptedEmail = EncryptionHelper.encrypt(savedEmail);
 
         if(social_intent.getStringExtra("isSocial").equals("true")){
             reference = database.getReference("WaitingSocialAnnouncements");
@@ -266,7 +295,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         tos.setVisibility(View.GONE);
 
 
-        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, savedEmail);
+        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, encryptedEmail);
         reference.child(date_and_time).setValue(newAnnouncement);
 
 /*
@@ -282,7 +311,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
  */
 
-        String modifiedEmail = savedEmail.replace(".", ",");
+      /*  String modifiedEmail = savedEmail.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
         modifiedEmail = modifiedEmail.replace("$", "-");
         modifiedEmail = modifiedEmail.replace("[", "(");
@@ -290,7 +319,9 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
 
 
-        reference = database.getReference("CompanyEmails/" + modifiedEmail);
+       */
+
+        reference = database.getReference("CompanyEmails/" + email_date_and_time);
 
         CompanyAnnouncement companyAnnouncement = new CompanyAnnouncement(date_and_time, calendar.getTime(), countryName);
         if(social_intent.getStringExtra("isSocial").equals("true")){

@@ -170,7 +170,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             @Override
             public void run() {
                 checkingAppVersionY[0] = checking_app_version.getTop();
-                status_scrollview.smoothScrollTo(0, checkingAppVersionY[0] - 35);
+                status_scrollview.smoothScrollTo(0, checkingAppVersionY[0] - 50);
             }
         });
 

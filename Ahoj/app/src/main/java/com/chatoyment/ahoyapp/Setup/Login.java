@@ -196,23 +196,48 @@ public class Login extends AppCompatActivity {
     }
     void login(){
 
-        String modifiedEmail = email.getText().toString().replace(".", ",");
+      /*  String modifiedEmail = email.getText().toString().replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
         modifiedEmail = modifiedEmail.replace("$", "-");
         modifiedEmail = modifiedEmail.replace("[", "(");
         modifiedEmail = modifiedEmail.replace("]", ")");
-        reference = database.getReference("CompanyEmails/" + modifiedEmail + "/is_banned");
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+       */
+
+        String encryptedEmail = EncryptionHelper.encrypt(email.getText().toString());
+        final String[] email_date_and_time = new String[1];
+        final DatabaseReference[] reference = {FirebaseDatabase.getInstance().getReference("CompanyEmails")};
+
+        reference[0].addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    loading_animation.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), account_is_banned.getText().toString(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                else{
-                    countinue();
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encryptedEmail)) {
+                        email_date_and_time[0] = companySnapshot.getKey();
+
+                        reference[0] = database.getReference("CompanyEmails/" + email_date_and_time[0] + "/is_banned");
+
+                        reference[0].addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    loading_animation.setVisibility(View.GONE);
+                                    Toast.makeText(getApplicationContext(), account_is_banned.getText().toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                else{
+                                    countinue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        break;
+                    }
                 }
             }
 
@@ -221,6 +246,9 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
+
+
 
     }
 

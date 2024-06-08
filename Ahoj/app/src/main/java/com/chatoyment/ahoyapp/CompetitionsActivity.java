@@ -354,13 +354,15 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                         else{
                             String date_and_time = snapshot.child("date_and_time").getValue(String.class);
                             String organizer_email = snapshot.child("organizer_email").getValue(String.class);
-
+/*
                             String modifiedEmail = organizer_email.replace(".", ",");
                             modifiedEmail = modifiedEmail.replace("#", "_");
                             modifiedEmail = modifiedEmail.replace("$", "-");
                             modifiedEmail = modifiedEmail.replace("[", "(");
                             modifiedEmail = modifiedEmail.replace("]", ")");
 
+
+ */
                             reference_remove = database.getReference("Competitions/" + country +"/" + date_and_time);
                             reference_remove.removeValue();
 

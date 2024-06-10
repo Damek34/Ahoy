@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.MapActivityMain;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -144,6 +145,13 @@ public class LoginUser extends AppCompatActivity {
             return;
         }
         loading_animation.setVisibility(View.VISIBLE);
+
+        if (nick.getText().toString().contains(".") || nick.getText().toString().contains("#") || nick.getText().toString().contains("$") || nick.getText().toString().contains("[") || nick.getText().toString().contains("]") || nick.getText().toString().contains(" ")) {
+            Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
+            loading_animation.setVisibility(View.GONE);
+            return;
+        }
+
         reference = database.getReference("Nick/" + nick.getText().toString());
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -168,7 +176,7 @@ public class LoginUser extends AppCompatActivity {
     }
 
     void login(){
-        mAuth.signInWithEmailAndPassword(emailDB, password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(EncryptionHelper.decrypt(emailDB), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){

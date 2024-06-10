@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chatoyment.ahoyapp.R;
 import com.chatoyment.ahoyapp.Setup.Register;
+import com.chatoyment.ahoyapp.Setup.RegisterOrLogin;
 import com.chatoyment.ahoyapp.Setup.RegisterUser;
 import com.chatoyment.ahoyapp.Setup.setup;
 
@@ -155,6 +156,21 @@ public class Statute extends AppCompatActivity {
             return;
         }
 
+
+        if(intent.getStringExtra("activity").equals("register_or_login")){
+            Intent intent1 = new Intent(Statute.this, RegisterOrLogin.class);
+            if(intent.getStringExtra("activity_type").equals("main")){
+                intent1.putExtra("activity", "main");
+            }
+            else{
+                intent1.putExtra("activity", "user");
+            }
+
+            startActivity(intent1);
+            return;
+        }
+
+        //-----------------------------------przebudowac
         if(intent.getStringExtra("activity").equals("faqMain")){
             Intent intent2 = new Intent(Statute.this, FAQ.class);
             intent2.putExtra("activity", "main");

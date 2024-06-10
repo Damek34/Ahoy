@@ -20,9 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
+import com.chatoyment.ahoyapp.OnlyJava.UserInfo;
 import com.chatoyment.ahoyapp.R;
 import com.example.ahoyapp.OnlyJava.Setup.RegisterInfo;
-import com.example.ahoyapp.OnlyJava.UserInfo;
 import com.chatoyment.ahoyapp.Statute;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -168,7 +168,7 @@ public class RegisterUser extends AppCompatActivity implements OnlineDate.OnDate
             Toast.makeText(getApplicationContext(), fillAll.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
-        if(nickStr.contains(".") || nickStr.contains("#") || nickStr.contains("$") || nickStr.contains("[") || nickStr.contains("]")){
+        if(nickStr.contains(".") || nickStr.contains("#") || nickStr.contains("$") || nickStr.contains("[") || nickStr.contains("]") || nick.getText().toString().contains(" ")){
             Toast.makeText(getApplicationContext(), should_not.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
@@ -220,7 +220,7 @@ public class RegisterUser extends AppCompatActivity implements OnlineDate.OnDate
 
 
 
-                                Date currentDate = Calendar.getInstance().getTime();
+                                Date currentDate = OnlineDate.getDate();
                                 String formattedCurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate);
 
                                 reference = database.getReference("Nick");

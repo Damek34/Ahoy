@@ -29,11 +29,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chatoyment.ahoyapp.OnlyJava.AddAnnouncementInfo;
+import com.chatoyment.ahoyapp.OnlyJava.CompanyAnnouncement;
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.AddAnnouncementInfo;
-import com.example.ahoyapp.OnlyJava.CompanyAnnouncement;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

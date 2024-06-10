@@ -143,15 +143,17 @@ public class Login extends AppCompatActivity {
         String encryption_email = EncryptionHelper.encrypt(email_str);
         final boolean[] account_exist = {false};
 
-        String modifiedEmail = email_str.replace(".", ",");
+        /*String modifiedEmail = email_str.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
         modifiedEmail = modifiedEmail.replace("$", "-");
         modifiedEmail = modifiedEmail.replace("[", "(");
         modifiedEmail = modifiedEmail.replace("]", ")");
 
+
+         */
         reference = database.getReference().child("CompanyEmails");
 
-        String finalModifiedEmail = modifiedEmail;
+        //String finalModifiedEmail = modifiedEmail;
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -171,6 +173,7 @@ public class Login extends AppCompatActivity {
                     if (encryption_email.equals(email)) {
                         account_exist[0] = true;
                         login();
+                        return;
                     }
                     }
                 if(!account_exist[0]){

@@ -16,9 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.ReportInfo;
+import com.chatoyment.ahoyapp.OnlyJava.SendEventReportToAhoyModeratorsInfo;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.ReportInfo;
-import com.example.ahoyapp.OnlyJava.SendEventReportToAhoyModeratorsInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

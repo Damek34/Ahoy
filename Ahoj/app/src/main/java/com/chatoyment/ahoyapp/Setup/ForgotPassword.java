@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,13 +85,50 @@ public class ForgotPassword extends AppCompatActivity {
 
     public void reset(View view){
         email_str = email.getText().toString();
-        String modifiedEmail = email_str.replace(".", ",");
+       /* String modifiedEmail = email_str.replace(".", ",");
         modifiedEmail = modifiedEmail.replace("#", "_");
         modifiedEmail = modifiedEmail.replace("$", "-");
         modifiedEmail = modifiedEmail.replace("[", "(");
         modifiedEmail = modifiedEmail.replace("]", ")");
 
+        */
+
+        String encrypted_email = EncryptionHelper.encrypt(email_str);
+
+
         if(activity_intent.getStringExtra("activity").equals("user")) {
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UserEmails");
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                        String email = companySnapshot.child("email").getValue(String.class);
+                        if (email.equals(encrypted_email)) {
+                            resetPassword();
+                            return;
+                        }
+                    }
+                    Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+            /*
 
             reference = database.getReference().child("UserEmails");
 
@@ -110,9 +148,37 @@ public class ForgotPassword extends AppCompatActivity {
 
                 }
             });
+
+             */
         }
         else{
             reference = database.getReference().child("CompanyEmails");
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                        String email = companySnapshot.child("email").getValue(String.class);
+                        if (email.equals(encrypted_email)) {
+                            resetPassword();
+                            return;
+                        }
+                    }
+                    Toast.makeText(getApplicationContext(), not_exist.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+            /*
 
             String finalModifiedEmail = modifiedEmail;
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -130,7 +196,9 @@ public class ForgotPassword extends AppCompatActivity {
 
                 }
             });
+             */
         }
+
     }
 
     void resetPassword(){

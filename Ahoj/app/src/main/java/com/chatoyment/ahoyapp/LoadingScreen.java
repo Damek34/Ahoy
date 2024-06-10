@@ -53,7 +53,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
     private DatabaseReference versionRef;
     private String appVersion = "0.924";
 
-    TextView Textview_app_version_is_not_actual, Textview_please_update_application, loading_data, checking_internet_connection, checking_app_version, welcome_to_ahoy;
+    TextView Textview_app_version_is_not_actual, Textview_please_update_application, checking_internet_connection, checking_app_version, welcome_to_ahoy;
     ScrollView status_scrollview;
     private FirebaseAuth mAuth;
     FirebaseUser user;
@@ -337,7 +337,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
             editor.putString("email", "");
             editor.apply();
 
-            loading_data.setTextColor(green);
+       //     loading_data.setTextColor(green);
             status_scrollview.post(new Runnable() {
                 @Override
                 public void run() {

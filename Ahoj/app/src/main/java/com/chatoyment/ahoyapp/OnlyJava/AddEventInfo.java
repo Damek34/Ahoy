@@ -1,4 +1,4 @@
-package com.example.ahoyapp.OnlyJava;
+package com.chatoyment.ahoyapp.OnlyJava;
 
 import java.util.Date;
 

@@ -25,11 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.chatoyment.ahoyapp.OnlyJava.AddEventInfo;
+import com.chatoyment.ahoyapp.OnlyJava.CompanyEvent;
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
-import com.example.ahoyapp.OnlyJava.AddEventInfo;
-import com.example.ahoyapp.OnlyJava.CompanyEvent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

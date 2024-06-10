@@ -359,7 +359,13 @@
         tools:ignore="MissingConstraints" />
 
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/this_email_address_is_already_assigned_to_another_account"
+        android:visibility="gone"
+        android:text="@string/this_email_address_is_already_assigned_to_another_account"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

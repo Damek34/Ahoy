@@ -44,7 +44,8 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
     Button register_btn;
     String email = "", password = "", repeat_password = "";
 
-    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet, tos;
+    TextView enterEmail, enterPassword, passwordMinimumChar, passwordsDoNotMatch, accCreated, accCreateFail, verifyLinkSend, verifyLinkSendFail, fillAll, verify, rejected, notyet
+            , tos, this_email_address_is_already_assigned_to_another_account;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -118,6 +119,7 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
         toolbarPassword = findViewById(R.id.toolbarPassword);
         toolbarRepeat = findViewById(R.id.toolbarRepeat);
         tos = findViewById(R.id.tos);
+        this_email_address_is_already_assigned_to_another_account = findViewById(R.id.this_email_address_is_already_assigned_to_another_account);
 
 
         OnlineDate.fetchDateAsync(this);
@@ -166,6 +168,36 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
             return;
         }
 
+
+        String encrypted_email = EncryptionHelper.encrypt(email);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UserEmails");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                    String email = companySnapshot.child("email").getValue(String.class);
+                    if (email.equals(encrypted_email)) {
+                        Toast.makeText(getApplicationContext(), this_email_address_is_already_assigned_to_another_account.getText().toString(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    continueRegister();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+    }
+
+    private void continueRegister(){
         Integer[] isverified = new Integer[1]; //0 = false, 1 = true, 2 = not verified yet
         isverified[0] = 0;
 

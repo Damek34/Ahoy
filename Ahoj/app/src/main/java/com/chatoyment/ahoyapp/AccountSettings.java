@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -94,6 +95,8 @@ public class AccountSettings extends AppCompatActivity {
         textview_done = findViewById(R.id.textview_done);
         textview_minimum_char = findViewById(R.id.textview_minimum_char);
 
+
+
         if(activity_intent.getStringExtra("activity").equals("user")){
             sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
             nick = sharedPreferences.getString("nick", "");
@@ -105,7 +108,7 @@ public class AccountSettings extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        email = snapshot.child("email").getValue(String.class);
+                        email = EncryptionHelper.decrypt(snapshot.child("email").getValue(String.class));
                     }
                 }
 

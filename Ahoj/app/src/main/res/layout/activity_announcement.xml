@@ -77,6 +77,7 @@
                 android:text="@string/description"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+
                 android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityAnnouncementEndsAt" />
@@ -90,6 +91,7 @@
                 android:text="@string/ends_at"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:paddingRight="15dp"
                 android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_announcement_company_name" />

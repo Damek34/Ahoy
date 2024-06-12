@@ -171,6 +171,16 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!announcement_duration.getText().toString().isEmpty()){
+                    char[] duration_char = announcement_duration.getText().toString().toCharArray();
+                    if(String.valueOf(duration_char[0]).equals("0")){
+                        duration_preview.setText("");
+                        announcement_duration.setText("");
+                        return;
+                    }
+                }
+
+
                 if(announcement_duration.getText().toString().trim().equals("")){
                     duration_preview.setText("");
                 }
@@ -244,6 +254,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             Toast.makeText(getApplicationContext(), must_have_hour.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
+
 
         countryName = "";
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);

@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -143,31 +144,35 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
         repeat_passwordEdit = findViewById(R.id.repeat);
         temporary_name_edit = findViewById(R.id.temporaryName);
 
-        email = emailEdit.getText().toString();
+        email = emailEdit.getText().toString().trim();
         password = passwordEdit.getText().toString();
         repeat_password = repeat_passwordEdit.getText().toString();
 
-        if(email.trim().equals("")){
+        if(email.isEmpty()){
             Toast.makeText(getApplicationContext(), enterEmail.getText().toString(), Toast.LENGTH_LONG).show();
+            Log.d("RegisterActivity", "Email is empty");
             return;
         }
-        if(password.trim().equals("")){
+        if(password.isEmpty()){
             Toast.makeText(getApplicationContext(), enterPassword.getText().toString(), Toast.LENGTH_LONG).show();
+            Log.d("RegisterActivity", "Password is empty");
             return;
         }
         if(password.length() < 8){
             Toast.makeText(getApplicationContext(), passwordMinimumChar.getText().toString(), Toast.LENGTH_LONG).show();
+            Log.d("RegisterActivity", "Password is less than 8 characters");
             return;
         }
         if(!repeat_password.equals(password)){
             Toast.makeText(getApplicationContext(), passwordsDoNotMatch.getText().toString(), Toast.LENGTH_LONG).show();
+            Log.d("RegisterActivity", "Passwords do not match");
             return;
         }
         if(temporary_name_edit.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), fillAll.getText().toString(), Toast.LENGTH_LONG).show();
+            Log.d("RegisterActivity", "Temporary name is empty");
             return;
         }
-
 
         String encrypted_email = EncryptionHelper.encrypt(email);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UserEmails");
@@ -175,27 +180,30 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean emailExists = false;
                 for (DataSnapshot companySnapshot : snapshot.getChildren()) {
                     String email = companySnapshot.child("email").getValue(String.class);
                     if (email.equals(encrypted_email)) {
+                        emailExists = true;
                         Toast.makeText(getApplicationContext(), this_email_address_is_already_assigned_to_another_account.getText().toString(), Toast.LENGTH_LONG).show();
-                        return;
+                        Log.d("RegisterActivity", "Email already exists in database");
+                        break;
                     }
+                }
+                if (!emailExists) {
+                    Log.d("RegisterActivity", "Email not found in database, proceeding with registration");
                     continueRegister();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
+                Log.d("RegisterActivity", "Database error: " + error.getMessage());
             }
         });
-
-
-
-
-
     }
+
 
     private void continueRegister(){
         Integer[] isverified = new Integer[1]; //0 = false, 1 = true, 2 = not verified yet
@@ -209,21 +217,22 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
                 if(snapshot.hasChild(temporary_name_edit.getText().toString())){
                     DataSnapshot mySnapshot = snapshot.child(temporary_name_edit.getText().toString());
                     isverified[0] = mySnapshot.child("IsVerified").getValue(Integer.class);
-
+                    Log.d("RegisterActivity", "User verification status: " + isverified[0]);
                     cont(isverified[0]);
-
                 }
                 else{
+                    Log.d("RegisterActivity", "User not verified");
                     isRejected();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("RegisterActivity", "Database error: " + error.getMessage());
             }
         });
     }
+
 
     public void terms(View view){
         Intent intent = new Intent(Register.this, Statute.class);
@@ -248,10 +257,12 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
         }
     }
     void cont(int val){
+        Log.d("RegisterActivity", "In cont() method, value: " + val);
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    Log.d("RegisterActivity", "User created successfully");
                     Toast.makeText(getApplicationContext(), accCreated.getText().toString(), Toast.LENGTH_LONG).show();
                     FirebaseUser user = mAuth.getCurrentUser();
                     sendEmailVerification(user);
@@ -268,30 +279,19 @@ public class Register extends AppCompatActivity implements OnlineDate.OnDateFetc
                     reference = database.getReference("CompanyEmails");
 
                     RegisterInfo registerInfo = new RegisterInfo(email);
-
-                   /* String modifiedEmail = email.replace(".", ",");
-                    modifiedEmail = modifiedEmail.replace("#", "_");
-                    modifiedEmail = modifiedEmail.replace("$", "-");
-                    modifiedEmail = modifiedEmail.replace("[", "(");
-                    modifiedEmail = modifiedEmail.replace("]", ")");
-
-
-                    */
-                   // reference.child(modifiedEmail).setValue(registerInfo);
                     reference.child(date_and_time).child("email").setValue(encryptedText_str);
                     verify.setVisibility(View.VISIBLE);
 
-
-
                     clearDB();
 
-                }
-                else{
+                } else {
+                    Log.d("RegisterActivity", "User creation failed: " + task.getException().getMessage());
                     Toast.makeText(getApplicationContext(), accCreateFail.getText().toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
+
 
     void isRejected(){
         reference = database.getReference("AccountsToVerify");

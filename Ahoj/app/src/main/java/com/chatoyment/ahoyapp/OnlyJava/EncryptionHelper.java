@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class EncryptionHelper {
     // Class private variables
     private static final String SECRET_KEY
-            = "my_super_secret_key_ho_ho_ho";
+            = "jo_przyjaciele_wielki_powrot_mr_grass_damek_weronika_shinix_best_friends_and_ahoy";
 
     private static final String SALT = "ssshhhhhhhhhhh!!!!";
 

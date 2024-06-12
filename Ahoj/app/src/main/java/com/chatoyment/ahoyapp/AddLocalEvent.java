@@ -131,6 +131,15 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!event_duration.getText().toString().isEmpty()){
+                    char[] duration_char = event_duration.getText().toString().toCharArray();
+                    if(String.valueOf(duration_char[0]).equals("0")){
+                        duration_preview.setText("");
+                        event_duration.setText("");
+                        return;
+                    }
+                }
+
                 if(event_duration.getText().toString().trim().equals("")){
                     duration_preview.setText("");
                 }

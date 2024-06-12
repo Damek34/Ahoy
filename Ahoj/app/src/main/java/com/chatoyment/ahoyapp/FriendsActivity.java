@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 
@@ -51,10 +53,10 @@ public class FriendsActivity extends AppCompatActivity {
     GridLayout grid_layout_friends;
     String nick;
     SharedPreferences sharedPreferences;
-
     ArrayList<String> friends;
-
     AdView adview;
+    AppCompatButton search_btn;
+    Button button_cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,9 @@ public class FriendsActivity extends AppCompatActivity {
         yes = findViewById(R.id.yes);
         no = findViewById(R.id.no);
         are_you_sure = findViewById(R.id.are_you_sure);
+        search_btn = findViewById(R.id.search_btn);
+        button_cancel = findViewById(R.id.button_cancel);
+
 
         friends = new ArrayList<>();
 
@@ -228,6 +233,22 @@ public class FriendsActivity extends AppCompatActivity {
         adview = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adview.loadAd(adRequest);
+
+
+        search_user_edittext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    button_cancel.setVisibility(View.VISIBLE);
+                    search_btn.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    button_cancel.setVisibility(View.GONE);
+                    search_btn.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 

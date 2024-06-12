@@ -64,9 +64,10 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     Date date;
 
     LottieAnimationView done_animation;
-    Button ok;
+    Button ok, tos;
     ScrollView scrollview;
     String encryptedEmail, email_date_and_time;
+    Intent activity_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +133,25 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         your_application_is_being_reviewed = findViewById(R.id.your_application_is_being_reviewed);
         ok = findViewById(R.id.ok);
         scrollview = findViewById(R.id.scrollview);
+        tos = findViewById(R.id.tos);
+
+
+        activity_intent = getIntent();
+        String test_name = activity_intent.getStringExtra("organizer");
+
+        if(test_name != null){
+            competition_title_editText.setText(activity_intent.getStringExtra("title"));
+            competition_organizer_editText.setText(activity_intent.getStringExtra("organizer"));
+            competition_reward.setText(activity_intent.getStringExtra("reward"));
+            competition_description.setText(activity_intent.getStringExtra("desc"));
+            competition_when_results_editText.setText(activity_intent.getStringExtra("when_results"));
+            competition_who_can_take_part_editText.setText(activity_intent.getStringExtra("who_can_take_part"));
+            competition_where_results_editText.setText(activity_intent.getStringExtra("where_results"));
+            competition_duration_editText.setText(activity_intent.getStringExtra("duration"));
+            competition_additional_info.setText(activity_intent.getStringExtra("additional"));
+        }
+
+
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -159,6 +179,16 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!competition_duration_editText.getText().toString().isEmpty()){
+                    char[] duration_char = competition_duration_editText.getText().toString().toCharArray();
+                    if(String.valueOf(duration_char[0]).equals("0")){
+                        duration_preview.setText("");
+                        competition_duration_editText.setText("");
+                        return;
+                    }
+                }
+
+
                 if(competition_duration_editText.getText().toString().trim().equals("")){
                     duration_preview.setText("");
                 }
@@ -279,8 +309,9 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-       // calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
-        calendar.add(Calendar.SECOND, 1);
+        calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
+        calendar.add(Calendar.HOUR, 336);
+       // calendar.add(Calendar.SECOND, 1);
 
 
         AddCompetitionInfo addCompetitionInfo = new AddCompetitionInfo(date_and_time, competition_title_editText.getText().toString(), competition_organizer_editText.getText().toString()
@@ -332,13 +363,26 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
             }
         });
 
-
-       // Toast.makeText(getApplicationContext(), success.getText().toString(), Toast.LENGTH_LONG).show();
-
-
-
-
     }
+
+    public void statute(View view){
+        Intent statue = new Intent(AddCompetition.this, Statute.class);
+
+        statue.putExtra("activity", "AddCompetition");
+        statue.putExtra("title", competition_title_editText.getText().toString());
+        statue.putExtra("organizer", competition_organizer_editText.getText().toString());
+        statue.putExtra("reward", competition_reward.getText().toString());
+        statue.putExtra("desc", competition_description.getText().toString());
+        statue.putExtra("when_results", competition_when_results_editText.getText().toString());
+        statue.putExtra("who_can_take_part", competition_who_can_take_part_editText.getText().toString());
+        statue.putExtra("where_results", competition_where_results_editText.getText().toString());
+        statue.putExtra("duration", competition_duration_editText.getText().toString());
+        statue.putExtra("additional", competition_additional_info.getText().toString());
+
+
+        startActivity(statue);
+    }
+
 
     public void exit (View view){
         Intent intent = new Intent(AddCompetition.this, MapActivityMain.class);

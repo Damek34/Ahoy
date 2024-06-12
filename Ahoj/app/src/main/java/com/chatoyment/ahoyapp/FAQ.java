@@ -59,7 +59,7 @@ public class FAQ extends AppCompatActivity {
 
         intent = getIntent();
         terms = findViewById(R.id.terms);
-        if(intent.getStringExtra("activity").equals("setup") || intent.getStringExtra("activity").equals("register") || intent.getStringExtra("activity").equals("registerUser")){
+        if(intent.getStringExtra("activity").equals("setup") || intent.getStringExtra("activity").equals("register") || intent.getStringExtra("activity").equals("registerUser") || intent.getStringExtra("activity").equals("AddCompetition")){
             terms.setVisibility(View.GONE);
         }
 

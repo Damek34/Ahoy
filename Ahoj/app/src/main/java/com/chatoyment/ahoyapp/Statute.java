@@ -132,6 +132,24 @@ public class Statute extends AppCompatActivity {
             startActivity(statue);
             return;
         }
+        if(intent.getStringExtra("activity").equals("AddCompetition")){
+            Intent statue = new Intent(Statute.this, AddCompetition.class);
+
+            statue.putExtra("activity", "tos");
+            statue.putExtra("title", intent.getStringExtra("title"));
+            statue.putExtra("organizer", intent.getStringExtra("organizer"));
+            statue.putExtra("reward", intent.getStringExtra("reward"));
+            statue.putExtra("desc", intent.getStringExtra("desc"));
+            statue.putExtra("when_results", intent.getStringExtra("when_results"));
+            statue.putExtra("who_can_take_part", intent.getStringExtra("who_can_take_part"));
+            statue.putExtra("where_results", intent.getStringExtra("where_results"));
+            statue.putExtra("duration", intent.getStringExtra("duration"));
+            statue.putExtra("additional", intent.getStringExtra("additional"));
+
+
+            startActivity(statue);
+            return;
+        }
 
         if(intent.getStringExtra("activity").equals("mainsettings")){
             Intent intent2 = new Intent(Statute.this, SettingActivity.class);

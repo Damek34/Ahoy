@@ -8,14 +8,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:722528311351:android:36cae414ccbd98845ec7b2",
+        "mobilesdk_app_id": "1:722528311351:android:d4471de98925c3b15ec7b2",
         "android_client_info": {
           "package_name": "com.chatoyment.ahoyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "722528311351-bdubfgji5s64keftsivvo8e0mo3hogq3.apps.googleusercontent.com",
+          "client_id": "722528311351-29sbra1o8829u6g9rndckuf58ra30hcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatoyment.ahoyapp",
+            "certificate_hash": "73140207a605d599568022a351818b243dbd8a9c"
+          }
+        },
+        {
+          "client_id": "722528311351-ufqu3cof0g0mpekp7lqnb7vn0pf8bm3d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.chatoyment.ahoyapp",
@@ -29,7 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpJ9RkhjPN72dGWHZLEsMNGH3xM8kkIT0"
+          "current_key": "AIzaSyAnajmC4nW-sVqraGl9YT-L33XblqjCsCU"
         }
       ],
       "services": {
@@ -58,7 +66,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpJ9RkhjPN72dGWHZLEsMNGH3xM8kkIT0"
+          "current_key": "AIzaSyAnajmC4nW-sVqraGl9YT-L33XblqjCsCU"
         }
       ],
       "services": {

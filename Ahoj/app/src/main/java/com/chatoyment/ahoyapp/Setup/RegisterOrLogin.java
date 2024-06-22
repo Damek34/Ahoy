@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.MapActivityMain;
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
@@ -82,7 +83,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
     String date_and_time;
     SharedPreferences sharedPreferences;
     String nick;
-
+    LottieAnimationView loading_animation;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -117,9 +118,11 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
                                             String email = companySnapshot.child("email").getValue(String.class);
                                             if (email.equals(encryptedText_str)) {
                                                 Toast.makeText(getApplicationContext(), this_email_address_is_already_assigned_to_another_account.getText().toString(), Toast.LENGTH_LONG).show();
+                                                loading_animation.setVisibility(View.GONE);
                                                 return;
                                             }
                                         }
+
                                         continueRegister(encryptedText_str, email_date_and_time);
                                     }
 
@@ -133,15 +136,23 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
 
                                 //Toast.makeText(getApplicationContext(), auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), an_error_occurred.getText().toString(), Toast.LENGTH_SHORT).show();
+                                Exception e = task.getException();
+                                Toast.makeText(getApplicationContext(), "Blad: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(getApplicationContext(), an_error_occurred.getText().toString(), Toast.LENGTH_SHORT).show();
+                                loading_animation.setVisibility(View.GONE);
                             }
                         }
                     });
                 } catch (ApiException e) {
-                    Toast.makeText(getApplicationContext(), an_error_occurred.getText().toString(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), an_error_occurred.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                    loading_animation.setVisibility(View.GONE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+            else{
+                loading_animation.setVisibility(View.GONE);
             }
         }
     });
@@ -193,6 +204,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
         an_error_occurred = findViewById(R.id.an_error_occurred);
         this_email_address_is_already_assigned_to_another_account = findViewById(R.id.this_email_address_is_already_assigned_to_another_account);
         tos = findViewById(R.id.tos);
+        loading_animation = findViewById(R.id.loading_animation);
 
        // String tekst = EncryptionHelper.decrypt("IsasCfiKv5gxp5rQA0qdzQ/5Svv69XTthEhVP10SshE=");
         //Toast.makeText(getApplicationContext(), tekst, Toast.LENGTH_LONG).show();
@@ -218,6 +230,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loading_animation.setVisibility(View.VISIBLE);
                 Intent signInIntent = google_client.getSignInIntent();
                 activityResultLauncher.launch(signInIntent);
             }
@@ -287,6 +300,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
                     intent.putExtra("activity", "user");
 
                     startActivity(intent);
+                    loading_animation.setVisibility(View.GONE);
 
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else {
@@ -299,6 +313,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
     private void continueRegister(String encryptedText_str, String email_date_and_time[]){
         auth = FirebaseAuth.getInstance();
         final DatabaseReference[] reference = {FirebaseDatabase.getInstance().getReference("UserEmails")};
+        final boolean[] is_found = {false};
         reference[0].addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -306,7 +321,7 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
                     String email = userSnapshot.child("email").getValue(String.class);
                     if (email.equals(encryptedText_str)) {
                         email_date_and_time[0] = userSnapshot.getKey();
-
+                        is_found[0] = true;
                         user = FirebaseAuth.getInstance().getCurrentUser();
                         String emailDB = user.getEmail();
 
@@ -319,38 +334,38 @@ public class RegisterOrLogin extends AppCompatActivity implements OnlineDate.OnD
                                     String emailDB = emailSnapshot.child("email").getValue(String.class);
                                     if (encryptedText_str.equals(emailDB)) {
                                         nick = emailSnapshot.getKey();
+
                                         getToken(nick);
-                                        break;
+                                       // break;
+                                        return;
                                     }
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                loading_animation.setVisibility(View.GONE);
                             }
                         });
 
-
-
-
-                        break;
+                        //break;
                     }
-                    else{
-                        Intent create_nick = new Intent(RegisterOrLogin.this, CreateNick.class);
-                        create_nick.putExtra("date_and_time", date_and_time);
-                        create_nick.putExtra("encrypted_email", encryptedText_str);
+
+                }
+                if(!is_found[0]){
+                    Intent create_nick = new Intent(RegisterOrLogin.this, CreateNick.class);
+                    create_nick.putExtra("date_and_time", date_and_time);
+                    create_nick.putExtra("encrypted_email", encryptedText_str);
 
 
-                        startActivity(create_nick);
-                        break;
-                    }
+                    startActivity(create_nick);
+                    loading_animation.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                loading_animation.setVisibility(View.GONE);
             }
         });
     }

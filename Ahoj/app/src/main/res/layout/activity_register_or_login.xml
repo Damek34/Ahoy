@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/choosing_background"
-
     tools:context="com.chatoyment.ahoyapp.Setup.RegisterOrLogin">
+
+
+
     <Button
         android:id="@+id/exit"
         android:layout_width="47dp"
@@ -108,13 +110,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/googleBtn" />
 
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_animation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/loginBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_colorFilter="@color/green"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_animation" />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/an_error_occurred"
         android:visibility="gone"
         android:text="@string/an_error_occurred"
-        />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,5 +141,5 @@
         android:id="@+id/this_email_address_is_already_assigned_to_another_account"
         android:visibility="gone"
         android:text="@string/this_email_address_is_already_assigned_to_another_account"
-        />
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

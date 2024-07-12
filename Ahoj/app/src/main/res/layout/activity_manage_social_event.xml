@@ -131,6 +131,19 @@
                 android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityEventEventCountry" />
+
+            <TextView
+                android:id="@+id/activityRestrictions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/restrictions"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@color/almost_transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityStatus" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -174,4 +187,22 @@
         android:text="@string/during_the_verification"
         android:visibility="gone"
         />
+
+    <TextView
+        android:id="@+id/age_restricted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/age_restricted"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <TextView
+        android:id="@+id/available_to_everyone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/available_to_everyone"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

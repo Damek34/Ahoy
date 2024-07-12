@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class ManageSocialEvent extends AppCompatActivity {
 
-    TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
+    TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active, activityRestrictions, available_to_everyone, age_restricted;
     String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "", email_date_and_time = "";
     Date eventDuration;
 
@@ -34,7 +34,7 @@ public class ManageSocialEvent extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
-    Boolean isFromEvent = true;
+    Boolean isFromEvent = true, eventRestrictions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,9 @@ public class ManageSocialEvent extends AppCompatActivity {
         activityStatus = findViewById(R.id.activityStatus);
         during_the_verification = findViewById(R.id.during_the_verification);
         active = findViewById(R.id.active);
+        activityRestrictions = findViewById(R.id.activityRestrictions);
+        available_to_everyone = findViewById(R.id.available_to_everyone);
+        age_restricted = findViewById(R.id.age_restricted);
 
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
@@ -110,6 +113,7 @@ public class ManageSocialEvent extends AppCompatActivity {
                     eventLocation = snapshot.child("event_localization").getValue(String.class);
                     eventDuration = snapshot.child("event_duration").getValue(Date.class);
                     eventAdditional = snapshot.child("event_additional").getValue(String.class);
+                    eventRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
                 }
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(eventDuration);
@@ -123,6 +127,12 @@ public class ManageSocialEvent extends AppCompatActivity {
                 additional.setText(additional.getText().toString() + " " + eventAdditional);
                 activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
 
+                if(eventRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
             }
 
             @Override
@@ -144,6 +154,7 @@ public class ManageSocialEvent extends AppCompatActivity {
                 eventLocation = snapshot.child("event_localization").getValue(String.class);
                 eventDuration = snapshot.child("event_duration").getValue(Date.class);
                 eventAdditional = snapshot.child("event_additional").getValue(String.class);
+                eventRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(eventDuration);
@@ -156,6 +167,13 @@ public class ManageSocialEvent extends AppCompatActivity {
                 desc.setText(desc.getText().toString() + " " + eventDescription);
                 additional.setText(additional.getText().toString() + " " + eventAdditional);
                 activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
+
+                if(eventRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
             }
 
             @Override

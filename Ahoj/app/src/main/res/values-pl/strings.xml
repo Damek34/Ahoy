@@ -350,6 +350,11 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="nickname_cannot_be_empty">Nick nie może być pusty</string>
     <string name="this_email_address_is_already_assigned_to_another_account">Ten adres e-mail jest już przypisany do innego konta</string>
     <string name="add_contest_14_days_info">Konkurs będzie aktywny o 14 dni dłużej, aby użytkownik mógł w tym czasie zapoznać się z wynikami twojego konkursu. Wynik konkursu możesz dodać w zakładce \"Zarządzaj\"</string>
+    <string name="content_for_adults_only">Treść tylko dla osób pełnoletnich</string>
+    <string name="available_to_everyone">Dostępne dla każdego</string>
+    <string name="age_restricted">Ograniczone wiekowo</string>
+    <string name="restrictions">Ograniczenia:</string>
+    <string name="display_adult_content">Wyświetlaj treści dla dorosłych</string>
 
 
 </resources>

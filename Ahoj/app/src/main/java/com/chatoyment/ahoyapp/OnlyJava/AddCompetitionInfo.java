@@ -15,8 +15,10 @@ public class AddCompetitionInfo {
     public String who_can_take_part;
     public String where_results;
     public String additional;
+    public boolean age_restricted;
 
-    public AddCompetitionInfo(String date_and_time, String title, String organizer, String organizer_email, String reward, String description, Date duration, String country, String when_results, String who_can_take_part, String where_results, String additional) {
+
+    public AddCompetitionInfo(String date_and_time, String title, String organizer, String organizer_email, String reward, String description, Date duration, String country, String when_results, String who_can_take_part, String where_results, String additional, boolean age_restricted) {
         this.date_and_time = date_and_time;
         this.title = title;
         this.organizer = organizer;
@@ -29,5 +31,6 @@ public class AddCompetitionInfo {
         this.who_can_take_part = who_can_take_part;
         this.where_results = where_results;
         this.additional = additional;
+        this.age_restricted = age_restricted;
     }
 }

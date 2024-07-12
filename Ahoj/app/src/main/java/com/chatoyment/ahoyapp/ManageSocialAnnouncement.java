@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class ManageSocialAnnouncement extends AppCompatActivity {
 
-    TextView ends, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
+    TextView ends, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active, activityRestrictions, available_to_everyone, age_restricted;
     String date_and_time = "", country = "", announcementDescription = "", announcementCompanyName = "", announcementAdditional = "", email= "", email_date_and_time = "";
     Date announcementDuration;
 
@@ -35,7 +35,7 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
-    Boolean isFromAnnouncement = true;
+    Boolean isFromAnnouncement = true, announcementRestrictions;
 
 
     @Override
@@ -91,6 +91,9 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
         activityStatus = findViewById(R.id.activityStatus);
         during_the_verification = findViewById(R.id.during_the_verification);
         active = findViewById(R.id.active);
+        activityRestrictions = findViewById(R.id.activityRestrictions);
+        available_to_everyone = findViewById(R.id.available_to_everyone);
+        age_restricted = findViewById(R.id.age_restricted);
 
 
         countryTextView.setText(countryTextView.getText().toString() + ": " + country);
@@ -110,6 +113,7 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                     announcementDescription = snapshot.child("announcement_description").getValue(String.class);
                     announcementDuration = snapshot.child("announcement_duration").getValue(Date.class);
                     announcementAdditional = snapshot.child("announcement_additional").getValue(String.class);
+                    announcementRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
                 }
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
@@ -120,6 +124,13 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);
                 activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
+
+                if(announcementRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
 
             }
 
@@ -143,6 +154,7 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 announcementDescription = snapshot.child("announcement_description").getValue(String.class);
                 announcementDuration = snapshot.child("announcement_duration").getValue(Date.class);
                 announcementAdditional = snapshot.child("announcement_additional").getValue(String.class);
+                announcementRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(announcementDuration);
@@ -153,6 +165,13 @@ public class ManageSocialAnnouncement extends AppCompatActivity {
                 desc.setText(desc.getText().toString() + " " + announcementDescription);
                 additional.setText(additional.getText().toString() + " " + announcementAdditional);
                 activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
+
+                if(announcementRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
             }
 
             @Override

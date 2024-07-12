@@ -99,7 +99,6 @@ public class EventActivity extends AppCompatActivity {
         come_to_event_to_see_more_information = findViewById(R.id.come_to_event_to_see_more_information);
         report_event_btn = findViewById(R.id.report_event_btn);
 
-        toolbaradditional = findViewById(R.id.toolbaradditional);
         copied = findViewById(R.id.copied);
 
 

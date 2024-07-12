@@ -12,9 +12,10 @@ public class AddEventInfo {
     public String event_additional;
     public String countryName;
     public String organizer;
+    public boolean age_restricted;
 
 
-    public AddEventInfo(String time_and_date, String event_name, String event_description, String event_localization, String event_company_name, Date event_duration, String event_additional, String countryName, String organizer) {
+    public AddEventInfo(String time_and_date, String event_name, String event_description, String event_localization, String event_company_name, Date event_duration, String event_additional, String countryName, String organizer, boolean age_restricted) {
         this.time_and_date = time_and_date;
         this.event_name = event_name;
         this.event_description = event_description;
@@ -24,5 +25,6 @@ public class AddEventInfo {
         this.event_additional = event_additional;
         this.countryName = countryName;
         this.organizer = organizer;
+        this.age_restricted = age_restricted;
     }
 }

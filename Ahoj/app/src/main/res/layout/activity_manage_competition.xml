@@ -169,20 +169,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityCompetitionAdditional" />
 
-
-            <Button
-                android:id="@+id/add_results"
+            <TextView
+                android:id="@+id/activityRestrictions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="14dp"
-                android:backgroundTint="@color/dark_grey"
-                android:onClick="addResults"
-                android:text="@string/add_results"
+                android:text="@string/restrictions"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:background="@color/almost_transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityStatus" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,10 +189,25 @@
     </ScrollView>
 
 
+    <Button
+        android:id="@+id/add_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dark_grey"
+        android:onClick="addResults"
+        android:text="@string/add_results"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/manage_event_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView15" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/manage_event_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/roundpinkbutton"
         android:onClick="delete"
         android:paddingLeft="5dp"
@@ -203,8 +217,6 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView15" />
 
     <TextView
@@ -244,4 +256,22 @@
         android:text="@string/cancel"
         android:visibility="gone"
         />
+
+    <TextView
+        android:id="@+id/age_restricted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/age_restricted"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <TextView
+        android:id="@+id/available_to_everyone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/available_to_everyone"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

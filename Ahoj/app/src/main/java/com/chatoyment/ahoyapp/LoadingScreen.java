@@ -51,7 +51,7 @@ import java.util.Locale;
 public class LoadingScreen extends AppCompatActivity implements LocationListener, OnlineDate.OnDateFetchedListener{
 
     private DatabaseReference versionRef;
-    private String appVersion = "0.94";
+    private String appVersion = "0.941";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application, checking_internet_connection, checking_app_version, welcome_to_ahoy;
     ScrollView status_scrollview;
@@ -304,7 +304,7 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                 done_animation.setVisibility(View.VISIBLE);
                 done_animation.setSpeed(1.75F);
                 done_animation.playAnimation();
-
+/*
                 done_animation.addAnimatorListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(@NonNull Animator animation) {
@@ -315,7 +315,8 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                     public void onAnimationEnd(@NonNull Animator animation) {
                         startActivity(new Intent(LoadingScreen.this, setup.class));
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+                        finish();
+                        return;
                     }
 
                     @Override
@@ -329,13 +330,27 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                     }
                 });
 
+ */
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(LoadingScreen.this, setup.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                        return;
+                    }
+                }, 2000);
+
             }
         }
         else{
+
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("auth_token", "");
             editor.putString("email", "");
             editor.apply();
+
 
        //     loading_data.setTextColor(green);
             status_scrollview.post(new Runnable() {
@@ -345,12 +360,14 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
                 }
             });
 
+
             loading_animation.clearAnimation();
             loading_animation.setVisibility(View.GONE);
 
             done_animation.setVisibility(View.VISIBLE);
             done_animation.setSpeed(1.75F);
             done_animation.playAnimation();
+
 
 
 
@@ -362,11 +379,10 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
 
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
-
-
-
                     startActivity(new Intent(LoadingScreen.this, setup.class));
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                    return;
 
                 }
 
@@ -380,7 +396,15 @@ public class LoadingScreen extends AppCompatActivity implements LocationListener
 
                 }
             });
-
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(LoadingScreen.this, setup.class));
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                    return;
+                }
+            }, 2000);
 
         }
 

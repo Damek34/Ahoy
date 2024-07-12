@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.AddAnnouncementInfo;
@@ -53,10 +58,11 @@ import java.util.Locale;
 public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
-    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview, error_caused_by_unstable_internet_connection, your_application_is_being_reviewed;
-
+    TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview,
+            error_caused_by_unstable_internet_connection, your_application_is_being_reviewed, checkbox_adult_info, age_restricted;
+    CheckBox checkbox_adult;
     Spinner country;
-    String countryName, encryptedEmail, email_date_and_time;
+    String countryName, encryptedEmail, email_date_and_time, available_to_everyone, intent_restricted;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -129,8 +135,11 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         done_animation = findViewById(R.id.done_animation);
         ok = findViewById(R.id.ok);
         your_application_is_being_reviewed = findViewById(R.id.your_application_is_being_reviewed);
+        checkbox_adult = findViewById(R.id.checkbox_adult);
+        checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
+        age_restricted = findViewById(R.id.age_restricted);
 
-
+        available_to_everyone = checkbox_adult_info.getText().toString();
 
         date = OnlineDate.getDate();
 
@@ -161,6 +170,20 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             announcement_desc.setText(activity_intent.getStringExtra("event_desc"));
             announcement_duration.setText(activity_intent.getStringExtra("duration"));
             announcement_additional.setText(activity_intent.getStringExtra("additional"));
+            intent_restricted = activity_intent.getStringExtra("restricted");
+
+            if(intent_restricted.equals("true")){
+                checkbox_adult.setChecked(true);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                checkbox_adult_info.setText(age_restricted.getText().toString());
+            }
+            else{
+                checkbox_adult.setChecked(false);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                checkbox_adult_info.setText(available_to_everyone);
+            }
         }
 
         announcement_duration.addTextChangedListener(new TextWatcher() {
@@ -207,6 +230,22 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        checkbox_adult.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                    checkbox_adult_info.setText(age_restricted.getText().toString());
+                }
+                else{
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                    checkbox_adult_info.setText(available_to_everyone);
+                }
             }
         });
 
@@ -307,7 +346,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         tos.setVisibility(View.GONE);
 
 
-        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, encryptedEmail);
+        AddAnnouncementInfo newAnnouncement = new AddAnnouncementInfo(date_and_time, announcement_company_name.getText().toString(), announcement_desc.getText().toString(), calendar.getTime(), announcement_additional.getText().toString(), countryName, encryptedEmail, checkbox_adult.isChecked());
         reference.child(date_and_time).setValue(newAnnouncement);
 
 /*
@@ -393,6 +432,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         statue.putExtra("company_name", announcement_company_name.getText().toString());
         statue.putExtra("duration", announcement_duration.getText().toString());
         statue.putExtra("additional", announcement_additional.getText().toString());
+        statue.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
         if(social_intent.getStringExtra("isSocial").equals(true)){
             statue.putExtra("isSocial", "true");
         }

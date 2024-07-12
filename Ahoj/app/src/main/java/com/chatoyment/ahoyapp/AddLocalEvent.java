@@ -3,6 +3,7 @@ package com.chatoyment.ahoyapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,12 +12,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
@@ -36,15 +40,18 @@ import java.util.Locale;
 public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDateFetchedListener {
 
     int page = 1;
-    String nameV, descV, locationV, company_nameV, additionalV, durationStr, isSocial = "false";
+    String nameV, descV, locationV, company_nameV, additionalV, durationStr, isSocial = "false", intent_restricted, available_to_everyone;
     int durationV = 0;
 
-    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview, error_caused_by_unstable_internet_connection;
+    TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview, error_caused_by_unstable_internet_connection
+            , age_restricted, checkbox_adult_info;
     EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
     Intent intent;
 
     Date date;
+    CheckBox checkbox_adult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -108,19 +115,38 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
         additional = (EditText) findViewById(R.id.event_additional_info);
         duration_preview = findViewById(R.id.duration_preview);
         error_caused_by_unstable_internet_connection = findViewById(R.id.error_caused_by_unstable_internet_connection);
+        checkbox_adult = findViewById(R.id.checkbox_adult);
+        age_restricted = findViewById(R.id.age_restricted);
+        checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
+
+        available_to_everyone = checkbox_adult_info.getText().toString();
 
         Date date = OnlineDate.getDate();
 
-        Intent autoIntent = getIntent();
+        Intent activity_intent = getIntent();
 
-        String test_name = autoIntent.getStringExtra("event_name");
+        String test_name = activity_intent.getStringExtra("event_name");
         if(test_name != null){
-            event_name.setText(autoIntent.getStringExtra("event_name"));
-            event_desc.setText(autoIntent.getStringExtra("event_desc"));
-            event_location.setText(autoIntent.getStringExtra("localization"));
-            event_company_name.setText(autoIntent.getStringExtra("company_name"));
-            event_duration.setText(autoIntent.getStringExtra("duration"));
-            event_additional.setText(autoIntent.getStringExtra("additional"));
+            event_name.setText(activity_intent.getStringExtra("event_name"));
+            event_desc.setText(activity_intent.getStringExtra("event_desc"));
+            event_location.setText(activity_intent.getStringExtra("localization"));
+            event_company_name.setText(activity_intent.getStringExtra("company_name"));
+            event_duration.setText(activity_intent.getStringExtra("duration"));
+            event_additional.setText(activity_intent.getStringExtra("additional"));
+
+            intent_restricted = activity_intent.getStringExtra("restricted");
+            if(intent_restricted.equals("true")){
+                checkbox_adult.setChecked(true);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                checkbox_adult_info.setText(age_restricted.getText().toString());
+            }
+            else{
+                checkbox_adult.setChecked(false);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                checkbox_adult_info.setText(available_to_everyone);
+            }
         }
 
         event_duration.addTextChangedListener(new TextWatcher() {
@@ -169,6 +195,23 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
             }
         });
 
+
+        checkbox_adult.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                    checkbox_adult_info.setText(age_restricted.getText().toString());
+                }
+                else{
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                    checkbox_adult_info.setText(available_to_everyone);
+                }
+            }
+        });
+
     }
 
     public void exitAdd(View view) {
@@ -177,10 +220,6 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
 
     public void addEvent(View view) {
         boolean canBeAdded = true;
-
-
-
-
         nameV = editName.getText().toString();
         descV = description.getText().toString();
         locationV = location.getText().toString();
@@ -219,6 +258,7 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
             intent.putExtra("company_name", company_nameV);
             intent.putExtra("duration", durationStr);
             intent.putExtra("additional", additionalV);
+            intent.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
 
             if(isSocial.equals("true")){
                 intent.putExtra("isSocial", "true");
@@ -244,6 +284,7 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
         intent.putExtra("company_name", company_name.getText().toString());
         intent.putExtra("duration", duration.getText().toString());
         intent.putExtra("additional", additional.getText().toString());
+        intent.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
 
         if(isSocial.equals("true")){
             intent.putExtra("isSocial", "true");

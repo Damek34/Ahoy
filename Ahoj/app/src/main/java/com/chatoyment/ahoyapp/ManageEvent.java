@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class ManageEvent extends AppCompatActivity {
 
-    TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active;
+    TextView name, ends, location, company, desc, additional, countryTextView, deleted, activityStatus, during_the_verification, active, activityRestrictions, available_to_everyone, age_restricted;
     String date_and_time = "", country = "", eventDescription = "", eventCompanyName = "", eventLocation = "", eventAdditional = "", eventName = "", email= "", email_date_and_time = "";
     Date eventDuration;
 
@@ -35,7 +35,7 @@ public class ManageEvent extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
 
-    Boolean isFromEvent = true;
+    Boolean isFromEvent = true, eventRestrictions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,9 @@ public class ManageEvent extends AppCompatActivity {
         country = intent.getStringExtra("country");
         email = intent.getStringExtra("email");
         email_date_and_time = intent.getStringExtra("email_date_and_time");
+        activityRestrictions = findViewById(R.id.activityRestrictions);
+        available_to_everyone = findViewById(R.id.available_to_everyone);
+        age_restricted = findViewById(R.id.age_restricted);
 
         countryTextView.setText(countryTextView.getText().toString() + ": " + country);
 
@@ -111,6 +114,7 @@ public class ManageEvent extends AppCompatActivity {
                     eventLocation = snapshot.child("event_localization").getValue(String.class);
                     eventDuration = snapshot.child("event_duration").getValue(Date.class);
                     eventAdditional = snapshot.child("event_additional").getValue(String.class);
+                    eventRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
                 }
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(eventDuration);
@@ -124,7 +128,12 @@ public class ManageEvent extends AppCompatActivity {
                 additional.setText(additional.getText().toString() + " " + eventAdditional);
                 activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
 
-
+                if(eventRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
             }
 
             @Override
@@ -146,6 +155,7 @@ public class ManageEvent extends AppCompatActivity {
                     eventLocation = snapshot.child("event_localization").getValue(String.class);
                     eventDuration = snapshot.child("event_duration").getValue(Date.class);
                     eventAdditional = snapshot.child("event_additional").getValue(String.class);
+                    eventRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(eventDuration);
@@ -158,6 +168,13 @@ public class ManageEvent extends AppCompatActivity {
                     desc.setText(desc.getText().toString() + " " + eventDescription);
                     additional.setText(additional.getText().toString() + " " + eventAdditional);
                     activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());
+
+                if(eventRestrictions){
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                }
+                else{
+                    activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                }
             }
 
             @Override

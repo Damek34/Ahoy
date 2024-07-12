@@ -23,7 +23,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="550dp"
-        android:paddingLeft="10dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExit">
@@ -171,6 +171,31 @@
 
             <Switch
                 android:id="@+id/notification_after_every_reached_five_kilometers_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:trackTint="@color/white"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/display_adult_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/display_adult_content"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+
+            <Switch
+                android:id="@+id/display_adult_content_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

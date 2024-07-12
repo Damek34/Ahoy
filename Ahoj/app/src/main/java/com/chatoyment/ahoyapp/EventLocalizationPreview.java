@@ -80,6 +80,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
     Calendar calendar;
 
     Intent social_intent;
+    String restricted;
 
 
     @Override
@@ -147,6 +148,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
         company_name = intent.getStringExtra("company_name");
         duration = intent.getStringExtra("duration");
         additional = intent.getStringExtra("additional");
+        restricted = intent.getStringExtra("restricted");
 
         countrySpinner = (Spinner) findViewById(R.id.eventCountry);
 
@@ -236,6 +238,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
         intent.putExtra("company_name", company_name);
         intent.putExtra("duration", duration);
         intent.putExtra("additional", additional);
+        intent.putExtra("restricted", restricted);
 
         if(isSocial.equals("true")){
             intent.putExtra("isSocial", "true");
@@ -288,6 +291,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
             intent.putExtra("company_name", company_name);
             intent.putExtra("duration", duration);
             intent.putExtra("additional", additional);
+            intent.putExtra("restricted", restricted);
 
             if(isSocial.equals("true")){
                 intent.putExtra("isSocial", "true");
@@ -332,7 +336,7 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
             reference = database.getReference("Waiting");
 
 
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail, Boolean.getBoolean(restricted));
             reference.child(date_and_time).setValue(newEvent);
 
             Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();
@@ -356,8 +360,15 @@ public class EventLocalizationPreview extends AppCompatActivity implements Onlin
         else{
             reference = database.getReference("WaitingSocialEvents");
 
+            boolean temp_restriction;
+            if(restricted.equals("true")){
+                temp_restriction = true;
+            }
+            else{
+                temp_restriction = false;
+            }
 
-            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail);
+            AddEventInfo newEvent = new AddEventInfo(date_and_time, event_name, desc, location, company_name, calendar.getTime(), additional, countryName, encryptedEmail, temp_restriction);
             reference.child(date_and_time).setValue(newEvent);
 
             Toast.makeText(this, add_announcement.getText().toString(), Toast.LENGTH_LONG).show();

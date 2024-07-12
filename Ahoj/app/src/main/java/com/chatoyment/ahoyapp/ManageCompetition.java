@@ -34,11 +34,11 @@ public class ManageCompetition extends AppCompatActivity {
 
     TextView activity_competition_title, activityCompetitionEndsAt, activityCompetitionOrganizer, activityCompetitionReward, activityCompetitionDescription
             , activityCompetitionEventCountry, activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional
-            , deleted, activityStatus, during_the_verification, active, add_results_txt, cancel;
+            , deleted, activityStatus, during_the_verification, active, add_results_txt, cancel, activityRestrictions, age_restricted, available_to_everyone;
 
     String date_and_time = "", country = "", email = "", email_date_and_time = "";
     Intent activity_intent;
-    boolean is_from_competition = true;
+    boolean is_from_competition = true, competitionRestrictions;
     String results_str = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,9 @@ public class ManageCompetition extends AppCompatActivity {
         active = findViewById(R.id.active);
         add_results_txt = findViewById(R.id.add_results_txt);
         cancel = findViewById(R.id.cancel);
+        activityRestrictions = findViewById(R.id.activityRestrictions);
+        age_restricted = findViewById(R.id.age_restricted);
+        available_to_everyone = findViewById(R.id.available_to_everyone);
 
         date_and_time = activity_intent.getStringExtra("date_and_time");
         country = activity_intent.getStringExtra("country");
@@ -121,6 +124,7 @@ public class ManageCompetition extends AppCompatActivity {
                     activityCompetitionWhoCanTakePart.setText(activityCompetitionWhoCanTakePart.getText() + ": " +  snapshot.child("who_can_take_part").getValue(String.class));
                     activityCompetitionWhereResults.setText(activityCompetitionWhereResults.getText() + ": " +  snapshot.child("where_results").getValue(String.class));
                     activityCompetitionAdditional.setText(activityCompetitionAdditional.getText() + " " +  snapshot.child("additional").getValue(String.class));
+                    competitionRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
                     results_str = snapshot.child("results").getValue(String.class);
                    // activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
                     Date competitionDuration = snapshot.child("duration").getValue(Date.class);
@@ -131,6 +135,12 @@ public class ManageCompetition extends AppCompatActivity {
                     int month = calendar.get(Calendar.MONTH) + 1;
                     activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText().toString() + " " + competitionDuration.getHours() + ":" + competitionDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
 
+                    if(competitionRestrictions){
+                        activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                    }
+                    else{
+                        activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                    }
 
                     activityStatus.setText(activityStatus.getText() + ": " + active.getText().toString());
                 }
@@ -163,6 +173,7 @@ public class ManageCompetition extends AppCompatActivity {
                     activityCompetitionWhoCanTakePart.setText(activityCompetitionWhoCanTakePart.getText() + " " +  snapshot.child("who_can_take_part").getValue(String.class));
                     activityCompetitionWhereResults.setText(activityCompetitionWhereResults.getText() + " " +  snapshot.child("where_results").getValue(String.class));
                     activityCompetitionAdditional.setText(activityCompetitionAdditional.getText() + " " +  snapshot.child("additional").getValue(String.class));
+                    competitionRestrictions = snapshot.child("age_restricted").getValue(Boolean.class);
                   //  activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
 
                     // activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText() + " " +  snapshot.child("duration").getValue(Date.class));
@@ -173,6 +184,12 @@ public class ManageCompetition extends AppCompatActivity {
                     calendar.setTime(competitionDuration);
                     int month = calendar.get(Calendar.MONTH) + 1;
                     activityCompetitionEndsAt.setText(activityCompetitionEndsAt.getText().toString() + " " + competitionDuration.getHours() + ":" + competitionDuration.getMinutes() + " " + calendar.get(Calendar.DAY_OF_MONTH) + "." + month + "." + calendar.get(Calendar.YEAR));
+                    if(competitionRestrictions){
+                        activityRestrictions.setText(activityRestrictions.getText().toString() + " " + age_restricted.getText().toString());
+                    }
+                    else{
+                        activityRestrictions.setText(activityRestrictions.getText().toString() + " " + available_to_everyone.getText().toString());
+                    }
 
 
                     activityStatus.setText(activityStatus.getText() + ": " + during_the_verification.getText().toString());

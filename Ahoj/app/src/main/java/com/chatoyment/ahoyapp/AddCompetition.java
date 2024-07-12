@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
@@ -18,6 +19,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.AddCompetitionInfo;
@@ -56,7 +60,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     TextView duration_preview, competition_must_have_title, competition_must_have_organizer, competition_must_have_reward, competition_must_have_description
             , competition_must_last_at_least_an_hour, competition_must_have_information_when_the_results_will_be_available, competition_must_have_information_who_can_take_part_in_competition
             , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success, error_caused_by_unstable_internet_connection
-            , your_application_is_being_reviewed;
+            , your_application_is_being_reviewed, checkbox_adult_info, age_restricted;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -66,8 +70,9 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     LottieAnimationView done_animation;
     Button ok, tos;
     ScrollView scrollview;
-    String encryptedEmail, email_date_and_time;
+    String encryptedEmail, email_date_and_time, available_to_everyone, intent_restricted;
     Intent activity_intent;
+    CheckBox checkbox_adult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +139,12 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         ok = findViewById(R.id.ok);
         scrollview = findViewById(R.id.scrollview);
         tos = findViewById(R.id.tos);
+        checkbox_adult = findViewById(R.id.checkbox_adult);
+        checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
+        age_restricted = findViewById(R.id.age_restricted);
 
+
+        available_to_everyone = checkbox_adult_info.getText().toString();
 
         activity_intent = getIntent();
         String test_name = activity_intent.getStringExtra("organizer");
@@ -149,6 +159,20 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
             competition_where_results_editText.setText(activity_intent.getStringExtra("where_results"));
             competition_duration_editText.setText(activity_intent.getStringExtra("duration"));
             competition_additional_info.setText(activity_intent.getStringExtra("additional"));
+
+            intent_restricted = activity_intent.getStringExtra("restricted");
+            if(intent_restricted.equals("true")){
+                checkbox_adult.setChecked(true);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                checkbox_adult_info.setText(age_restricted.getText().toString());
+            }
+            else{
+                checkbox_adult.setChecked(false);
+                checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                checkbox_adult_info.setText(available_to_everyone);
+            }
         }
 
 
@@ -213,6 +237,22 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        checkbox_adult.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                    checkbox_adult_info.setText(age_restricted.getText().toString());
+                }
+                else{
+                    checkbox_adult.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.green)));
+                    checkbox_adult_info.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                    checkbox_adult_info.setText(available_to_everyone);
+                }
             }
         });
 
@@ -316,10 +356,11 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
         AddCompetitionInfo addCompetitionInfo = new AddCompetitionInfo(date_and_time, competition_title_editText.getText().toString(), competition_organizer_editText.getText().toString()
         , encryptedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
-        , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString());
+        , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString(), checkbox_adult.isChecked());
 
 
         scrollview.setVisibility(View.GONE);
+        tos.setVisibility(View.GONE);
 
 
         reference = database.getReference("WaitingCompetitions");
@@ -378,7 +419,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         statue.putExtra("where_results", competition_where_results_editText.getText().toString());
         statue.putExtra("duration", competition_duration_editText.getText().toString());
         statue.putExtra("additional", competition_additional_info.getText().toString());
-
+        statue.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
 
         startActivity(statue);
     }

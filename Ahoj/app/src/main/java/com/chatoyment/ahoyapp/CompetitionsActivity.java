@@ -56,10 +56,10 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
     Intent intent;
     Spinner country_spinner;
-    String country = "", no_competitions_found_notification_string;
+    String country = "", no_competitions_found_notification_string, nick;
     LinearLayout linear_layout_competitions;
     Button save;
-    boolean is_filter_opened = false;
+    boolean is_filter_opened = false, display_adult_content, competitions_found = false;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference, reference_remove;
@@ -71,6 +71,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
     Geocoder geocoder;
   //  double current_lat, current_lng;
     LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,13 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
         date = OnlineDate.getDate();
         no_competitions_found_notification = findViewById(R.id.no_competitions_found);
         no_competitions_found_notification_string = no_competitions_found_notification.getText().toString();
+
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferencesNick.getString("nick", "");
+
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        display_adult_content = sharedPreferencesUser.getBoolean("display_adult_content", false);
 
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
@@ -292,68 +300,72 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                     no_competitions_found.setVisibility(View.VISIBLE);
                     no_competitions_found.setText(downloading.getText().toString());
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Date competition_date_temp =  snapshot.child("duration").getValue(Date.class);
+
+                        Boolean is_for_adults_only = snapshot.child("age_restricted").getValue(Boolean.class);
+                        if(!(is_for_adults_only == true && display_adult_content == false)){
+                            competitions_found = true;
+                            Date competition_date_temp =  snapshot.child("duration").getValue(Date.class);
 
 
-                        if(date.before(competition_date_temp)){
-                            String title = snapshot.child("title").getValue(String.class);
-                            String date_and_time = snapshot.child("date_and_time").getValue(String.class);
+                            if(date.before(competition_date_temp)){
+                                String title = snapshot.child("title").getValue(String.class);
+                                String date_and_time = snapshot.child("date_and_time").getValue(String.class);
 
-                            Button check_competition_btn = new Button(getApplicationContext());
-                            check_competition_btn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
-                            check_competition_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
-                            check_competition_btn.setText(title);
+                                Button check_competition_btn = new Button(getApplicationContext());
+                                check_competition_btn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_grey));
+                                check_competition_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
+                                check_competition_btn.setText(title);
 
-                            View view = new View(getApplicationContext());
-                            view.setPadding(0, 20, 0, 20);
-                            view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
+                                View view = new View(getApplicationContext());
+                                view.setPadding(0, 20, 0, 20);
+                                view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.light_grey));
 
 
-                            int topMarginInPixels = getResources().getDimensionPixelSize(R.dimen.ten_dp);
+                                int topMarginInPixels = getResources().getDimensionPixelSize(R.dimen.ten_dp);
 
-                            LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT);
+                                LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                            paramsButton.setMargins(0, topMarginInPixels, 0, topMarginInPixels);
+                                paramsButton.setMargins(0, topMarginInPixels, 0, topMarginInPixels);
 
-                            check_competition_btn.setLayoutParams(paramsButton);
+                                check_competition_btn.setLayoutParams(paramsButton);
 
-                            linear_layout_competitions.addView(check_competition_btn);
+                                linear_layout_competitions.addView(check_competition_btn);
 
-                            LinearLayout.LayoutParams paramsView = new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    getResources().getDimensionPixelSize(R.dimen.one_dp));
+                                LinearLayout.LayoutParams paramsView = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        getResources().getDimensionPixelSize(R.dimen.one_dp));
 
-                            view.setLayoutParams(paramsView);
+                                view.setLayoutParams(paramsView);
 
-                            linear_layout_competitions.addView(view);
+                                linear_layout_competitions.addView(view);
 
-                            check_competition_btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if(intent.getStringExtra("activity").equals("main")){
-                                        Intent intent_activity = new Intent(CompetitionsActivity.this, Competition.class);
-                                        intent_activity.putExtra("activity", "main");
-                                        intent_activity.putExtra("date_and_time", date_and_time);
-                                        intent_activity.putExtra("country", country);
-                                        startActivity(intent_activity);
+                                check_competition_btn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if(intent.getStringExtra("activity").equals("main")){
+                                            Intent intent_activity = new Intent(CompetitionsActivity.this, Competition.class);
+                                            intent_activity.putExtra("activity", "main");
+                                            intent_activity.putExtra("date_and_time", date_and_time);
+                                            intent_activity.putExtra("country", country);
+                                            startActivity(intent_activity);
+                                        }
+                                        else{
+                                            Intent intent_activity = new Intent(CompetitionsActivity.this, Competition.class);
+                                            intent_activity.putExtra("activity", "user");
+                                            intent_activity.putExtra("date_and_time", date_and_time);
+                                            intent_activity.putExtra("country", country);
+                                            startActivity(intent_activity);
+                                        }
                                     }
-                                    else{
-                                        Intent intent_activity = new Intent(CompetitionsActivity.this, Competition.class);
-                                        intent_activity.putExtra("activity", "user");
-                                        intent_activity.putExtra("date_and_time", date_and_time);
-                                        intent_activity.putExtra("country", country);
-                                        startActivity(intent_activity);
-                                    }
-                                }
-                            });
+                                });
 
-                            no_competitions_found.setVisibility(View.GONE);
-                        }
-                        else{
-                            String date_and_time = snapshot.child("date_and_time").getValue(String.class);
-                            String organizer_email = snapshot.child("organizer_email").getValue(String.class);
+                                no_competitions_found.setVisibility(View.GONE);
+                            }
+                            else{
+                                String date_and_time = snapshot.child("date_and_time").getValue(String.class);
+                                String organizer_email = snapshot.child("organizer_email").getValue(String.class);
 /*
                             String modifiedEmail = organizer_email.replace(".", ",");
                             modifiedEmail = modifiedEmail.replace("#", "_");
@@ -363,41 +375,50 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
 
  */
-                            reference_remove = database.getReference("Competitions/" + country +"/" + date_and_time);
-                            reference_remove.removeValue();
+                                reference_remove = database.getReference("Competitions/" + country +"/" + date_and_time);
+                                reference_remove.removeValue();
 
 
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
-                            final String[] email_date_and_time = new String[1];
-                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for (DataSnapshot companySnapshot : snapshot.getChildren()) {
-                                        String emailDB = companySnapshot.child("email").getValue(String.class);
-                                        if (emailDB.equals(organizer_email)) {
-                                            email_date_and_time[0] = companySnapshot.getKey();
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("CompanyEmails");
+                                final String[] email_date_and_time = new String[1];
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot companySnapshot : snapshot.getChildren()) {
+                                            String emailDB = companySnapshot.child("email").getValue(String.class);
+                                            if (emailDB.equals(organizer_email)) {
+                                                email_date_and_time[0] = companySnapshot.getKey();
 
-                                            reference_remove = database.getReference("CompanyEmails/" + email_date_and_time[0] +"/CompanyCompetition");
-                                            reference_remove.removeValue();
-                                            break;
+                                                reference_remove = database.getReference("CompanyEmails/" + email_date_and_time[0] +"/CompanyCompetition");
+                                                reference_remove.removeValue();
+                                                break;
+                                            }
                                         }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
-
+                                    }
+                                });
 
 
+
+                            }
                         }
 
 
 
 
+
+
+
                         }
+
+                    if(!competitions_found){
+                        no_competitions_found.setText(no_competitions_found_notification_string);
+                        no_competitions_found.setVisibility(View.VISIBLE);
+                    }
 
                 }
                 else{
@@ -448,6 +469,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
         is_filter_opened = false;
         save.setVisibility(View.GONE);
         country_spinner.setVisibility(View.GONE);
+        competitions_found = false;
         scan();
     }
 

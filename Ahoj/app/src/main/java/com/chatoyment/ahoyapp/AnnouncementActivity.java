@@ -108,7 +108,6 @@ public class AnnouncementActivity extends AppCompatActivity {
         durationCopy = duration.getText().toString();
         additionalCopy = additional.getText().toString();
 
-        toolbaradditional = findViewById(R.id.toolbaradditional);
         copied = findViewById(R.id.copied);
 
        // if(intent.getStringExtra("isSocial").equals("true")){

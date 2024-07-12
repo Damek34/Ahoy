@@ -21,7 +21,7 @@ import java.util.Locale;
 
 public class Statute extends AppCompatActivity {
 
-    String nameV, descV, locationV, company_nameV, durationStr, additionalV, announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
+
 
     Intent intent;
     Button faq_btn;
@@ -66,14 +66,14 @@ public class Statute extends AppCompatActivity {
         if(!intent.getStringExtra("activity").equals("setup") && !intent.getStringExtra("activity").equals("register") && !intent.getStringExtra("activity").equals("registerUser")){
             faq_btn.setVisibility(View.GONE);
         }
-
+/*
         if(intent.getStringExtra("activity").equals("AddLocalEvent")){
-            nameV = intent.getStringExtra("event_name");
-            descV = intent.getStringExtra("event_desc");
-            locationV = intent.getStringExtra("localization");
-            company_nameV = intent.getStringExtra("company_name");
-            durationStr = intent.getStringExtra("duration");
-            additionalV = intent.getStringExtra("additional");
+        nameV = intent.getStringExtra("event_name");
+        descV = intent.getStringExtra("event_desc");
+       /locationV = intent.getStringExtra("localization");
+        company_nameV = intent.getStringExtra("company_name");
+        durationStr = intent.getStringExtra("duration");
+        additionalV = intent.getStringExtra("additional");
         }
 
         if(intent.getStringExtra("activity").equals("AddAnnouncement")){
@@ -82,8 +82,11 @@ public class Statute extends AppCompatActivity {
             announcement_company_name = intent.getStringExtra("company_name");
             announcement_duration = intent.getStringExtra("duration");
             announcement_additional = intent.getStringExtra("additional");
+            restricted = intent.getStringExtra("restricted");
 
         }
+
+ */
 
     }
 
@@ -92,12 +95,14 @@ public class Statute extends AppCompatActivity {
 
         Intent intent2 = new Intent(Statute.this, AddLocalEvent.class);
 
-        intent2.putExtra("event_name", nameV);
-        intent2.putExtra("event_desc", descV);
-        intent2.putExtra("localization", locationV);
-        intent2.putExtra("company_name", company_nameV);
-        intent2.putExtra("duration", durationStr);
-        intent2.putExtra("additional", additionalV);
+        intent2.putExtra("event_name", intent.getStringExtra("event_name"));
+        intent2.putExtra("event_desc", intent.getStringExtra("event_desc"));
+        intent2.putExtra("localization", intent.getStringExtra("localization"));
+        intent2.putExtra("company_name", intent.getStringExtra("company_name"));
+        intent2.putExtra("duration", intent.getStringExtra("duration"));
+        intent2.putExtra("additional", intent.getStringExtra("additional"));
+        intent2.putExtra("restricted", intent.getStringExtra("restricted"));
+
 
             if(intent.getStringExtra("isSocial").equals(true)){
                 intent2.putExtra("isSocial", "true");
@@ -117,10 +122,11 @@ public class Statute extends AppCompatActivity {
         if(intent.getStringExtra("activity").equals("AddAnnouncement")){
             Intent statue = new Intent(Statute.this, AddAnnouncement.class);
 
-            statue.putExtra("event_desc", announcement_desc);
-            statue.putExtra("company_name", announcement_company_name);
-            statue.putExtra("duration", announcement_duration);
-            statue.putExtra("additional", announcement_additional);
+            statue.putExtra("event_desc", intent.getStringExtra("event_desc"));
+            statue.putExtra("company_name", intent.getStringExtra("company_name"));
+            statue.putExtra("duration",intent.getStringExtra("duration"));
+            statue.putExtra("additional", intent.getStringExtra("additional"));
+            statue.putExtra("restricted", intent.getStringExtra("restricted"));
 
             if(intent.getStringExtra("isSocial").equals(true)){
                 statue.putExtra("isSocial", "true");
@@ -145,6 +151,8 @@ public class Statute extends AppCompatActivity {
             statue.putExtra("where_results", intent.getStringExtra("where_results"));
             statue.putExtra("duration", intent.getStringExtra("duration"));
             statue.putExtra("additional", intent.getStringExtra("additional"));
+            statue.putExtra("restricted", intent.getStringExtra("restricted"));
+
 
 
             startActivity(statue);

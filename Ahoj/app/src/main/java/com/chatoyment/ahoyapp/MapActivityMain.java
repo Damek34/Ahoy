@@ -135,6 +135,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     boolean can_scan_events = true;
     boolean is_announcements_page_on = false;
     boolean can_say_you_can_collect_extra_point = true;
+    boolean display_adult_content;
 
     AdView adview;
 
@@ -279,6 +280,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         scan_radius = sharedPreferencesUser.getInt("scanning_radius", 20);
         zoom_size = sharedPreferencesUser.getInt("zoom_size", 15);
+        display_adult_content = sharedPreferencesUser.getBoolean("display_adult_content", false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
@@ -872,39 +874,43 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Date announcement_date_temp =  snapshot.child("announcement_duration").getValue(Date.class);
+                    Boolean is_for_adults_only = snapshot.child("age_restricted").getValue(Boolean.class);
+                    if(!(is_for_adults_only == true && display_adult_content == false)){
+                        Date announcement_date_temp =  snapshot.child("announcement_duration").getValue(Date.class);
 
-                    try {
-                        if(date.before(announcement_date_temp)){
-                            count[0]++;
-                            announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
-                            date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+                        try {
+                            if(date.before(announcement_date_temp)){
+                                count[0]++;
+                                announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
+                                date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
+                            }
+                            else{
+                                countRemove[0]++;
+                                date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
+                                announcement_organizer_List_remove.add(snapshot.child("organizer").getValue(String.class));
+                            }
                         }
-                        else{
-                            countRemove[0]++;
-                            date_and_timeList_remove.add(snapshot.child("time_and_date").getValue(String.class));
-                            announcement_organizer_List_remove.add(snapshot.child("organizer").getValue(String.class));
+                        catch (NullPointerException e){
+                            //   date = OnlineDate.getDate();
+                            navigationView.setVisibility(View.GONE);
+
+
+                            exit_menu.setVisibility(View.VISIBLE);
+                            settings.setVisibility(View.VISIBLE);
+                            announcements.setVisibility(View.VISIBLE);
+
+                            exit_announcements.setVisibility(View.GONE);
+                            ahoy_announcements.setVisibility(View.GONE);
+                            linearLayout.setVisibility(View.GONE);
+                            editTextSearchAnnouncements.setVisibility(View.GONE);
+
+                            thereisnoannouncements.setVisibility(View.GONE);
+
+
+                            return;
                         }
                     }
-                    catch (NullPointerException e){
-                     //   date = OnlineDate.getDate();
-                        navigationView.setVisibility(View.GONE);
 
-
-                        exit_menu.setVisibility(View.VISIBLE);
-                        settings.setVisibility(View.VISIBLE);
-                        announcements.setVisibility(View.VISIBLE);
-
-                        exit_announcements.setVisibility(View.GONE);
-                        ahoy_announcements.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.GONE);
-                        editTextSearchAnnouncements.setVisibility(View.GONE);
-
-                        thereisnoannouncements.setVisibility(View.GONE);
-
-
-                        return;
-                    }
 
 
 
@@ -1304,40 +1310,46 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                     if (dataSnapshot.exists()) {
                         int i = 0;
                         for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-                            String eventLocalization = eventSnapshot.child("event_localization").getValue(String.class);
-                            eventLocalizationAll.add(eventLocalization);
+                            Boolean is_for_adults_only = eventSnapshot.child("age_restricted").getValue(Boolean.class);
+
+                            if(!(is_for_adults_only == true && display_adult_content == false)){
+                                String eventLocalization = eventSnapshot.child("event_localization").getValue(String.class);
+                                eventLocalizationAll.add(eventLocalization);
 
 
-                            List<Address> addressList = null;
-                            Address address = null;
+                                List<Address> addressList = null;
+                                Address address = null;
 
-                            try {
-                                addressList = geocoder.getFromLocationName(eventLocalizationAll.get(i), 1);
-                            } catch (IllegalArgumentException | IOException e) {
-                                Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
+                                try {
+                                    addressList = geocoder.getFromLocationName(eventLocalizationAll.get(i), 1);
+                                } catch (IllegalArgumentException | IOException e) {
+                                    Toast.makeText(getApplicationContext(), failed_location.getText().toString(), Toast.LENGTH_LONG).show();
+                                }
+                                address = addressList.get(0);
+                                double distance = Math.round(calculateDistance(current_lat, current_lng, address.getLatitude(), address.getLongitude()));
+                                if(distance <= scan_radius){
+                                    String eventName = eventSnapshot.child("event_name").getValue(String.class);
+                                    eventNameV.add(eventName);
+
+                                    eventLocalizationV.add(eventLocalizationAll.get(i));
+
+
+                                    Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
+                                    eventDateV.add(eventDuration);
+
+                                    String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
+                                    eventDateAndTimeV.add(eventDateTime);
+
+                                    String eventOrganizer = eventSnapshot.child("organizer").getValue(String.class);
+                                    eventOrganizerV.add(eventOrganizer);
+                                    near_events_number++;
+
+                                }
+
+                                i++;
                             }
-                            address = addressList.get(0);
-                            double distance = Math.round(calculateDistance(current_lat, current_lng, address.getLatitude(), address.getLongitude()));
-                            if(distance <= scan_radius){
-                                String eventName = eventSnapshot.child("event_name").getValue(String.class);
-                                eventNameV.add(eventName);
-
-                                eventLocalizationV.add(eventLocalizationAll.get(i));
 
 
-                                Date eventDuration = eventSnapshot.child("event_duration").getValue(Date.class);
-                                eventDateV.add(eventDuration);
-
-                                String eventDateTime = eventSnapshot.child("time_and_date").getValue(String.class);
-                                eventDateAndTimeV.add(eventDateTime);
-
-                                String eventOrganizer = eventSnapshot.child("organizer").getValue(String.class);
-                                eventOrganizerV.add(eventOrganizer);
-                                near_events_number++;
-
-                            }
-
-                            i++;
                         }
 
 

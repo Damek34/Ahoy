@@ -461,7 +461,7 @@
         android:id="@+id/textViewMustLastAHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/event_must_have_a_name"
+        android:text="@string/competition_must_last_at_least_an_hour"
         android:visibility="gone"
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="4dp" />
@@ -519,6 +519,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/age_restricted"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <TextView
+        android:id="@+id/application_contains_forbidden_expression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/application_contains_forbidden_expression"
         android:visibility="gone"
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="4dp" />

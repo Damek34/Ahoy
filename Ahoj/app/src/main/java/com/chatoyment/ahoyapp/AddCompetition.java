@@ -35,6 +35,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.AddCompetitionInfo;
 import com.chatoyment.ahoyapp.OnlyJava.CompanyCompetition;
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
+import com.chatoyment.ahoyapp.OnlyJava.ForbiddenWords;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.google.firebase.database.DataSnapshot;
@@ -60,7 +61,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
     TextView duration_preview, competition_must_have_title, competition_must_have_organizer, competition_must_have_reward, competition_must_have_description
             , competition_must_last_at_least_an_hour, competition_must_have_information_when_the_results_will_be_available, competition_must_have_information_who_can_take_part_in_competition
             , competition_must_have_information_where_will_be_results_announced, check_internet_connection, success, error_caused_by_unstable_internet_connection
-            , your_application_is_being_reviewed, checkbox_adult_info, age_restricted;
+            , your_application_is_being_reviewed, checkbox_adult_info, age_restricted, application_contains_forbidden_expression;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
@@ -142,6 +143,7 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
         checkbox_adult = findViewById(R.id.checkbox_adult);
         checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
         age_restricted = findViewById(R.id.age_restricted);
+        application_contains_forbidden_expression = findViewById(R.id.application_contains_forbidden_expression);
 
 
         available_to_everyone = checkbox_adult_info.getText().toString();
@@ -319,8 +321,57 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
             Toast.makeText(getApplicationContext(), competition_must_have_information_where_will_be_results_announced.getText().toString(), Toast.LENGTH_LONG).show();
             return;
         }
-
-
+        boolean have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_title_editText);
+        if(!have_forbidden_words){
+            have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_organizer_editText);
+            if(!have_forbidden_words){
+                have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_reward);
+                if(!have_forbidden_words){
+                    have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_description);
+                    if(!have_forbidden_words){
+                        have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_when_results_editText);
+                        if(!have_forbidden_words){
+                            have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_who_can_take_part_editText);
+                            if(!have_forbidden_words){
+                                have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_where_results_editText);
+                                if(!have_forbidden_words){
+                                    have_forbidden_words = ForbiddenWords.containsForbiddenWord(competition_additional_info);
+                                    if(!have_forbidden_words){
+                                        addToDataBase();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+    private void addToDataBase(){
         String countryName = "";
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
@@ -351,12 +402,12 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
         calendar.add(Calendar.HOUR, Integer.parseInt(competition_duration_editText.getText().toString()));
         calendar.add(Calendar.HOUR, 336);
-       // calendar.add(Calendar.SECOND, 1);
+        // calendar.add(Calendar.SECOND, 1);
 
 
         AddCompetitionInfo addCompetitionInfo = new AddCompetitionInfo(date_and_time, competition_title_editText.getText().toString(), competition_organizer_editText.getText().toString()
-        , encryptedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
-        , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString(), checkbox_adult.isChecked());
+                , encryptedEmail, competition_reward.getText().toString(), competition_description.getText().toString(), calendar.getTime(), countryName, competition_when_results_editText.getText().toString()
+                , competition_who_can_take_part_editText.getText().toString(), competition_where_results_editText.getText().toString(), competition_additional_info.getText().toString(), checkbox_adult.isChecked());
 
 
         scrollview.setVisibility(View.GONE);
@@ -403,7 +454,6 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
             }
         });
-
     }
 
     public void statute(View view){
@@ -423,6 +473,9 @@ public class AddCompetition extends AppCompatActivity implements OnlineDate.OnDa
 
         startActivity(statue);
     }
+
+
+
 
 
     public void exit (View view){

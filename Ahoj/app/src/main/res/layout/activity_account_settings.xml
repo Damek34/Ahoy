@@ -23,7 +23,10 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="550dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/almost_transparent"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,8 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/round"
-            android:backgroundTint="@color/almost_transparent"
             android:padding="10dp"
             >
 

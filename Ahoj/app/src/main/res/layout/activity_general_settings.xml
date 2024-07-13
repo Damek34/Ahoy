@@ -24,6 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:padding="10dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/almost_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExit">
@@ -32,8 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/round"
-            android:backgroundTint="@color/almost_transparent"
             android:padding="10dp"
 
             >
@@ -196,6 +196,31 @@
 
             <Switch
                 android:id="@+id/display_adult_content_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:trackTint="@color/white"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/show_adult_content_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_adult_content_warning"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                />
+
+            <Switch
+                android:id="@+id/show_adult_content_warning_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

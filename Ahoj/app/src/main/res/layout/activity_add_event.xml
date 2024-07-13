@@ -536,5 +536,14 @@
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="4dp" />
 
+    <TextView
+        android:id="@+id/application_contains_forbidden_expression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/application_contains_forbidden_expression"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="4dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

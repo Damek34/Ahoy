@@ -349,6 +349,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                                             intent_activity.putExtra("activity", "main");
                                             intent_activity.putExtra("date_and_time", date_and_time);
                                             intent_activity.putExtra("country", country);
+                                            intent_activity.putExtra("restricted", is_for_adults_only);
                                             startActivity(intent_activity);
                                         }
                                         else{
@@ -356,6 +357,7 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
                                             intent_activity.putExtra("activity", "user");
                                             intent_activity.putExtra("date_and_time", date_and_time);
                                             intent_activity.putExtra("country", country);
+                                            intent_activity.putExtra("restricted", is_for_adults_only);
                                             startActivity(intent_activity);
                                         }
                                     }
@@ -406,13 +408,6 @@ public class CompetitionsActivity extends AppCompatActivity implements LocationL
 
                             }
                         }
-
-
-
-
-
-
-
                         }
 
                     if(!competitions_found){

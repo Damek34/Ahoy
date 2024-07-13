@@ -37,6 +37,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.chatoyment.ahoyapp.OnlyJava.AddAnnouncementInfo;
 import com.chatoyment.ahoyapp.OnlyJava.CompanyAnnouncement;
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
+import com.chatoyment.ahoyapp.OnlyJava.ForbiddenWords;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 
@@ -59,7 +60,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
     EditText announcement_desc, announcement_company_name, announcement_duration, announcement_additional;
     TextView must_have_company, must_have_desc, must_have_hour, add, check_internet_connection, announcement_will_ends, duration_preview,
-            error_caused_by_unstable_internet_connection, your_application_is_being_reviewed, checkbox_adult_info, age_restricted;
+            error_caused_by_unstable_internet_connection, your_application_is_being_reviewed, checkbox_adult_info, age_restricted, application_contains_forbidden_expression;
     CheckBox checkbox_adult;
     Spinner country;
     String countryName, encryptedEmail, email_date_and_time, available_to_everyone, intent_restricted;
@@ -138,6 +139,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         checkbox_adult = findViewById(R.id.checkbox_adult);
         checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
         age_restricted = findViewById(R.id.age_restricted);
+        application_contains_forbidden_expression = findViewById(R.id.application_contains_forbidden_expression);
 
         available_to_everyone = checkbox_adult_info.getText().toString();
 
@@ -294,7 +296,28 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
             return;
         }
 
+        boolean have_forbidden_words = ForbiddenWords.containsForbiddenWord(announcement_company_name);
+        if(!have_forbidden_words){
+            have_forbidden_words = ForbiddenWords.containsForbiddenWord(announcement_desc);
+            if(!have_forbidden_words){
+                have_forbidden_words = ForbiddenWords.containsForbiddenWord(announcement_additional);
+                if(!have_forbidden_words){
+                    addToDataBase();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+    }
 
+    private void addToDataBase(){
         countryName = "";
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
@@ -327,7 +350,7 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
         calendar.setTime(date);
 
         calendar.add(Calendar.HOUR, Integer.parseInt(announcement_duration.getText().toString()));
-       // calendar.add(Calendar.SECOND, 34);
+        // calendar.add(Calendar.SECOND, 34);
 
 
         SharedPreferences sharedPreferences;
@@ -415,7 +438,6 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
             }
         });
-
     }
 
     public void exit(View view){
@@ -442,6 +464,11 @@ public class AddAnnouncement extends AppCompatActivity implements OnlineDate.OnD
 
         startActivity(statue);
     }
+
+
+
+
+
     public void fetchDate() {
         OnlineDate.fetchDateAsync(this);
     }

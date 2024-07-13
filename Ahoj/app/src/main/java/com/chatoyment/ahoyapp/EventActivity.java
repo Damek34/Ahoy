@@ -18,6 +18,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chatoyment.ahoyapp.R;
 import com.google.android.gms.ads.AdRequest;
@@ -45,8 +46,9 @@ public class EventActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     Intent intent;
-    Toolbar toolbaradditional;
     Button report_event_btn;
+    Boolean restricted;
+    ConstraintLayout constrain_layout_event, constrain_layout_warning;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -90,14 +92,16 @@ public class EventActivity extends AppCompatActivity {
 
         thanks_for_joining = findViewById(R.id.points_for_event);
 
-        TextView event_name = (TextView) findViewById(R.id.activity_event_name);
-        TextView event_ends_in = (TextView) findViewById(R.id.activityEventEventEndsAt);
-        TextView event_location = (TextView) findViewById(R.id.activityEventEventLocation);
-        event_company = (TextView) findViewById(R.id.activityEventEventCompanyName);
-        event_desc = (TextView) findViewById(R.id.activityEventEventDescription);
-        event_additional = (TextView) findViewById(R.id.activityEventEventAdditional);
+        TextView event_name = findViewById(R.id.activity_event_name);
+        TextView event_ends_in = findViewById(R.id.activityEventEventEndsAt);
+        TextView event_location = findViewById(R.id.activityEventEventLocation);
+        event_company =findViewById(R.id.activityEventEventCompanyName);
+        event_desc = findViewById(R.id.activityEventEventDescription);
+        event_additional = findViewById(R.id.activityEventEventAdditional);
         come_to_event_to_see_more_information = findViewById(R.id.come_to_event_to_see_more_information);
         report_event_btn = findViewById(R.id.report_event_btn);
+        constrain_layout_event = findViewById(R.id.constrain_layout_event);
+        constrain_layout_warning = findViewById(R.id.constrain_layout_warning);
 
         copied = findViewById(R.id.copied);
 
@@ -106,14 +110,27 @@ public class EventActivity extends AppCompatActivity {
         country = getIntent().getStringExtra("Country");
         organizer = getIntent().getStringExtra("organizer");
         social_mode = getIntent().getStringExtra("social_mode");
+        restricted = getIntent().getBooleanExtra("restricted", false);
+
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferencesNick.getString("nick", "");
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        Boolean show_adult_content_warning = sharedPreferencesUser.getBoolean("show_adult_content_warning", true);
+
+        if((restricted && show_adult_content_warning)){
+            constrain_layout_event.setVisibility(View.GONE);
+            constrain_layout_warning.setVisibility(View.VISIBLE);
+        }
+
 
         event_name.setText(getIntent().getStringExtra("Name"));
         event_ends_in.setText(event_ends_in.getText() + " " + getIntent().getStringExtra("Duration"));
         event_location.setText(event_location.getText() + " " + getIntent().getStringExtra("Localization"));
         isavailable = getIntent().getStringExtra("isavailable");
 
-        sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-        nick = sharedPreferences.getString("nick", "");
+      //  sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+       // nick = sharedPreferences.getString("nick", "");
 
         if(intent.getStringExtra("activity").equals("main")){
             report_event_btn.setVisibility(View.GONE);
@@ -154,7 +171,7 @@ public class EventActivity extends AppCompatActivity {
             });
         }
         else{
-            toolbaradditional.setVisibility(View.GONE);
+
             event_desc.setVisibility(View.GONE);
             come_to_event_to_see_more_information.setVisibility(View.VISIBLE);
 
@@ -197,7 +214,7 @@ public class EventActivity extends AppCompatActivity {
 
         }
         else{
-            toolbaradditional.setVisibility(View.GONE);
+            event_additional.setVisibility(View.GONE);
         }
 
         if(intent.getStringExtra("activity").equals("user")){
@@ -207,7 +224,7 @@ public class EventActivity extends AppCompatActivity {
 
     void loadNotAvailable(){
         event_company.setText(event_company.getText() + " " + eventCompanyName);
-        toolbaradditional.setVisibility(View.GONE);
+        event_additional.setVisibility(View.GONE);
     }
 
 
@@ -335,6 +352,11 @@ public class EventActivity extends AppCompatActivity {
         clipboard.setPrimaryClip(clip);
 
         Toast.makeText(getApplicationContext(), copied.getText().toString(), Toast.LENGTH_LONG).show();
+    }
+
+    public void showAdultContent(View view){
+        constrain_layout_warning.setVisibility(View.GONE);
+        constrain_layout_event.setVisibility(View.VISIBLE);
     }
 
 

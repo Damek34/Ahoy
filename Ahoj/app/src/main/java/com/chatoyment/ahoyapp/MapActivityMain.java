@@ -115,6 +115,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> eventDateAndTimeV = new ArrayList<>();
     List<String> eventOrganizerV = new ArrayList<>();
     List<Date> eventDateV = new ArrayList<>();
+    List<Boolean> eventRestriction = new ArrayList<>();
 
 
 
@@ -123,6 +124,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
     List<String> date_and_timeList = new ArrayList<>();
     List<String> date_and_timeList_remove = new ArrayList<>();
     List<String> announcement_organizer_List_remove = new ArrayList<>();
+    List<Boolean> announcement_restriction_list = new ArrayList<>();
 
 
     public Date date;
@@ -280,7 +282,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
 
         scan_radius = sharedPreferencesUser.getInt("scanning_radius", 20);
         zoom_size = sharedPreferencesUser.getInt("zoom_size", 15);
-        display_adult_content = sharedPreferencesUser.getBoolean("display_adult_content", false);
+        display_adult_content = sharedPreferencesUser.getBoolean("display_adult_content", true);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
@@ -389,6 +391,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 eventDateAndTimeV.clear();
                                 eventOrganizerV.clear();
                                 eventDateV.clear();
+                                eventRestriction.clear();
 
                                 can_scan_events = false;
                                 try {
@@ -415,6 +418,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             date_and_timeList.clear();
                             date_and_timeList_remove.clear();
                             announcement_organizer_List_remove.clear();
+                            announcement_restriction_list.clear();
 
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean("social_mode_key", social_mode);
@@ -426,6 +430,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                                 eventDateAndTimeV.clear();
                                 eventOrganizerV.clear();
                                 eventDateV.clear();
+                                eventRestriction.clear();
 
                                 can_scan_events = false;
                                 try {
@@ -882,6 +887,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             if(date.before(announcement_date_temp)){
                                 count[0]++;
                                 announcement_company_nameList.add(snapshot.child("announcement_company_name").getValue(String.class));
+                                announcement_restriction_list.add(snapshot.child("age_restricted").getValue(Boolean.class));
                                 date_and_timeList.add(snapshot.child("time_and_date").getValue(String.class));
                             }
                             else{
@@ -968,6 +974,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                             intent.putExtra("id", date_and_timeList.get(finalI1));
                             intent.putExtra("company", announcement_company_nameList.get(finalI1));
                             intent.putExtra("country", countryName);
+                            intent.putExtra("restricted", announcement_restriction_list.get(0));
 
                             startActivity(intent);
                         }
@@ -1269,6 +1276,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
             eventOrganizerV.clear();
           //  eventCompanyNameV.clear();
             eventDateV.clear();
+            eventRestriction.clear();
          //   eventDateAndTimeV.clear();
         //    eventAdditionalV.clear();
 
@@ -1311,6 +1319,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         int i = 0;
                         for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                             Boolean is_for_adults_only = eventSnapshot.child("age_restricted").getValue(Boolean.class);
+                            eventRestriction.add(is_for_adults_only);
 
                             if(!(is_for_adults_only == true && display_adult_content == false)){
                                 String eventLocalization = eventSnapshot.child("event_localization").getValue(String.class);
@@ -1544,6 +1553,7 @@ public class MapActivityMain extends AppCompatActivity implements OnMapReadyCall
                         eventActivity.putExtra("Country", countryName);
                         eventActivity.putExtra("isavailable", "true");
                         eventActivity.putExtra("organizer", eventOrganizerV.get(markerIndex));
+                        eventActivity.putExtra("restricted", eventRestriction.get(markerIndex));
 
                         if(social_mode){
                             eventActivity.putExtra("social_mode", "true");

@@ -51,7 +51,7 @@ import java.util.Locale;
 public class LoadingScreen extends AppCompatActivity implements LocationListener, OnlineDate.OnDateFetchedListener{
 
     private DatabaseReference versionRef;
-    private String appVersion = "0.941";
+    private String appVersion = "0.95";
 
     TextView Textview_app_version_is_not_actual, Textview_please_update_application, checking_internet_connection, checking_app_version, welcome_to_ahoy;
     ScrollView status_scrollview;

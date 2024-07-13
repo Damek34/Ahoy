@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chatoyment.ahoyapp.R;
 import com.google.android.gms.ads.AdRequest;
@@ -38,7 +39,7 @@ public class Competition extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference;
-    String date_and_time, country, additional_copy;
+    String date_and_time, country, additional_copy, nick;
 
     TextView activity_competition_title, activityCompetitionEndsAt, activityCompetitionOrganizer, activityCompetitionReward, activityCompetitionDescription
             , activityCompetitionWhenResults, activityCompetitionWhoCanTakePart, activityCompetitionWhereResults, activityCompetitionAdditional, copied, textview_results
@@ -47,7 +48,8 @@ public class Competition extends AppCompatActivity {
     AdView adview;
     AppCompatButton copy_button;
 
-    boolean is_results_visible = false;
+    boolean is_results_visible = false, restricted;
+    ConstraintLayout constrain_layout_competition, constrain_layout_warning;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(this);
@@ -90,6 +92,7 @@ public class Competition extends AppCompatActivity {
 
         date_and_time = intent.getStringExtra("date_and_time");
         country = intent.getStringExtra("country");
+        restricted = intent.getBooleanExtra("restricted", false);
 
         activity_competition_title = findViewById(R.id.activity_competition_title);
         activityCompetitionEndsAt = findViewById(R.id.activityCompetitionEndsAt);
@@ -105,6 +108,19 @@ public class Competition extends AppCompatActivity {
         copied = findViewById(R.id.copied);
         textview_results = findViewById(R.id.textview_results);
         no_results = findViewById(R.id.no_results);
+        constrain_layout_competition = findViewById(R.id.constrain_layout_competition);
+        constrain_layout_warning = findViewById(R.id.constrain_layout_warning);
+
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferencesNick.getString("nick", "");
+
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        Boolean show_adult_content_warning = sharedPreferencesUser.getBoolean("show_adult_content_warning", true);
+
+        if((restricted && show_adult_content_warning)){
+            constrain_layout_competition.setVisibility(View.GONE);
+            constrain_layout_warning.setVisibility(View.VISIBLE);
+        }
 
         reference = database.getReference("Competitions/" + country + "/" + date_and_time);
 
@@ -183,6 +199,10 @@ public class Competition extends AppCompatActivity {
 
             }
         });
+    }
+    public void showAdultContent(View view){
+        constrain_layout_warning.setVisibility(View.GONE);
+        constrain_layout_competition.setVisibility(View.VISIBLE);
     }
 
     public void exit (View view){

@@ -26,13 +26,14 @@ import java.util.Locale;
 public class GeneralSettings extends AppCompatActivity {
 
     TextView duration_of_menu_animation_textview, language_textview, scanning_radius_textview, auto_log_out_textview, on_textview, off_textview,
-            notification_after_every_reached_five_kilometers_textview, display_adult_content_textview;
+            notification_after_every_reached_five_kilometers_textview, display_adult_content_textview, show_adult_content_warning;
     Spinner languageSpinner;
     SharedPreferences sharedPreferences;
     Slider menu_duration_slider, scanning_radius_slider;
-    Switch auto_log_out_switch, notification_after_every_reached_five_kilometers_switch, display_adult_content_switch;
+    Switch auto_log_out_switch, notification_after_every_reached_five_kilometers_switch, display_adult_content_switch, show_adult_content_warning_switch;
     Boolean is_language_spinner_visible = false , is_menu_slider_visible = false, is_scanning_radius_slider_visible = false, is_auto_log_out_switch_visible = false
-            , is_notification_after_every_reached_five_kilometers_switch_visible = false, is_display_adult_content_switch_visible = false;
+            , is_notification_after_every_reached_five_kilometers_switch_visible = false, is_display_adult_content_switch_visible = false
+    , is_show_adult_content_warning_visible = false;
     View auto_log_out_view;
     Intent intent;
     @Override
@@ -92,6 +93,8 @@ public class GeneralSettings extends AppCompatActivity {
         auto_log_out_view = findViewById(R.id.auto_log_out_view);
         display_adult_content_textview = findViewById(R.id.display_adult_content);
         display_adult_content_switch = findViewById(R.id.display_adult_content_switch);
+        show_adult_content_warning = findViewById(R.id.show_adult_content_warning);
+        show_adult_content_warning_switch = findViewById(R.id.show_adult_content_warning_switch);
 
         SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
         String nick = sharedPreferencesNick.getString("nick", "");
@@ -102,7 +105,8 @@ public class GeneralSettings extends AppCompatActivity {
         scanning_radius_slider.setValue(sharedPreferencesUser.getInt("scanning_radius", Integer.parseInt("20")));
         auto_log_out_switch.setChecked(sharedPreferencesUser.getBoolean("auto_log_out", false));
         notification_after_every_reached_five_kilometers_switch.setChecked(sharedPreferencesUser.getBoolean("notification_every_5_km", true));
-        display_adult_content_switch.setChecked(sharedPreferencesUser.getBoolean("display_adult_content", false));
+        display_adult_content_switch.setChecked(sharedPreferencesUser.getBoolean("display_adult_content", true));
+        show_adult_content_warning_switch.setChecked(sharedPreferencesUser.getBoolean("show_adult_content_warning", true));
 
 
         if(intent.getStringExtra("activity").equals("main")){
@@ -149,6 +153,22 @@ public class GeneralSettings extends AppCompatActivity {
                 }
             }
         });
+
+        show_adult_content_warning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!is_show_adult_content_warning_visible){
+                    show_adult_content_warning_switch.setVisibility(View.VISIBLE);
+                    is_show_adult_content_warning_visible = true;
+                }
+                else{
+                    auto_log_out_switch.setVisibility(View.GONE);
+                    is_show_adult_content_warning_visible = false;
+                }
+            }
+        });
+
+
         auto_log_out_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             Handler switchHandler = new Handler();
             Runnable switchRunnable[] = {null};
@@ -297,6 +317,10 @@ public class GeneralSettings extends AppCompatActivity {
 
         editorUser.putBoolean("display_adult_content", display_adult_content_switch.isChecked());
         editorUser.apply();
+
+        editorUser.putBoolean("show_adult_content_warning", show_adult_content_warning_switch.isChecked());
+        editorUser.apply();
+
 
 
         if(intent.getStringExtra("activity").equals("main")){

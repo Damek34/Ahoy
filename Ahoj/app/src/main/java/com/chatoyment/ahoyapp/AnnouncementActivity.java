@@ -18,6 +18,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chatoyment.ahoyapp.R;
 import com.google.android.gms.ads.AdRequest;
@@ -52,7 +53,9 @@ public class AnnouncementActivity extends AppCompatActivity {
     Toolbar toolbaradditional;
     Intent social_intent;
     Button report_announcement_btn;
-    //String social_mode;
+    ConstraintLayout constrain_layout_announcement, constrain_layout_warning;
+    Boolean restricted;
+    String nick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +101,17 @@ public class AnnouncementActivity extends AppCompatActivity {
         user_or_main = intent.getStringExtra("activity");
         country = intent.getStringExtra("country");
 
+        restricted = getIntent().getBooleanExtra("restricted", false);
+
+
+
         company = findViewById(R.id.activity_announcement_company_name);
         desc = findViewById(R.id.activityAnnouncementDescription);
         duration = findViewById(R.id.activityAnnouncementEndsAt);
         additional = findViewById(R.id.activityAnnouncementAdditional);
         report_announcement_btn = findViewById(R.id.report_announcement_btn);
+        constrain_layout_announcement = findViewById(R.id.constrain_layout_announcement);
+        constrain_layout_warning = findViewById(R.id.constrain_layout_warning);
 
         descCopy = desc.getText().toString();
         durationCopy = duration.getText().toString();
@@ -113,7 +122,16 @@ public class AnnouncementActivity extends AppCompatActivity {
        // if(intent.getStringExtra("isSocial").equals("true")){
        //     social_mode = "true";
         //}
+        SharedPreferences sharedPreferencesNick = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+        nick = sharedPreferencesNick.getString("nick", "");
 
+        SharedPreferences sharedPreferencesUser = getSharedPreferences(nick, Context.MODE_PRIVATE);
+        Boolean show_adult_content_warning = sharedPreferencesUser.getBoolean("show_adult_content_warning", true);
+
+        if((restricted && show_adult_content_warning)){
+            constrain_layout_announcement.setVisibility(View.GONE);
+            constrain_layout_warning.setVisibility(View.VISIBLE);
+        }
 
         company.setText(company_name);
         if(social_intent.getStringExtra("activity").equals("main")){
@@ -203,10 +221,14 @@ public class AnnouncementActivity extends AppCompatActivity {
 
         startActivity(intent1);
     }
+    public void showAdultContent(View view){
+        constrain_layout_warning.setVisibility(View.GONE);
+        constrain_layout_announcement.setVisibility(View.VISIBLE);
+    }
 
 
 
-    public void exitAnnouncement(View view){
+    public void exit(View view){
         if(user_or_main.equals("user")){
             Intent intent_activity = new Intent(AnnouncementActivity.this, MapActivityMain.class);
             intent_activity.putExtra("activity", "user");

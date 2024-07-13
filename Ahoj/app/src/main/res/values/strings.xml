@@ -339,6 +339,11 @@ Using the application implies agreement to the following regulations:
     <string name="age_restricted">Age restricted</string>
     <string name="restrictions">Restrictions:</string>
     <string name="display_adult_content">Display adult content</string>
+    <string name="application_contains_forbidden_expression">Application contains forbidden expression</string>
+    <string name="warning">Warning</string>
+    <string name="page_contains_adult_content">Page contains adult content</string>
+    <string name="show_adult_content_warning">Show adult content warning</string>
+    <string name="go_back">Go back</string>
 
 
     <string-array name="map_types_spinner" translatable="true">

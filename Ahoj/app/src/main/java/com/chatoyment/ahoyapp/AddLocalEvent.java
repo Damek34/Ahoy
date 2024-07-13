@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.chatoyment.ahoyapp.OnlyJava.EncryptionHelper;
+import com.chatoyment.ahoyapp.OnlyJava.ForbiddenWords;
 import com.chatoyment.ahoyapp.OnlyJava.OnlineDate;
 import com.chatoyment.ahoyapp.R;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,7 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
     int durationV = 0;
 
     TextView must_have_name, must_have_desc, must_have_company_name, must_have_localization, must_last_hour, duration_preview, error_caused_by_unstable_internet_connection
-            , age_restricted, checkbox_adult_info;
+            , age_restricted, checkbox_adult_info, application_contains_forbidden_expression;
     EditText event_name, event_desc, event_location, event_company_name, event_duration, event_additional, editName, description, location, company_name, duration, additional;
 
     Intent intent;
@@ -105,8 +106,6 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
         event_company_name = findViewById(R.id.event_company_name);
         event_duration = findViewById(R.id.event_duration);
         event_additional = findViewById(R.id.event_additional_info);
-
-
         editName = (EditText) findViewById(R.id.event_name);
         description = (EditText) findViewById(R.id.event_description);
         location = (EditText) findViewById(R.id.event_location);
@@ -118,6 +117,7 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
         checkbox_adult = findViewById(R.id.checkbox_adult);
         age_restricted = findViewById(R.id.age_restricted);
         checkbox_adult_info = findViewById(R.id.checkbox_adult_info);
+        application_contains_forbidden_expression = findViewById(R.id.application_contains_forbidden_expression);
 
         available_to_everyone = checkbox_adult_info.getText().toString();
 
@@ -249,27 +249,52 @@ public class AddLocalEvent extends AppCompatActivity implements OnlineDate.OnDat
             Toast.makeText(this, must_last_hour.getText().toString(), Toast.LENGTH_LONG).show();
         }
 
-        if (canBeAdded) {
-            Intent intent = new Intent(AddLocalEvent.this, EventLocalizationPreview.class);
 
-            intent.putExtra("event_name", nameV);
-            intent.putExtra("event_desc", descV);
-            intent.putExtra("localization", locationV);
-            intent.putExtra("company_name", company_nameV);
-            intent.putExtra("duration", durationStr);
-            intent.putExtra("additional", additionalV);
-            intent.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
+        boolean have_forbidden_words = ForbiddenWords.containsForbiddenWord(editName);
+        if(!have_forbidden_words){
+            have_forbidden_words = ForbiddenWords.containsForbiddenWord(description);
+            if(!have_forbidden_words){
+                have_forbidden_words = ForbiddenWords.containsForbiddenWord(company_name);
+                if(!have_forbidden_words){
+                    have_forbidden_words = ForbiddenWords.containsForbiddenWord(additional);
+                    if(!have_forbidden_words){
+                        if (canBeAdded) {
+                            Intent intent = new Intent(AddLocalEvent.this, EventLocalizationPreview.class);
 
-            if(isSocial.equals("true")){
-                intent.putExtra("isSocial", "true");
+                            intent.putExtra("event_name", nameV);
+                            intent.putExtra("event_desc", descV);
+                            intent.putExtra("localization", locationV);
+                            intent.putExtra("company_name", company_nameV);
+                            intent.putExtra("duration", durationStr);
+                            intent.putExtra("additional", additionalV);
+                            intent.putExtra("restricted", String.valueOf(checkbox_adult.isChecked()));
+
+                            if(isSocial.equals("true")){
+                                intent.putExtra("isSocial", "true");
+                            }
+                            else{
+                                intent.putExtra("isSocial", "false");
+                            }
+
+
+                            startActivity(intent);
+
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
+                }
             }
             else{
-                intent.putExtra("isSocial", "false");
+                Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
             }
-
-
-            startActivity(intent);
-
+        }
+        else{
+            Toast.makeText(getApplicationContext(), application_contains_forbidden_expression.getText().toString(), Toast.LENGTH_LONG).show();
         }
 
     }

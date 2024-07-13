@@ -355,6 +355,11 @@ Korzystając z aplikacji zgadzasz się na poniższy regulamin: \n
     <string name="age_restricted">Ograniczone wiekowo</string>
     <string name="restrictions">Ograniczenia:</string>
     <string name="display_adult_content">Wyświetlaj treści dla dorosłych</string>
+    <string name="application_contains_forbidden_expression">Zgłoszenie zawiera zakazane wyrażenia</string>
+    <string name="warning">Ostrzeżenie</string>
+    <string name="page_contains_adult_content">Strona zawiera treści dla osób dorosłych</string>
+    <string name="show_adult_content_warning">Pokaż ostrzeżenie o treściach dla dorosłych</string>
+    <string name="go_back">Powrót</string>
 
 
 </resources>
